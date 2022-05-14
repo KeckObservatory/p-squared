@@ -4,17 +4,21 @@ import Timeline, {
     DateHeader,
     Unit,
     TimelineMarkers,
-    TodayMarker
+    TodayMarker,
+    TimelineGroupBase,
+    TimelineItemBase
 } from 'react-calendar-timeline'
 // make sure you include the timeline stylesheet or the timeline will not be styled
 // import 'react-calendar-timeline/lib/Timeline.css'
 import './p_timeline.css'
 import moment from 'moment'
 import { default as mock_entries } from './entries.json'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '@mui/material/Button'
+import { mock_get_entries_by_date_range } from './api'
+import { ControlState } from './control'
 
-const LOCATIONS = [
+const LOCATIONS: Array<keyof EntryData> = [
     "HQ",
     "SU",
     "HP",
@@ -29,8 +33,41 @@ const LOCATIONS = [
     "Other",
 ]
 
+export type DateRange = [null | string, null | string]
+
+export interface EntryData {
+    "id": number,
+    "Date": DateRange,
+    "Name": string,
+    "Department": string,
+    "BaseCamp": string,
+    "HQ": null | DateRange,
+    "SU": null | DateRange,
+    "HP": null | DateRange,
+    "Hilo": null | DateRange,
+    "Kona": null | DateRange,
+    "WFH": null | DateRange,
+    "Vacation": null | DateRange,
+    "Sick": null | DateRange,
+    "FamilySick": null | DateRange,
+    "JuryDuty": null | DateRange,
+    "Travel": null | DateRange,
+    "Other": null | DateRange,
+    "Comment": string
+    "Staff": string,
+    "DelFlag": number,
+    "AlternatePickup": unknown,
+    "SummitLead": unknown,
+    "SupportLead": unknown,
+    "CrewLead": unknown,
+    "Seats": unknown,
+    "CreationTime": string,
+    "LastModification": string,
+}
+
 export interface Entry {
-    [key: string]: any
+    "apiCode": string,
+    "data": EntryData
 }
 
 const make_groups = (entries: Entry[]) => {
@@ -49,12 +86,12 @@ const make_groups = (entries: Entry[]) => {
 const entries_to_items = (entries: Entry[]) => {
 
     const items = entries.map((entry: Entry, idx) => {
-        let dateRange = [moment(entry.data.Date + " 8:00:00"),
-        moment(entry.data.Date + " 17:00:00")]
+        let dateRange = [moment(entry.data.Date + " 8:00:00").toISOString(),
+        moment(entry.data.Date + " 17:00:00").toISOString()] as DateRange
         let title
-        LOCATIONS.every((loc: string) => {
+        LOCATIONS.every((loc: keyof EntryData) => {
             if (entry.data[loc]) {
-                dateRange = entry.data[loc]
+                dateRange = entry.data[loc] as DateRange
                 title = loc
                 return false
             }
@@ -74,43 +111,73 @@ const entries_to_items = (entries: Entry[]) => {
     return items
 }
 
+interface Props {
+    controlState: ControlState,
+    setControlState: Function
+}
+
 interface State {
-    groups: object[]
-    items: object[]
-    visibleTimeStart: number
-    visibleTimeEnd: number
+    visibleTimeStart: moment.Moment
+    visibleTimeEnd: moment.Moment
     unit: Unit
 }
 
-export const PTimeline = () => {
+
+export const PTimeline = (props: Props) => {
 
     // const { groups, items } = generateFakeData(20);
-    const groups = make_groups(mock_entries)
-    const items = entries_to_items(mock_entries)
+    const init_groups = [] as TimelineGroupBase[]
+    const init_items = [] as TimelineItemBase<any>[]
+    const date = props.controlState.date.clone()
+
     const unit = "week"
-    const visibleTimeStart = moment()
+    const visibleTimeStart = date
         .startOf(unit)
-        .valueOf();
-    const visibleTimeEnd = moment()
+    const visibleTimeEnd = date
         .startOf(unit)
         .add(7, "day")
-        .valueOf();
     const init_state: State = {
-        groups, items, visibleTimeStart, visibleTimeEnd, unit
+        visibleTimeStart, visibleTimeEnd, unit
     }
+
     const [state, setState] = React.useState(init_state)
-    // console.log(groups, items)
+    const [groups, setGroups] = React.useState(init_groups)
+    const [items, setItems] = React.useState(init_items)
+
+
+    useEffect(() => {
+
+        const date = props.controlState.date.clone()
+        const visibleTimeStart = date.clone()
+            .startOf(state.unit)
+        const visibleTimeEnd = date.clone()
+            .startOf(state.unit)
+            .add(1, state.unit)
+        setState({ ...state, visibleTimeStart, visibleTimeEnd })
+
+        mock_get_entries_by_date_range(
+            visibleTimeStart,
+            visibleTimeEnd,
+            props.controlState.base,
+            props.controlState.departments,
+            props.controlState.location)
+            .then((entries: Entry[]) => {
+                const newGroups = make_groups(entries)
+                const newItems = entries_to_items(entries)
+                setGroups(newGroups)
+                setItems(newItems)
+                // console.log('new entries', groups)
+            })
+    }, [props.controlState.date])
 
     const handleTimeHeaderChange = (unit: Unit) => {
         setState({
             ...state,
             unit: unit,
             visibleTimeStart: moment()
-                .startOf(unit)
-                .valueOf(),
+                .startOf(unit),
             visibleTimeEnd: moment()
                 .endOf(unit)
-                .valueOf(),
         });
     };
 
@@ -118,11 +185,9 @@ export const PTimeline = () => {
         let newVisibleTimeStart = moment(state.visibleTimeStart)
             .add(inc, state.unit)
             .startOf(state.unit)
-            .valueOf();
         let newVisibleTimeEnd = moment(state.visibleTimeStart)
             .add(inc, state.unit)
             .endOf(state.unit)
-            .valueOf();
         setState({
             ...state,
             visibleTimeStart: newVisibleTimeStart,
@@ -132,10 +197,12 @@ export const PTimeline = () => {
 
     const handleTimeChange = (visibleTimeStart: number,
         visibleTimeEnd: number) => {
+        const momTS = moment(visibleTimeStart)
+        const momTE = moment(visibleTimeEnd)
         setState({
             ...state,
-            visibleTimeStart,
-            visibleTimeEnd,
+            visibleTimeStart: momTS,
+            visibleTimeEnd: momTE,
         });
     };
 
@@ -156,33 +223,32 @@ export const PTimeline = () => {
             <Button onClick={() => handleTimeHeaderChange("year")}>
                 {"Yearly"}
             </Button>
-            <Timeline
-                groups={groups}
-                items={items}
-                // defaultTimeStart={moment().add(-12, 'hour')}
-                // defaultTimeEnd={moment().add(12, 'hour')}
-                // rightSidebarWidth={150}
-                stackItems
-                itemHeightRatio={0.85}
-                canMove={false}
-                canResize={false}
-                visibleTimeStart={state.visibleTimeStart}
-                visibleTimeEnd={state.visibleTimeEnd}
-                onTimeChange={handleTimeChange}
-            >
-                <TimelineHeaders>
-                    <SidebarHeader >
-                        {({ getRootProps }) => {
-                            return <div {...getRootProps()}>Names</div>
-                        }}
-                    </SidebarHeader>
-                    <DateHeader unit="primaryHeader" />
-                    <DateHeader />
-                </TimelineHeaders>
-                <TimelineMarkers>
-                    <TodayMarker date={new Date()} />
-                </TimelineMarkers>
-            </Timeline>
+            {groups.length > 0 && (
+                <Timeline
+                    groups={groups}
+                    items={items}
+                    stackItems
+                    itemHeightRatio={0.85}
+                    canMove={false}
+                    canResize={false}
+                    visibleTimeStart={state.visibleTimeStart}
+                    visibleTimeEnd={state.visibleTimeEnd}
+                    onTimeChange={handleTimeChange}
+                >
+                    <TimelineHeaders>
+                        <SidebarHeader >
+                            {({ getRootProps }) => {
+                                return <div {...getRootProps()}>Names</div>
+                            }}
+                        </SidebarHeader>
+                        <DateHeader unit="primaryHeader" />
+                        <DateHeader />
+                    </TimelineHeaders>
+                    <TimelineMarkers>
+                        <TodayMarker date={new Date()} />
+                    </TimelineMarkers>
+                </Timeline>
+            )}
         </div>
     )
 }

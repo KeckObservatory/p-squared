@@ -5,17 +5,17 @@
             "id": 0,
             "Date": [
                 null,
-                "2022-05-17"
+                "2022-05-19"
             ],
-            "Name": "Tobias F\ufffdnke",
+            "Name": "Tobias F\u00fcnke",
             "Department": "Software",
             "BaseCamp": "Other",
             "HQ": null,
             "SU": null,
             "HP": null,
             "Hilo": [
-                "2022-05-17 22:00:00",
-                "2022-05-18 05:00:00"
+                "2022-05-19 22:00:00",
+                "2022-05-20 05:00:00"
             ],
             "Kona": null,
             "WFH": null,
@@ -41,7 +41,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 1,
-            "Date": "2022-05-19",
+            "Date": "2022-05-21",
             "Name": "John Beard",
             "Department": "Scientific Software",
             "BaseCamp": "Other",
@@ -73,7 +73,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 2,
-            "Date": "2022-05-13",
+            "Date": "2022-05-15",
             "Name": "Gob Bluth",
             "Department": "Directorate Office",
             "BaseCamp": "HP",
@@ -105,7 +105,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 3,
-            "Date": "2022-05-11",
+            "Date": "2022-05-13",
             "Name": "George Bluth Sr.",
             "Department": "Finance",
             "BaseCamp": "Summit",
@@ -139,7 +139,7 @@
             "id": 4,
             "Date": [
                 null,
-                "2022-05-29"
+                "2022-05-31"
             ],
             "Name": "Buster Bluth",
             "Department": "Directorate Office",
@@ -154,8 +154,8 @@
             "Sick": null,
             "FamilySick": null,
             "JuryDuty": [
-                "2022-05-29 04:00:00",
-                "2022-05-29 11:00:00"
+                "2022-05-31 04:00:00",
+                "2022-05-31 11:00:00"
             ],
             "Travel": null,
             "Other": null,
@@ -177,7 +177,7 @@
             "id": 5,
             "Date": [
                 null,
-                "2022-06-04"
+                "2022-06-06"
             ],
             "Name": "John Beard",
             "Department": "Operations and Infrastructure",
@@ -194,8 +194,8 @@
             "JuryDuty": null,
             "Travel": null,
             "Other": [
-                "2022-06-04 23:00:00",
-                "2022-06-05 05:00:00"
+                "2022-06-06 23:00:00",
+                "2022-06-07 05:00:00"
             ],
             "Comment": null,
             "Staff": "test",
@@ -215,7 +215,7 @@
             "id": 6,
             "Date": [
                 null,
-                "2022-05-12"
+                "2022-05-14"
             ],
             "Name": "Lupe",
             "Department": "AO/Optics",
@@ -225,8 +225,8 @@
             "HP": null,
             "Hilo": null,
             "Kona": [
-                "2022-05-12 16:00:00",
-                "2022-05-13 00:00:00"
+                "2022-05-14 16:00:00",
+                "2022-05-15 00:00:00"
             ],
             "WFH": null,
             "Vacation": null,
@@ -251,7 +251,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 7,
-            "Date": "2022-05-14",
+            "Date": "2022-05-16",
             "Name": "Bob Loblaw",
             "Department": "Administration",
             "BaseCamp": "HP",
@@ -285,7 +285,7 @@
             "id": 8,
             "Date": [
                 null,
-                "2022-05-17"
+                "2022-05-19"
             ],
             "Name": "DeBrie Bardeaux",
             "Department": "Directorate Office",
@@ -297,8 +297,8 @@
             "Kona": null,
             "WFH": null,
             "Vacation": [
-                "2022-05-17 01:00:00",
-                "2022-05-17 07:00:00"
+                "2022-05-19 01:00:00",
+                "2022-05-19 07:00:00"
             ],
             "Sick": null,
             "FamilySick": null,
@@ -321,7 +321,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 9,
-            "Date": "2022-05-29",
+            "Date": "2022-05-31",
             "Name": "Bob Loblaw",
             "Department": "Finance",
             "BaseCamp": "Other",
@@ -355,7 +355,7 @@
             "id": 10,
             "Date": [
                 null,
-                "2022-05-26"
+                "2022-05-28"
             ],
             "Name": "Barry Zuckerkorn",
             "Department": "Software",
@@ -369,8 +369,8 @@
             "Vacation": null,
             "Sick": null,
             "FamilySick": [
-                "2022-05-26 08:00:00",
-                "2022-05-26 15:00:00"
+                "2022-05-28 08:00:00",
+                "2022-05-28 15:00:00"
             ],
             "JuryDuty": null,
             "Travel": null,
@@ -393,7 +393,7 @@
             "id": 11,
             "Date": [
                 null,
-                "2022-05-23"
+                "2022-05-25"
             ],
             "Name": "George Michael Bluth",
             "Department": "Administration",
@@ -401,8 +401,8 @@
             "HQ": null,
             "SU": null,
             "HP": [
-                "2022-05-23 23:00:00",
-                "2022-05-24 04:00:00"
+                "2022-05-25 23:00:00",
+                "2022-05-26 04:00:00"
             ],
             "Hilo": null,
             "Kona": null,
@@ -429,7 +429,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 12,
-            "Date": "2022-05-17",
+            "Date": "2022-05-19",
             "Name": "Lottie Dottie Da",
             "Department": "Council",
             "BaseCamp": "Other",
@@ -463,7 +463,7 @@
             "id": 13,
             "Date": [
                 null,
-                "2022-05-18"
+                "2022-05-20"
             ],
             "Name": "Rebel Alley",
             "Department": "Operations and Infrastructure",
@@ -475,8 +475,8 @@
             "Kona": null,
             "WFH": null,
             "Vacation": [
-                "2022-05-18 23:00:00",
-                "2022-05-19 06:00:00"
+                "2022-05-20 23:00:00",
+                "2022-05-21 06:00:00"
             ],
             "Sick": null,
             "FamilySick": null,
@@ -499,7 +499,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 14,
-            "Date": "2022-06-02",
+            "Date": "2022-06-04",
             "Name": "Rita Leeds",
             "Department": "Engineering",
             "BaseCamp": "Other",
@@ -531,7 +531,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 15,
-            "Date": "2022-05-30",
+            "Date": "2022-06-01",
             "Name": "Narrator",
             "Department": "Scientific Software",
             "BaseCamp": "Summit",
@@ -565,7 +565,7 @@
             "id": 16,
             "Date": [
                 null,
-                "2022-06-08"
+                "2022-06-10"
             ],
             "Name": "Annyong Bluth",
             "Department": "Scientific Software",
@@ -575,8 +575,8 @@
             "HP": null,
             "Hilo": null,
             "Kona": [
-                "2022-06-08 16:00:00",
-                "2022-06-08 23:00:00"
+                "2022-06-10 16:00:00",
+                "2022-06-10 23:00:00"
             ],
             "WFH": null,
             "Vacation": null,
@@ -601,7 +601,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 17,
-            "Date": "2022-05-27",
+            "Date": "2022-05-29",
             "Name": "Gene Parmesan",
             "Department": "AO/Optics",
             "BaseCamp": "Hilo",
@@ -635,7 +635,7 @@
             "id": 18,
             "Date": [
                 null,
-                "2022-05-25"
+                "2022-05-27"
             ],
             "Name": "Marta Estrella",
             "Department": "Development Program Support",
@@ -649,8 +649,8 @@
             "Vacation": null,
             "Sick": null,
             "FamilySick": [
-                "2022-05-25 21:00:00",
-                "2022-05-26 05:00:00"
+                "2022-05-27 21:00:00",
+                "2022-05-28 05:00:00"
             ],
             "JuryDuty": null,
             "Travel": null,
@@ -671,7 +671,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 19,
-            "Date": "2022-05-14",
+            "Date": "2022-05-16",
             "Name": "Larry Middleman",
             "Department": "AO/Optics",
             "BaseCamp": "Hilo",
@@ -705,7 +705,7 @@
             "id": 20,
             "Date": [
                 null,
-                "2022-06-01"
+                "2022-06-03"
             ],
             "Name": "Terry Veal",
             "Department": "Finance",
@@ -721,8 +721,8 @@
             "FamilySick": null,
             "JuryDuty": null,
             "Travel": [
-                "2022-06-01 18:00:00",
-                "2022-06-02 01:00:00"
+                "2022-06-03 18:00:00",
+                "2022-06-04 01:00:00"
             ],
             "Other": null,
             "Comment": null,
@@ -741,8 +741,8 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 21,
-            "Date": "2022-06-07",
-            "Name": "Lindsay Bluth-F\ufffdnke",
+            "Date": "2022-06-09",
+            "Name": "Lindsay Bluth-F\u00fcnke",
             "Department": "Observing Support",
             "BaseCamp": "HP",
             "HQ": null,
@@ -775,7 +775,7 @@
             "id": 22,
             "Date": [
                 null,
-                "2022-05-21"
+                "2022-05-23"
             ],
             "Name": "Bob Loblaw",
             "Department": "Operations and Infrastructure",
@@ -790,8 +790,8 @@
             "Sick": null,
             "FamilySick": null,
             "JuryDuty": [
-                "2022-05-21 22:00:00",
-                "2022-05-22 03:00:00"
+                "2022-05-23 22:00:00",
+                "2022-05-24 03:00:00"
             ],
             "Travel": null,
             "Other": null,
@@ -813,7 +813,7 @@
             "id": 23,
             "Date": [
                 null,
-                "2022-05-13"
+                "2022-05-15"
             ],
             "Name": "Michael Bluth",
             "Department": "Engineering",
@@ -824,8 +824,8 @@
             "Hilo": null,
             "Kona": null,
             "WFH": [
-                "2022-05-13 07:00:00",
-                "2022-05-13 14:00:00"
+                "2022-05-15 07:00:00",
+                "2022-05-15 14:00:00"
             ],
             "Vacation": null,
             "Sick": null,
@@ -849,7 +849,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 24,
-            "Date": "2022-06-05",
+            "Date": "2022-06-07",
             "Name": "Bob Loblaw",
             "Department": "AO/Optics",
             "BaseCamp": "Hilo",
@@ -883,7 +883,7 @@
             "id": 25,
             "Date": [
                 null,
-                "2022-05-11"
+                "2022-05-13"
             ],
             "Name": "Rita Leeds",
             "Department": "Administration",
@@ -898,8 +898,8 @@
             "Sick": null,
             "FamilySick": null,
             "JuryDuty": [
-                "2022-05-11 07:00:00",
-                "2022-05-11 13:00:00"
+                "2022-05-13 07:00:00",
+                "2022-05-13 13:00:00"
             ],
             "Travel": null,
             "Other": null,
@@ -921,7 +921,7 @@
             "id": 26,
             "Date": [
                 null,
-                "2022-05-21"
+                "2022-05-23"
             ],
             "Name": "Lottie Dottie Da",
             "Department": "Development Program Support",
@@ -934,8 +934,8 @@
             "WFH": null,
             "Vacation": null,
             "Sick": [
-                "2022-05-21 21:00:00",
-                "2022-05-22 03:00:00"
+                "2022-05-23 21:00:00",
+                "2022-05-24 03:00:00"
             ],
             "FamilySick": null,
             "JuryDuty": null,
@@ -957,7 +957,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 27,
-            "Date": "2022-05-22",
+            "Date": "2022-05-24",
             "Name": "Larry Middleman",
             "Department": "Systems Administration",
             "BaseCamp": "HQ",
@@ -989,7 +989,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 28,
-            "Date": "2022-06-05",
+            "Date": "2022-06-07",
             "Name": "Dusty Radler",
             "Department": "Council",
             "BaseCamp": "HP",
@@ -1023,7 +1023,7 @@
             "id": 29,
             "Date": [
                 null,
-                "2022-06-08"
+                "2022-06-10"
             ],
             "Name": "Oscar Bluth",
             "Department": "AO/Optics",
@@ -1040,8 +1040,8 @@
             "JuryDuty": null,
             "Travel": null,
             "Other": [
-                "2022-06-08 08:00:00",
-                "2022-06-08 12:00:00"
+                "2022-06-10 08:00:00",
+                "2022-06-10 12:00:00"
             ],
             "Comment": "I am one of the few honest people I have ever known.",
             "Staff": "test",
@@ -1061,14 +1061,14 @@
             "id": 30,
             "Date": [
                 null,
-                "2022-05-26"
+                "2022-05-28"
             ],
             "Name": "Marta Estrella",
             "Department": "Council",
             "BaseCamp": "HP",
             "HQ": [
-                "2022-05-26 09:00:00",
-                "2022-05-26 16:00:00"
+                "2022-05-28 09:00:00",
+                "2022-05-28 16:00:00"
             ],
             "SU": null,
             "HP": null,
@@ -1097,7 +1097,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 31,
-            "Date": "2022-05-19",
+            "Date": "2022-05-21",
             "Name": "Bob Loblaw",
             "Department": "Software",
             "BaseCamp": "HQ",
@@ -1131,7 +1131,7 @@
             "id": 32,
             "Date": [
                 null,
-                "2022-06-06"
+                "2022-06-08"
             ],
             "Name": "Barry Zuckerkorn",
             "Department": "Directorate Office",
@@ -1145,8 +1145,8 @@
             "Vacation": null,
             "Sick": null,
             "FamilySick": [
-                "2022-06-06 04:00:00",
-                "2022-06-06 08:00:00"
+                "2022-06-08 04:00:00",
+                "2022-06-08 08:00:00"
             ],
             "JuryDuty": null,
             "Travel": null,
@@ -1167,7 +1167,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 33,
-            "Date": "2022-05-20",
+            "Date": "2022-05-22",
             "Name": "Wayne Jarvis",
             "Department": "Observing Support",
             "BaseCamp": "HP",
@@ -1201,15 +1201,15 @@
             "id": 34,
             "Date": [
                 null,
-                "2022-05-25"
+                "2022-05-27"
             ],
             "Name": "Rita Leeds",
             "Department": "Observing Support",
             "BaseCamp": "HP",
             "HQ": null,
             "SU": [
-                "2022-05-25 12:00:00",
-                "2022-05-25 20:00:00"
+                "2022-05-27 12:00:00",
+                "2022-05-27 20:00:00"
             ],
             "HP": null,
             "Hilo": null,
@@ -1239,7 +1239,7 @@
             "id": 35,
             "Date": [
                 null,
-                "2022-05-12"
+                "2022-05-14"
             ],
             "Name": "Stefan Gentles",
             "Department": "Administration",
@@ -1247,8 +1247,8 @@
             "HQ": null,
             "SU": null,
             "HP": [
-                "2022-05-12 18:00:00",
-                "2022-05-12 23:00:00"
+                "2022-05-14 18:00:00",
+                "2022-05-14 23:00:00"
             ],
             "Hilo": null,
             "Kona": null,
@@ -1277,7 +1277,7 @@
             "id": 36,
             "Date": [
                 null,
-                "2022-05-13"
+                "2022-05-15"
             ],
             "Name": "Rita Leeds",
             "Department": "Finance",
@@ -1286,8 +1286,8 @@
             "SU": null,
             "HP": null,
             "Hilo": [
-                "2022-05-13 05:00:00",
-                "2022-05-13 10:00:00"
+                "2022-05-15 05:00:00",
+                "2022-05-15 10:00:00"
             ],
             "Kona": null,
             "WFH": null,
@@ -1315,14 +1315,14 @@
             "id": 37,
             "Date": [
                 null,
-                "2022-06-08"
+                "2022-06-10"
             ],
             "Name": "Barry Zuckerkorn",
             "Department": "Engineering",
             "BaseCamp": "Summit",
             "HQ": [
-                "2022-06-08 10:00:00",
-                "2022-06-08 14:00:00"
+                "2022-06-10 10:00:00",
+                "2022-06-10 14:00:00"
             ],
             "SU": null,
             "HP": null,
@@ -1353,14 +1353,14 @@
             "id": 38,
             "Date": [
                 null,
-                "2022-05-18"
+                "2022-05-20"
             ],
-            "Name": "Maeby F\ufffdnke",
+            "Name": "Maeby F\u00fcnke",
             "Department": "Directorate Office",
             "BaseCamp": "Summit",
             "HQ": [
-                "2022-05-18 17:00:00",
-                "2022-05-19 01:00:00"
+                "2022-05-20 17:00:00",
+                "2022-05-21 01:00:00"
             ],
             "SU": null,
             "HP": null,
@@ -1391,7 +1391,7 @@
             "id": 39,
             "Date": [
                 null,
-                "2022-06-05"
+                "2022-06-07"
             ],
             "Name": "Steve Holt",
             "Department": "AO/Optics",
@@ -1404,8 +1404,8 @@
             "WFH": null,
             "Vacation": null,
             "Sick": [
-                "2022-06-05 03:00:00",
-                "2022-06-05 09:00:00"
+                "2022-06-07 03:00:00",
+                "2022-06-07 09:00:00"
             ],
             "FamilySick": null,
             "JuryDuty": null,
@@ -1427,7 +1427,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 40,
-            "Date": "2022-06-08",
+            "Date": "2022-06-10",
             "Name": "Lucille Austero",
             "Department": "Engineering",
             "BaseCamp": "Hilo",
@@ -1461,7 +1461,7 @@
             "id": 41,
             "Date": [
                 null,
-                "2022-06-07"
+                "2022-06-09"
             ],
             "Name": "Sally Sitwell",
             "Department": "Software",
@@ -1473,8 +1473,8 @@
             "Kona": null,
             "WFH": null,
             "Vacation": [
-                "2022-06-07 07:00:00",
-                "2022-06-07 13:00:00"
+                "2022-06-09 07:00:00",
+                "2022-06-09 13:00:00"
             ],
             "Sick": null,
             "FamilySick": null,
@@ -1497,7 +1497,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 42,
-            "Date": "2022-06-02",
+            "Date": "2022-06-04",
             "Name": "Barry Zuckerkorn",
             "Department": "Observing Support",
             "BaseCamp": "Summit",
@@ -1531,7 +1531,7 @@
             "id": 43,
             "Date": [
                 null,
-                "2022-06-07"
+                "2022-06-09"
             ],
             "Name": "Mort Meyers",
             "Department": "Administration",
@@ -1541,8 +1541,8 @@
             "HP": null,
             "Hilo": null,
             "Kona": [
-                "2022-06-07 23:00:00",
-                "2022-06-08 07:00:00"
+                "2022-06-09 23:00:00",
+                "2022-06-10 07:00:00"
             ],
             "WFH": null,
             "Vacation": null,
@@ -1567,7 +1567,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 44,
-            "Date": "2022-05-20",
+            "Date": "2022-05-22",
             "Name": "Marta Estrella",
             "Department": "Development Program Support",
             "BaseCamp": "Hilo",
@@ -1599,7 +1599,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 45,
-            "Date": "2022-05-15",
+            "Date": "2022-05-17",
             "Name": "Cindi Lightballoon",
             "Department": "Software",
             "BaseCamp": "Hilo",
@@ -1631,7 +1631,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 46,
-            "Date": "2022-05-27",
+            "Date": "2022-05-29",
             "Name": "Ann Veal",
             "Department": "Observing Support",
             "BaseCamp": "Summit",
@@ -1663,7 +1663,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 47,
-            "Date": "2022-05-18",
+            "Date": "2022-05-20",
             "Name": "Steve Holt",
             "Department": "AO/Optics",
             "BaseCamp": "Other",
@@ -1697,7 +1697,7 @@
             "id": 48,
             "Date": [
                 null,
-                "2022-05-23"
+                "2022-05-25"
             ],
             "Name": "Ann Veal",
             "Department": "Software",
@@ -1709,8 +1709,8 @@
             "Kona": null,
             "WFH": null,
             "Vacation": [
-                "2022-05-23 10:00:00",
-                "2022-05-23 16:00:00"
+                "2022-05-25 10:00:00",
+                "2022-05-25 16:00:00"
             ],
             "Sick": null,
             "FamilySick": null,
@@ -1735,7 +1735,7 @@
             "id": 49,
             "Date": [
                 null,
-                "2022-05-18"
+                "2022-05-20"
             ],
             "Name": "Carl Weathers",
             "Department": "Engineering",
@@ -1749,8 +1749,8 @@
             "Vacation": null,
             "Sick": null,
             "FamilySick": [
-                "2022-05-18 15:00:00",
-                "2022-05-18 19:00:00"
+                "2022-05-20 15:00:00",
+                "2022-05-20 19:00:00"
             ],
             "JuryDuty": null,
             "Travel": null,
@@ -1773,7 +1773,7 @@
             "id": 50,
             "Date": [
                 null,
-                "2022-05-21"
+                "2022-05-23"
             ],
             "Name": "Narrator",
             "Department": "Software",
@@ -1788,8 +1788,8 @@
             "Sick": null,
             "FamilySick": null,
             "JuryDuty": [
-                "2022-05-21 16:00:00",
-                "2022-05-22 00:00:00"
+                "2022-05-23 16:00:00",
+                "2022-05-24 00:00:00"
             ],
             "Travel": null,
             "Other": null,
@@ -1809,7 +1809,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 51,
-            "Date": "2022-05-21",
+            "Date": "2022-05-23",
             "Name": "Stan Sitwell",
             "Department": "Council",
             "BaseCamp": "Other",
@@ -1843,7 +1843,7 @@
             "id": 52,
             "Date": [
                 null,
-                "2022-05-17"
+                "2022-05-19"
             ],
             "Name": "Gob Bluth",
             "Department": "Scientific Software",
@@ -1857,8 +1857,8 @@
             "Vacation": null,
             "Sick": null,
             "FamilySick": [
-                "2022-05-17 07:00:00",
-                "2022-05-17 13:00:00"
+                "2022-05-19 07:00:00",
+                "2022-05-19 13:00:00"
             ],
             "JuryDuty": null,
             "Travel": null,
@@ -1881,7 +1881,7 @@
             "id": 53,
             "Date": [
                 null,
-                "2022-05-20"
+                "2022-05-22"
             ],
             "Name": "George Bluth Sr.",
             "Department": "AO/Optics",
@@ -1892,8 +1892,8 @@
             "Hilo": null,
             "Kona": null,
             "WFH": [
-                "2022-05-20 21:00:00",
-                "2022-05-21 03:00:00"
+                "2022-05-22 21:00:00",
+                "2022-05-23 03:00:00"
             ],
             "Vacation": null,
             "Sick": null,
@@ -1917,7 +1917,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 54,
-            "Date": "2022-05-22",
+            "Date": "2022-05-24",
             "Name": "Barry Zuckerkorn",
             "Department": "Council",
             "BaseCamp": "HP",
@@ -1949,7 +1949,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 55,
-            "Date": "2022-05-20",
+            "Date": "2022-05-22",
             "Name": "Lupe",
             "Department": "Software",
             "BaseCamp": "Summit",
@@ -1983,7 +1983,7 @@
             "id": 56,
             "Date": [
                 null,
-                "2022-06-07"
+                "2022-06-09"
             ],
             "Name": "John Beard",
             "Department": "Administration",
@@ -1997,8 +1997,8 @@
             "Vacation": null,
             "Sick": null,
             "FamilySick": [
-                "2022-06-07 16:00:00",
-                "2022-06-07 23:00:00"
+                "2022-06-09 16:00:00",
+                "2022-06-09 23:00:00"
             ],
             "JuryDuty": null,
             "Travel": null,
@@ -2021,7 +2021,7 @@
             "id": 57,
             "Date": [
                 null,
-                "2022-05-17"
+                "2022-05-19"
             ],
             "Name": "Ann Veal",
             "Department": "Finance",
@@ -2037,8 +2037,8 @@
             "FamilySick": null,
             "JuryDuty": null,
             "Travel": [
-                "2022-05-17 09:00:00",
-                "2022-05-17 15:00:00"
+                "2022-05-19 09:00:00",
+                "2022-05-19 15:00:00"
             ],
             "Other": null,
             "Comment": null,
@@ -2057,8 +2057,8 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 58,
-            "Date": "2022-05-13",
-            "Name": "Murphy Brown F\ufffdnke",
+            "Date": "2022-05-15",
+            "Name": "Murphy Brown F\u00fcnke",
             "Department": "Systems Administration",
             "BaseCamp": "Summit",
             "HQ": null,
@@ -2089,7 +2089,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 59,
-            "Date": "2022-05-30",
+            "Date": "2022-06-01",
             "Name": "John Beard",
             "Department": "Observing Support",
             "BaseCamp": "HP",
@@ -2121,7 +2121,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 60,
-            "Date": "2022-05-15",
+            "Date": "2022-05-17",
             "Name": "Stan Sitwell",
             "Department": "AO/Optics",
             "BaseCamp": "Summit",
@@ -2153,7 +2153,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 61,
-            "Date": "2022-05-23",
+            "Date": "2022-05-25",
             "Name": "Lupe",
             "Department": "Scientific Software",
             "BaseCamp": "Hilo",
@@ -2185,8 +2185,8 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 62,
-            "Date": "2022-06-06",
-            "Name": "Maeby F\ufffdnke",
+            "Date": "2022-06-08",
+            "Name": "Maeby F\u00fcnke",
             "Department": "Directorate Office",
             "BaseCamp": "Summit",
             "HQ": null,
@@ -2219,7 +2219,7 @@
             "id": 63,
             "Date": [
                 null,
-                "2022-05-14"
+                "2022-05-16"
             ],
             "Name": "Lottie Dottie Da",
             "Department": "Finance",
@@ -2235,8 +2235,8 @@
             "FamilySick": null,
             "JuryDuty": null,
             "Travel": [
-                "2022-05-14 09:00:00",
-                "2022-05-14 16:00:00"
+                "2022-05-16 09:00:00",
+                "2022-05-16 16:00:00"
             ],
             "Other": null,
             "Comment": null,
@@ -2257,14 +2257,14 @@
             "id": 64,
             "Date": [
                 null,
-                "2022-06-09"
+                "2022-06-11"
             ],
             "Name": "George Michael Bluth",
             "Department": "Development Program Support",
             "BaseCamp": "HP",
             "HQ": [
-                "2022-06-09 19:00:00",
-                "2022-06-10 03:00:00"
+                "2022-06-11 19:00:00",
+                "2022-06-12 03:00:00"
             ],
             "SU": null,
             "HP": null,
@@ -2295,7 +2295,7 @@
             "id": 65,
             "Date": [
                 null,
-                "2022-05-24"
+                "2022-05-26"
             ],
             "Name": "Narrator",
             "Department": "Software",
@@ -2305,8 +2305,8 @@
             "HP": null,
             "Hilo": null,
             "Kona": [
-                "2022-05-24 11:00:00",
-                "2022-05-24 16:00:00"
+                "2022-05-26 11:00:00",
+                "2022-05-26 16:00:00"
             ],
             "WFH": null,
             "Vacation": null,
@@ -2331,7 +2331,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 66,
-            "Date": "2022-06-06",
+            "Date": "2022-06-08",
             "Name": "Carl Weathers",
             "Department": "Operations and Infrastructure",
             "BaseCamp": "HQ",
@@ -2365,15 +2365,15 @@
             "id": 67,
             "Date": [
                 null,
-                "2022-05-22"
+                "2022-05-24"
             ],
             "Name": "George Michael Bluth",
             "Department": "Operations and Infrastructure",
             "BaseCamp": "HP",
             "HQ": null,
             "SU": [
-                "2022-05-22 18:00:00",
-                "2022-05-23 01:00:00"
+                "2022-05-24 18:00:00",
+                "2022-05-25 01:00:00"
             ],
             "HP": null,
             "Hilo": null,
@@ -2401,7 +2401,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 68,
-            "Date": "2022-05-26",
+            "Date": "2022-05-28",
             "Name": "John Beard",
             "Department": "Operations and Infrastructure",
             "BaseCamp": "HP",
@@ -2435,7 +2435,7 @@
             "id": 69,
             "Date": [
                 null,
-                "2022-05-18"
+                "2022-05-20"
             ],
             "Name": "Kitty Sanchez",
             "Department": "Council",
@@ -2446,8 +2446,8 @@
             "Hilo": null,
             "Kona": null,
             "WFH": [
-                "2022-05-18 02:00:00",
-                "2022-05-18 10:00:00"
+                "2022-05-20 02:00:00",
+                "2022-05-20 10:00:00"
             ],
             "Vacation": null,
             "Sick": null,
@@ -2471,7 +2471,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 70,
-            "Date": "2022-06-03",
+            "Date": "2022-06-05",
             "Name": "Annyong Bluth",
             "Department": "Directorate Office",
             "BaseCamp": "Hilo",
@@ -2503,7 +2503,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 71,
-            "Date": "2022-05-31",
+            "Date": "2022-06-02",
             "Name": "Gob Bluth",
             "Department": "Scientific Software",
             "BaseCamp": "Hilo",
@@ -2535,7 +2535,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 72,
-            "Date": "2022-06-09",
+            "Date": "2022-06-11",
             "Name": "Tony Wonder",
             "Department": "Observing Support",
             "BaseCamp": "Hilo",
@@ -2569,7 +2569,7 @@
             "id": 73,
             "Date": [
                 null,
-                "2022-05-19"
+                "2022-05-21"
             ],
             "Name": "Rebel Alley",
             "Department": "Operations and Infrastructure",
@@ -2580,8 +2580,8 @@
             "Hilo": null,
             "Kona": null,
             "WFH": [
-                "2022-05-19 00:00:00",
-                "2022-05-19 05:00:00"
+                "2022-05-21 00:00:00",
+                "2022-05-21 05:00:00"
             ],
             "Vacation": null,
             "Sick": null,
@@ -2605,7 +2605,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 74,
-            "Date": "2022-05-20",
+            "Date": "2022-05-22",
             "Name": "Cindi Lightballoon",
             "Department": "Development Program Support",
             "BaseCamp": "HQ",
@@ -2639,7 +2639,7 @@
             "id": 75,
             "Date": [
                 null,
-                "2022-05-16"
+                "2022-05-18"
             ],
             "Name": "Dusty Radler",
             "Department": "Scientific Software",
@@ -2648,8 +2648,8 @@
             "SU": null,
             "HP": null,
             "Hilo": [
-                "2022-05-16 14:00:00",
-                "2022-05-16 18:00:00"
+                "2022-05-18 14:00:00",
+                "2022-05-18 18:00:00"
             ],
             "Kona": null,
             "WFH": null,
@@ -2675,7 +2675,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 76,
-            "Date": "2022-06-05",
+            "Date": "2022-06-07",
             "Name": "Starla",
             "Department": "Operations and Infrastructure",
             "BaseCamp": "Other",
@@ -2707,7 +2707,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 77,
-            "Date": "2022-05-28",
+            "Date": "2022-05-30",
             "Name": "DeBrie Bardeaux",
             "Department": "Scientific Software",
             "BaseCamp": "HQ",
@@ -2741,7 +2741,7 @@
             "id": 78,
             "Date": [
                 null,
-                "2022-05-28"
+                "2022-05-30"
             ],
             "Name": "Rita Leeds",
             "Department": "AO/Optics",
@@ -2752,8 +2752,8 @@
             "Hilo": null,
             "Kona": null,
             "WFH": [
-                "2022-05-28 13:00:00",
-                "2022-05-28 21:00:00"
+                "2022-05-30 13:00:00",
+                "2022-05-30 21:00:00"
             ],
             "Vacation": null,
             "Sick": null,
@@ -2779,7 +2779,7 @@
             "id": 79,
             "Date": [
                 null,
-                "2022-05-29"
+                "2022-05-31"
             ],
             "Name": "George Bluth Sr.",
             "Department": "Council",
@@ -2789,8 +2789,8 @@
             "HP": null,
             "Hilo": null,
             "Kona": [
-                "2022-05-29 08:00:00",
-                "2022-05-29 13:00:00"
+                "2022-05-31 08:00:00",
+                "2022-05-31 13:00:00"
             ],
             "WFH": null,
             "Vacation": null,
@@ -2815,7 +2815,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 80,
-            "Date": "2022-05-18",
+            "Date": "2022-05-20",
             "Name": "Rebel Alley",
             "Department": "Engineering",
             "BaseCamp": "Hilo",
@@ -2847,7 +2847,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 81,
-            "Date": "2022-06-07",
+            "Date": "2022-06-09",
             "Name": "Starla",
             "Department": "Directorate Office",
             "BaseCamp": "HQ",
@@ -2881,7 +2881,7 @@
             "id": 82,
             "Date": [
                 null,
-                "2022-06-03"
+                "2022-06-05"
             ],
             "Name": "Stan Sitwell",
             "Department": "Directorate Office",
@@ -2889,8 +2889,8 @@
             "HQ": null,
             "SU": null,
             "HP": [
-                "2022-06-03 02:00:00",
-                "2022-06-03 06:00:00"
+                "2022-06-05 02:00:00",
+                "2022-06-05 06:00:00"
             ],
             "Hilo": null,
             "Kona": null,
@@ -2917,7 +2917,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 83,
-            "Date": "2022-05-30",
+            "Date": "2022-06-01",
             "Name": "George Bluth Sr.",
             "Department": "Administration",
             "BaseCamp": "Hilo",
@@ -2949,7 +2949,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 84,
-            "Date": "2022-06-01",
+            "Date": "2022-06-03",
             "Name": "Annyong Bluth",
             "Department": "Operations and Infrastructure",
             "BaseCamp": "HQ",
@@ -2981,7 +2981,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 85,
-            "Date": "2022-05-14",
+            "Date": "2022-05-16",
             "Name": "Narrator",
             "Department": "Finance",
             "BaseCamp": "Summit",
@@ -3015,14 +3015,14 @@
             "id": 86,
             "Date": [
                 null,
-                "2022-06-09"
+                "2022-06-11"
             ],
-            "Name": "Maeby F\ufffdnke",
+            "Name": "Maeby F\u00fcnke",
             "Department": "Finance",
             "BaseCamp": "HP",
             "HQ": [
-                "2022-06-09 10:00:00",
-                "2022-06-09 16:00:00"
+                "2022-06-11 10:00:00",
+                "2022-06-11 16:00:00"
             ],
             "SU": null,
             "HP": null,
@@ -3051,8 +3051,8 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 87,
-            "Date": "2022-05-28",
-            "Name": "Tobias F\ufffdnke",
+            "Date": "2022-05-30",
+            "Name": "Tobias F\u00fcnke",
             "Department": "Finance",
             "BaseCamp": "Hilo",
             "HQ": null,
@@ -3083,8 +3083,8 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 88,
-            "Date": "2022-05-24",
-            "Name": "Lindsay Bluth-F\ufffdnke",
+            "Date": "2022-05-26",
+            "Name": "Lindsay Bluth-F\u00fcnke",
             "Department": "AO/Optics",
             "BaseCamp": "Summit",
             "HQ": null,
@@ -3115,7 +3115,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 89,
-            "Date": "2022-06-01",
+            "Date": "2022-06-03",
             "Name": "George Bluth Sr.",
             "Department": "Operations and Infrastructure",
             "BaseCamp": "Summit",
@@ -3149,15 +3149,15 @@
             "id": 90,
             "Date": [
                 null,
-                "2022-05-14"
+                "2022-05-16"
             ],
             "Name": "Maggie Lizer",
             "Department": "Engineering",
             "BaseCamp": "Other",
             "HQ": null,
             "SU": [
-                "2022-05-14 03:00:00",
-                "2022-05-14 08:00:00"
+                "2022-05-16 03:00:00",
+                "2022-05-16 08:00:00"
             ],
             "HP": null,
             "Hilo": null,
@@ -3185,8 +3185,8 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 91,
-            "Date": "2022-06-08",
-            "Name": "Murphy Brown F\ufffdnke",
+            "Date": "2022-06-10",
+            "Name": "Murphy Brown F\u00fcnke",
             "Department": "Engineering",
             "BaseCamp": "HP",
             "HQ": null,
@@ -3217,7 +3217,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 92,
-            "Date": "2022-06-09",
+            "Date": "2022-06-11",
             "Name": "Mort Meyers",
             "Department": "Council",
             "BaseCamp": "Summit",
@@ -3251,7 +3251,7 @@
             "id": 93,
             "Date": [
                 null,
-                "2022-05-26"
+                "2022-05-28"
             ],
             "Name": "Dr. Fishman",
             "Department": "Systems Administration",
@@ -3262,8 +3262,8 @@
             "Hilo": null,
             "Kona": null,
             "WFH": [
-                "2022-05-26 10:00:00",
-                "2022-05-26 16:00:00"
+                "2022-05-28 10:00:00",
+                "2022-05-28 16:00:00"
             ],
             "Vacation": null,
             "Sick": null,
@@ -3287,7 +3287,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 94,
-            "Date": "2022-05-14",
+            "Date": "2022-05-16",
             "Name": "Lottie Dottie Da",
             "Department": "Development Program Support",
             "BaseCamp": "Other",
@@ -3319,7 +3319,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 95,
-            "Date": "2022-06-04",
+            "Date": "2022-06-06",
             "Name": "Mort Meyers",
             "Department": "Scientific Software",
             "BaseCamp": "HP",
@@ -3351,7 +3351,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 96,
-            "Date": "2022-06-05",
+            "Date": "2022-06-07",
             "Name": "Lottie Dottie Da",
             "Department": "Systems Administration",
             "BaseCamp": "Summit",
@@ -3383,8 +3383,8 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 97,
-            "Date": "2022-05-25",
-            "Name": "Lindsay Bluth-F\ufffdnke",
+            "Date": "2022-05-27",
+            "Name": "Lindsay Bluth-F\u00fcnke",
             "Department": "Systems Administration",
             "BaseCamp": "Summit",
             "HQ": null,
@@ -3415,7 +3415,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 98,
-            "Date": "2022-06-01",
+            "Date": "2022-06-03",
             "Name": "Ron Howard",
             "Department": "Development Program Support",
             "BaseCamp": "HP",
@@ -3447,7 +3447,7 @@
         "apiCode": "SUCCESS",
         "data": {
             "id": 99,
-            "Date": "2022-06-02",
+            "Date": "2022-06-04",
             "Name": "Cindi Lightballoon",
             "Department": "Administration",
             "BaseCamp": "HP",

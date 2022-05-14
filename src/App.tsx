@@ -9,9 +9,8 @@ import Box from '@mui/material/Box'
 function App() {
   return (
     <React.Fragment>
-      <Box m={5} sx={{minWidth: '500px', maxWidth: '1200px'}}>
+      <Box m={5} sx={{minWidth: '500px'}}>
         <Control />
-        <PTimeline />
       </Box>
       {/* <Calendar /> */}
     </React.Fragment>

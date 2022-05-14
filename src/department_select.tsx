@@ -34,25 +34,29 @@ const departments = [
     'Council'
 ];
 
-export default function DepartmentSelect() {
-    const [departmentName, setDepartmentName] = React.useState<string[]>([]);
+interface Props {
+    departments: string[]
+    handleDepartmentChange: Function
+}
 
-    const handleChange = (event: SelectChangeEvent<typeof departmentName>) => {
+export default function DepartmentSelect(props: Props) {
+
+    const handleChange = (event: SelectChangeEvent<typeof props.departments>) => {
         const {
             target: { value },
         } = event;
-        console.log('value', value, 'departmentName', departmentName)
-        const allSelected = departmentName.indexOf('All') === -1 && value.indexOf('All') > -1
-        const allUnselected = departmentName.indexOf('All') > - 1 && value.indexOf('All') === -1
+        console.log('value', value, 'departmentName', props.departments)
+        const allSelected = props.departments.indexOf('All') === -1 && value.indexOf('All') > -1
+        const allUnselected = props.departments.indexOf('All') > - 1 && value.indexOf('All') === -1
         if (allSelected) {
             console.log('setting All selected')
-            setDepartmentName(departments)
+            props.handleDepartmentChange(departments)
         }
         else if (allUnselected) {
-            setDepartmentName([])
+            props.handleDepartmentChange([])
         }
         else {
-            setDepartmentName(
+            props.handleDepartmentChange(
                 // On autofill we get a stringified value.
                 typeof value === 'string' ? value.split(',') : value,
             );
@@ -66,7 +70,7 @@ export default function DepartmentSelect() {
                 labelId="demo-multiple-checkbox-label"
                 id="demo-multiple-checkbox"
                 multiple
-                value={departmentName}
+                value={props.departments}
                 onChange={handleChange}
                 input={<OutlinedInput label="Tag" />}
                 renderValue={(selected) => selected.join(', ')}
@@ -74,7 +78,7 @@ export default function DepartmentSelect() {
             >
                 {departments.map((dept) => (
                     <MenuItem key={dept} value={dept}>
-                        <Checkbox checked={departmentName.indexOf(dept) > -1} />
+                        <Checkbox checked={props.departments.indexOf(dept) > -1} />
                         <ListItemText primary={dept} />
                     </MenuItem>
                 ))}
