@@ -1,6 +1,7 @@
 import requests
 import pdb
 import json
+from datetime import datetime
 
 if __name__=="__main__":
     #get files
@@ -13,7 +14,11 @@ if __name__=="__main__":
     url+='entryById'
     pdb.set_trace()
     for entry in entries[0:1]:
-        response=requests.post(url, data=entry)
-        print(response)
+        data=entry['data']
+        creationTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+        data['CreationTime'] = creationTime 
+        data['Staff'] = 'ttucker'
+        response=requests.post(url, data=data, verify=False)
+        print(response.json())
 
 
