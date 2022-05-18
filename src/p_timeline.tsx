@@ -90,8 +90,10 @@ const entries_to_items = (entries: Entry[]) => {
         moment(entry.data.Date + " 17:00:00").toISOString()] as DateRange
         let title
         LOCATIONS.every((loc: keyof EntryData) => {
-            if (entry.data[loc]) {
-                dateRange = entry.data[loc] as DateRange
+
+            const dr = entry.data[loc] as string
+            if (dr !== null && dr!=="null") {
+                dateRange = JSON.parse(dr) as DateRange
                 title = loc
                 return false
             }
