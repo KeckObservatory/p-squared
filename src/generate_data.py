@@ -59,8 +59,12 @@ timeConstraint = [
            ['2021-06-01 08:00:00', '2021-06-07 10:00:00']
            ]]
 
+#basecamp = [
+#    "HQ", "Summit", "HP", "Hilo", "Other"
+#]
+
 basecamp = [
-    "HQ", "Summit", "HP", "Hilo", "Other"
+    "HQ", "Summit" 
 ]
 
 departments = [
