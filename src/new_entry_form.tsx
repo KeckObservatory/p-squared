@@ -6,9 +6,8 @@ import MyDateRangePicker from './date_range_picker'
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 import { Typography } from "@mui/material";
+import { LOCATIONS } from './control'
 
 
 
@@ -24,20 +23,13 @@ const pickupLocs = [
     "WJP",
 ]
 
-const locations = [
-    "SU",
-    "HQ",
-    "HP",
-    "Hilo",
-    "Kona",
-    "O"
-]
-
 const additionalSeats = [
     "1", "2", "3", "4", "5", "6"
 ]
 
-
+const baseCamp = [
+    "Waimea", "Hilo"
+]
 
 export const NewEntryForm = (props: Props) => {
 
@@ -47,6 +39,10 @@ export const NewEntryForm = (props: Props) => {
 
 
     const handleLocationChange = () => {
+
+    }
+
+    const handleBasecampChange = () => {
 
     }
 
@@ -60,14 +56,18 @@ export const NewEntryForm = (props: Props) => {
         >
             <TextField label={'Last Name'} id="last-name" />
             <TextField label={'Dept'} disabled id="dept" margin="dense" />
-            <TextField label={'Base camp'} id="base-camp" margin="normal" />
+            <DropDown arr={baseCamp}
+                handleChange={handleBasecampChange}
+                label={'Base Camp'}
+                placeholder={""}
+            />
             <DropDown arr={pickupLocs}
                 handleChange={handlePickupChange}
                 label={'Alternative Pickup'}
                 placeholder={""}
             />
             <MyDateRangePicker />
-            <DropDown arr={locations}
+            <DropDown arr={LOCATIONS}
                 handleChange={handleLocationChange}
                 label={'Location'}
                 placeholder={""}
