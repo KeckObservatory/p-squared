@@ -59,8 +59,12 @@ timeConstraint = [
            ['2021-06-01 08:00:00', '2021-06-07 10:00:00']
            ]]
 
+#basecamp = [
+#    "HQ", "Summit", "HP", "Hilo", "Other"
+#]
+
 basecamp = [
-    "HQ", "Summit", "HP", "Hilo", "Other"
+    "HQ", "Summit" 
 ]
 
 departments = [
@@ -182,9 +186,10 @@ def make_schedule_entry(idx):
             "CrewLead": null,
             "Seats": null,
             "CreationTime": "2022-05-11 12:31:52",
-            "LastModification": "2022-05-10 13:43:37"
+            "LastModification": "2022-05-10 13:43:37",
+            "Staff": "ttucker"
             }
-    data[key] = dateSlot
+    data[key] = json.dumps(dateSlot)
     entry = {
         "apiCode": "SUCCESS",
         "data": data
