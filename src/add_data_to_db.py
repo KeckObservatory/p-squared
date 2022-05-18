@@ -12,10 +12,12 @@ if __name__=="__main__":
     #add them to db one by one
     url='https://vm-appserver.keck.hawaii.edu/api/pp/'
     url+='entryById'
-    pdb.set_trace()
-    for entry in entries[0:1]:
-        data=entry['data']
+    for entry in entries:
         creationTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+        data = {}
+        for key in  entry['data'].keys():
+            if not entry['data'][key]==None: 
+                data[key] = entry['data'][key]
         data['CreationTime'] = creationTime 
         data['Staff'] = 'ttucker'
         response=requests.post(url, data=data, verify=False)

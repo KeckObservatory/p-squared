@@ -182,10 +182,10 @@ def make_schedule_entry(idx):
             "CrewLead": null,
             "Seats": null,
             "CreationTime": "2022-05-11 12:31:52",
-            "LastModification": "2022-05-10 13:43:37"
+            "LastModification": "2022-05-10 13:43:37",
             "Staff": "ttucker"
             }
-    data[key] = dateSlot
+    data[key] = json.dumps(dateSlot)
     entry = {
         "apiCode": "SUCCESS",
         "data": data
