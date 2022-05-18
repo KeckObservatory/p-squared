@@ -158,7 +158,6 @@ export const PTimeline = (props: Props) => {
         mock_get_entries_by_date_range(
             visibleTimeStart,
             visibleTimeEnd,
-            props.controlState.base,
             props.controlState.departments,
             props.controlState.location)
             .then((entries: Entry[]) => {

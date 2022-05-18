@@ -31,7 +31,8 @@ const departments = [
     'Scientific Software',
     'Software',
     'Systems Administration',
-    'Council'
+    'Council',
+    'Guest'
 ];
 
 interface Props {

@@ -6,7 +6,8 @@ import moment from 'moment'
 export const mock_get_entries_by_date_range = (
     startDate: moment.Moment, 
     endDate: moment.Moment,
-    base?: string, department?: string[], location?: string) => {
+    department?: string[], 
+    location?: string) => {
     const mockPromise = new Promise<Entry[]>((resolve) => {
         resolve( mock_entries as any )
     })
