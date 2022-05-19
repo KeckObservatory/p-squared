@@ -22,6 +22,7 @@
     "@types/react": "^18.0.8",
     "@types/react-dom": "^18.0.3",
     "@wojtekmaj/react-daterange-picker": "^3.4.0",
+    "axios": "^0.27.2",
     "date-fns": "^2.0.0-beta.5",
     "faker": "^5.5.3",
     "randomcolor": "^0.6.2",

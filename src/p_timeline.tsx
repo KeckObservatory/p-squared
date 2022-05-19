@@ -15,7 +15,7 @@ import moment from 'moment'
 import { default as mock_entries } from './entries.json'
 import React, { useEffect, useState } from 'react'
 import Button from '@mui/material/Button'
-import { mock_get_entries_by_date_range } from './api'
+import {get_entries_by_date_range, mock_get_entries_by_date_range } from './api'
 import { ControlState } from './control'
 
 const LOCATIONS: Array<keyof EntryData> = [
@@ -157,7 +157,7 @@ export const PTimeline = (props: Props) => {
             .add(1, state.unit)
         setState({ ...state, visibleTimeStart, visibleTimeEnd })
 
-        mock_get_entries_by_date_range(
+        get_entries_by_date_range(
             visibleTimeStart,
             visibleTimeEnd,
             props.controlState.departments,
