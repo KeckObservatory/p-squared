@@ -15,7 +15,7 @@ import moment from 'moment'
 import { default as mock_entries } from './entries.json'
 import React, { useEffect, useState } from 'react'
 import Button from '@mui/material/Button'
-import {get_entries_by_date_range, mock_get_entries_by_date_range } from './api'
+import { get_entries_by_date_range, mock_get_entries_by_date_range } from './api'
 import { ControlState } from './control'
 
 const LOCATIONS: Array<keyof EntryData> = [
@@ -91,9 +91,8 @@ const entries_to_items = (entries: EntryData[]) => {
         let title
         LOCATIONS.every((loc: keyof EntryData) => {
             const dr = entry[loc] as string
-            if (dr !== null && dr!=="null" && dr!=="[]") {
+            if (dr !== null && dr !== "null" && dr !== "[]") {
                 dateRange = JSON.parse(dr) as DateRange
-                console.log('date range:', dr)
                 title = loc
                 return false
             }
@@ -169,17 +168,31 @@ export const PTimeline = (props: Props) => {
                 setItems(newItems)
                 // console.log('new entries', groups)
             })
-    }, [props.controlState.date, state.visibleTimeStart])
+    }, [props.controlState.date])
 
     const handleTimeHeaderChange = (unit: Unit) => {
+        const date = props.controlState.date.clone()
+        const visibleTimeStart = date.clone().startOf(unit)
+        const visibleTimeEnd = date.clone().endOf(unit)
+
         setState({
             ...state,
             unit: unit,
-            visibleTimeStart: moment()
-                .startOf(unit),
-            visibleTimeEnd: moment()
-                .endOf(unit)
+            visibleTimeStart: visibleTimeStart,
+            visibleTimeEnd: visibleTimeEnd
         });
+
+        get_entries_by_date_range(
+            visibleTimeStart.format('YYYY-MM-DD'),
+            visibleTimeEnd.format('YYYY-MM-DD'),
+            props.controlState.departments,
+            props.controlState.location)
+            .then((entries: EntryData[]) => {
+                const newGroups = make_groups(entries)
+                const newItems = entries_to_items(entries)
+                setGroups(newGroups)
+                setItems(newItems)
+            })
     };
 
     const onScrollClick = (inc: number) => {
