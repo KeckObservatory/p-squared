@@ -20,6 +20,7 @@ export function handleError(error: Error | AxiosError) {
     return error;
 }
 
+//TODO format to match api output (entry with an array of entrydata)
 export const mock_get_entries_by_date_range = (
     startDate: string,
     endDate: string,
