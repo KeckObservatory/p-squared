@@ -21,8 +21,8 @@ export function handleError(error: Error | AxiosError) {
 }
 
 export const mock_get_entries_by_date_range = (
-    startDate: moment.Moment,
-    endDate: moment.Moment,
+    startDate: string,
+    endDate: string,
     department?: string[],
     location?: string): Promise<Entry[]> => {
     const mockPromise = new Promise<Entry[]>((resolve) => {
@@ -32,8 +32,8 @@ export const mock_get_entries_by_date_range = (
 }
 
 export const get_entries_by_date_range= (
-    startDate: moment.Moment,
-    endDate: moment.Moment,
+    startDate: string,
+    endDate: string,
     department?: string[],
     location?: string): Promise<Entry[]>  => {
     let url = BASE_URL + "entryByDateRange?"

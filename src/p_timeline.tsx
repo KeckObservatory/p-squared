@@ -158,8 +158,8 @@ export const PTimeline = (props: Props) => {
         setState({ ...state, visibleTimeStart, visibleTimeEnd })
 
         get_entries_by_date_range(
-            visibleTimeStart,
-            visibleTimeEnd,
+            visibleTimeStart.format('YYYY-MM-DD'),
+            visibleTimeEnd.format('YYYY-MM-DD'),
             props.controlState.departments,
             props.controlState.location)
             .then((entries: Entry[]) => {
