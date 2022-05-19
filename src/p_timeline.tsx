@@ -91,9 +91,9 @@ const entries_to_items = (entries: EntryData[]) => {
         let title
         LOCATIONS.every((loc: keyof EntryData) => {
             const dr = entry[loc] as string
-            console.log('date range:', dr)
-            if (dr !== null && dr!=="null") {
+            if (dr !== null && dr!=="null" && dr!=="[]") {
                 dateRange = JSON.parse(dr) as DateRange
+                console.log('date range:', dr)
                 title = loc
                 return false
             }
