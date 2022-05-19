@@ -169,7 +169,7 @@ export const PTimeline = (props: Props) => {
                 setItems(newItems)
                 // console.log('new entries', groups)
             })
-    }, [props.controlState.date])
+    }, [props.controlState.date, state.visibleTimeStart])
 
     const handleTimeHeaderChange = (unit: Unit) => {
         setState({
