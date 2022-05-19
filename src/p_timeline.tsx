@@ -99,7 +99,7 @@ const entries_to_items = (entries: EntryData[]) => {
             return true
         })
         const item = {
-            id: idx,
+            id: entry.id,
             // group: entry.data.Name,
             group: idx,
             title: title,
@@ -209,6 +209,11 @@ export const PTimeline = (props: Props) => {
         });
     };
 
+    const onItemClick = (itemId: number, e: any, time: any) => {
+        console.log('itemId', itemId, 'e', e, "time", time )
+
+    }
+
     const handleTimeChange = (visibleTimeStart: number,
         visibleTimeEnd: number) => {
         const momTS = moment(visibleTimeStart)
@@ -248,6 +253,7 @@ export const PTimeline = (props: Props) => {
                     visibleTimeStart={state.visibleTimeStart}
                     visibleTimeEnd={state.visibleTimeEnd}
                     onTimeChange={handleTimeChange}
+                    onItemClick={onItemClick}
                 >
                     <TimelineHeaders>
                         <SidebarHeader >
