@@ -70,9 +70,9 @@ export interface Entry {
     "data": EntryData
 }
 
-const make_groups = (entries: Entry[]) => {
-    const names = entries.map((entry: Entry) => {
-        return entry.data.Name
+const make_groups = (entries: EntryData[]) => {
+    const names = entries.map((entry: EntryData) => {
+        return entry.Name
     })
     const uNames = new Set(names)
     const groups = Array.from(uNames).map((name: string, idx) => {
@@ -83,15 +83,15 @@ const make_groups = (entries: Entry[]) => {
     return groups
 }
 
-const entries_to_items = (entries: Entry[]) => {
+const entries_to_items = (entries: EntryData[]) => {
 
-    const items = entries.map((entry: Entry, idx) => {
-        let dateRange = [moment(entry.data.Date + " 8:00:00").toISOString(),
-        moment(entry.data.Date + " 17:00:00").toISOString()] as DateRange
+    const items = entries.map((entry: EntryData, idx) => {
+        let dateRange = [moment(entry.Date + " 8:00:00").toISOString(),
+        moment(entry.Date + " 17:00:00").toISOString()] as DateRange
         let title
         LOCATIONS.every((loc: keyof EntryData) => {
 
-            const dr = entry.data[loc] as string
+            const dr = entry[loc] as string
             if (dr !== null && dr!=="null") {
                 dateRange = JSON.parse(dr) as DateRange
                 title = loc
@@ -162,7 +162,7 @@ export const PTimeline = (props: Props) => {
             visibleTimeEnd.format('YYYY-MM-DD'),
             props.controlState.departments,
             props.controlState.location)
-            .then((entries: Entry[]) => {
+            .then((entries: EntryData[]) => {
                 const newGroups = make_groups(entries)
                 const newItems = entries_to_items(entries)
                 setGroups(newGroups)

@@ -1,6 +1,6 @@
 import { resolve } from 'node:path/win32'
 import { default as mock_entries } from './entries.json'
-import { Entry } from './p_timeline'
+import { Entry, EntryData } from './p_timeline'
 import moment from 'moment'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
@@ -35,7 +35,7 @@ export const get_entries_by_date_range= (
     startDate: string,
     endDate: string,
     department?: string[],
-    location?: string): Promise<Entry[]>  => {
+    location?: string): Promise<EntryData[]>  => {
     let url = BASE_URL + "entryByDateRange?"
     + "startdate=" + startDate
     +  "&enddate=" + endDate
@@ -47,5 +47,8 @@ export const get_entries_by_date_range= (
     }
     return axios.get(url)
     .then(handleResponse)
+    .then((entry: any) => {
+        return entry.data        
+    })
     .catch(handleError)
 }
