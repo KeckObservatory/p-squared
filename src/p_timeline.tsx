@@ -160,7 +160,7 @@ export const PTimeline = (props: Props) => {
             .add(1, state.unit)
         setState({ ...state, visibleTimeStart, visibleTimeEnd })
 
-        mock_get_entries_by_date_range(
+        get_entries_by_date_range(
             visibleTimeStart.format('YYYY-MM-DD'),
             visibleTimeEnd.format('YYYY-MM-DD'),
             props.controlState.departments,
@@ -186,7 +186,7 @@ export const PTimeline = (props: Props) => {
             visibleTimeEnd: visibleTimeEnd
         });
 
-        mock_get_entries_by_date_range(
+        get_entries_by_date_range(
             visibleTimeStart.format('YYYY-MM-DD'),
             visibleTimeEnd.format('YYYY-MM-DD'),
             props.controlState.departments,
