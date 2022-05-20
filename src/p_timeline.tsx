@@ -172,7 +172,7 @@ export const PTimeline = (props: Props) => {
                 setItems(newItems)
                 // console.log('new entries', groups)
             })
-    }, [props.controlState.date])
+    }, [props.controlState])
 
     const handleTimeHeaderChange = (unit: Unit) => {
         const date = props.controlState.date.clone()
@@ -233,7 +233,6 @@ export const PTimeline = (props: Props) => {
             )
 
         })
-
     }
 
     const handleTimeChange = (visibleTimeStart: number,

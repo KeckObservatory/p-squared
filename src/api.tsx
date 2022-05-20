@@ -4,7 +4,8 @@ import { Entry, EntryData } from './p_timeline'
 import moment from 'moment'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
-const BASE_URL = "https://vm-appserver.keck.hawaii.edu/api/pp/"
+// const BASE_URL = "https://vm-appserver.keck.hawaii.edu/api/pp/"
+const BASE_URL = "https://www3build.keck.hawaii.edu/api/pp/"
 
 export function handleResponse(response: AxiosResponse) {
     if (response.data) {

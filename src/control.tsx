@@ -38,9 +38,6 @@ export const LOCATIONS = [
 export const Control = (props: Props) => {
     const now = moment()
 
-
-    // const base = ['Waimea', 'Hilo']
-
     const initState: ControlState = {
         date: now,
         // base: '',
@@ -66,12 +63,6 @@ export const Control = (props: Props) => {
         })
     }
 
-    // const handleBaseChange = (base: string) => {
-    //     setState({
-    //         ...state,
-    //         base: base
-    //     })
-    // }
     const handleLocationChange = (location: string) => {
         setState({
             ...state,
@@ -85,14 +76,6 @@ export const Control = (props: Props) => {
                 <FormControl sx={{ m: 2, width: 150 }}>
                     <YearMonthPicker date={state.date} handleDateChange={handleDateChange} />
                 </FormControl>
-                {/* <FormControl sx={{ m: 2, width: 100 }}>
-                    <DropDown arr={base}
-                        handleChange={handleBaseChange}
-                        value={state.base}
-                        placeholder={'Select Base'}
-                        label={'Base'}
-                    />
-                </FormControl> */}
                 <FormControl sx={{ m: 2, width: 100 }}>
                     <DropDown arr={LOCATIONS}
                         handleChange={handleLocationChange}
