@@ -25,11 +25,24 @@ export const mock_get_entries_by_date_range = (
     startDate: string,
     endDate: string,
     department?: string[],
-    location?: string): Promise<Entry[]> => {
-    const mockPromise = new Promise<Entry[]>((resolve) => {
-        resolve(mock_entries as any)
+    location?: string): Promise<EntryData[]> => {
+    const mockPromise = new Promise<EntryData[]>((resolve) => {
+        const entryData: EntryData[] = []
+        mock_entries.forEach( (entry: any) => {
+            entryData.push(entry.data)
+        })
+        resolve(entryData)
     })
     return mockPromise
+}
+
+export const delete_entry_by_id = (
+    id: number) => {
+    let url = BASE_URL + "entryById?"
+    + "id=" + JSON.stringify(id)
+    return axios.delete(url)
+    .then(handleResponse)
+    .catch(handleError)
 }
 
 export const get_entries_by_date_range= (

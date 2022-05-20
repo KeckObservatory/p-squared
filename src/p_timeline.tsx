@@ -15,8 +15,10 @@ import moment from 'moment'
 import { default as mock_entries } from './entries.json'
 import React, { useEffect, useState } from 'react'
 import Button from '@mui/material/Button'
-import { get_entries_by_date_range, mock_get_entries_by_date_range } from './api'
+import { delete_entry_by_id, get_entries_by_date_range, mock_get_entries_by_date_range } from './api'
 import { ControlState } from './control'
+import Popover from '@mui/material/Popover'
+import Typography from '@mui/material/Typography'
 
 const LOCATIONS: Array<keyof EntryData> = [
     "HQ",
@@ -126,6 +128,8 @@ interface State {
 
 export const PTimeline = (props: Props) => {
 
+    const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+    const [selectedItemId, setSelectedItemId] = React.useState(undefined as unknown as number);
     // const { groups, items } = generateFakeData(20);
     const init_groups = [] as TimelineGroupBase[]
     const init_items = [] as TimelineItemBase<any>[]
@@ -147,8 +151,8 @@ export const PTimeline = (props: Props) => {
 
 
     useEffect(() => {
-
         const date = props.controlState.date.clone()
+        console.log('date has changed', date)
         const visibleTimeStart = date.clone()
             .startOf(state.unit)
         const visibleTimeEnd = date.clone()
@@ -156,7 +160,7 @@ export const PTimeline = (props: Props) => {
             .add(1, state.unit)
         setState({ ...state, visibleTimeStart, visibleTimeEnd })
 
-        get_entries_by_date_range(
+        mock_get_entries_by_date_range(
             visibleTimeStart.format('YYYY-MM-DD'),
             visibleTimeEnd.format('YYYY-MM-DD'),
             props.controlState.departments,
@@ -182,7 +186,7 @@ export const PTimeline = (props: Props) => {
             visibleTimeEnd: visibleTimeEnd
         });
 
-        get_entries_by_date_range(
+        mock_get_entries_by_date_range(
             visibleTimeStart.format('YYYY-MM-DD'),
             visibleTimeEnd.format('YYYY-MM-DD'),
             props.controlState.departments,
@@ -209,8 +213,26 @@ export const PTimeline = (props: Props) => {
         });
     };
 
-    const onItemClick = (itemId: number, e: any, time: any) => {
-        console.log('itemId', itemId, 'e', e, "time", time )
+    const onItemClick = (itemId: number, evt: any, time: any) => {
+        const item = items.find(i => itemId === i.id)
+        console.log('itemId', itemId, 'item', item)
+        setSelectedItemId(itemId)
+        setAnchorEl(evt.currentTarget);
+    }
+
+    const deleteSelected = () => {
+        console.log('deleting item', selectedItemId)
+        setAnchorEl(null);
+        delete_entry_by_id(selectedItemId).then( (response: any) => {
+            console.log('delete response', response)
+            props.setControlState(
+                {
+                    ...props.controlState,
+                    date: moment()
+                }
+            )
+
+        })
 
     }
 
@@ -225,6 +247,13 @@ export const PTimeline = (props: Props) => {
         });
     };
 
+    const handleClosePopover = () => {
+        setAnchorEl(null);
+      };
+
+
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined; 
 
     return (
         <div>
@@ -253,6 +282,7 @@ export const PTimeline = (props: Props) => {
                     visibleTimeStart={state.visibleTimeStart}
                     visibleTimeEnd={state.visibleTimeEnd}
                     onTimeChange={handleTimeChange}
+                    onItemSelect={onItemClick}
                     onItemClick={onItemClick}
                 >
                     <TimelineHeaders>
@@ -269,6 +299,19 @@ export const PTimeline = (props: Props) => {
                     </TimelineMarkers>
                 </Timeline>
             )}
+            <Popover
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClosePopover}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+            >
+                {/* <Typography sx={{ p: 2 }}>The content of the Popover.</Typography> */}
+                <Button onClick={deleteSelected}>Delete</Button>
+            </Popover>
         </div>
     )
 }

@@ -3,14 +3,12 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { NewEntryForm } from './new_entry_form'
 
 interface Props {
-
 }
 
 export const NewEntryDialog = (props: Props) => {
@@ -26,9 +24,13 @@ export const NewEntryDialog = (props: Props) => {
     setOpen(false);
   };
 
+  const handleSubmit = () => {
+    console.log('submitting entry')
+  }
+
   return (
     <div>
-      <Button style={{margin: '6px'}} variant="outlined" onClick={handleClickOpen}>
+      <Button style={{ margin: '6px' }} variant="outlined" onClick={handleClickOpen}>
         Create New Entry
       </Button>
       <Dialog
@@ -45,10 +47,10 @@ export const NewEntryDialog = (props: Props) => {
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
-            Cancel 
+            Cancel
           </Button>
-          <Button onClick={handleClose} autoFocus>
-            Submit 
+          <Button onClick={handleSubmit} autoFocus>
+            Submit
           </Button>
         </DialogActions>
       </Dialog>
@@ -56,4 +58,4 @@ export const NewEntryDialog = (props: Props) => {
   );
 }
 
-export {}
+export { }
