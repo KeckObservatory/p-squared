@@ -8,6 +8,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { Typography } from "@mui/material";
 import { LOCATIONS } from './control'
 import DateRangePicker from '@wojtekmaj/react-daterange-picker'
+// import TimePicker, { TimePickerValue } from 'react-time-picker';
+
 
 const pickupLocs = [
     "HP",
@@ -19,6 +21,12 @@ const pickupLocs = [
 
 const additionalSeats = [
     "1", "2", "3", "4", "5", "6"
+]
+
+
+const hours = [
+   "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12",
+   "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"
 ]
 
 const baseCamp = [
@@ -41,13 +49,17 @@ interface State {
     crewLead?: string,
     supportLead?: string,
     summitLead?: string,
+    startTime: string,
+    endTime: string,
     staff: string,
 }
 
 export const NewEntryForm = (props: Props) => {
 
     const [state, setState] = React.useState({
-        dateRange: [new Date(), new Date()]
+        dateRange: [new Date(), new Date()],
+        startTime: "8",
+        endTime: "16"
     } as State)
 
     const handleAlternatePickupChange = (value: string) => {
@@ -88,6 +100,17 @@ export const NewEntryForm = (props: Props) => {
             { ...state, comment: evt.target.value }
         )
     }
+    const onStartTimeChange = (value: string) => {
+        setState(
+            { ...state, startTime: value }
+        )
+    }
+
+    const onEndTimeChange = (value: string ) => {
+        setState(
+            { ...state, endTime: value }
+        )
+    }
 
     return (
         <Box
@@ -112,6 +135,20 @@ export const NewEntryForm = (props: Props) => {
                 placeholder={""}
             />
             <DateRangePicker onChange={onDateRangeChange} value={state.dateRange} />
+            <DropDown arr={hours}
+                value={state.startTime}
+                handleChange={onStartTimeChange}
+                label={'Start Hour'}
+                placeholder={""}
+            />
+            <DropDown arr={hours}
+                value={state.endTime}
+                handleChange={onEndTimeChange}
+                label={'End Hour'}
+                placeholder={""}
+            />
+            {/* <TimePicker onChange={onStartTimeChange} value={state.startTime} />
+            <TimePicker onChange={onEndTimeChange} value={state.endTime} /> */}
             <DropDown arr={LOCATIONS}
                 value={state.location}
                 handleChange={handleLocationChange}
