@@ -7,8 +7,32 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { NewEntryForm } from './new_entry_form'
+import { useEntry, EntryState } from './control';
+import { add_entry } from './api'
 
 interface Props {
+}
+
+const state_to_entry = (entryState: EntryState ) => {
+  const location = entryState.location
+  const date = entryState.dateRange[0]
+  const creationTime = new Date().toISOString()
+  let entry: any = {
+    Name: entryState.name,
+    Date: date,
+    Department: entryState.department,
+    BaseCamp: entryState.baseCamp,
+    Comment: entryState.comment,
+    Staff: entryState.staff ? entryState.staff : 'test',
+    AlternatePickup: entryState.alternatePickup,
+    SummitLead: entryState.summitLead,
+    CrewLead: entryState.crewLead,
+    Seats: entryState.seats,
+    CreationTime: creationTime,
+    LastModification: creationTime, 
+  }
+  entry[location] = entryState.dateRange
+  return entry
 }
 
 export const NewEntryDialog = (props: Props) => {
@@ -16,6 +40,7 @@ export const NewEntryDialog = (props: Props) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
+  const [entryState, setEntryState] = useEntry()
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -25,7 +50,13 @@ export const NewEntryDialog = (props: Props) => {
   };
 
   const handleSubmit = () => {
-    console.log('submitting entry')
+    const entry = state_to_entry(entryState)
+    console.log('submitting entry', entryState, entry)
+    add_entry(entry)
+    .then( (response: any) => {
+      console.log('response', response)
+    })
+    
   }
 
   return (

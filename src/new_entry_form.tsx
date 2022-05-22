@@ -6,7 +6,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Typography } from "@mui/material";
-import { LOCATIONS } from './control'
+import { LOCATIONS, useEntry } from './control'
 import DateRangePicker from '@wojtekmaj/react-daterange-picker'
 // import TimePicker, { TimePickerValue } from 'react-time-picker';
 
@@ -37,78 +37,64 @@ interface Props {
 
 }
 
-interface State {
-    baseCamp?: string,
-    seats?: number,
-    name?: string,
-    department?: string,
-    comment?: string,
-    location?: string
-    alternatePickup?: string,
-    dateRange: [string | Date, string | Date],
-    crewLead?: string,
-    supportLead?: string,
-    summitLead?: string,
-    startTime: string,
-    endTime: string,
-    staff: string,
-}
 
 export const NewEntryForm = (props: Props) => {
 
-    const [state, setState] = React.useState({
-        dateRange: [new Date(), new Date()],
-        startTime: "8",
-        endTime: "16"
-    } as State)
+    const [entryState, setEntryState] = useEntry()
+
+    const handleNameChange= (evt: React.ChangeEvent<HTMLInputElement>) => {
+        setEntryState(
+            { ...entryState, name: evt.target.value }
+        )
+    }
 
     const handleAlternatePickupChange = (value: string) => {
-        setState(
-            { ...state, alternatePickup: value }
+        setEntryState(
+            { ...entryState, alternatePickup: value }
         )
     }
 
     const handleLocationChange = (value: string) => {
-        setState(
-            { ...state, location: value }
+        setEntryState(
+            { ...entryState, location: value }
         )
     }
 
     const handleBasecampChange = (value: string) => {
-        setState(
-            { ...state, baseCamp: value }
+        setEntryState(
+            { ...entryState, baseCamp: value }
         )
     }
 
 
     const handleSeatChange = (value: string) => {
-        setState(
-            { ...state, seats: JSON.parse(value) }
+        setEntryState(
+            { ...entryState, seats: JSON.parse(value) }
         )
     }
 
     const onDateRangeChange = (value: any) => {
         console.log('date range selected', value)
-        setState({ 
-            ...state,
+        setEntryState({ 
+            ...entryState,
             dateRange: value
         })
     }
 
     const handleCommentChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-        setState(
-            { ...state, comment: evt.target.value }
+        setEntryState(
+            { ...entryState, comment: evt.target.value }
         )
     }
     const onStartTimeChange = (value: string) => {
-        setState(
-            { ...state, startTime: value }
+        setEntryState(
+            { ...entryState, startTime: value }
         )
     }
 
     const onEndTimeChange = (value: string ) => {
-        setState(
-            { ...state, endTime: value }
+        setEntryState(
+            { ...entryState, endTime: value }
         )
     }
 
@@ -120,47 +106,49 @@ export const NewEntryForm = (props: Props) => {
                 '& .MuiTextField-root': { width: '25ch' },
             }}
         >
-            <TextField label={'Last Name'} id="last-name" />
+            <TextField label={'Name'} onChange={handleNameChange} id="name" />
             <TextField label={'Dept'} disabled id="dept" margin="dense" />
             <DropDown arr={baseCamp}
-                value={state.baseCamp}
+                value={entryState.baseCamp}
                 handleChange={handleBasecampChange}
                 label={'Base Camp'}
                 placeholder={""}
             />
             <DropDown arr={pickupLocs}
-                value={state.alternatePickup}
+                value={entryState.alternatePickup}
                 handleChange={handleAlternatePickupChange}
                 label={'Alternative Pickup'}
                 placeholder={""}
             />
-            <DateRangePicker onChange={onDateRangeChange} value={state.dateRange} />
+            <DateRangePicker onChange={onDateRangeChange} value={entryState.dateRange} />
+            <div style={{"display": "flex"}}>
             <DropDown arr={hours}
-                value={state.startTime}
+                value={entryState.startTime}
                 handleChange={onStartTimeChange}
                 label={'Start Hour'}
                 placeholder={""}
             />
             <DropDown arr={hours}
-                value={state.endTime}
+                value={entryState.endTime}
                 handleChange={onEndTimeChange}
                 label={'End Hour'}
                 placeholder={""}
             />
+            </div >
             {/* <TimePicker onChange={onStartTimeChange} value={state.startTime} />
             <TimePicker onChange={onEndTimeChange} value={state.endTime} /> */}
             <DropDown arr={LOCATIONS}
-                value={state.location}
+                value={entryState.location}
                 handleChange={handleLocationChange}
                 label={'Location'}
                 placeholder={""}
             />
-            <Typography>Summit Lead</Typography>
+            {/* <Typography>Summit Lead</Typography>
             <RadioGroup
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="row-radio-buttons-group"
-                value={state.summitLead}
+                value={entryState.summitLead}
             >
                 <FormControlLabel value="No" control={<Radio />} label="No" />
                 <FormControlLabel value="7-3" control={<Radio />} label="7-3" />
@@ -173,7 +161,7 @@ export const NewEntryForm = (props: Props) => {
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="row-radio-buttons-group"
-                value={state.supportLead}
+                value={entryState.supportLead}
             >
                 <FormControlLabel value="No" control={<Radio />} label="No" />
                 <FormControlLabel value="K1" control={<Radio />} label="K1" />
@@ -185,7 +173,7 @@ export const NewEntryForm = (props: Props) => {
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="row-radio-buttons-group"
-                value={state.crewLead}
+                value={entryState.crewLead}
             >
                 <FormControlLabel value="No" control={<Radio />} label="No" />
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -194,10 +182,10 @@ export const NewEntryForm = (props: Props) => {
                 handleChange={handleSeatChange}
                 label={'Additional Seats'}
                 placeholder={""}
-                value={JSON.stringify(state.seats)}
-            />
-            <TextField disabled label={'Staff'} id="staff" value={state.staff} />
-            <TextField label={'Note'} id="note" onChange={handleCommentChange} value={state.comment} />
+                value={JSON.stringify(entryState.seats)}
+            /> */}
+            {/* <TextField disabled label={'Staff'} id="staff" value={entryState.staff} /> */}
+            <TextField label={'Note'} id="note" onChange={handleCommentChange} value={entryState.comment} />
         </Box>
     );
 }

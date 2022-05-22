@@ -46,6 +46,14 @@ export const delete_entry_by_id = (
     .catch(handleError)
 }
 
+export const add_entry = (entry: any) => {
+    let url = BASE_URL + "entryById?"
+    return axios.post(url, entry)
+    .then(handleResponse)
+    .catch(handleError)
+
+}
+
 export const get_entries_by_date_range= (
     startDate: string,
     endDate: string,

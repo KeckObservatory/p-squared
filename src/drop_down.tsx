@@ -6,7 +6,7 @@ import InputLabel from '@mui/material/InputLabel'
 const formControlStyle = {
     minWidth: 120,
     width: '100%',
-    // margin: '3px',
+    margin: '3px',
     display: 'flex',
     flexWrap: 'wrap',
     '& > *': {
@@ -16,13 +16,13 @@ const formControlStyle = {
 
 
 interface MenuProps {
-        arr: string[] | undefined
-disabledArr ?: boolean[]
-handleChange: Function
-value ?: string | null
-placeholder: string
-label: string
-highlightOnEmpty ?: boolean
+    arr: string[] | undefined
+    disabledArr?: boolean[]
+    handleChange: Function
+    value?: string | null
+    placeholder: string
+    label: string
+    highlightOnEmpty?: boolean
 }
 
 const MakeMenuItem = (value: string, key: number, disabled = false) => {

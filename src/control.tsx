@@ -21,19 +21,42 @@ export interface ControlState {
 
 
 export const LOCATIONS = [
-        "HQ",
-        "SU",
-        "HP",
-        "Hilo",
-        "Kona",
-        "WFH",
-        "Vacation",
-        "Sick",
-        "FamilySick",
-        "JuryDuty",
-        "Travel",
-        "Other",
-    ]
+    "HQ",
+    "SU",
+    "HP",
+    "Hilo",
+    "Kona",
+    "WFH",
+    "Vacation",
+    "Sick",
+    "FamilySick",
+    "JuryDuty",
+    "Travel",
+    "Other",
+]
+
+
+export interface EntryState {
+    baseCamp?: string,
+    seats?: number,
+    name?: string,
+    department?: string,
+    comment?: string,
+    location: string
+    alternatePickup?: string,
+    dateRange: [string | Date, string | Date],
+    crewLead?: string,
+    supportLead?: string,
+    summitLead?: string,
+    startTime: string,
+    endTime: string,
+    staff: string,
+}
+
+const EntryContext = React.createContext(null as any);
+
+export const useEntry = () => React.useContext(EntryContext);
+
 
 export const Control = (props: Props) => {
     const now = moment()
@@ -41,11 +64,17 @@ export const Control = (props: Props) => {
     const initState: ControlState = {
         date: now,
         // base: '',
-        location: '',
+        location: 'HQ',
         departments: []
     }
 
     const [state, setState] = useState(initState)
+
+    const [entryState, setEntryState] = React.useState({
+        dateRange: [new Date(), new Date()],
+        startTime: "8",
+        endTime: "16"
+    } as EntryState)
 
     const handleDateChange = (date: Date | null, keyboardInputValue?: string | undefined): void => {
         const d = moment(date)
@@ -72,6 +101,7 @@ export const Control = (props: Props) => {
 
     return (
         <React.Fragment>
+            <EntryContext.Provider value={[entryState, setEntryState]}>
             <Box m={2} >
                 <FormControl sx={{ m: 2, width: 150 }}>
                     <YearMonthPicker date={state.date} handleDateChange={handleDateChange} />
@@ -93,7 +123,8 @@ export const Control = (props: Props) => {
                 <NewEntryDialog />
             </Box>
             <PTimeline controlState={state} setControlState={setState} />
-        </React.Fragment>
+        </EntryContext.Provider>
+        </React.Fragment >
     )
 
 }
