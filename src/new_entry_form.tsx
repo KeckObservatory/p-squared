@@ -9,7 +9,7 @@ import { Typography } from "@mui/material";
 import { LOCATIONS, useEntry } from './control'
 import DateRangePicker from '@wojtekmaj/react-daterange-picker'
 // import TimePicker, { TimePickerValue } from 'react-time-picker';
-
+import { DEPARTMENTS } from './department_select'
 
 const pickupLocs = [
     "HP",
@@ -45,6 +45,13 @@ export const NewEntryForm = (props: Props) => {
     const handleNameChange= (evt: React.ChangeEvent<HTMLInputElement>) => {
         setEntryState(
             { ...entryState, name: evt.target.value }
+        )
+    }
+
+
+    const handleDeptChange= (value: string) => {
+        setEntryState(
+            { ...entryState, department: value }
         )
     }
 
@@ -98,6 +105,9 @@ export const NewEntryForm = (props: Props) => {
         )
     }
 
+
+    const depts = DEPARTMENTS.slice(1)
+
     return (
         <Box
             sx={{
@@ -106,8 +116,13 @@ export const NewEntryForm = (props: Props) => {
                 '& .MuiTextField-root': { width: '25ch' },
             }}
         >
-            <TextField label={'Name'} onChange={handleNameChange} id="name" />
-            <TextField label={'Dept'} disabled id="dept" margin="dense" />
+            <TextField label={'Name'} value={entryState.name} onChange={handleNameChange} id="name" />
+            <DropDown arr={depts}
+                value={entryState.department}
+                handleChange={handleDeptChange}
+                label={'Department'}
+                placeholder={""}
+            />
             <DropDown arr={baseCamp}
                 value={entryState.baseCamp}
                 handleChange={handleBasecampChange}

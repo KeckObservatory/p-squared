@@ -18,7 +18,7 @@ const MenuProps = {
     },
 };
 
-const departments = [
+export const DEPARTMENTS = [
     'All',
     'Administration',
     'AO/Optics',
@@ -51,7 +51,7 @@ export default function DepartmentSelect(props: Props) {
         const allUnselected = props.departments.indexOf('All') > - 1 && value.indexOf('All') === -1
         if (allSelected) {
             console.log('setting All selected')
-            props.handleDepartmentChange(departments)
+            props.handleDepartmentChange(DEPARTMENTS)
         }
         else if (allUnselected) {
             props.handleDepartmentChange([])
@@ -77,7 +77,7 @@ export default function DepartmentSelect(props: Props) {
                 renderValue={(selected) => selected.join(', ')}
                 MenuProps={MenuProps}
             >
-                {departments.map((dept) => (
+                {DEPARTMENTS.map((dept) => (
                     <MenuItem key={dept} value={dept}>
                         <Checkbox checked={props.departments.indexOf(dept) > -1} />
                         <ListItemText primary={dept} />
