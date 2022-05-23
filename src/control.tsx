@@ -48,8 +48,8 @@ export interface EntryState {
     crewLead?: string,
     supportLead?: string,
     summitLead?: string,
-    startTime: string,
-    endTime: string,
+    startTime: number,
+    endTime: number,
     staff: string,
 }
 
@@ -72,8 +72,8 @@ export const Control = (props: Props) => {
 
     const [entryState, setEntryState] = React.useState({
         dateRange: [new Date(), new Date()],
-        startTime: "8",
-        endTime: "16"
+        startTime: 8,
+        endTime: 16
     } as EntryState)
 
     const handleDateChange = (date: Date | null, keyboardInputValue?: string | undefined): void => {

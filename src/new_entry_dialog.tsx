@@ -8,15 +8,25 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { NewEntryForm } from './new_entry_form'
 import { useEntry, EntryState } from './control';
-import { add_entry } from './api'
+import { add_entry } from './api';
+import moment from 'moment';
 
 interface Props {
 }
 
 const state_to_entry = (entryState: EntryState ) => {
   const location = entryState.location
-  const date = entryState.dateRange[0]
-  const creationTime = new Date().toISOString()
+  const date = moment(entryState.dateRange[0]).format('YYYY-MM-DD')
+  const startDate = moment(entryState.dateRange[0])
+  .set('hour', entryState.startTime)
+  .set('minute', 0).set('second', 0)
+  .format('YYYY-MM-DD HH:mm:ss')
+  const endDate = moment(entryState.dateRange[1])
+  .set('hour', entryState.endTime)
+  .set('minute', 0).set('second', 0)
+  .format('YYYY-MM-DD HH:mm:ss')
+  const creationTime = moment().format('YYYY-MM-DD HH:mm:ss') 
+  console.log('date, creation time', date, creationTime, startDate, endDate)
   let entry: any = {
     Name: entryState.name,
     Date: date,
@@ -31,7 +41,7 @@ const state_to_entry = (entryState: EntryState ) => {
     CreationTime: creationTime,
     LastModification: creationTime, 
   }
-  entry[location] = entryState.dateRange
+  entry[location] = [startDate, endDate] 
   return entry
 }
 

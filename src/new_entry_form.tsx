@@ -95,13 +95,13 @@ export const NewEntryForm = (props: Props) => {
     }
     const onStartTimeChange = (value: string) => {
         setEntryState(
-            { ...entryState, startTime: value }
+            { ...entryState, startTime: JSON.parse(value) }
         )
     }
 
     const onEndTimeChange = (value: string ) => {
         setEntryState(
-            { ...entryState, endTime: value }
+            { ...entryState, endTime: JSON.parse(value) }
         )
     }
 
@@ -138,13 +138,13 @@ export const NewEntryForm = (props: Props) => {
             <DateRangePicker onChange={onDateRangeChange} value={entryState.dateRange} />
             <div style={{"display": "flex"}}>
             <DropDown arr={hours}
-                value={entryState.startTime}
+                value={JSON.stringify(entryState.startTime)}
                 handleChange={onStartTimeChange}
                 label={'Start Hour'}
                 placeholder={""}
             />
             <DropDown arr={hours}
-                value={entryState.endTime}
+                value={JSON.stringify(entryState.endTime)}
                 handleChange={onEndTimeChange}
                 label={'End Hour'}
                 placeholder={""}
