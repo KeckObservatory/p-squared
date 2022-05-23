@@ -41,7 +41,7 @@ const state_to_entry = (entryState: EntryState ) => {
     CreationTime: creationTime,
     LastModification: creationTime, 
   }
-  entry[location] = [startDate, endDate] 
+  entry[location] = JSON.stringify([startDate, endDate] )
   return entry
 }
 
