@@ -14,20 +14,29 @@ import moment from 'moment';
 interface Props {
 }
 
-const state_to_entry = (entryState: EntryState ) => {
+const get_days_between_dates = function (startDate: moment.Moment, endDate: moment.Moment) {
+  const now = startDate.clone()
+  const dates = [];
+  while (now.isSameOrBefore(endDate)) {
+    dates.push(now);
+    now.add(1, 'days');
+  }
+  return dates;
+};
+
+const state_to_entries = (entryState: EntryState) => {
   const location = entryState.location
   const date = moment(entryState.dateRange[0]).format('YYYY-MM-DD')
+  const creationTime = moment().format('YYYY-MM-DD HH:mm:ss')
   const startDate = moment(entryState.dateRange[0])
-  .set('hour', entryState.startTime)
-  .set('minute', 0).set('second', 0)
-  .format('YYYY-MM-DD HH:mm:ss')
+    .set('hour', entryState.startTime)
+    .set('minute', 0).set('second', 0)
   const endDate = moment(entryState.dateRange[1])
-  .set('hour', entryState.endTime)
-  .set('minute', 0).set('second', 0)
-  .format('YYYY-MM-DD HH:mm:ss')
-  const creationTime = moment().format('YYYY-MM-DD HH:mm:ss') 
+    .set('hour', entryState.endTime)
+    .set('minute', 0).set('second', 0)
   console.log('date, creation time', date, creationTime, startDate, endDate)
-  let entry: any = {
+  const dates = get_days_between_dates(startDate, endDate)
+  let base_entry: any = {
     Name: entryState.name,
     Date: date,
     Department: entryState.department,
@@ -39,10 +48,25 @@ const state_to_entry = (entryState: EntryState ) => {
     CrewLead: entryState.crewLead ?? null,
     Seats: entryState.seats ?? null,
     CreationTime: creationTime,
-    LastModification: creationTime, 
+    LastModification: creationTime,
   }
-  entry[location] = JSON.stringify([startDate, endDate] )
-  return entry
+
+  let entries: any[] = []
+  dates.map((dte: moment.Moment) => {
+    const entry = { ...base_entry }
+    const startDate = moment(dte)
+      .set('hour', entryState.startTime)
+      .set('minute', 0).set('second', 0)
+    const endDate = moment(dte)
+      .set('hour', entryState.endTime)
+      .set('minute', 0).set('second', 0)
+    if (startDate > endDate) {
+      endDate.add(1, 'days') // add 24 hours so that startDate <= endDate
+    }
+    entry[location] = JSON.stringify([startDate.format('YYYY-MM-DD HH:mm:ss'), endDate.format('YYYY-MM-DD HH:mm:ss')])
+    entries.push(entries)
+  })
+  return entries
 }
 
 export const NewEntryDialog = (props: Props) => {
@@ -60,13 +84,14 @@ export const NewEntryDialog = (props: Props) => {
   };
 
   const handleSubmit = () => {
-    const entry = state_to_entry(entryState)
-    console.log('submitting entry', entryState, entry)
-    add_entry(entry)
-    .then( (response: any) => {
-      console.log('response', response)
+    const entries = state_to_entries(entryState)
+    entries.forEach((entry: any) => {
+      console.log('submitting entry', entryState, entry)
+      add_entry(entry)
+        .then((response: any) => {
+          console.log('response', response)
+        })
     })
-    
   }
 
   return (
@@ -98,5 +123,3 @@ export const NewEntryDialog = (props: Props) => {
     </div>
   );
 }
-
-export { }
