@@ -78,7 +78,7 @@ const make_groups = (entries: EntryData[]) => {
     })
     const uNames = new Set(names)
     const groups = Array.from(uNames).map((name: string, idx) => {
-        const group = { id: idx, title: name }
+        const group = { id: name, title: name }
         return group
     })
 
