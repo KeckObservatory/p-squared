@@ -102,8 +102,7 @@ const entries_to_items = (entries: EntryData[]) => {
         })
         const item: any = {
             id: entry.id,
-            // group: entry.data.Name,
-            group: idx,
+            group: entry.Name,
             title: title,
             start_time: moment(dateRange[0]),
             end_time: moment(dateRange[1])
@@ -170,7 +169,7 @@ export const PTimeline = (props: Props) => {
                 const newItems = entries_to_items(entries)
                 setGroups(newGroups)
                 setItems(newItems)
-                // console.log('new entries', groups)
+                // console.log('new entries', entries, newGroups, newItems)
             })
     }, [props.controlState])
 
@@ -196,6 +195,7 @@ export const PTimeline = (props: Props) => {
                 const newItems = entries_to_items(entries)
                 setGroups(newGroups)
                 setItems(newItems)
+                // console.log('new entries', entries, newGroups, newItems)
             })
     };
 
