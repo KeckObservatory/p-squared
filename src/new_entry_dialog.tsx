@@ -18,7 +18,7 @@ const get_days_between_dates = function (startDate: moment.Moment, endDate: mome
   const now = startDate.clone()
   const dates = [];
   while (now.isSameOrBefore(endDate)) {
-    dates.push(now);
+    dates.push(now.clone());
     now.add(1, 'days');
   }
   return dates;
@@ -34,8 +34,9 @@ const state_to_entries = (entryState: EntryState) => {
   const endDate = moment(entryState.dateRange[1])
     .set('hour', entryState.endTime)
     .set('minute', 0).set('second', 0)
-  console.log('date, creation time', date, creationTime, startDate, endDate)
+  // console.log('date, creation time', date, creationTime, startDate, endDate)
   const dates = get_days_between_dates(startDate, endDate)
+  console.log('dates to add', dates)
   let base_entry: any = {
     Name: entryState.name,
     Date: date,
@@ -90,6 +91,9 @@ export const NewEntryDialog = (props: Props) => {
       add_entry(entry)
         .then((response: any) => {
           console.log('response', response)
+        })
+        .finally(() => {
+          setOpen(false)
         })
     })
   }

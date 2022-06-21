@@ -45,15 +45,6 @@ export const delete_entry_by_id = (
     .then(handleResponse)
     .catch(handleError)
 }
-	/*
-export const add_entry = (entry: any) => {
-    let url = BASE_URL + "entryById?"
-    return axios.post(url, entry)
-    .then(handleResponse)
-    .catch(handleError)
-
-}
-	 */
 
 export const add_entry = (entry: any) => {
     let url = BASE_URL + "entryById?"
