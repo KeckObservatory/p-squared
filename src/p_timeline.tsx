@@ -100,7 +100,7 @@ const entries_to_items = (entries: EntryData[]) => {
             }
             return true
         })
-        const item = {
+        const item: any = {
             id: entry.id,
             // group: entry.data.Name,
             group: idx,
