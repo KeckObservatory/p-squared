@@ -64,7 +64,7 @@ const state_to_entries = (entryState: EntryState) => {
       endDate.add(1, 'days') // add 24 hours so that startDate <= endDate
     }
     entry[location] = JSON.stringify([startDate.format('YYYY-MM-DD HH:mm:ss'), endDate.format('YYYY-MM-DD HH:mm:ss')])
-    entries.push(entries)
+    entries.push(entry)
   })
   return entries
 }
