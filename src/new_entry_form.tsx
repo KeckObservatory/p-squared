@@ -44,6 +44,16 @@ export const NewEntryForm = (props: Props) => {
                 }
             )
         }
+        else {
+            setEntryState(
+                {
+                    ...entryState, 
+                    name: '', 
+                    department: '',
+                    baseCamp: '' 
+                }
+            )
+        }
     }
 
     const handleLocationChange = (value: string) => {

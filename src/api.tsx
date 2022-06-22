@@ -10,6 +10,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 
 const BASE_URL = "https://www3build.keck.hawaii.edu"
 const API_URL = BASE_URL + "/api/pp/"
+const TEL_API_URL = 'https://www.keck.e/db_api/telSchedule.php?cmd=getEmployeeSchedule.php?cmd=getEmployee'
 
 export function handleResponse(response: AxiosResponse) {
     if (response.data) {
@@ -46,6 +47,12 @@ export const mock_get_employees = (): Promise<Employee[]> => {
         resolve(mock_employees)
     })
     return mockPromise
+}
+
+export const get_employees = (): Promise<Employee[]> => {
+    return axios.get(TEL_API_URL)
+    .then(handleResponse)
+    .catch(handleError)
 }
 
 export const delete_entry_by_id = (

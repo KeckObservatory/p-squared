@@ -9,7 +9,7 @@ import { NewEntryDialog } from './new_entry_dialog'
 import DepartmentSelect from './department_select'
 import { UrlWithStringQuery } from 'url';
 import { PTimeline } from './p_timeline'
-import { mock_get_employees } from './api'
+import { mock_get_employees, get_employees } from './api'
 
 export interface Props { }
 
@@ -101,19 +101,21 @@ export const Control = (props: Props) => {
         date: now,
         // base: '',
         location: '',
-        department: '' 
+        department: ''
     }
     const [employees, setEmployees] = React.useState([] as Employee[])
 
     React.useEffect(() => {
 
         mock_get_employees().then((emps) => {
-            const labelEmps = emps.map((emp: Employee) => {
-                const label = `${emp.LastName}, ${emp.FirstName}`
-                return {...emp, label: label}
-            })
-            console.log('num employees', labelEmps.length)
-            setEmployees(labelEmps)
+            if (emps.length>0) {
+                const labelEmps = emps.map((emp: Employee) => {
+                    const label = `${emp.LastName}, ${emp.FirstName}`
+                    return { ...emp, label: label }
+                })
+                console.log('num employees', labelEmps.length)
+                setEmployees(labelEmps)
+            }
         })
 
 
@@ -151,7 +153,7 @@ export const Control = (props: Props) => {
         })
     }
 
-    const handleEntrySubmit = ( ) => {
+    const handleEntrySubmit = () => {
         setState({
             ...state
         })
@@ -160,36 +162,36 @@ export const Control = (props: Props) => {
     return (
         <React.Fragment>
             <EntryContext.Provider value={[entryState, setEntryState]}>
-            <Box >
-                <FormControl sx={{ width: 150, margin: '6px', marginTop: '22px'}}>
-                    <YearMonthPicker date={state.date} handleDateChange={handleDateChange} />
-                </FormControl>
-                <FormControl sx={{ width: 100, margin: '16px', marginTop: '16px'}}>
-                    <DropDown arr={LOCATIONS}
-                        handleChange={handleLocationChange}
-                        value={state.location}
-                        placeholder={'Select Location'}
-                        label={'Location'}
-                    />
-                </FormControl>
-                <FormControl sx={{ width: 150, marginLeft: '33px', marginTop: '16px'}}>
-                    <DropDown arr={DEPARTMENTS}
-                        handleChange={handleDepartmentChange}
-                        value={state.department}
-                        placeholder={'Select Department'}
-                        label={'Department'}
-                    />
-                </FormControl>
-                {/* <FormControl sx={{ m: 2, width: 300, marginTop: '22px'}}>
+                <Box >
+                    <FormControl sx={{ width: 150, margin: '6px', marginTop: '22px' }}>
+                        <YearMonthPicker date={state.date} handleDateChange={handleDateChange} />
+                    </FormControl>
+                    <FormControl sx={{ width: 100, margin: '16px', marginTop: '16px' }}>
+                        <DropDown arr={LOCATIONS}
+                            handleChange={handleLocationChange}
+                            value={state.location}
+                            placeholder={'Select Location'}
+                            label={'Location'}
+                        />
+                    </FormControl>
+                    <FormControl sx={{ width: 150, marginLeft: '33px', marginTop: '16px' }}>
+                        <DropDown arr={DEPARTMENTS}
+                            handleChange={handleDepartmentChange}
+                            value={state.department}
+                            placeholder={'Select Department'}
+                            label={'Department'}
+                        />
+                    </FormControl>
+                    {/* <FormControl sx={{ m: 2, width: 300, marginTop: '22px'}}>
                     <DepartmentSelect departments={state.department} handleDepartmentChange={handleDepartmentChange} />
                 </FormControl> */}
-                {/* <div style={{ margin: '9px' }}>
+                    {/* <div style={{ margin: '9px' }}>
                     <Button variant="contained">Go</Button>
                 </div> */}
-                <NewEntryDialog employees={employees} handleEntrySubmit={handleEntrySubmit} />
-            </Box>
-            <PTimeline controlState={state} setControlState={setState} />
-        </EntryContext.Provider>
+                    <NewEntryDialog employees={employees} handleEntrySubmit={handleEntrySubmit} />
+                </Box>
+                <PTimeline controlState={state} setControlState={setState} />
+            </EntryContext.Provider>
         </React.Fragment >
     )
 
