@@ -69,10 +69,10 @@ export const get_entries_by_date_range= (
     + "startdate=" + startDate
     +  "&enddate=" + endDate
     if(department) {
-        url += '&department=' + department
+        url += '&Department=' + department
     }
     if(location) {
-        url += '&location=' + location 
+        url += location + '=1' 
     }
     return axios.get(url)
     .then(handleResponse)
