@@ -8,8 +8,6 @@ import Timeline, {
     TimelineGroupBase,
     TimelineItemBase
 } from 'react-calendar-timeline'
-// make sure you include the timeline stylesheet or the timeline will not be styled
-// import 'react-calendar-timeline/lib/Timeline.css'
 import './p_timeline.css'
 import moment from 'moment'
 import { default as mock_entries } from './entries.json'
@@ -195,9 +193,11 @@ export const PTimeline = (props: Props) => {
         let newVisibleTimeStart = moment(state.visibleTimeStart)
             .add(inc, state.unit)
             .startOf(state.unit)
-        let newVisibleTimeEnd = moment(state.visibleTimeStart)
+        let newVisibleTimeEnd = moment(state.visibleTimeEnd)
             .add(inc, state.unit)
             .endOf(state.unit)
+        console.log(newVisibleTimeStart, newVisibleTimeEnd)
+
         setState({
             ...state,
             visibleTimeStart: newVisibleTimeStart,
