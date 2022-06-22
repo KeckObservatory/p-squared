@@ -100,7 +100,7 @@ comments = [
 semesters = [
     str(x)+y for x, y in itertools.product(range(2019, 2022), ['A', 'B'])]
 
-numDays = 30
+numDays = 120
 base = datetime.datetime.today()
 date_list = [base + datetime.timedelta(days=x) for x in range(numDays)]
 date_list_str = [datetime.datetime.strftime(x, '%Y-%m-%d') for x in date_list]
@@ -203,6 +203,6 @@ if __name__ == "__main__":
     random.seed(seed)
 
     print("...generating entries")
-    entries = [make_schedule_entry(x) for x in range(1000)]
+    entries = [make_schedule_entry(x) for x in range(400)]
     with open('entries.json', 'w') as outfile:
         json.dump(entries, outfile, indent=4)
