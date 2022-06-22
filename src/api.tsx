@@ -49,8 +49,16 @@ export const mock_get_employees = (): Promise<Employee[]> => {
     return mockPromise
 }
 
+const axiosInstance = axios.create({
+    withCredentials: true,
+    headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json'
+    }
+})
+
 export const get_employees = (): Promise<Employee[]> => {
-    return axios.get(TEL_API_URL)
+    return axiosInstance.get(TEL_API_URL)
     .then(handleResponse)
     .catch(handleError)
 }
