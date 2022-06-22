@@ -190,28 +190,17 @@ export const PTimeline = (props: Props) => {
     };
 
     const onScrollClick = (inc: number) => {
-        let newVisibleTimeStart = moment(state.visibleTimeStart)
+        let newDate = props.controlState.date.clone()
             .add(inc, state.unit)
             .startOf(state.unit)
-        let newVisibleTimeEnd = moment(state.visibleTimeEnd)
-            .add(inc, state.unit)
-            .endOf(state.unit)
-        console.log(newVisibleTimeStart, newVisibleTimeEnd)
+        console.log(newDate)
 
-        setState({
-            ...state,
-            visibleTimeStart: newVisibleTimeStart,
-            visibleTimeEnd: newVisibleTimeEnd
-        });
-
-        get_entries_by_date_range(
-            visibleTimeStart.format('YYYY-MM-DD'),
-            visibleTimeEnd.format('YYYY-MM-DD'),
-            props.controlState.department,
-            props.controlState.location)
-            .then((entries: EntryData[]) => {
-                make_groups_and_items(entries)
-            })
+        props.setControlState(
+            {
+                ...props.controlState,
+                date: newDate 
+            }
+        )
     };
 
     const make_groups_and_items = (entries: EntryData[]) => {
