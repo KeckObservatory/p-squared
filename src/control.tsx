@@ -120,11 +120,11 @@ export const Control = (props: Props) => {
     return (
         <React.Fragment>
             <EntryContext.Provider value={[entryState, setEntryState]}>
-            <Box m={1} >
-                <FormControl sx={{ m: 1, width: 132, marginTop: '22px'}}>
+            <Box >
+                <FormControl sx={{ width: 150, margin: '6px', marginTop: '22px'}}>
                     <YearMonthPicker date={state.date} handleDateChange={handleDateChange} />
                 </FormControl>
-                <FormControl sx={{ m: 2, width: 100, marginTop: '16px'}}>
+                <FormControl sx={{ width: 100, margin: '16px', marginTop: '16px'}}>
                     <DropDown arr={LOCATIONS}
                         handleChange={handleLocationChange}
                         value={state.location}
@@ -132,7 +132,7 @@ export const Control = (props: Props) => {
                         label={'Location'}
                     />
                 </FormControl>
-                <FormControl sx={{ m: 2, width: 150, marginTop: '16px'}}>
+                <FormControl sx={{ width: 150, marginLeft: '33px', marginTop: '16px'}}>
                     <DropDown arr={DEPARTMENTS}
                         handleChange={handleDepartmentChange}
                         value={state.department}
@@ -143,9 +143,9 @@ export const Control = (props: Props) => {
                 {/* <FormControl sx={{ m: 2, width: 300, marginTop: '22px'}}>
                     <DepartmentSelect departments={state.department} handleDepartmentChange={handleDepartmentChange} />
                 </FormControl> */}
-                <div style={{ margin: '9px' }}>
+                {/* <div style={{ margin: '9px' }}>
                     <Button variant="contained">Go</Button>
-                </div>
+                </div> */}
                 <NewEntryDialog />
             </Box>
             <PTimeline controlState={state} setControlState={setState} />

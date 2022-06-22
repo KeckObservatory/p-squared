@@ -111,6 +111,8 @@
 
 .names {
   color: #fff ;
+  margin-top: 6px;
+  margin-left: 6px;
 }
 
 .react-calendar-timeline .rct-header-root {
