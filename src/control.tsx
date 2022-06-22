@@ -107,7 +107,7 @@ export const Control = (props: Props) => {
 
     React.useEffect(() => {
 
-        mock_get_employees().then((emps) => {
+        get_employees().then((emps) => {
             if (emps.length>0) {
                 const labelEmps = emps.map((emp: Employee) => {
                     const label = `${emp.LastName}, ${emp.FirstName}`
