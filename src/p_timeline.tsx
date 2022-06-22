@@ -165,11 +165,7 @@ export const PTimeline = (props: Props) => {
             props.controlState.department,
             props.controlState.location)
             .then((entries: EntryData[]) => {
-                const newGroups = make_groups(entries)
-                const newItems = entries_to_items(entries)
-                setGroups(newGroups)
-                setItems(newItems)
-                // console.log('new entries', entries, newGroups, newItems)
+                make_groups_and_items(entries)
             })
     }, [props.controlState])
 
@@ -191,11 +187,7 @@ export const PTimeline = (props: Props) => {
             props.controlState.department,
             props.controlState.location)
             .then((entries: EntryData[]) => {
-                const newGroups = make_groups(entries)
-                const newItems = entries_to_items(entries)
-                setGroups(newGroups)
-                setItems(newItems)
-                // console.log('new entries', entries, newGroups, newItems)
+                make_groups_and_items(entries)
             })
     };
 
@@ -218,12 +210,19 @@ export const PTimeline = (props: Props) => {
             props.controlState.department,
             props.controlState.location)
             .then((entries: EntryData[]) => {
-                const newGroups = make_groups(entries)
-                const newItems = entries_to_items(entries)
-                setGroups(newGroups)
-                setItems(newItems)
+                make_groups_and_items(entries)
             })
     };
+
+    const make_groups_and_items = (entries: EntryData[]) => {
+        if (entries.length > 0) {
+            const newGroups = make_groups(entries)
+            const newItems = entries_to_items(entries)
+            // console.log('new entries', entries, newGroups, newItems)
+            setGroups(newGroups)
+            setItems(newItems)
+        }
+    }
 
     const onItemClick = (itemId: number, evt: any, time: any) => {
         const item = items.find(i => itemId === i.id)
@@ -235,7 +234,7 @@ export const PTimeline = (props: Props) => {
     const deleteSelected = () => {
         console.log('deleting item', selectedItemId)
         setAnchorEl(null);
-        delete_entry_by_id(selectedItemId).then( (response: any) => {
+        delete_entry_by_id(selectedItemId).then((response: any) => {
             console.log('delete response', response)
             props.setControlState(
                 {
@@ -260,11 +259,11 @@ export const PTimeline = (props: Props) => {
 
     const handleClosePopover = () => {
         setAnchorEl(null);
-      };
+    };
 
 
     const open = Boolean(anchorEl);
-    const id = open ? 'simple-popover' : undefined; 
+    const id = open ? 'simple-popover' : undefined;
 
     return (
         <div>
