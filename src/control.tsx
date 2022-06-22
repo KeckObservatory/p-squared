@@ -82,7 +82,7 @@ export const Control = (props: Props) => {
     const initState: ControlState = {
         date: now,
         // base: '',
-        location: 'HQ',
+        location: '',
         department: '' 
     }
 
