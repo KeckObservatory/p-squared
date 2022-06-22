@@ -136,8 +136,8 @@ export const Control = (props: Props) => {
                     <DropDown arr={DEPARTMENTS}
                         handleChange={handleDepartmentChange}
                         value={state.department}
-                        placeholder={'Select Location'}
-                        label={'Location'}
+                        placeholder={'Select Department'}
+                        label={'Department'}
                     />
                 </FormControl>
                 {/* <FormControl sx={{ m: 2, width: 300, marginTop: '22px'}}>

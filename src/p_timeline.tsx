@@ -211,6 +211,18 @@ export const PTimeline = (props: Props) => {
             visibleTimeStart: newVisibleTimeStart,
             visibleTimeEnd: newVisibleTimeEnd
         });
+
+        get_entries_by_date_range(
+            visibleTimeStart.format('YYYY-MM-DD'),
+            visibleTimeEnd.format('YYYY-MM-DD'),
+            props.controlState.department,
+            props.controlState.location)
+            .then((entries: EntryData[]) => {
+                const newGroups = make_groups(entries)
+                const newItems = entries_to_items(entries)
+                setGroups(newGroups)
+                setItems(newItems)
+            })
     };
 
     const onItemClick = (itemId: number, evt: any, time: any) => {
@@ -270,7 +282,7 @@ export const PTimeline = (props: Props) => {
             <Button onClick={() => handleTimeHeaderChange("year")}>
                 {"Yearly"}
             </Button>
-            {groups.length > 0 && (
+            {groups.length >= 0 && (
                 <Timeline
                     groups={groups}
                     items={items}

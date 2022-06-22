@@ -203,6 +203,6 @@ if __name__ == "__main__":
     random.seed(seed)
 
     print("...generating entries")
-    entries = [make_schedule_entry(x) for x in range(100)]
+    entries = [make_schedule_entry(x) for x in range(1000)]
     with open('entries.json', 'w') as outfile:
         json.dump(entries, outfile, indent=4)
