@@ -21,6 +21,7 @@ export interface ControlState {
 
 
 export const LOCATIONS = [
+    "",
     "HQ",
     "SU",
     "HP",
@@ -36,6 +37,7 @@ export const LOCATIONS = [
 ]
 
 export const DEPARTMENTS = [
+    '',
     'Administration',
     'AO/Optics',
     'Development Program Support',
