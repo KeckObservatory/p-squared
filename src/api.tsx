@@ -1,13 +1,14 @@
 import { resolve } from 'node:path/win32'
 import { default as mock_entries } from './entries.json'
+import { default as mock_employees } from './employees.json'
 import { Entry, EntryData } from './p_timeline'
+import { Employee } from './control'
 import moment from 'moment'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
 // const BASE_URL = "https://vm-appserver.keck.hawaii.edu/api/pp/"
 
 const BASE_URL = "https://www3build.keck.hawaii.edu"
-
 const API_URL = BASE_URL + "/api/pp/"
 
 export function handleResponse(response: AxiosResponse) {
@@ -36,6 +37,13 @@ export const mock_get_entries_by_date_range = (
             entryData.push(entry.data)
         })
         resolve(entryData)
+    })
+    return mockPromise
+}
+
+export const mock_get_employees = (): Promise<Employee[]> => {
+    const mockPromise = new Promise<Employee[]>((resolve) => {
+        resolve(mock_employees)
     })
     return mockPromise
 }

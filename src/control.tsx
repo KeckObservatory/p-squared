@@ -9,6 +9,7 @@ import { NewEntryDialog } from './new_entry_dialog'
 import DepartmentSelect from './department_select'
 import { UrlWithStringQuery } from 'url';
 import { PTimeline } from './p_timeline'
+import { mock_get_employees } from './api'
 
 export interface Props { }
 
@@ -18,7 +19,6 @@ export interface ControlState {
     date: moment.Moment
     department: string
 }
-
 
 export const LOCATIONS = [
     "",
@@ -71,6 +71,24 @@ export interface EntryState {
     staff: string,
 }
 
+export interface Employee {
+    label?: string
+    Alias: string,
+    FirstName: string,
+    LastName: string,
+    EId: string,
+    Department: string,
+    Role: string,
+    BaseCamp: string,
+    HomePhone: string,
+    CellPhone: string,
+    CarrierAddr: string,
+    OfficePhone: string,
+    SummitPhone: string,
+    DelFlag: string,
+    ModDate: string
+}
+
 const EntryContext = React.createContext(null as any);
 
 export const useEntry = () => React.useContext(EntryContext);
@@ -85,6 +103,22 @@ export const Control = (props: Props) => {
         location: '',
         department: '' 
     }
+    const [employees, setEmployees] = React.useState([] as Employee[])
+
+    React.useEffect(() => {
+
+        mock_get_employees().then((emps) => {
+            const labelEmps = emps.map((emp: Employee) => {
+                const label = `${emp.LastName}, ${emp.FirstName}`
+                return {...emp, label: label}
+            })
+            console.log('num employees', labelEmps.length)
+            setEmployees(labelEmps)
+        })
+
+
+    }, [])
+
 
     const [state, setState] = useState(initState)
 
@@ -152,7 +186,7 @@ export const Control = (props: Props) => {
                 {/* <div style={{ margin: '9px' }}>
                     <Button variant="contained">Go</Button>
                 </div> */}
-                <NewEntryDialog handleEntrySubmit={handleEntrySubmit} />
+                <NewEntryDialog employees={employees} handleEntrySubmit={handleEntrySubmit} />
             </Box>
             <PTimeline controlState={state} setControlState={setState} />
         </EntryContext.Provider>

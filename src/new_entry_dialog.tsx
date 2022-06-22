@@ -7,11 +7,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { NewEntryForm } from './new_entry_form'
-import { useEntry, EntryState } from './control';
+import { useEntry, EntryState, Employee } from './control';
 import { add_entry } from './api';
 import moment from 'moment';
 
 interface Props {
+  employees: Employee[],
   handleEntrySubmit: Function
 }
 
@@ -116,7 +117,7 @@ export const NewEntryDialog = (props: Props) => {
           {"Create new entry"}
         </DialogTitle>
         <DialogContent>
-          <NewEntryForm />
+          <NewEntryForm employees={props.employees} />
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
