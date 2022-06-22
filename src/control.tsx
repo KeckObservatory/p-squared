@@ -102,11 +102,11 @@ export const Control = (props: Props) => {
     return (
         <React.Fragment>
             <EntryContext.Provider value={[entryState, setEntryState]}>
-            <Box m={2} >
-                <FormControl sx={{ m: 2, width: 150 }}>
+            <Box m={1} >
+                <FormControl sx={{ m: 1, width: 132, marginTop: '22px'}}>
                     <YearMonthPicker date={state.date} handleDateChange={handleDateChange} />
                 </FormControl>
-                <FormControl sx={{ m: 2, width: 100 }}>
+                <FormControl sx={{ m: 2, width: 100, marginTop: '16px'}}>
                     <DropDown arr={LOCATIONS}
                         handleChange={handleLocationChange}
                         value={state.location}
@@ -114,10 +114,10 @@ export const Control = (props: Props) => {
                         label={'Location'}
                     />
                 </FormControl>
-                <FormControl sx={{ m: 2, width: 300 }}>
+                <FormControl sx={{ m: 2, width: 300, marginTop: '22px'}}>
                     <DepartmentSelect departments={state.departments} handleDepartmentChange={handleDepartmentChange} />
                 </FormControl>
-                <div style={{ margin: '6px' }}>
+                <div style={{ margin: '9px' }}>
                     <Button variant="contained">Go</Button>
                 </div>
                 <NewEntryDialog />
