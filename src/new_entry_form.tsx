@@ -134,18 +134,18 @@ export const NewEntryForm = (props: Props) => {
                 label={'Department'}
                 placeholder={""}
             />
-            {/* <DropDown arr={baseCamp}
+            <DropDown arr={baseCamp}
                 value={entryState.baseCamp}
                 handleChange={handleBasecampChange}
                 label={'Base Camp'}
                 placeholder={""}
             />
-            <DropDown arr={pickupLocs}
+            {/* <DropDown arr={pickupLocs}
                 value={entryState.alternatePickup}
                 handleChange={handleAlternatePickupChange}
                 label={'Alternative Pickup'}
                 placeholder={""}
-            /> */}
+            />  */}
 
             <div style={{ "marginLeft": "6px", "width": "100%" }}>
                 <DateRangePicker onChange={onDateRangeChange} value={entryState.dateRange} />

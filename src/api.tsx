@@ -5,7 +5,10 @@ import moment from 'moment'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
 // const BASE_URL = "https://vm-appserver.keck.hawaii.edu/api/pp/"
+
 const BASE_URL = "https://www3build.keck.hawaii.edu/api/pp/"
+
+const API_URL = BASE_URL + "/api/pp/"
 
 export function handleResponse(response: AxiosResponse) {
     if (response.data) {
@@ -39,7 +42,7 @@ export const mock_get_entries_by_date_range = (
 
 export const delete_entry_by_id = (
     id: number) => {
-    let url = BASE_URL + "entryById?"
+    let url = API_URL + "entryById?"
     + "id=" + JSON.stringify(id)
     return axios.delete(url)
     .then(handleResponse)
@@ -47,7 +50,7 @@ export const delete_entry_by_id = (
 }
 
 export const add_entry = (entry: any) => {
-    let url = BASE_URL + "entryById?"
+    let url = API_URL + "entryById?"
 	return axios({
 		method: "post", 
 		url: url, 
@@ -65,7 +68,7 @@ export const get_entries_by_date_range= (
     endDate: string,
     department?: string,
     location?: string): Promise<EntryData[]>  => {
-    let url = BASE_URL + "entryByDateRange?"
+    let url = API_URL + "entryByDateRange?"
     + "startdate=" + startDate
     +  "&enddate=" + endDate
     if(department) {
