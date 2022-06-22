@@ -36,7 +36,6 @@ export const LOCATIONS = [
 ]
 
 export const DEPARTMENTS = [
-    'All',
     'Administration',
     'AO/Optics',
     'Development Program Support',
