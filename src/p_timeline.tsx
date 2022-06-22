@@ -299,7 +299,7 @@ export const PTimeline = (props: Props) => {
                     <TimelineHeaders>
                         <SidebarHeader >
                             {({ getRootProps }) => {
-                                return <div {...getRootProps()}>Names</div>
+                                return <div className="names" {...getRootProps()}>Names</div>
                             }}
                         </SidebarHeader>
                         <DateHeader unit="primaryHeader" />

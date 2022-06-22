@@ -109,6 +109,10 @@
   border-right: 1px solid #bbb;
   color: #fff; }
 
+.names {
+  color: #fff ;
+}
+
 .react-calendar-timeline .rct-header-root {
   background: #1976d2;
   border-bottom: 1px solid #bbb; }
