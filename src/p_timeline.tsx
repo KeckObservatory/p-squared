@@ -151,7 +151,7 @@ export const PTimeline = (props: Props) => {
 
     useEffect(() => {
         const date = props.controlState.date.clone()
-        console.log('date has changed', date)
+        // console.log('date has changed', date)
         const visibleTimeStart = date.clone()
             .startOf(state.unit)
         const visibleTimeEnd = date.clone()

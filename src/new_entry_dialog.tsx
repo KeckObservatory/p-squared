@@ -36,7 +36,7 @@ const state_to_entries = (entryState: EntryState) => {
     .set('minute', 0).set('second', 0)
   // console.log('date, creation time', date, creationTime, startDate, endDate)
   const dates = get_days_between_dates(startDate, endDate)
-  console.log('dates to add', dates)
+  // console.log('dates to add', dates)
   let base_entry: any = {
     Name: entryState.name,
     Date: date,
@@ -87,7 +87,7 @@ export const NewEntryDialog = (props: Props) => {
   const handleSubmit = () => {
     const entries = state_to_entries(entryState)
     entries.forEach((entry: any) => {
-      console.log('submitting entry', entryState, entry)
+      // console.log('submitting entry', entryState, entry)
       add_entry(entry)
         .then((response: any) => {
           console.log('response', response)
