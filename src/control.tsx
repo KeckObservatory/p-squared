@@ -117,6 +117,12 @@ export const Control = (props: Props) => {
         })
     }
 
+    const handleEntrySubmit = ( ) => {
+        setState({
+            ...state
+        })
+    }
+
     return (
         <React.Fragment>
             <EntryContext.Provider value={[entryState, setEntryState]}>
@@ -146,7 +152,7 @@ export const Control = (props: Props) => {
                 {/* <div style={{ margin: '9px' }}>
                     <Button variant="contained">Go</Button>
                 </div> */}
-                <NewEntryDialog />
+                <NewEntryDialog handleEntrySubmit={handleEntrySubmit} />
             </Box>
             <PTimeline controlState={state} setControlState={setState} />
         </EntryContext.Provider>

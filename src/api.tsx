@@ -8,7 +8,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 
 const BASE_URL = "https://www3build.keck.hawaii.edu/api/pp/"
 
-const API_URL = BASE_URL + "/api/pp/"
+const API_URL = BASE_URL + "api/pp/"
 
 export function handleResponse(response: AxiosResponse) {
     if (response.data) {

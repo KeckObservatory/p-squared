@@ -12,6 +12,7 @@ import { add_entry } from './api';
 import moment from 'moment';
 
 interface Props {
+  handleEntrySubmit: Function
 }
 
 const get_days_between_dates = function (startDate: moment.Moment, endDate: moment.Moment) {
@@ -94,6 +95,7 @@ export const NewEntryDialog = (props: Props) => {
         })
         .finally(() => {
           setOpen(false)
+          props.handleEntrySubmit()
         })
     })
   }
