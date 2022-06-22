@@ -3,10 +3,10 @@ import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import InputLabel from '@mui/material/InputLabel'
 
-const formControlStyle = {
+export const formControlStyle = {
     minWidth: 120,
     width: '100%',
-    margin: '3px',
+    margin: '6px',
     display: 'flex',
     flexWrap: 'wrap',
     '& > *': {

@@ -104,6 +104,7 @@ export const NewEntryDialog = (props: Props) => {
         Create New Entry
       </Button>
       <Dialog
+        sx={{paddingTop: '3px'}}
         fullScreen={fullScreen}
         open={open}
         onClose={handleClose}

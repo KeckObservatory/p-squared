@@ -11,6 +11,17 @@ import DateRangePicker from '@wojtekmaj/react-daterange-picker'
 // import TimePicker, { TimePickerValue } from 'react-time-picker';
 import { DEPARTMENTS } from './department_select'
 
+const formControlStyle = {
+    minWidth: 120,
+    width: '100%',
+    margin: '6px',
+    display: 'flex',
+    flexWrap: 'wrap',
+    '& > *': {
+        // margin: '3px',
+    }
+}
+
 const pickupLocs = [
     "HP",
     "HQ",
@@ -25,8 +36,8 @@ const additionalSeats = [
 
 
 const hours = [
-   "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12",
-   "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"
+    "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12",
+    "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"
 ]
 
 const baseCamp = [
@@ -42,14 +53,14 @@ export const NewEntryForm = (props: Props) => {
 
     const [entryState, setEntryState] = useEntry()
 
-    const handleNameChange= (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const handleNameChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
         setEntryState(
             { ...entryState, name: evt.target.value }
         )
     }
 
 
-    const handleDeptChange= (value: string) => {
+    const handleDeptChange = (value: string) => {
         setEntryState(
             { ...entryState, department: value }
         )
@@ -82,7 +93,7 @@ export const NewEntryForm = (props: Props) => {
 
     const onDateRangeChange = (value: any) => {
         console.log('date range selected', value)
-        setEntryState({ 
+        setEntryState({
             ...entryState,
             dateRange: value
         })
@@ -99,7 +110,7 @@ export const NewEntryForm = (props: Props) => {
         )
     }
 
-    const onEndTimeChange = (value: string ) => {
+    const onEndTimeChange = (value: string) => {
         setEntryState(
             { ...entryState, endTime: JSON.parse(value) }
         )
@@ -113,17 +124,17 @@ export const NewEntryForm = (props: Props) => {
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                '& .MuiTextField-root': { width: '25ch' },
+                '& .MuiTextField-root': {  },
             }}
         >
-            <TextField label={'Name'} value={entryState.name} onChange={handleNameChange} id="name" />
+            <TextField sx={formControlStyle} label={'Name'} value={entryState.name} onChange={handleNameChange} id="name" />
             <DropDown arr={depts}
                 value={entryState.department}
                 handleChange={handleDeptChange}
                 label={'Department'}
                 placeholder={""}
             />
-            <DropDown arr={baseCamp}
+            {/* <DropDown arr={baseCamp}
                 value={entryState.baseCamp}
                 handleChange={handleBasecampChange}
                 label={'Base Camp'}
@@ -134,21 +145,24 @@ export const NewEntryForm = (props: Props) => {
                 handleChange={handleAlternatePickupChange}
                 label={'Alternative Pickup'}
                 placeholder={""}
-            />
-            <DateRangePicker onChange={onDateRangeChange} value={entryState.dateRange} />
-            <div style={{"display": "flex"}}>
-            <DropDown arr={hours}
-                value={JSON.stringify(entryState.startTime)}
-                handleChange={onStartTimeChange}
-                label={'Start Hour'}
-                placeholder={""}
-            />
-            <DropDown arr={hours}
-                value={JSON.stringify(entryState.endTime)}
-                handleChange={onEndTimeChange}
-                label={'End Hour'}
-                placeholder={""}
-            />
+            /> */}
+
+            <div style={{ "marginLeft": "6px", "width": "100%" }}>
+                <DateRangePicker onChange={onDateRangeChange} value={entryState.dateRange} />
+            </div>
+            <div style={{ "display": "flex", "marginTop": "12px", "width": "100%"}}>
+                <DropDown arr={hours}
+                    value={JSON.stringify(entryState.startTime)}
+                    handleChange={onStartTimeChange}
+                    label={'Start Hour'}
+                    placeholder={""}
+                />
+                <DropDown arr={hours}
+                    value={JSON.stringify(entryState.endTime)}
+                    handleChange={onEndTimeChange}
+                    label={'End Hour'}
+                    placeholder={""}
+                />
             </div >
             {/* <TimePicker onChange={onStartTimeChange} value={state.startTime} />
             <TimePicker onChange={onEndTimeChange} value={state.endTime} /> */}
@@ -200,7 +214,7 @@ export const NewEntryForm = (props: Props) => {
                 value={JSON.stringify(entryState.seats)}
             /> */}
             {/* <TextField disabled label={'Staff'} id="staff" value={entryState.staff} /> */}
-            <TextField label={'Note'} id="note" onChange={handleCommentChange} value={entryState.comment} />
+            <TextField sx={formControlStyle} label={'Note'} id="note" onChange={handleCommentChange} value={entryState.comment} />
         </Box>
     );
 }
