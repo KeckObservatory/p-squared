@@ -16,7 +16,7 @@ export interface ControlState {
     // base: string,
     location: string,
     date: moment.Moment
-    departments: string[]
+    department: string
 }
 
 
@@ -34,6 +34,23 @@ export const LOCATIONS = [
     "Travel",
     "Other",
 ]
+
+export const DEPARTMENTS = [
+    'All',
+    'Administration',
+    'AO/Optics',
+    'Development Program Support',
+    'Directorate Office',
+    'Engineering',
+    'Finance',
+    'Observing Support',
+    'Operations & Infrastructure',
+    'Scientific Software',
+    'Software',
+    'Systems Administration',
+    'Council',
+    'Guest'
+];
 
 
 export interface EntryState {
@@ -65,7 +82,7 @@ export const Control = (props: Props) => {
         date: now,
         // base: '',
         location: 'HQ',
-        departments: []
+        department: '' 
     }
 
     const [state, setState] = useState(initState)
@@ -85,10 +102,10 @@ export const Control = (props: Props) => {
         })
     }
 
-    const handleDepartmentChange = (dept: string[]) => {
+    const handleDepartmentChange = (dept: string) => {
         setState({
             ...state,
-            departments: dept
+            department: dept
         })
     }
 
@@ -114,9 +131,17 @@ export const Control = (props: Props) => {
                         label={'Location'}
                     />
                 </FormControl>
-                <FormControl sx={{ m: 2, width: 300, marginTop: '22px'}}>
-                    <DepartmentSelect departments={state.departments} handleDepartmentChange={handleDepartmentChange} />
+                <FormControl sx={{ m: 2, width: 150, marginTop: '16px'}}>
+                    <DropDown arr={DEPARTMENTS}
+                        handleChange={handleDepartmentChange}
+                        value={state.department}
+                        placeholder={'Select Location'}
+                        label={'Location'}
+                    />
                 </FormControl>
+                {/* <FormControl sx={{ m: 2, width: 300, marginTop: '22px'}}>
+                    <DepartmentSelect departments={state.department} handleDepartmentChange={handleDepartmentChange} />
+                </FormControl> */}
                 <div style={{ margin: '9px' }}>
                     <Button variant="contained">Go</Button>
                 </div>

@@ -63,7 +63,7 @@ export const add_entry = (entry: any) => {
 export const get_entries_by_date_range= (
     startDate: string,
     endDate: string,
-    department?: string[],
+    department?: string,
     location?: string): Promise<EntryData[]>  => {
     let url = BASE_URL + "entryByDateRange?"
     + "startdate=" + startDate

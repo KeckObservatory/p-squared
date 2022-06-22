@@ -162,7 +162,7 @@ export const PTimeline = (props: Props) => {
         get_entries_by_date_range(
             visibleTimeStart.format('YYYY-MM-DD'),
             visibleTimeEnd.format('YYYY-MM-DD'),
-            props.controlState.departments,
+            props.controlState.department,
             props.controlState.location)
             .then((entries: EntryData[]) => {
                 const newGroups = make_groups(entries)
@@ -188,7 +188,7 @@ export const PTimeline = (props: Props) => {
         get_entries_by_date_range(
             visibleTimeStart.format('YYYY-MM-DD'),
             visibleTimeEnd.format('YYYY-MM-DD'),
-            props.controlState.departments,
+            props.controlState.department,
             props.controlState.location)
             .then((entries: EntryData[]) => {
                 const newGroups = make_groups(entries)
