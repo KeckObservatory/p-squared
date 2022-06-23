@@ -190,7 +190,7 @@ export const Control = (props: Props) => {
                 </div> */}
                     <NewEntryDialog employees={employees} handleEntrySubmit={handleEntrySubmit} />
                 </Box>
-                <PTimeline controlState={state} setControlState={setState} />
+                <PTimeline employees={employees} controlState={state} setControlState={setState} />
             </EntryContext.Provider>
         </React.Fragment >
     )

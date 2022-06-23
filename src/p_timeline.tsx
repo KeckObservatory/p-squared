@@ -14,7 +14,7 @@ import { default as mock_entries } from './entries.json'
 import React, { useEffect, useState } from 'react'
 import Button from '@mui/material/Button'
 import { delete_entry_by_id, get_entries_by_date_range, mock_get_entries_by_date_range } from './api'
-import { ControlState } from './control'
+import { ControlState, Employee } from './control'
 import Popover from '@mui/material/Popover'
 import Typography from '@mui/material/Typography'
 
@@ -69,6 +69,13 @@ export interface Entry {
     "apiCode": string,
     "data": EntryData
 }
+const make_employee_groups = (employees: Employee[]) => {
+    const groups = employees.map((emp: Employee, idx: number) => {
+        const group = { id: emp.label as string, title: emp.label as string }
+        return group
+    })
+    return groups
+}
 
 const make_groups = (entries: EntryData[]) => {
     const names = entries.map((entry: EntryData) => {
@@ -113,9 +120,10 @@ const entries_to_items = (entries: EntryData[]) => {
 
 interface Props {
     controlState: ControlState,
-    setControlState: Function
+    setControlState: Function, 
+    employees: Employee[], 
 }
-
+    
 interface State {
     visibleTimeStart: moment.Moment
     visibleTimeEnd: moment.Moment
@@ -205,9 +213,11 @@ export const PTimeline = (props: Props) => {
 
     const make_groups_and_items = (entries: EntryData[]) => {
         if (entries.length > 0) {
-            const newGroups = make_groups(entries)
+            let newGroups = make_groups(entries)
+            const employeeGroups = make_employee_groups(props.employees)
+            newGroups = [...newGroups, ...employeeGroups]
             const newItems = entries_to_items(entries)
-            // console.log('new entries', entries, newGroups, newItems)
+            console.log('new entries', entries, newGroups, newItems)
             setGroups(newGroups)
             setItems(newItems)
         }
