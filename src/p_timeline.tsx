@@ -144,7 +144,6 @@ export const PTimeline = (props: Props) => {
 
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
     const [selectedItemId, setSelectedItemId] = React.useState(undefined as unknown as number);
-    // const { groups, items } = generateFakeData(20);
     const init_groups = make_employee_groups(props.employees, props.controlState) as TimelineGroupBase[]
     const init_items = [] as TimelineItemBase<any>[]
     const date = props.controlState.date.clone()
@@ -227,7 +226,7 @@ export const PTimeline = (props: Props) => {
         if (entries.length > 0) {
             let newGroups = make_employee_groups(props.employees, props.controlState)
             console.log('employeGroups', newGroups, props.employees, props.controlState)
-            newGroups = [...newGroups, ...make_groups(entries)]
+            // newGroups = [...newGroups, ...make_groups(entries)]
             const newItems = entries_to_items(entries)
             console.log('new entries', entries, newGroups, newItems)
             setItems(newItems)
