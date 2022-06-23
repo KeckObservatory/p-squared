@@ -284,7 +284,7 @@ export const PTimeline = (props: Props) => {
                     onItemSelect={onItemClick}
                     onItemClick={onItemClick}
                 >
-                    <TimelineHeaders>
+                    <TimelineHeaders className="sticky">
                         <SidebarHeader >
                             {({ getRootProps }) => {
                                 return <div className="names" {...getRootProps()}>Names</div>
