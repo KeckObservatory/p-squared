@@ -107,8 +107,9 @@ export const Control = (props: Props) => {
 
     React.useEffect(() => {
 
-        get_employees().then((emps) => {
+        mock_get_employees().then((emps) => {
             if (emps.length>0) {
+                emps = emps.slice(1,emps.length) // remove first entry (*HOLIDAY)
                 const labelEmps = emps.map((emp: Employee) => {
                     const label = `${emp.LastName}, ${emp.FirstName}`
                     return { ...emp, label: label }

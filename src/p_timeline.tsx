@@ -69,10 +69,19 @@ export interface Entry {
     "apiCode": string,
     "data": EntryData
 }
-const make_employee_groups = (employees: Employee[]) => {
-    const groups = employees.map((emp: Employee, idx: number) => {
-        const group = { id: emp.label as string, title: emp.label as string }
-        return group
+
+interface Group {
+    id: string,
+    title: string
+}
+
+const make_employee_groups = (employees: Employee[], controlState: ControlState) => {
+    const groups: Group[] = []
+    employees.forEach((emp: Employee, idx: number) => {
+        if (controlState.department === "" || emp.Department === controlState.department) {
+            const group = { id: emp.label as string, title: emp.label as string }
+            groups.push(group)
+        }
     })
     return groups
 }
@@ -83,7 +92,7 @@ const make_groups = (entries: EntryData[]) => {
     })
     const uNames = new Set(names)
     const groups = Array.from(uNames).map((name: string, idx) => {
-        const group = { id: name, title: name }
+        const group: Group = { id: name, title: name }
         return group
     })
 
@@ -120,10 +129,10 @@ const entries_to_items = (entries: EntryData[]) => {
 
 interface Props {
     controlState: ControlState,
-    setControlState: Function, 
-    employees: Employee[], 
+    setControlState: Function,
+    employees: Employee[],
 }
-    
+
 interface State {
     visibleTimeStart: moment.Moment
     visibleTimeEnd: moment.Moment
@@ -136,7 +145,7 @@ export const PTimeline = (props: Props) => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
     const [selectedItemId, setSelectedItemId] = React.useState(undefined as unknown as number);
     // const { groups, items } = generateFakeData(20);
-    const init_groups = [] as TimelineGroupBase[]
+    const init_groups = make_employee_groups(props.employees, props.controlState) as TimelineGroupBase[]
     const init_items = [] as TimelineItemBase<any>[]
     const date = props.controlState.date.clone()
 
@@ -151,9 +160,8 @@ export const PTimeline = (props: Props) => {
     }
 
     const [state, setState] = React.useState(init_state)
-    const [groups, setGroups] = React.useState(init_groups)
+    const [groups, setGroups] = React.useState([...init_groups])
     const [items, setItems] = React.useState(init_items)
-
 
     useEffect(() => {
         const date = props.controlState.date.clone()
@@ -164,6 +172,9 @@ export const PTimeline = (props: Props) => {
             .startOf(state.unit)
             .add(1, state.unit)
         setState({ ...state, visibleTimeStart, visibleTimeEnd })
+
+        const employeeGroups = make_employee_groups(props.employees, props.controlState)
+        setGroups(employeeGroups)
 
         get_entries_by_date_range(
             visibleTimeStart.format('YYYY-MM-DD'),
@@ -206,20 +217,21 @@ export const PTimeline = (props: Props) => {
         props.setControlState(
             {
                 ...props.controlState,
-                date: newDate 
+                date: newDate
             }
         )
     };
 
     const make_groups_and_items = (entries: EntryData[]) => {
+
         if (entries.length > 0) {
-            let newGroups = make_groups(entries)
-            const employeeGroups = make_employee_groups(props.employees)
-            newGroups = [...newGroups, ...employeeGroups]
+            let newGroups = make_employee_groups(props.employees, props.controlState)
+            console.log('employeGroups', newGroups, props.employees, props.controlState)
+            newGroups = [...newGroups, ...make_groups(entries)]
             const newItems = entries_to_items(entries)
             console.log('new entries', entries, newGroups, newItems)
-            setGroups(newGroups)
             setItems(newItems)
+            setGroups(newGroups)
         }
     }
 
