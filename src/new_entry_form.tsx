@@ -37,20 +37,20 @@ export const NewEntryForm = (props: Props) => {
         if (employee) {
             setEntryState(
                 {
-                    ...entryState, 
-                    name: employee?.label, 
+                    ...entryState,
+                    name: employee?.label,
                     department: employee?.Department,
-                    baseCamp: employee?.BaseCamp 
+                    baseCamp: employee?.BaseCamp
                 }
             )
         }
         else {
             setEntryState(
                 {
-                    ...entryState, 
-                    name: '', 
+                    ...entryState,
+                    name: '',
                     department: '',
-                    baseCamp: '' 
+                    baseCamp: ''
                 }
             )
         }
@@ -101,11 +101,24 @@ export const NewEntryForm = (props: Props) => {
                 id="combo-box-demo"
                 options={props.employees}
                 getOptionLabel={(option) => option.label as string}
-                renderInput={(params) => <TextField {...params} label="Name" />}
+                renderInput={(params) => <TextField 
+                    {...params} 
+                    InputLabelProps={{shrink:true}}
+                    label="Name" />}
                 onChange={handleNameChange}
             />
-            <TextField sx={formControlStyle} label={'Department'} value={entryState.department} disabled id="department" />
-            <TextField sx={formControlStyle} label={'Base Camp'} value={entryState.baseCamp} disabled id="base-camp" />
+            <TextField
+                sx={formControlStyle}
+                InputLabelProps={{shrink:true}}
+                label={'Department'}
+                value={entryState.department}
+                disabled id="department" />
+            <TextField
+                sx={formControlStyle}
+                InputLabelProps={{shrink:true}}
+                label={'Base Camp'}
+                value={entryState.baseCamp}
+                disabled id="base-camp" />
             <div style={{ "marginLeft": "6px", "width": "100%" }}>
                 <DateRangePicker onChange={onDateRangeChange} value={entryState.dateRange} />
             </div>
