@@ -18,6 +18,53 @@ export const LOCATIONS: Array<keyof EntryData> = [
     "Other",
 ]
 
+const colorMapping = {
+    orange: '#e69f00',
+    blue: '#56b4e9',
+    green: '#009e73',
+    pink: '#cc79a7',
+    yellow: '#f0e442',
+    darkBlue: '#0072b2',
+    darkOrange: '#d55e00'
+}
+
+const get_location_color = (location: string) => {
+    let color: string 
+    switch (location) {
+        case "HQ":
+            color = 'darkBlue'
+            break;
+        case "SU":
+        case "HP":
+        case "Hilo":
+        case "Kona":
+            color = colorMapping['orange']
+            break;
+        case "WFH":
+            color = colorMapping['pink']
+            break;
+        case "Vacation":
+            color = colorMapping['yellow']
+            break;
+        case "Sick":
+        case "FamilySick":
+        case "Sick":
+        case "JuryDuty":
+            color = colorMapping['green']
+            break;
+        case "Travel": 
+            color = colorMapping['blue'] 
+            break;
+        case "other": 
+            color = colorMapping['darkOrange']
+            break;
+        default:
+            color = colorMapping['darkBlue']
+    }
+    return color 
+
+}
+
 export type DateRange = [null | string, null | string]
 
 export interface EntryData {
@@ -89,7 +136,7 @@ export const entries_to_items = (entries: EntryData[]) => {
     const items = entries.map((entry: EntryData, idx) => {
         let dateRange = [moment(entry.Date + " 8:00:00").toISOString(),
         moment(entry.Date + " 17:00:00").toISOString()] as DateRange
-        let title
+        let title: string = ''
         LOCATIONS.every((loc: keyof EntryData) => {
             const dr = entry[loc] as string
             if (dr !== null && dr !== "null" && dr !== "[]") {
@@ -104,7 +151,7 @@ export const entries_to_items = (entries: EntryData[]) => {
             group: entry.Name,
             title: title,
             comment: entry.Comment,
-            bgColor: 'rgba(225, 166, 244, 0.6)',
+            bgColor: get_location_color(title),
             start_time: moment(dateRange[0]),
             end_time: moment(dateRange[1])
         }
@@ -113,6 +160,7 @@ export const entries_to_items = (entries: EntryData[]) => {
 
     return items
 }
+
 
 export const itemRenderer =
     ({ item, itemContext, getItemProps, getResizeProps }: ReactCalendarItemRendererProps<any>) => {
