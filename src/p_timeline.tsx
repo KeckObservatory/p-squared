@@ -118,6 +118,8 @@ const entries_to_items = (entries: EntryData[]) => {
             id: entry.id,
             group: entry.Name,
             title: title,
+            tip: entry.Comment,
+            bgColor: 'rgba(225, 166, 244, 0.6)',
             start_time: moment(dateRange[0]),
             end_time: moment(dateRange[1])
         }
