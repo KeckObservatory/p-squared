@@ -121,24 +121,21 @@ export const PTimeline = (props: Props) => {
 
     const make_groups_and_items = (entries: EntryData[]) => {
 
-        if (entries.length > 0) {
-            let newGroups = make_employee_groups(props.employees, props.controlState)
-            console.log('employeGroups', newGroups, props.employees, props.controlState)
-            // newGroups = [...newGroups, ...make_groups(entries)]
-            let newItems = entries_to_items(entries)
-            let syntheticItems = generate_synthetic_items(
-                newGroups,
-                newItems,
-                state.visibleTimeStart,
-                state.visibleTimeEnd
-            )
+        let newGroups = make_employee_groups(props.employees, props.controlState)
+        console.log('employeGroups', newGroups, props.employees, props.controlState)
+        let newItems = entries_to_items(entries)
+        let syntheticItems = generate_synthetic_items(
+            newGroups,
+            newItems,
+            state.visibleTimeStart,
+            state.visibleTimeEnd
+        )
 
-            newItems = [...newItems, ...syntheticItems]
+        newItems = [...newItems, ...syntheticItems]
 
-            console.log('new entries', entries, newGroups, newItems)
-            setItems(newItems)
-            setGroups(newGroups)
-        }
+        console.log('new entries', entries, newGroups, newItems)
+        setItems(newItems)
+        setGroups(newGroups)
     }
 
 

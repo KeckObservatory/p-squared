@@ -24,7 +24,7 @@ const colorMapping = {
     green: '#009e73',
     pink: '#cc79a7',
     yellow: '#f0e442',
-    darkBlue: '#0072b2',
+    darkBlue: '#1976d2',
     darkOrange: '#d55e00'
 }
 
@@ -146,6 +146,11 @@ export const make_groups = (entries: EntryData[]) => {
 
 export const entries_to_items = (entries: EntryData[]) => {
 
+    // return empty array if entries is an error message
+    if (Object.keys(entries).includes('name')) { 
+        return []
+    }
+
     const items = entries.map((entry: EntryData, idx) => {
         let dateRange = [moment(entry.Date + " 8:00:00").toISOString(),
         moment(entry.Date + " 17:00:00").toISOString()] as DateRange
@@ -248,7 +253,7 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
                 id: newIdx,
                 group: group.id,
                 comment: 'synthetic event',
-                title: 'WFH',
+                title: 'HQ',
                 start_time: date.clone().set({
                     hour: 8,
                     minute: 0,
