@@ -6,7 +6,7 @@ import Timeline, {
     TimelineMarkers,
     TodayMarker,
     TimelineGroupBase,
-    TimelineItemBase
+    TimelineItemBase,
 } from 'react-calendar-timeline'
 import './p_timeline.css'
 import moment from 'moment'
@@ -16,160 +16,8 @@ import Button from '@mui/material/Button'
 import { delete_entry_by_id, get_entries_by_date_range, mock_get_entries_by_date_range } from './api'
 import { ControlState, Employee } from './control'
 import Popover from '@mui/material/Popover'
-import Typography from '@mui/material/Typography'
+import {make_employee_groups, EntryData, entries_to_items, itemRenderer } from './p_timeline_utils'
 
-const LOCATIONS: Array<keyof EntryData> = [
-    "HQ",
-    "SU",
-    "HP",
-    "Hilo",
-    "Kona",
-    "WFH",
-    "Vacation",
-    "Sick",
-    "FamilySick",
-    "JuryDuty",
-    "Travel",
-    "Other",
-]
-
-export type DateRange = [null | string, null | string]
-
-export interface EntryData {
-    "id": number,
-    "Date": DateRange,
-    "Name": string,
-    "Department": string,
-    "BaseCamp": string,
-    "HQ": null | DateRange,
-    "SU": null | DateRange,
-    "HP": null | DateRange,
-    "Hilo": null | DateRange,
-    "Kona": null | DateRange,
-    "WFH": null | DateRange,
-    "Vacation": null | DateRange,
-    "Sick": null | DateRange,
-    "FamilySick": null | DateRange,
-    "JuryDuty": null | DateRange,
-    "Travel": null | DateRange,
-    "Other": null | DateRange,
-    "Comment": string
-    "Staff": string,
-    "DelFlag": number,
-    "AlternatePickup": unknown,
-    "SummitLead": unknown,
-    "SupportLead": unknown,
-    "CrewLead": unknown,
-    "Seats": unknown,
-    "CreationTime": string,
-    "LastModification": string,
-}
-
-export interface Entry {
-    "apiCode": string,
-    "data": EntryData
-}
-
-interface Group {
-    id: string,
-    title: string
-}
-
-const make_employee_groups = (employees: Employee[], controlState: ControlState) => {
-    const groups: Group[] = []
-    employees.forEach((emp: Employee, idx: number) => {
-        if (controlState.department === "" || emp.Department === controlState.department) {
-            const group = { id: emp.label as string, title: emp.label as string }
-            groups.push(group)
-        }
-    })
-    return groups
-}
-
-const make_groups = (entries: EntryData[]) => {
-    const names = entries.map((entry: EntryData) => {
-        return entry.Name
-    })
-    const uNames = new Set(names)
-    const groups = Array.from(uNames).map((name: string, idx) => {
-        const group: Group = { id: name, title: name }
-        return group
-    })
-
-    return groups
-}
-
-const entries_to_items = (entries: EntryData[]) => {
-
-    const items = entries.map((entry: EntryData, idx) => {
-        let dateRange = [moment(entry.Date + " 8:00:00").toISOString(),
-        moment(entry.Date + " 17:00:00").toISOString()] as DateRange
-        let title
-        LOCATIONS.every((loc: keyof EntryData) => {
-            const dr = entry[loc] as string
-            if (dr !== null && dr !== "null" && dr !== "[]") {
-                dateRange = JSON.parse(dr) as DateRange
-                title = loc
-                return false
-            }
-            return true
-        })
-        const item: any = {
-            id: entry.id,
-            group: entry.Name,
-            title: title,
-            tip: entry.Comment,
-            bgColor: 'rgba(225, 166, 244, 0.6)',
-            start_time: moment(dateRange[0]),
-            end_time: moment(dateRange[1])
-        }
-        return item
-    })
-
-    return items
-}
-
-//@ts-ignore
-const itemRenderer = ({ item, timelineContext, itemContext, getItemProps, getResizeProps }) => {
-    const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
-    const backgroundColor = itemContext.selected ? (itemContext.dragging ? "red" : item.selectedBgColor) : item.bgColor;
-    const borderColor = itemContext.resizing ? "red" : item.color;
-    return (
-        <div
-            {...getItemProps({
-                style: {
-                    backgroundColor,
-                    color: item.color,
-                    borderColor,
-                    borderStyle: "solid",
-                    borderWidth: 1,
-                    borderRadius: 4,
-                    borderLeftWidth: itemContext.selected ? 3 : 1,
-                    borderRightWidth: itemContext.selected ? 3 : 1
-                },
-                onMouseDown: () => {
-                    console.log("on item click", item);
-                }
-            })}
-        >
-            {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : null}
-
-            <div
-                style={{
-                    height: itemContext.dimensions.height,
-                    overflow: "hidden",
-                    paddingLeft: 3,
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap"
-                }}
-            >
-                {itemContext.title}
-            </div>
-
-            {itemContext.useResizeHandle ? <div {...rightResizeProps} /> : null}
-        </div>
-    );
-};
 
 interface Props {
     controlState: ControlState,
@@ -345,7 +193,7 @@ export const PTimeline = (props: Props) => {
                     canResize={false}
                     visibleTimeStart={state.visibleTimeStart}
                     visibleTimeEnd={state.visibleTimeEnd}
-                    itemRenderer={itemRenderer as any}
+                    itemRenderer={itemRenderer}
                     onTimeChange={handleTimeChange}
                     onItemSelect={onItemClick}
                     onItemClick={onItemClick}

@@ -1,7 +1,7 @@
 import { resolve } from 'node:path/win32'
 import { default as mock_entries } from './entries.json'
 import { default as mock_employees } from './employees.json'
-import { Entry, EntryData } from './p_timeline'
+import { Entry, EntryData } from './p_timeline_utils'
 import { Employee } from './control'
 import moment from 'moment'
 import axios, { AxiosError, AxiosResponse } from 'axios'
