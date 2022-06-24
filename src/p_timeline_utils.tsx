@@ -98,16 +98,16 @@ export interface EntryData {
 }
 
 interface Item {
-            id: string | number,
-            group: string,
-            title: string,
-            comment?: string,
-            bgColor?: string,
-            selectedBgColor?: string,
-            color?: string,
-            start_time: moment.Moment,
-            end_time: moment.Moment 
-        }
+    id: string | number,
+    group: string,
+    title: string,
+    comment?: string,
+    bgColor?: string,
+    selectedBgColor?: string,
+    color?: string,
+    start_time: moment.Moment,
+    end_time: moment.Moment
+}
 
 
 export interface Entry {
@@ -180,7 +180,7 @@ export const itemRenderer =
         const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
         const backgroundColor = itemContext.selected ? (itemContext.dragging ? "red" : item.selectedBgColor) : item.bgColor;
         const borderColor = itemContext.resizing ? "red" : item.color;
-        const comment = item.comment ? `${item.title}\n${item.comment}` : item.title 
+        const comment = item.comment ? `${item.title}\n${item.comment}` : item.title
         return (
             <Tooltip title={comment}>
                 <div
@@ -237,29 +237,30 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
     const synthItems: Item[] = []
 
     dates.forEach((date: moment.Moment) => {
-        groupItems.findIndex( (item: Item) => {
-            const sameDate = item.start_time.isSame(date, 'day') 
-            if (!sameDate) {
-                const synthItem: Item = {
-                    id: date.clone().format('YYYY-MM-DD HH:mm:ss'),
-                    group: group.id,
-                    comment: 'synthetic event',
-                    title: 'WFH',
-                    start_time: date.clone().set({
-                        hour: 8,
-                        minute: 0,
-                        second: 0
-                    }),
-                    end_time: date.clone().set({
-                        hour: 17,
-                        minute: 0,
-                        second: 0
-                    }),
-                    bgColor: get_location_color('WFH'),
-                }
-                synthItems.push(synthItem)
-            }
+        const realItem = groupItems.find((item: Item) => {
+            return item.start_time.isSame(date, 'day')
         })
+
+        if (!realItem) {
+            const synthItem: Item = {
+                id: date.clone().format('YYYY-MM-DD HH:mm:ss'),
+                group: group.id,
+                comment: 'synthetic event',
+                title: 'WFH',
+                start_time: date.clone().set({
+                    hour: 8,
+                    minute: 0,
+                    second: 0
+                }),
+                end_time: date.clone().set({
+                    hour: 17,
+                    minute: 0,
+                    second: 0
+                }),
+                bgColor: get_location_color('WFH'),
+            }
+            synthItems.push(synthItem)
+        }
 
     })
 
