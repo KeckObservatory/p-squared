@@ -264,7 +264,7 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
 
     })
 
-    return synthItems
+    return [synthItems, idx]
 }
 
 export const generate_synthetic_items = (
@@ -291,7 +291,9 @@ export const generate_synthetic_items = (
         })
 
         //generate_entries 
-        const syntheticGroupItems = generate_items(group, groupItems, dates, idx)
+        const [syntheticGroupItems, newIdx] = generate_items(group, groupItems, dates, idx)
+        let idx = newIdx
+
 
         //add to pool of synthetic entries
         syntheticEntries = [...syntheticEntries, ...syntheticGroupItems]
