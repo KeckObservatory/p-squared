@@ -60,6 +60,18 @@ export const PTimeline = (props: Props) => {
     const [groups, setGroups] = React.useState([...init_groups])
     const [items, setItems] = React.useState(init_items)
 
+    useEffect( () => {
+        get_entries_by_date_range(
+            state.visibleTimeStart.format('YYYY-MM-DD'),
+            state.visibleTimeEnd.format('YYYY-MM-DD'),
+            props.controlState.department,
+            props.controlState.location)
+            .then((entries: EntryData[]) => {
+                make_groups_and_items(entries)
+            })
+
+    }, [])
+
     useEffect(() => {
         const date = props.controlState.date.clone()
         // console.log('date has changed', date)
