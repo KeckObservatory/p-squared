@@ -16,7 +16,13 @@ import Button from '@mui/material/Button'
 import { delete_entry_by_id, get_entries_by_date_range, mock_get_entries_by_date_range } from './api'
 import { ControlState, Employee } from './control'
 import Popover from '@mui/material/Popover'
-import {make_employee_groups, EntryData, entries_to_items, itemRenderer } from './p_timeline_utils'
+import {
+    make_employee_groups,
+    EntryData,
+    entries_to_items,
+    itemRenderer,
+    generate_synthetic_items
+} from './p_timeline_utils'
 
 
 interface Props {
@@ -119,7 +125,16 @@ export const PTimeline = (props: Props) => {
             let newGroups = make_employee_groups(props.employees, props.controlState)
             console.log('employeGroups', newGroups, props.employees, props.controlState)
             // newGroups = [...newGroups, ...make_groups(entries)]
-            const newItems = entries_to_items(entries)
+            let newItems = entries_to_items(entries)
+            let syntheticItems = generate_synthetic_items(
+                newGroups,
+                newItems,
+                state.visibleTimeStart,
+                state.visibleTimeEnd
+            )
+
+            newItems = [...newItems, ...syntheticItems]
+
             console.log('new entries', entries, newGroups, newItems)
             setItems(newItems)
             setGroups(newGroups)
@@ -187,7 +202,7 @@ export const PTimeline = (props: Props) => {
             {groups.length >= 0 && (
                 <Timeline
                     groups={groups}
-                    items={items}
+                    items={items as any[]}
                     stackItems
                     itemHeightRatio={0.85}
                     canMove={false}

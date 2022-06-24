@@ -29,7 +29,7 @@ const colorMapping = {
 }
 
 const get_location_color = (location: string) => {
-    let color: string 
+    let color: string
     switch (location) {
         case "HQ":
             color = 'darkBlue'
@@ -52,16 +52,16 @@ const get_location_color = (location: string) => {
         case "JuryDuty":
             color = colorMapping['green']
             break;
-        case "Travel": 
-            color = colorMapping['blue'] 
+        case "Travel":
+            color = colorMapping['blue']
             break;
-        case "other": 
+        case "other":
             color = colorMapping['darkOrange']
             break;
         default:
             color = colorMapping['darkBlue']
     }
-    return color 
+    return color
 
 }
 
@@ -96,6 +96,19 @@ export interface EntryData {
     "CreationTime": string,
     "LastModification": string,
 }
+
+interface Item {
+            id: string | number,
+            group: string,
+            title: string,
+            comment?: string,
+            bgColor?: string,
+            selectedBgColor?: string,
+            color?: string,
+            start_time: moment.Moment,
+            end_time: moment.Moment 
+        }
+
 
 export interface Entry {
     "apiCode": string,
@@ -146,7 +159,7 @@ export const entries_to_items = (entries: EntryData[]) => {
             }
             return true
         })
-        const item: any = {
+        const item: Item = {
             id: entry.id,
             group: entry.Name,
             title: title,
@@ -163,12 +176,13 @@ export const entries_to_items = (entries: EntryData[]) => {
 
 
 export const itemRenderer =
-    ({ item, itemContext, getItemProps, getResizeProps }: ReactCalendarItemRendererProps<any>) => {
+    ({ item, itemContext, getItemProps, getResizeProps }: ReactCalendarItemRendererProps<Item>) => {
         const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
         const backgroundColor = itemContext.selected ? (itemContext.dragging ? "red" : item.selectedBgColor) : item.bgColor;
         const borderColor = itemContext.resizing ? "red" : item.color;
+        const comment = item.comment ? `${item.title}\n${item.comment}` : item.title 
         return (
-            <Tooltip title={item.comment}>
+            <Tooltip title={comment}>
                 <div
                     {...getItemProps({
                         style: {
@@ -205,3 +219,83 @@ export const itemRenderer =
             </Tooltip>
         );
     };
+
+const get_date_array = (startDate: moment.Moment, endDate: moment.Moment) => {
+    let dates = [];
+
+    let currDate = startDate.startOf('day');
+    const lastDate = endDate.startOf('day');
+    while (currDate.add(1, 'days').diff(lastDate) < 0) {
+        dates.push(currDate.clone());
+    }
+
+    return dates;
+};
+
+const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]) => {
+
+    const synthItems: Item[] = []
+
+    dates.forEach((date: moment.Moment) => {
+        groupItems.findIndex( (item: Item) => {
+            const sameDate = item.start_time.isSame(date, 'day') 
+            if (!sameDate) {
+                const synthItem: Item = {
+                    id: 0,
+                    group: group.id,
+                    comment: 'synthetic event',
+                    title: 'WFH',
+                    start_time: date.clone().set({
+                        hour: 8,
+                        minute: 0,
+                        second: 0
+                    }),
+                    end_time: date.clone().set({
+                        hour: 17,
+                        minute: 0,
+                        second: 0
+                    }),
+                    bgColor: get_location_color('WFH'),
+                }
+                synthItems.push(synthItem)
+            }
+        })
+
+    })
+
+    return synthItems
+}
+
+export const generate_synthetic_items = (
+    groups: Group[],
+    items: Item[],
+    startDate: moment.Moment,
+    endDate: moment.Moment) => {
+
+    let syntheticEntries: Item[] = []
+
+    // get array of dates. 
+    const dates = get_date_array(startDate, endDate)
+
+    // generate entries for group
+    groups.forEach((group: Group) => {
+        // get exiting entries for group
+        const groupItems: Item[] = []
+        items.forEach((item: Item) => {
+            if (item.group === group.id) {
+                groupItems.push(item)
+            }
+        })
+
+        //generate_entries 
+        const syntheticGroupItems = generate_items(group, groupItems, dates)
+
+        //add to pool of synthetic entries
+        syntheticEntries = [...syntheticEntries, ...syntheticGroupItems]
+
+
+    })
+
+    return syntheticEntries
+
+}
