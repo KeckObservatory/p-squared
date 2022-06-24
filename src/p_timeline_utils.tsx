@@ -232,7 +232,7 @@ const get_date_array = (startDate: moment.Moment, endDate: moment.Moment) => {
     return dates;
 };
 
-const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]) => {
+const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[], idx: number) => {
 
     const synthItems: Item[] = []
 
@@ -243,7 +243,7 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
 
         if (!realItem) {
             const synthItem: Item = {
-                id: moment().valueOf(),
+                id: idx++,
                 group: group.id,
                 comment: 'synthetic event',
                 title: 'WFH',
@@ -278,6 +278,7 @@ export const generate_synthetic_items = (
     // get array of dates. 
     const dates = get_date_array(startDate, endDate)
     console.log('n dates:', dates.length, 'n groups', groups.length, 'n items', items.length)
+    let idx = moment().valueOf()
 
     // generate entries for group
     groups.forEach((group: Group) => {
@@ -290,7 +291,7 @@ export const generate_synthetic_items = (
         })
 
         //generate_entries 
-        const syntheticGroupItems = generate_items(group, groupItems, dates)
+        const syntheticGroupItems = generate_items(group, groupItems, dates, idx)
 
         //add to pool of synthetic entries
         syntheticEntries = [...syntheticEntries, ...syntheticGroupItems]
