@@ -243,7 +243,7 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
 
         if (!realItem) {
             const synthItem: Item = {
-                id: date.clone().format('YYYY-MM-DD HH:mm:ss'),
+                id: moment().valueOf(),
                 group: group.id,
                 comment: 'synthetic event',
                 title: 'WFH',
