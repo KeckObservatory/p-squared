@@ -241,7 +241,7 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
             const sameDate = item.start_time.isSame(date, 'day') 
             if (!sameDate) {
                 const synthItem: Item = {
-                    id: 0,
+                    id: date.clone().format('YYYY-MM-DD HH:mm:ss'),
                     group: group.id,
                     comment: 'synthetic event',
                     title: 'WFH',
@@ -276,6 +276,7 @@ export const generate_synthetic_items = (
 
     // get array of dates. 
     const dates = get_date_array(startDate, endDate)
+    console.log('n dates:', dates.length, 'n groups', groups.length, 'n items', items.length)
 
     // generate entries for group
     groups.forEach((group: Group) => {
