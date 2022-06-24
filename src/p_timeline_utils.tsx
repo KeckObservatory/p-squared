@@ -243,12 +243,14 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
     let newIdx = idx
 
     dates.forEach((date: moment.Moment) => {
+
+        const isWeekend = date.isoWeekday() < 6
         const realItem = groupItems.find((item: Item) => {
             return item.start_time.isSame(date, 'day')
         })
-
         newIdx += 1
-        if (!realItem) {
+
+        if (!realItem && isWeekend) {
             const synthItem: Item = {
                 id: newIdx,
                 group: group.id,
