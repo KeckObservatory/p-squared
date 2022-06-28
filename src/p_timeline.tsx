@@ -44,12 +44,11 @@ export const PTimeline = (props: Props) => {
     const [selectedItemId, setSelectedItemId] = React.useState(undefined as unknown as number);
     const init_groups = make_employee_groups(props.employees, props.controlState) as TimelineGroupBase[]
     const init_items = [] as TimelineItemBase<any>[]
-    const date = props.controlState.date.clone()
 
     const unit = "week"
-    const visibleTimeStart = date
+    const visibleTimeStart = props.controlState.date.clone()
         .startOf(unit)
-    const visibleTimeEnd = date
+    const visibleTimeEnd = props.controlState.date.clone()
         .startOf(unit)
         .add(7, "day")
     const init_state: State = {

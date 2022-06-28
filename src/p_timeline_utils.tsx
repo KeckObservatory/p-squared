@@ -285,8 +285,15 @@ export const generate_synthetic_items = (
     let syntheticEntries: Item[] = []
 
     // get array of dates. 
+
     const dates = get_date_array(startDate, endDate)
-    console.log('n dates:', dates.length, 'n groups', groups.length, 'n items', items.length)
+    console.log(
+        'n dates:', dates.length, 
+        'n groups', groups.length, 
+        'n items', items.length, 
+        'start date', startDate.format('YYYY-MM-DD HH:mm:ss'), 
+        'endDate', endDate.format('YYYY-MM-DD HH:mm:ss')
+        )
     let idx = moment().valueOf()
 
     // generate entries for group
