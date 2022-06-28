@@ -67,7 +67,7 @@ export const PTimeline = (props: Props) => {
             props.controlState.department,
             props.controlState.location)
             .then((entries: EntryData[]) => {
-                make_groups_and_items(entries, state.visibleTimeStart, state.visibleTimeEnd)
+                make_groups_and_items(entries)
             })
 
     }, [])
@@ -91,7 +91,7 @@ export const PTimeline = (props: Props) => {
             props.controlState.department,
             props.controlState.location)
             .then((entries: EntryData[]) => {
-                make_groups_and_items(entries, visibleTimeStart, visibleTimeEnd)
+                make_groups_and_items(entries)
             })
     }, [props.controlState])
 
@@ -113,7 +113,7 @@ export const PTimeline = (props: Props) => {
             props.controlState.department,
             props.controlState.location)
             .then((entries: EntryData[]) => {
-                make_groups_and_items(entries, visibleTimeStart, visibleTimeEnd)
+                make_groups_and_items(entries)
             })
     };
 
@@ -131,9 +131,7 @@ export const PTimeline = (props: Props) => {
         )
     };
 
-    const make_groups_and_items = (entries: EntryData[],
-        visibleTimeStart: moment.Moment, 
-        visibleTimeEnd: moment.Moment) => {
+    const make_groups_and_items = (entries: EntryData[]) => {
 
         let newGroups = make_employee_groups(props.employees, props.controlState)
         console.log('employeGroups', newGroups, props.employees, props.controlState)
@@ -141,13 +139,13 @@ export const PTimeline = (props: Props) => {
         let syntheticItems = generate_synthetic_items(
             newGroups,
             newItems,
-            visibleTimeStart,
-            visibleTimeEnd
+            state.visibleTimeStart,
+            state.visibleTimeEnd
         )
 
         newItems = [...newItems, ...syntheticItems]
 
-        console.log('dates', visibleTimeStart, visibleTimeEnd)
+        console.log('dates', state.visibleTimeStart, state.visibleTimeEnd)
         console.log('new entries', entries, 'groups', newGroups, 'items', newItems)
         setItems(newItems)
         setGroups(newGroups)
