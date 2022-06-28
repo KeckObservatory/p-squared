@@ -146,7 +146,7 @@ export const PTimeline = (props: Props) => {
             state.visibleTimeEnd
         )
 
-        newItems = [...newItems, ...syntheticItems]
+        // newItems = [...newItems, ...syntheticItems]
 
         console.log('dates', state.visibleTimeStart.format('YYYY-MM-DD'),
          state.visibleTimeEnd.format('YYYY-MM-DD'))
