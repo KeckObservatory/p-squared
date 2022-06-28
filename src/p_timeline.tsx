@@ -60,7 +60,7 @@ export const PTimeline = (props: Props) => {
     const [groups, setGroups] = React.useState([...init_groups])
     const [items, setItems] = React.useState(init_items)
 
-    useEffect( () => {
+    useEffect(() => {
         get_entries_by_date_range(
             state.visibleTimeStart.format('YYYY-MM-DD'),
             state.visibleTimeEnd.format('YYYY-MM-DD'),
@@ -80,7 +80,11 @@ export const PTimeline = (props: Props) => {
         const visibleTimeEnd = date.clone()
             .startOf(state.unit)
             .add(1, state.unit)
-        setState({ ...state, visibleTimeStart, visibleTimeEnd })
+        setState({
+            ...state,
+            visibleTimeStart,
+            visibleTimeEnd
+        })
 
         const employeeGroups = make_employee_groups(props.employees, props.controlState)
         setGroups(employeeGroups)
@@ -102,9 +106,9 @@ export const PTimeline = (props: Props) => {
 
         setState({
             ...state,
-            unit: unit,
-            visibleTimeStart: visibleTimeStart,
-            visibleTimeEnd: visibleTimeEnd
+            unit,
+            visibleTimeStart,
+            visibleTimeEnd
         });
 
         get_entries_by_date_range(
@@ -145,7 +149,8 @@ export const PTimeline = (props: Props) => {
 
         newItems = [...newItems, ...syntheticItems]
 
-        console.log('dates', state.visibleTimeStart, state.visibleTimeEnd)
+        console.log('dates', state.visibleTimeStart.format('YYYY-MM-DD'),
+         state.visibleTimeEnd.format('YYYY-MM-DD'))
         console.log('new entries', entries, 'groups', newGroups, 'items', newItems)
         setItems(newItems)
         setGroups(newGroups)
