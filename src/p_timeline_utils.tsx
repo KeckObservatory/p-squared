@@ -244,7 +244,7 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
 
     dates.forEach((date: moment.Moment) => {
 
-        const isWeekend = date.isoWeekday() < 6
+        const isWeekend = date.isoWeekday() <= 6
         const realItem = groupItems.find((item: Item) => {
             return item.start_time.isSame(date, 'day')
         })
