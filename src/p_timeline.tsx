@@ -69,7 +69,8 @@ export const PTimeline = (props: Props) => {
             props.controlState.department,
             props.controlState.location)
             .then((entries: EntryData[]) => {
-                make_groups_and_items(entries)
+                make_groups_and_items(entries,
+                    visibleTimeStart, visibleTimeEnd)
             })
 
     }, [])
@@ -102,7 +103,8 @@ export const PTimeline = (props: Props) => {
             props.controlState.department,
             props.controlState.location)
             .then((entries: EntryData[]) => {
-                make_groups_and_items(entries)
+                make_groups_and_items(entries, 
+                    visibleTimeStart, visibleTimeEnd)
             })
     }, [props.controlState])
 
@@ -126,7 +128,8 @@ export const PTimeline = (props: Props) => {
             props.controlState.department,
             props.controlState.location)
             .then((entries: EntryData[]) => {
-                make_groups_and_items(entries)
+                make_groups_and_items(entries,
+                    visibleTimeStart, visibleTimeEnd)
             })
     };
 
@@ -144,7 +147,9 @@ export const PTimeline = (props: Props) => {
         )
     };
 
-    const make_groups_and_items = (entries: EntryData[]) => {
+    const make_groups_and_items = (entries: EntryData[],
+                    visibleTimeStart: moment.Moment, visibleTimeEnd: moment.Moment
+        ) => {
 
         let newGroups = make_employee_groups(props.employees, props.controlState)
         console.log('employeGroups', newGroups, props.employees, props.controlState)
@@ -152,14 +157,14 @@ export const PTimeline = (props: Props) => {
         let syntheticItems = generate_synthetic_items(
             newGroups,
             newItems,
-            state.visibleTimeStart,
-            state.visibleTimeEnd
+            visibleTimeStart,
+            visibleTimeEnd
         )
 
         // newItems = [...newItems, ...syntheticItems]
 
-        console.log('make_groups_and_items dates', state.visibleTimeStart.format('YYYY-MM-DD'),
-         state.visibleTimeEnd.format('YYYY-MM-DD'))
+        console.log('make_groups_and_items dates', visibleTimeStart.format('YYYY-MM-DD'),
+         visibleTimeEnd.format('YYYY-MM-DD'))
         console.log('new entries', entries, 'groups', newGroups, 'items', newItems)
         setItems(newItems)
         setGroups(newGroups)
