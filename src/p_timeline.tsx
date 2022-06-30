@@ -155,12 +155,12 @@ export const PTimeline = (props: Props) => {
         let newGroups = make_employee_groups(props.employees, props.controlState)
         console.log('employeGroups', newGroups, props.employees, props.controlState)
         let newItems = entries_to_items(entries)
-        let syntheticItems = generate_synthetic_items(
-            newGroups,
-            newItems,
-            visibleTimeStart,
-            visibleTimeEnd
-        )
+        // let syntheticItems = generate_synthetic_items(
+        //     newGroups,
+        //     newItems,
+        //     visibleTimeStart.clone(),
+        //     visibleTimeEnd.clone()
+        // )
 
         // newItems = [...newItems, ...syntheticItems]
 
