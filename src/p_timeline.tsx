@@ -139,14 +139,14 @@ export const PTimeline = (props: Props) => {
         let newGroups = make_employee_groups(props.employees, props.controlState)
         console.log('employeGroups', newGroups, props.employees, props.controlState)
         let newItems = entries_to_items(entries)
-        // let syntheticItems = generate_synthetic_items(
-        //     newGroups,
-        //     newItems,
-        //     state.visibleTimeStart.clone(),
-        //     state.visibleTimeEnd.clone()
-        // )
+        let syntheticItems = generate_synthetic_items(
+            newGroups,
+            newItems,
+            state.visibleTimeStart.clone(),
+            state.visibleTimeEnd.clone()
+        )
 
-        // newItems = [...newItems, ...syntheticItems]
+        newItems = [...newItems, ...syntheticItems]
 
         console.log('make_groups_and_items dates', state.visibleTimeStart.format('YYYY-MM-DD'),
          state.visibleTimeEnd.format('YYYY-MM-DD'))
