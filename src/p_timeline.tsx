@@ -45,14 +45,16 @@ export const PTimeline = (props: Props) => {
     const init_groups = make_employee_groups(props.employees, props.controlState) as TimelineGroupBase[]
     const init_items = [] as TimelineItemBase<any>[]
 
-    const unit = "week"
-    const visibleTimeStart = props.controlState.date.clone()
-        .startOf(unit)
-    const visibleTimeEnd = props.controlState.date.clone()
-        .startOf(unit)
+    const initUnit = "week"
+    const initVisibleTimeStart = props.controlState.date.clone()
+        .startOf(initUnit)
+    const initVisibleTimeEnd = props.controlState.date.clone()
+        .startOf(initUnit)
         .add(7, "day")
     const init_state: State = {
-        visibleTimeStart, visibleTimeEnd, unit
+        visibleTimeStart: initVisibleTimeStart, 
+        visibleTimeEnd: initVisibleTimeEnd, 
+        unit: initUnit 
     }
 
     const [state, setState] = React.useState(init_state)
@@ -70,7 +72,7 @@ export const PTimeline = (props: Props) => {
             props.controlState.location)
             .then((entries: EntryData[]) => {
                 make_groups_and_items(entries,
-                    visibleTimeStart, visibleTimeEnd)
+                    state.visibleTimeStart, state.visibleTimeEnd)
             })
 
     }, [])
@@ -86,8 +88,8 @@ export const PTimeline = (props: Props) => {
             .add(1, state.unit)
         setState({
             ...state,
-            visibleTimeStart,
-            visibleTimeEnd
+            visibleTimeStart: visibleTimeStart,
+            visibleTimeEnd: visibleTimeEnd
         })
 
 
@@ -116,10 +118,9 @@ export const PTimeline = (props: Props) => {
         console.log('time header change dates', visibleTimeStart.format('YYYY-MM-DD'),
          visibleTimeEnd.format('YYYY-MM-DD'))
         setState({
-            ...state,
-            unit,
-            visibleTimeStart,
-            visibleTimeEnd
+            unit: unit,
+            visibleTimeStart: visibleTimeStart,
+            visibleTimeEnd: visibleTimeEnd
         });
 
         get_entries_by_date_range(
