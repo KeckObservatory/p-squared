@@ -191,9 +191,9 @@ export const Control = (props: Props) => {
                 </div> */}
                     <NewEntryDialog employees={employees} handleEntrySubmit={handleEntrySubmit} />
                 </Box>
-                {employees && (
+                {employees.length > 0 ? (
                 < PTimeline employees={employees} controlState={state} setControlState={setState} />
-                )}
+                ): <div>Loading table...</div>}
             </EntryContext.Provider>
         </React.Fragment >
     )
