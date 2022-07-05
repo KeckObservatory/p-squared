@@ -9,7 +9,7 @@ import { NewEntryDialog } from './new_entry_dialog'
 import DepartmentSelect from './department_select'
 import { UrlWithStringQuery } from 'url';
 import { PTimeline } from './p_timeline'
-import { mock_get_employees, get_employees } from './api'
+import { mock_get_employees, get_employees, get_staffinfo } from './api'
 
 export interface Props { }
 
@@ -69,6 +69,7 @@ export interface EntryState {
     startTime: number,
     endTime: number,
     staff: string,
+    admin?: boolean
 }
 export interface User {
     Status: string,
@@ -105,9 +106,6 @@ export interface Employee {
 
 const EntryContext = React.createContext(null as any);
 
-export const useEntry = () => React.useContext(EntryContext);
-
-
 export const Control = (props: Props) => {
     const now = moment()
 
@@ -118,6 +116,14 @@ export const Control = (props: Props) => {
         department: ''
     }
     const [employees, setEmployees] = React.useState([] as Employee[])
+    const [state, setState] = useState(initState)
+
+    const [entryState, setEntryState] = React.useState({
+        dateRange: [new Date(), new Date()],
+        startTime: 8,
+        endTime: 17
+    } as EntryState)
+
 
     React.useEffect(() => {
 
@@ -134,16 +140,23 @@ export const Control = (props: Props) => {
         })
 
 
+        get_staffinfo()
+            .then((output: object) => {
+                const user = output as User
+                setEntryState(
+                    {
+                        ...entryState,
+                        name: user.LastName + ', ' + user.FirstName,
+                        department: user.Department,
+                        baseCamp: user.BaseCamp,
+                        admin: user?.Admin === 'True'
+                    }
+                )
+            })
+
+
     }, [])
 
-
-    const [state, setState] = useState(initState)
-
-    const [entryState, setEntryState] = React.useState({
-        dateRange: [new Date(), new Date()],
-        startTime: 8,
-        endTime: 16
-    } as EntryState)
 
     const handleDateChange = (date: Date | null, keyboardInputValue?: string | undefined): void => {
         const d = moment(date)
@@ -176,39 +189,41 @@ export const Control = (props: Props) => {
 
     return (
         <React.Fragment>
-            <EntryContext.Provider value={[entryState, setEntryState]}>
-                <Box >
-                    <FormControl sx={{ width: 150, margin: '6px', marginTop: '22px' }}>
-                        <YearMonthPicker date={state.date} handleDateChange={handleDateChange} />
-                    </FormControl>
-                    <FormControl sx={{ width: 100, margin: '16px', marginTop: '16px' }}>
-                        <DropDown arr={LOCATIONS}
-                            handleChange={handleLocationChange}
-                            value={state.location}
-                            placeholder={'Select Location'}
-                            label={'Location'}
-                        />
-                    </FormControl>
-                    <FormControl sx={{ width: 150, marginLeft: '33px', marginTop: '16px' }}>
-                        <DropDown arr={DEPARTMENTS}
-                            handleChange={handleDepartmentChange}
-                            value={state.department}
-                            placeholder={'Select Department'}
-                            label={'Department'}
-                        />
-                    </FormControl>
-                    {/* <FormControl sx={{ m: 2, width: 300, marginTop: '22px'}}>
+            <Box >
+                <FormControl sx={{ width: 150, margin: '6px', marginTop: '22px' }}>
+                    <YearMonthPicker date={state.date} handleDateChange={handleDateChange} />
+                </FormControl>
+                <FormControl sx={{ width: 100, margin: '16px', marginTop: '16px' }}>
+                    <DropDown arr={LOCATIONS}
+                        handleChange={handleLocationChange}
+                        value={state.location}
+                        placeholder={'Select Location'}
+                        label={'Location'}
+                    />
+                </FormControl>
+                <FormControl sx={{ width: 150, marginLeft: '33px', marginTop: '16px' }}>
+                    <DropDown arr={DEPARTMENTS}
+                        handleChange={handleDepartmentChange}
+                        value={state.department}
+                        placeholder={'Select Department'}
+                        label={'Department'}
+                    />
+                </FormControl>
+                {/* <FormControl sx={{ m: 2, width: 300, marginTop: '22px'}}>
                     <DepartmentSelect departments={state.department} handleDepartmentChange={handleDepartmentChange} />
                 </FormControl> */}
-                    {/* <div style={{ margin: '9px' }}>
+                {/* <div style={{ margin: '9px' }}>
                     <Button variant="contained">Go</Button>
                 </div> */}
-                    <NewEntryDialog employees={employees} handleEntrySubmit={handleEntrySubmit} />
-                </Box>
-                {employees.length > 0 ? (
+                <NewEntryDialog
+                    employees={employees}
+                    entryState={entryState}
+                    setEntryState={setEntryState}
+                    handleEntrySubmit={handleEntrySubmit} />
+            </Box>
+            {employees.length > 0 ? (
                 < PTimeline employees={employees} controlState={state} setControlState={setState} />
-                ): <div>Loading table...</div>}
-            </EntryContext.Provider>
+            ) : <div>Loading table...</div>}
         </React.Fragment >
     )
 

@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import DropDown from './drop_down';
 import { Autocomplete, Typography } from "@mui/material";
-import { Employee, LOCATIONS, useEntry, User } from './control';
+import { Employee, EntryState, LOCATIONS, User } from './control';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { DEPARTMENTS } from './department_select';
 import { get_staffinfo } from './api';
@@ -26,25 +26,25 @@ const hours = [
 
 interface Props {
     employees: Employee[]
+    entryState: EntryState,
+    setEntryState: Function
 }
 
 
 export const NewEntryForm = (props: Props) => {
-
-    const [entryState, setEntryState] = useEntry()
 
     useEffect(() => {
 
         get_staffinfo()
             .then((output: object) => {
                 const user = output as User
-                setEntryState(
+                props.setEntryState(
                     {
-                        ...entryState,
-                        name: user.LastName+ ', ' + user.FirstName,
+                        ...props.entryState,
+                        name: user.LastName + ', ' + user.FirstName,
                         department: user.Department,
                         baseCamp: user.BaseCamp,
-                        admin: user?.Admin
+                        admin: user?.Admin === 'True'
                     }
                 )
             })
@@ -55,9 +55,9 @@ export const NewEntryForm = (props: Props) => {
     const handleNameChange = (evt: React.SyntheticEvent, employee: Employee | null) => {
         console.log(employee)
         if (employee) {
-            setEntryState(
+            props.setEntryState(
                 {
-                    ...entryState,
+                    ...props.entryState,
                     name: employee?.label,
                     department: employee?.Department,
                     baseCamp: employee?.BaseCamp,
@@ -65,9 +65,9 @@ export const NewEntryForm = (props: Props) => {
             )
         }
         else {
-            setEntryState(
+            props.setEntryState(
                 {
-                    ...entryState,
+                    ...props.entryState,
                     name: '',
                     department: '',
                     baseCamp: ''
@@ -77,35 +77,37 @@ export const NewEntryForm = (props: Props) => {
     }
 
     const handleLocationChange = (value: string) => {
-        setEntryState(
-            { ...entryState, location: value }
+        props.setEntryState(
+            { ...props.entryState, location: value }
         )
     }
 
     const onDateRangeChange = (value: any) => {
         console.log('date range selected', value)
-        setEntryState({
-            ...entryState,
+        props.setEntryState({
+            ...props.entryState,
             dateRange: value
         })
     }
 
     const handleCommentChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-        setEntryState(
-            { ...entryState, comment: evt.target.value }
+        props.setEntryState(
+            { ...props.entryState, comment: evt.target.value }
         )
     }
     const onStartTimeChange = (value: string) => {
-        setEntryState(
-            { ...entryState, startTime: JSON.parse(value) }
+        props.setEntryState(
+            { ...props.entryState, startTime: JSON.parse(value) }
         )
     }
 
     const onEndTimeChange = (value: string) => {
-        setEntryState(
-            { ...entryState, endTime: JSON.parse(value) }
+        props.setEntryState(
+            { ...props.entryState, endTime: JSON.parse(value) }
         )
     }
+
+    const autoValue = props.employees.find(e => e.label === props.entryState.name)
 
     return (
         <Box
@@ -118,7 +120,7 @@ export const NewEntryForm = (props: Props) => {
             <Autocomplete
                 sx={{ ...formControlStyle, marginTop: '12px' }}
                 disablePortal
-                value={entryState.name}
+                value={autoValue}
                 id="combo-box-demo"
                 options={props.employees}
                 getOptionLabel={(option) => option.label as string}
@@ -133,39 +135,43 @@ export const NewEntryForm = (props: Props) => {
                 sx={formControlStyle}
                 InputLabelProps={{ shrink: true }}
                 label={'Department'}
-                value={entryState.department}
+                value={props.entryState.department}
                 disabled id="department" />
             <TextField
                 sx={formControlStyle}
                 InputLabelProps={{ shrink: true }}
                 label={'Base Camp'}
-                value={entryState.baseCamp}
+                value={props.entryState.baseCamp}
                 disabled id="base-camp" />
             <div style={{ "marginLeft": "6px", "width": "100%" }}>
-                <DateRangePicker onChange={onDateRangeChange} value={entryState.dateRange} />
+                <DateRangePicker onChange={onDateRangeChange} value={props.entryState.dateRange} />
             </div>
             <div style={{ "display": "flex", "marginTop": "12px", "width": "100%" }}>
                 <DropDown arr={hours}
-                    value={JSON.stringify(entryState.startTime)}
+                    value={JSON.stringify(props.entryState.startTime)}
                     handleChange={onStartTimeChange}
                     label={'Start Hour'}
                     placeholder={""}
                 />
                 <DropDown arr={hours}
-                    value={JSON.stringify(entryState.endTime)}
+                    value={JSON.stringify(props.entryState.endTime)}
                     handleChange={onEndTimeChange}
                     label={'End Hour'}
                     placeholder={""}
                 />
             </div >
             <DropDown arr={LOCATIONS}
-                value={entryState.location}
+                value={props.entryState.location}
                 handleChange={handleLocationChange}
                 label={'Location'}
                 placeholder={""}
             />
             {/* <TextField disabled label={'Staff'} id="staff" value={entryState.staff} /> */}
-            <TextField sx={formControlStyle} label={'Note'} id="note" onChange={handleCommentChange} value={entryState.comment} />
+            <TextField sx={formControlStyle}
+                label={'Note'}
+                id="note"
+                onChange={handleCommentChange}
+                value={props.entryState.comment} />
         </Box>
     );
 }

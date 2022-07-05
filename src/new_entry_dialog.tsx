@@ -7,13 +7,15 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { NewEntryForm } from './new_entry_form'
-import { useEntry, EntryState, Employee } from './control';
+import { EntryState, Employee } from './control';
 import { add_entry } from './api';
 import moment from 'moment';
 
 interface Props {
-  employees: Employee[],
+  employees: Employee[]
   handleEntrySubmit: Function
+  entryState: EntryState,
+  setEntryState: Function
 }
 
 const get_days_between_dates = function (startDate: moment.Moment, endDate: moment.Moment) {
@@ -77,7 +79,6 @@ export const NewEntryDialog = (props: Props) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-  const [entryState, setEntryState] = useEntry()
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -87,7 +88,7 @@ export const NewEntryDialog = (props: Props) => {
   };
 
   const handleSubmit = () => {
-    const entries = state_to_entries(entryState)
+    const entries = state_to_entries(props.entryState)
     entries.forEach((entry: any) => {
       // console.log('submitting entry', entryState, entry)
       add_entry(entry)
@@ -107,7 +108,7 @@ export const NewEntryDialog = (props: Props) => {
         Create New Entry
       </Button>
       <Dialog
-        sx={{paddingTop: '3px'}}
+        sx={{ paddingTop: '3px' }}
         fullScreen={fullScreen}
         open={open}
         onClose={handleClose}
@@ -117,7 +118,11 @@ export const NewEntryDialog = (props: Props) => {
           {"Create new entry"}
         </DialogTitle>
         <DialogContent>
-          <NewEntryForm employees={props.employees} />
+          <NewEntryForm 
+            employees={props.employees}
+            entryState={props.entryState}
+            setEntryState={props.setEntryState}
+          />
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
