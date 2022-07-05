@@ -41,7 +41,7 @@ export const NewEntryForm = (props: Props) => {
                 setEntryState(
                     {
                         ...entryState,
-                        name: user.FirstName + ' ' + user.LastName,
+                        name: user.LastName+ ', ' + user.FirstName,
                         department: user.Department,
                         baseCamp: user.BaseCamp,
                         admin: user?.Admin
@@ -125,7 +125,7 @@ export const NewEntryForm = (props: Props) => {
                     {...params}
                     InputLabelProps={{ shrink: true }}
                     label="Name" />}
-                disabled={!entryState.admin}
+                // disabled={!entryState.admin}} TODO: disable when admin is in API
                 onChange={handleNameChange}
             />
             <TextField
