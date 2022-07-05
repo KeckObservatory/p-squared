@@ -118,6 +118,7 @@ export const NewEntryForm = (props: Props) => {
             <Autocomplete
                 sx={{ ...formControlStyle, marginTop: '12px' }}
                 disablePortal
+                value={entryState.name}
                 id="combo-box-demo"
                 options={props.employees}
                 getOptionLabel={(option) => option.label as string}
