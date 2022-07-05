@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import DropDown from './drop_down';
 import { Autocomplete, Typography } from "@mui/material";
-import { Employee, LOCATIONS, useEntry } from './control'
-import DateRangePicker from '@wojtekmaj/react-daterange-picker'
-import { DEPARTMENTS } from './department_select'
+import { Employee, LOCATIONS, useEntry, User } from './control';
+import DateRangePicker from '@wojtekmaj/react-daterange-picker';
+import { DEPARTMENTS } from './department_select';
+import { get_staffinfo } from './api';
 
 const formControlStyle = {
     minWidth: 120,
@@ -32,6 +33,25 @@ export const NewEntryForm = (props: Props) => {
 
     const [entryState, setEntryState] = useEntry()
 
+    useEffect(() => {
+
+        get_staffinfo()
+            .then((output: object) => {
+                const user = output as User
+                setEntryState(
+                    {
+                        ...entryState,
+                        name: user.FirstName + ' ' + user.LastName,
+                        department: user.Department,
+                        baseCamp: user.BaseCamp,
+                        admin: user?.Admin
+                    }
+                )
+            })
+
+
+    }, [])
+
     const handleNameChange = (evt: React.SyntheticEvent, employee: Employee | null) => {
         console.log(employee)
         if (employee) {
@@ -40,7 +60,7 @@ export const NewEntryForm = (props: Props) => {
                     ...entryState,
                     name: employee?.label,
                     department: employee?.Department,
-                    baseCamp: employee?.BaseCamp
+                    baseCamp: employee?.BaseCamp,
                 }
             )
         }
@@ -101,21 +121,22 @@ export const NewEntryForm = (props: Props) => {
                 id="combo-box-demo"
                 options={props.employees}
                 getOptionLabel={(option) => option.label as string}
-                renderInput={(params) => <TextField 
-                    {...params} 
-                    InputLabelProps={{shrink:true}}
+                renderInput={(params) => <TextField
+                    {...params}
+                    InputLabelProps={{ shrink: true }}
                     label="Name" />}
+                disabled={!entryState.admin}
                 onChange={handleNameChange}
             />
             <TextField
                 sx={formControlStyle}
-                InputLabelProps={{shrink:true}}
+                InputLabelProps={{ shrink: true }}
                 label={'Department'}
                 value={entryState.department}
                 disabled id="department" />
             <TextField
                 sx={formControlStyle}
-                InputLabelProps={{shrink:true}}
+                InputLabelProps={{ shrink: true }}
                 label={'Base Camp'}
                 value={entryState.baseCamp}
                 disabled id="base-camp" />

@@ -70,6 +70,20 @@ export interface EntryState {
     endTime: number,
     staff: string,
 }
+export interface User {
+    Status: string,
+    Alias: string,
+    FirstName: string,
+    LastName: string,
+    Department: string,
+    Role: string,
+    BaseCamp: string,
+    HomePhone: string,
+    CellPhone: string,
+    OfficePhone: string,
+    SummitPhone: string,
+    Admin?: string
+}
 
 export interface Employee {
     label?: string

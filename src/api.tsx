@@ -2,7 +2,7 @@ import { resolve } from 'node:path/win32'
 import { default as mock_entries } from './entries.json'
 import { default as mock_employees } from './employees.json'
 import { Entry, EntryData } from './p_timeline_utils'
-import { Employee } from './control'
+import { Employee, User } from './control'
 import moment from 'moment'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
@@ -24,6 +24,13 @@ export function handleError(error: Error | AxiosError) {
         return error.toJSON();
     }
     return error;
+}
+
+export const get_staffinfo = () => {
+    const url = BASE_URL + '/staffinfo';
+    return axiosInstance.get(url)
+        .then(handleResponse)
+        .then(handleError)
 }
 
 //TODO format to match api output (entry with an array of entrydata)
