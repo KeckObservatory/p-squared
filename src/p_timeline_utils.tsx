@@ -266,6 +266,7 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
                     second: 0
                 }),
                 bgColor: get_location_color(group.primaryLocation),
+                color: colorMapping['white'],
             }
             synthItems.push(synthItem)
         }
