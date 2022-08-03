@@ -91,14 +91,16 @@ export const NewEntryDialog = (props: Props) => {
     const entries = state_to_entries(props.entryState)
     entries.forEach((entry: any) => {
       // console.log('submitting entry', entryState, entry)
-      add_entry(entry)
-        .then((response: any) => {
-          console.log('response', response)
-        })
-        .finally(() => {
-          setOpen(false)
-          props.handleEntrySubmit()
-        })
+      setTimeout(() => {
+        add_entry(entry)
+          .then((response: any) => {
+            console.log('response', response)
+          })
+          .finally(() => {
+            setOpen(false)
+            props.handleEntrySubmit()
+          })
+      }, 100)
     })
   }
 
@@ -118,7 +120,7 @@ export const NewEntryDialog = (props: Props) => {
           {"Create new entry"}
         </DialogTitle>
         <DialogContent>
-          <NewEntryForm 
+          <NewEntryForm
             employees={props.employees}
             entryState={props.entryState}
             setEntryState={props.setEntryState}
