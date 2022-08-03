@@ -25,7 +25,9 @@ const colorMapping = {
     pink: '#cc79a7',
     yellow: '#f0e442',
     darkBlue: '#1976d2',
-    darkOrange: '#d55e00'
+    darkOrange: '#d55e00',
+    white: '#FFFFFF',
+    black: '#000000'
 }
 
 const get_location_color = (location: string) => {
@@ -169,6 +171,7 @@ export const entries_to_items = (entries: EntryData[]) => {
             group: entry.Name,
             title: title,
             comment: entry.Comment,
+            color: colorMapping['white'],
             bgColor: get_location_color(title),
             start_time: moment(dateRange[0]),
             end_time: moment(dateRange[1])
