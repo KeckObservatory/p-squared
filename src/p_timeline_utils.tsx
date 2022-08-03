@@ -120,29 +120,23 @@ export interface Entry {
 export interface Group {
     id: string,
     title: string
+    primaryShift: [ number, number ],
+    primaryLocation: string
 }
 
 export const make_employee_groups = (employees: Employee[], controlState: ControlState) => {
     const groups: Group[] = []
     employees.forEach((emp: Employee, idx: number) => {
         if (controlState.department === "" || emp.Department === controlState.department) {
-            const group = { id: emp.label as string, title: emp.label as string }
+            const group = { 
+                id: emp.label as string,
+                 title: emp.label as string,
+                 primaryShift: emp.PrimaryShift,
+                 primaryLocation: emp.PrimaryLocation,
+                }
             groups.push(group)
         }
     })
-    return groups
-}
-
-export const make_groups = (entries: EntryData[]) => {
-    const names = entries.map((entry: EntryData) => {
-        return entry.Name
-    })
-    const uNames = new Set(names)
-    const groups = Array.from(uNames).map((name: string, idx) => {
-        const group: Group = { id: name, title: name }
-        return group
-    })
-
     return groups
 }
 
@@ -258,18 +252,18 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
                 id: newIdx,
                 group: group.id,
                 comment: 'synthetic event',
-                title: 'HQ',
+                title: group.primaryLocation,
                 start_time: date.clone().set({
-                    hour: 8,
+                    hour: group.primaryShift[0],
                     minute: 0,
                     second: 0
                 }),
                 end_time: date.clone().set({
-                    hour: 17,
+                    hour: group.primaryShift[1],
                     minute: 0,
                     second: 0
                 }),
-                bgColor: get_location_color('WFH'),
+                bgColor: get_location_color(group.primaryLocation),
             }
             synthItems.push(synthItem)
         }
