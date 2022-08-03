@@ -127,6 +127,7 @@ export interface Group {
 export const make_employee_groups = (employees: Employee[], controlState: ControlState) => {
     const groups: Group[] = []
     employees.forEach((emp: Employee, idx: number) => {
+        console.log(emp)
         const primaryShift = emp.PrimaryShift? JSON.parse(emp.PrimaryShift) : [8,17]
         const primaryLocation = emp.PrimaryLocation? emp.PrimaryLocation : 'HQ'
         if (controlState.department === "" || emp.Department === controlState.department) {
