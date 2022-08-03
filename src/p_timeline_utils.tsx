@@ -131,7 +131,7 @@ export const make_employee_groups = (employees: Employee[], controlState: Contro
             const group = { 
                 id: emp.label as string,
                  title: emp.label as string,
-                 primaryShift: emp.PrimaryShift,
+                 primaryShift: JSON.parse(emp.PrimaryShift) as [ number, number ],
                  primaryLocation: emp.PrimaryLocation,
                 }
             groups.push(group)

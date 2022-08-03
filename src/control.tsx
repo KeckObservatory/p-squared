@@ -103,7 +103,7 @@ export interface Employee {
     DelFlag: string,
     ModDate: string,
     PrimaryLocation: string,
-    PrimaryShift: [number, number],
+    PrimaryShift: string,
 }
 
 const EntryContext = React.createContext(null as any);
