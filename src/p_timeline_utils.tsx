@@ -127,12 +127,14 @@ export interface Group {
 export const make_employee_groups = (employees: Employee[], controlState: ControlState) => {
     const groups: Group[] = []
     employees.forEach((emp: Employee, idx: number) => {
+        const primaryShift = emp.PrimaryShift? JSON.parse(emp.PrimaryShift) : [8,17]
+        const primaryLocation = emp.PrimaryLocation? emp.PrimaryLocation : 'HQ'
         if (controlState.department === "" || emp.Department === controlState.department) {
             const group = { 
                 id: emp.label as string,
                  title: emp.label as string,
-                 primaryShift: JSON.parse(emp.PrimaryShift) as [ number, number ],
-                 primaryLocation: emp.PrimaryLocation,
+                 primaryShift: primaryShift as [number, number ],
+                 primaryLocation: primaryLocation,
                 }
             groups.push(group)
         }

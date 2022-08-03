@@ -102,8 +102,8 @@ export interface Employee {
     SummitPhone: string,
     DelFlag: string,
     ModDate: string,
-    PrimaryLocation: string,
-    PrimaryShift: string,
+    PrimaryLocation?: string,
+    PrimaryShift?: string,
 }
 
 const EntryContext = React.createContext(null as any);
