@@ -127,7 +127,6 @@ export interface Group {
 export const make_employee_groups = (employees: Employee[], controlState: ControlState) => {
     const groups: Group[] = []
     employees.forEach((emp: Employee, idx: number) => {
-        console.log(emp)
         const primaryShift = emp.PrimaryShift && emp.PrimaryShift !== "None" ? JSON.parse(emp.PrimaryShift) : [8,17]
         const primaryLocation = emp.PrimaryLocation? emp.PrimaryLocation : 'HQ'
         if (controlState.department === "" || emp.Department === controlState.department) {
@@ -245,12 +244,13 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
     dates.forEach((date: moment.Moment) => {
 
         const isWeekday = date.isoWeekday() < 6 //saturday=6 sunday=7
+        const isSummit = group.primaryLocation === 'SU'
         const realItem = groupItems.find((item: Item) => {
             return item.start_time.isSame(date, 'day')
         })
         newIdx += 1
 
-        if (!realItem && isWeekday) {
+        if (!realItem && isWeekday && !isSummit ) {
             const synthItem: Item = {
                 id: newIdx,
                 group: group.id,
