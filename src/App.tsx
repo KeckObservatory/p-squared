@@ -6,10 +6,15 @@ import { PTimeline } from './p_timeline'
 import { Control } from './control'
 import Box from '@mui/material/Box'
 
+const style = {margin: 'auto', minWidth: '500px', maxWidth: '1500px'}
 function App() {
   return (
     <React.Fragment>
-      <Box m={5} sx={{minWidth: '500px'}}>
+      <Box 
+        justifyContent="center"
+        alignItems="center"
+        m={5} 
+        sx={style}>
         <Control />
       </Box>
       {/* <Calendar /> */}
