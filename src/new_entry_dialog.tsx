@@ -58,7 +58,7 @@ const state_to_entries = (entryState: EntryState) => {
 
   let entries: any[] = []
   dates.map((dte: moment.Moment) => {
-    const entry = { ...base_entry }
+    let entry = { ...base_entry }
     const startDate = moment(dte)
       .set('hour', entryState.startTime)
       .set('minute', 0).set('second', 0)
@@ -69,6 +69,7 @@ const state_to_entries = (entryState: EntryState) => {
       endDate.add(1, 'days') // add 24 hours so that startDate <= endDate
     }
     entry[location] = JSON.stringify([startDate.format('YYYY-MM-DD HH:mm:ss'), endDate.format('YYYY-MM-DD HH:mm:ss')])
+    entry.Date = startDate.format('YYYY-MM-DD')
     entries.push(entry)
   })
   return entries
@@ -91,51 +92,49 @@ export const NewEntryDialog = (props: Props) => {
     const entries = state_to_entries(props.entryState)
     for (let idx = 0; idx < entries.length; idx++) {
       const entry = entries[idx]
-      setTimeout(() => {
-        add_entry(entry)
-          .then((response: any) => {
-            console.log('response', response)
-          })
-          .finally(() => {
-            setOpen(false)
-            props.handleEntrySubmit()
-          })
-      }, 100)
+      add_entry(entry)
+        .then((response: any) => {
+          console.log('response', response)
+        })
+        .finally(() => {
+          setOpen(false)
+          props.handleEntrySubmit()
+        })
     }
-  
-}
 
-return (
-  <div>
-    <Button style={{ margin: '9px' }} variant="outlined" onClick={handleClickOpen}>
-      Create New Entry
-    </Button>
-    <Dialog
-      sx={{ paddingTop: '3px' }}
-      fullScreen={fullScreen}
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="responsive-dialog-title"
-    >
-      <DialogTitle id="responsive-dialog-title">
-        {"Create new entry"}
-      </DialogTitle>
-      <DialogContent>
-        <NewEntryForm
-          employees={props.employees}
-          entryState={props.entryState}
-          setEntryState={props.setEntryState}
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button autoFocus onClick={handleClose}>
-          Cancel
-        </Button>
-        <Button onClick={handleSubmit} autoFocus>
-          Submit
-        </Button>
-      </DialogActions>
-    </Dialog>
-  </div>
-);
+  }
+
+  return (
+    <div>
+      <Button style={{ margin: '9px' }} variant="outlined" onClick={handleClickOpen}>
+        Create New Entry
+      </Button>
+      <Dialog
+        sx={{ paddingTop: '3px' }}
+        fullScreen={fullScreen}
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogTitle id="responsive-dialog-title">
+          {"Create new entry"}
+        </DialogTitle>
+        <DialogContent>
+          <NewEntryForm
+            employees={props.employees}
+            entryState={props.entryState}
+            setEntryState={props.setEntryState}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button onClick={handleSubmit} autoFocus>
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
 }
