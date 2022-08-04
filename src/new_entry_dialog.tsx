@@ -89,8 +89,8 @@ export const NewEntryDialog = (props: Props) => {
 
   const handleSubmit = () => {
     const entries = state_to_entries(props.entryState)
-    entries.forEach((entry: any) => {
-      // console.log('submitting entry', entryState, entry)
+    for (let idx = 0; idx < entries.length; idx++) {
+      const entry = entries[idx]
       setTimeout(() => {
         add_entry(entry)
           .then((response: any) => {
@@ -101,40 +101,41 @@ export const NewEntryDialog = (props: Props) => {
             props.handleEntrySubmit()
           })
       }, 100)
-    })
-  }
+    }
+  
+}
 
-  return (
-    <div>
-      <Button style={{ margin: '9px' }} variant="outlined" onClick={handleClickOpen}>
-        Create New Entry
-      </Button>
-      <Dialog
-        sx={{ paddingTop: '3px' }}
-        fullScreen={fullScreen}
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="responsive-dialog-title"
-      >
-        <DialogTitle id="responsive-dialog-title">
-          {"Create new entry"}
-        </DialogTitle>
-        <DialogContent>
-          <NewEntryForm
-            employees={props.employees}
-            entryState={props.entryState}
-            setEntryState={props.setEntryState}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button onClick={handleSubmit} autoFocus>
-            Submit
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
+return (
+  <div>
+    <Button style={{ margin: '9px' }} variant="outlined" onClick={handleClickOpen}>
+      Create New Entry
+    </Button>
+    <Dialog
+      sx={{ paddingTop: '3px' }}
+      fullScreen={fullScreen}
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="responsive-dialog-title"
+    >
+      <DialogTitle id="responsive-dialog-title">
+        {"Create new entry"}
+      </DialogTitle>
+      <DialogContent>
+        <NewEntryForm
+          employees={props.employees}
+          entryState={props.entryState}
+          setEntryState={props.setEntryState}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button autoFocus onClick={handleClose}>
+          Cancel
+        </Button>
+        <Button onClick={handleSubmit} autoFocus>
+          Submit
+        </Button>
+      </DialogActions>
+    </Dialog>
+  </div>
+);
 }
