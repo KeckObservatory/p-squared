@@ -180,11 +180,9 @@ export const PTimeline = (props: Props) => {
         setAnchorEl(null);
         delete_entry_by_id(selectedItemId).then((response: any) => {
             console.log('delete response', response)
-            props.setControlState(
-                {
-                    ...props.controlState,
-                    date: moment()
-                }
+            props.setControlState( (pcs: ControlState ) => {
+                return { ...pcs, idx: pcs.idx+1}
+            }
             )
 
         })

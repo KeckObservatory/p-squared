@@ -18,6 +18,7 @@ export interface ControlState {
     location: string,
     date: moment.Moment
     department: string
+    idx: number
 }
 
 export const LOCATIONS = [
@@ -115,7 +116,8 @@ export const Control = (props: Props) => {
         date: now,
         // base: '',
         location: '',
-        department: ''
+        department: '',
+        idx: 0
     }
     const [employees, setEmployees] = React.useState([] as Employee[])
     const [state, setState] = useState(initState)
