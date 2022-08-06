@@ -149,7 +149,9 @@ export const entries_to_items = (entries: EntryData[]) => {
         return []
     }
 
-    const items = entries.map((entry: EntryData, idx) => {
+    let items: Item[] = []
+
+    entries.forEach((entry: EntryData, idx) => {
         let dateRange = [moment(entry.Date + " 8:00:00").toISOString(),
         moment(entry.Date + " 17:00:00").toISOString()] as DateRange
         let title: string = ''
@@ -172,7 +174,7 @@ export const entries_to_items = (entries: EntryData[]) => {
             start_time: moment(dateRange[0]),
             end_time: moment(dateRange[1])
         }
-        return item
+        items.push(item)
     })
 
     return items
