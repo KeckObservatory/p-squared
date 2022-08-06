@@ -32,15 +32,17 @@ const state_to_entries = (entryState: EntryState) => {
   const location = entryState.location
   const date = moment(entryState.dateRange[0]).format('YYYY-MM-DD')
   const creationTime = moment().format('YYYY-MM-DD HH:mm:ss')
-  const startDate = moment(entryState.dateRange[0])
+  const sd = moment(entryState.dateRange[0])
     .set('hour', entryState.startTime)
     .set('minute', 0).set('second', 0)
-  const endDate = moment(entryState.dateRange[1])
+  let ed = moment(entryState.dateRange[1])
     .set('hour', entryState.endTime)
     .set('minute', 0).set('second', 0)
-  // console.log('date, creation time', date, creationTime, startDate, endDate)
-  const dates = get_days_between_dates(startDate, endDate)
-  // console.log('dates to add', dates)
+  if (sd.isAfter(ed)) {
+    console.log('adding day to endDate')
+    ed = ed.add(1, 'days') // add 24 hours so that startDate <= endDate
+  }
+  const dates = get_days_between_dates(sd, ed)
   let base_entry: any = {
     Name: entryState.name,
     Date: date,
@@ -62,11 +64,12 @@ const state_to_entries = (entryState: EntryState) => {
     const startDate = moment(dte)
       .set('hour', entryState.startTime)
       .set('minute', 0).set('second', 0)
-    const endDate = moment(dte)
+    let endDate = moment(dte)
       .set('hour', entryState.endTime)
       .set('minute', 0).set('second', 0)
-    if (startDate > endDate) {
-      endDate.add(1, 'days') // add 24 hours so that startDate <= endDate
+    if (startDate.isAfter(endDate)) {
+      console.log('adding day to endDate')
+      endDate = endDate.add(1, 'days') // add 24 hours so that startDate <= endDate
     }
     entry[location] = JSON.stringify([startDate.format('YYYY-MM-DD HH:mm:ss'), endDate.format('YYYY-MM-DD HH:mm:ss')])
     entry.Date = startDate.format('YYYY-MM-DD')
