@@ -43,6 +43,7 @@ export const PTimeline = (props: Props) => {
 
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
     const [selectedItemId, setSelectedItemId] = React.useState(undefined as unknown as number);
+    const [selectedComment, setSelectedComment] = React.useState('');
     const init_groups = make_employee_groups(props.employees, props.controlState) as TimelineGroupBase[]
     const init_items = [] as TimelineItemBase<any>[]
 
@@ -53,9 +54,9 @@ export const PTimeline = (props: Props) => {
         .startOf(initUnit)
         .add(7, "day")
     const init_state: State = {
-        visibleTimeStart: initVisibleTimeStart, 
-        visibleTimeEnd: initVisibleTimeEnd, 
-        unit: initUnit 
+        visibleTimeStart: initVisibleTimeStart,
+        visibleTimeEnd: initVisibleTimeEnd,
+        unit: initUnit
     }
 
     const [state, setState] = React.useState(init_state)
@@ -92,7 +93,7 @@ export const PTimeline = (props: Props) => {
 
 
         console.log('control state changed. dates', visibleTimeStart.format('YYYY-MM-DD'),
-         visibleTimeEnd.format('YYYY-MM-DD'))
+            visibleTimeEnd.format('YYYY-MM-DD'))
 
         const employeeGroups = make_employee_groups(props.employees, props.controlState)
         setGroups(employeeGroups)
@@ -103,7 +104,7 @@ export const PTimeline = (props: Props) => {
             props.controlState.department,
             props.controlState.location)
             .then((entries: EntryData[]) => {
-                make_groups_and_items(entries, 
+                make_groups_and_items(entries,
                     visibleTimeStart, visibleTimeEnd)
             })
     }, [props.controlState])
@@ -146,8 +147,8 @@ export const PTimeline = (props: Props) => {
     };
 
     const make_groups_and_items = (entries: EntryData[],
-                    visibleTimeStart: moment.Moment, visibleTimeEnd: moment.Moment
-        ) => {
+        visibleTimeStart: moment.Moment, visibleTimeEnd: moment.Moment
+    ) => {
 
         let newGroups = make_employee_groups(props.employees, props.controlState)
         console.log('employeGroups', newGroups, props.employees, props.controlState)
@@ -162,7 +163,7 @@ export const PTimeline = (props: Props) => {
         newItems = [...newItems, ...syntheticItems]
 
         console.log('make_groups_and_items dates', visibleTimeStart.format('YYYY-MM-DD'),
-         visibleTimeEnd.format('YYYY-MM-DD'))
+            visibleTimeEnd.format('YYYY-MM-DD'))
         console.log('new entries', entries, 'groups', newGroups, 'items', newItems)
         for (let idx = 0; idx < newItems.length; idx++) { //ensure idx are all unique
             newItems[idx].id = idx
@@ -176,20 +177,22 @@ export const PTimeline = (props: Props) => {
         const item = items.find(i => itemId === i.id) as Item
         console.log('itemId', itemId, 'item', item, evt, time)
         setSelectedItemId(item.entryId)
+        setSelectedComment(item.comment ? item.comment : '')
         setAnchorEl(evt.currentTarget);
     }
 
     const deleteSelected = () => {
         console.log('deleting item', selectedItemId)
         setAnchorEl(null);
-        delete_entry_by_id(selectedItemId).then((response: any) => {
-            console.log('delete response', response)
-            props.setControlState( (pcs: ControlState ) => {
-                return { ...pcs, idx: pcs.idx+1}
-            }
-            )
 
+        if (selectedComment !== 'HQ Synthetic Event') {
+            delete_entry_by_id(selectedItemId).then((response: any) => {
+                console.log('delete response', response)
+                props.setControlState((pcs: ControlState) => {
+                    return { ...pcs, idx: pcs.idx + 1 }
+                })
         })
+        }
     }
 
     const handleTimeChange = (visibleTimeStart: number,
