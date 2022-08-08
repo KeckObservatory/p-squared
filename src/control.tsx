@@ -61,7 +61,7 @@ export interface EntryState {
     name?: string,
     department?: string,
     comment?: string,
-    location: string
+    location: string,
     alternatePickup?: string,
     dateRange: [string | Date, string | Date],
     crewLead?: string,
@@ -69,6 +69,9 @@ export interface EntryState {
     summitLead?: string,
     startTime: number,
     endTime: number,
+    startTime2?: number,
+    endTime2?: number,
+    location2?: string,
     staff: string,
     admin?: boolean
 }

@@ -81,7 +81,7 @@ export const delete_entry_by_id = (
     .catch(handleError)
 }
 
-export const add_entry = (entry: any) => {
+export const add_entry = (entry: EntryData) => {
     let url = API_URL + "entryById?"
 	return axios({
 		method: "post", 

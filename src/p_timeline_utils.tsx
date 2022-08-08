@@ -71,7 +71,7 @@ export type DateRange = [null | string, null | string]
 
 export interface EntryData {
     "id": number,
-    "Date": DateRange,
+    "Date": string | DateRange,
     "Name": string,
     "Department": string,
     "BaseCamp": string,
@@ -120,32 +120,47 @@ export interface Entry {
 export interface Group {
     id: string,
     title: string
-    primaryShift: [ number, number ],
+    primaryShift: [number, number],
     primaryLocation: string
 }
 
 export const make_employee_groups = (employees: Employee[], controlState: ControlState) => {
     const groups: Group[] = []
     employees.forEach((emp: Employee, idx: number) => {
-        const primaryShift = emp.PrimaryShift && emp.PrimaryShift !== "None" ? JSON.parse(emp.PrimaryShift) : [8,17]
-        const primaryLocation = emp.PrimaryLocation? emp.PrimaryLocation : 'HQ'
+        const primaryShift = emp.PrimaryShift && emp.PrimaryShift !== "None" ? JSON.parse(emp.PrimaryShift) : [8, 17]
+        const primaryLocation = emp.PrimaryLocation ? emp.PrimaryLocation : 'HQ'
         if (controlState.department === "" || emp.Department === controlState.department) {
-            const group = { 
+            const group = {
                 id: emp.label as string,
-                 title: emp.label as string,
-                 primaryShift: primaryShift as [number, number ],
-                 primaryLocation: primaryLocation,
-                }
+                title: emp.label as string,
+                primaryShift: primaryShift as [number, number],
+                primaryLocation: primaryLocation,
+            }
             groups.push(group)
         }
     })
     return groups
 }
 
+const create_item = (title: string, dateRange: DateRange, entry: EntryData) => {
+    const item: Item = {
+        id: entry.id,
+        group: entry.Name,
+        title: title,
+        comment: entry.Comment,
+        color: colorMapping['white'],
+        bgColor: get_location_color(title),
+        start_time: moment(dateRange[0]),
+        end_time: moment(dateRange[1])
+    }
+    return item
+
+}
+
 export const entries_to_items = (entries: EntryData[]) => {
 
     // return empty array if entries is an error message
-    if (Object.keys(entries).includes('name')) { 
+    if (Object.keys(entries).includes('name')) {
         return []
     }
 
@@ -155,26 +170,22 @@ export const entries_to_items = (entries: EntryData[]) => {
         let dateRange = [moment(entry.Date + " 8:00:00").toISOString(),
         moment(entry.Date + " 17:00:00").toISOString()] as DateRange
         let title: string = ''
-        LOCATIONS.every((loc: keyof EntryData) => {
+        const titles: string[] = []
+        const dateRanges: DateRange[] = []
+        LOCATIONS.forEach((loc: keyof EntryData) => {
             const dr = entry[loc] as string
             if (dr !== null && dr !== "null" && dr !== "[]") {
                 dateRange = JSON.parse(dr) as DateRange
                 title = loc
-                return false
+                titles.push(title)
+                dateRanges.push(dateRange as DateRange)
             }
-            return true
         })
-        const item: Item = {
-            id: entry.id,
-            group: entry.Name,
-            title: title,
-            comment: entry.Comment,
-            color: colorMapping['white'],
-            bgColor: get_location_color(title),
-            start_time: moment(dateRange[0]),
-            end_time: moment(dateRange[1])
+
+        for (let idx = 0; idx < titles.length; idx++) {
+            const item = create_item(titles[idx], dateRanges[idx], entry)
+            items.push(item)
         }
-        items.push(item)
     })
 
     return items
@@ -252,7 +263,7 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
         })
         newIdx += 1
 
-        if (!realItem && isWeekday && !isSummit ) {
+        if (!realItem && isWeekday && !isSummit) {
             const synthItem: Item = {
                 id: newIdx,
                 group: group.id,
@@ -276,7 +287,7 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
 
     })
 
-    return ( {synthItems, newIdx} )
+    return ({ synthItems, newIdx })
 }
 
 export const generate_synthetic_items = (
@@ -291,12 +302,12 @@ export const generate_synthetic_items = (
 
     const dates = get_date_array(startDate, endDate)
     console.log(
-        'n dates:', dates.length, 
-        'n groups', groups.length, 
-        'n items', items.length, 
-        'start date', startDate.format('YYYY-MM-DD HH:mm:ss'), 
+        'n dates:', dates.length,
+        'n groups', groups.length,
+        'n items', items.length,
+        'start date', startDate.format('YYYY-MM-DD HH:mm:ss'),
         'endDate', endDate.format('YYYY-MM-DD HH:mm:ss')
-        )
+    )
     let idx = moment().valueOf()
 
     // generate entries for group
@@ -310,7 +321,7 @@ export const generate_synthetic_items = (
         })
 
         //generate_entries 
-        const {synthItems, newIdx} = generate_items(group, groupItems, dates, idx)
+        const { synthItems, newIdx } = generate_items(group, groupItems, dates, idx)
         idx = newIdx
 
 

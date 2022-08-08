@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import DropDown from './drop_down';
 import { Autocomplete, Typography } from "@mui/material";
@@ -32,6 +33,8 @@ interface Props {
 
 
 export const NewEntryForm = (props: Props) => {
+
+    const [show2ndLocation, setShow2ndLocation] = useState(false)
 
     useEffect(() => {
 
@@ -76,12 +79,6 @@ export const NewEntryForm = (props: Props) => {
         }
     }
 
-    const handleLocationChange = (value: string) => {
-        props.setEntryState(
-            { ...props.entryState, location: value }
-        )
-    }
-
     const onDateRangeChange = (value: any) => {
         console.log('date range selected', value)
         props.setEntryState({
@@ -90,9 +87,21 @@ export const NewEntryForm = (props: Props) => {
         })
     }
 
-    const handleCommentChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const onStartTime2Change = (value: string) => {
         props.setEntryState(
-            { ...props.entryState, comment: evt.target.value }
+            { ...props.entryState, startTime2: JSON.parse(value) }
+        )
+    }
+
+    const onEndTime2Change = (value: string) => {
+        props.setEntryState(
+            { ...props.entryState, endTime2: JSON.parse(value) }
+        )
+    }
+
+    const handleLocation2Change = (value: string) => {
+        props.setEntryState(
+            { ...props.entryState, location2: value }
         )
     }
     const onStartTimeChange = (value: string) => {
@@ -107,7 +116,24 @@ export const NewEntryForm = (props: Props) => {
         )
     }
 
+    const handleLocationChange = (value: string) => {
+        props.setEntryState(
+            { ...props.entryState, location: value }
+        )
+    }
+
+
+    const handleCommentChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+        props.setEntryState(
+            { ...props.entryState, comment: evt.target.value }
+        )
+    }
+
     const autoValue = props.employees.find(e => e.label === props.entryState.name)
+
+    const handle2ndLocationSelect = () => {
+        setShow2ndLocation(true)
+    }
 
     return (
         <Box
@@ -166,12 +192,37 @@ export const NewEntryForm = (props: Props) => {
                 label={'Location'}
                 placeholder={""}
             />
-            {/* <TextField disabled label={'Staff'} id="staff" value={entryState.staff} /> */}
-            <TextField sx={formControlStyle}
-                label={'Note'}
-                id="note"
-                onChange={handleCommentChange}
-                value={props.entryState.comment} />
+            <Button onClick={handle2ndLocationSelect}>Add 2nd location</Button>
+            {show2ndLocation &&
+                <React.Fragment>
+                    <div style={{ "display": "flex", "marginTop": "12px", "width": "100%" }}>
+                        <DropDown arr={hours}
+                            value={JSON.stringify(props.entryState.startTime2)}
+                            handleChange={onStartTime2Change}
+                            label={'Start Hour'}
+                            placeholder={""}
+                        />
+                        <DropDown arr={hours}
+                            value={JSON.stringify(props.entryState.endTime2)}
+                            handleChange={onEndTime2Change}
+                            label={'End Hour'}
+                            placeholder={""}
+                        />
+                    </div >
+                    <DropDown arr={LOCATIONS}
+                        value={props.entryState.location2}
+                        handleChange={handleLocation2Change}
+                        label={'Location'}
+                        placeholder={""}
+                    />
+                    {/* <TextField disabled label={'Staff'} id="staff" value={entryState.staff} /> */}
+                    <TextField sx={formControlStyle}
+                        label={'Note'}
+                        id="note"
+                        onChange={handleCommentChange}
+                        value={props.entryState.comment} />
+                </React.Fragment>
+            }
         </Box>
     );
 }
