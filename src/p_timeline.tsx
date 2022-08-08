@@ -170,7 +170,7 @@ export const PTimeline = (props: Props) => {
 
     const onItemClick = (itemId: number, evt: any, time: any) => {
         const item = items.find(i => itemId === i.id)
-        console.log('itemId', itemId, 'item', item)
+        console.log('itemId', itemId, 'item', item, evt, time)
         setSelectedItemId(itemId)
         setAnchorEl(evt.currentTarget);
     }

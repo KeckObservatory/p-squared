@@ -154,7 +154,6 @@ const create_item = (title: string, dateRange: DateRange, entry: EntryData) => {
         end_time: moment(dateRange[1])
     }
     return item
-
 }
 
 export const entries_to_items = (entries: EntryData[]) => {
