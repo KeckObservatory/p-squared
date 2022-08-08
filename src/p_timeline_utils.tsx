@@ -99,10 +99,11 @@ export interface EntryData {
     "LastModification": string,
 }
 
-interface Item {
+export interface Item {
     id: string | number,
     group: string,
     title: string,
+    entryId: number,
     comment?: string,
     bgColor?: string,
     selectedBgColor?: string,
@@ -148,6 +149,7 @@ const create_item = (title: string, dateRange: DateRange, entry: EntryData) => {
         group: entry.Name,
         title: title,
         comment: entry.Comment,
+        entryId: entry.id,
         color: colorMapping['white'],
         bgColor: get_location_color(title),
         start_time: moment(dateRange[0]),
@@ -266,6 +268,7 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
             const synthItem: Item = {
                 id: newIdx,
                 group: group.id,
+                entryId: newIdx,
                 comment: 'synthetic event',
                 title: group.primaryLocation,
                 start_time: date.clone().set({

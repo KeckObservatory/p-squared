@@ -21,7 +21,8 @@ import {
     EntryData,
     entries_to_items,
     itemRenderer,
-    generate_synthetic_items
+    generate_synthetic_items,
+    Item
 } from './p_timeline_utils'
 
 
@@ -163,15 +164,18 @@ export const PTimeline = (props: Props) => {
         console.log('make_groups_and_items dates', visibleTimeStart.format('YYYY-MM-DD'),
          visibleTimeEnd.format('YYYY-MM-DD'))
         console.log('new entries', entries, 'groups', newGroups, 'items', newItems)
+        for (let idx = 0; idx < newItems.length; idx++) { //ensure idx are all unique
+            newItems[idx].id = idx
+        }
         setItems(newItems)
         setGroups(newGroups)
     }
 
 
     const onItemClick = (itemId: number, evt: any, time: any) => {
-        const item = items.find(i => itemId === i.id)
+        const item = items.find(i => itemId === i.id) as Item
         console.log('itemId', itemId, 'item', item, evt, time)
-        setSelectedItemId(itemId)
+        setSelectedItemId(item.entryId)
         setAnchorEl(evt.currentTarget);
     }
 
