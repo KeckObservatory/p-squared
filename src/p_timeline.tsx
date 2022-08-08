@@ -185,7 +185,7 @@ export const PTimeline = (props: Props) => {
         console.log('deleting item', selectedItemId)
         setAnchorEl(null);
 
-        if (selectedComment !== 'HQ Synthetic Event') {
+        if (selectedComment.includes('synthetic event')) {
             delete_entry_by_id(selectedItemId).then((response: any) => {
                 console.log('delete response', response)
                 props.setControlState((pcs: ControlState) => {
