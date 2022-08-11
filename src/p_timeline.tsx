@@ -164,10 +164,11 @@ export const PTimeline = (props: Props) => {
 
         console.log('make_groups_and_items dates', visibleTimeStart.format('YYYY-MM-DD'),
             visibleTimeEnd.format('YYYY-MM-DD'))
-        console.log('new entries', entries, 'groups', newGroups, 'items', newItems)
         for (let idx = 0; idx < newItems.length; idx++) { //ensure idx are all unique
-            newItems[idx].id = idx
+            newItems[idx]['id'] = idx
         }
+
+        console.log('new entries', entries, 'groups', newGroups, 'items', newItems)
         setItems(newItems)
         setGroups(newGroups)
     }
@@ -182,16 +183,15 @@ export const PTimeline = (props: Props) => {
     }
 
     const deleteSelected = () => {
-        console.log('deleting item', selectedItemId)
         setAnchorEl(null);
-
-        if (selectedComment.includes('synthetic event')) {
+        if (!selectedComment.includes('synthetic event')) {
+            console.log('deleting item', selectedItemId)
             delete_entry_by_id(selectedItemId).then((response: any) => {
                 console.log('delete response', response)
                 props.setControlState((pcs: ControlState) => {
                     return { ...pcs, idx: pcs.idx + 1 }
                 })
-        })
+            })
         }
     }
 

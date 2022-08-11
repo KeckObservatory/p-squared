@@ -118,6 +118,16 @@ export const NewEntryDialog = (props: Props) => {
 
   const handleClickOpen = () => {
     setOpen(true);
+    props.setEntryState((et: EntryState) => {
+      return (
+        {
+          ...et,
+          location2: undefined,
+          startTime2: undefined,
+          endTime2: undefined
+        }
+      )
+    })
   };
 
   const handleClose = () => {
