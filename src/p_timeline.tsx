@@ -164,8 +164,9 @@ export const PTimeline = (props: Props) => {
 
         console.log('make_groups_and_items dates', visibleTimeStart.format('YYYY-MM-DD'),
             visibleTimeEnd.format('YYYY-MM-DD'))
+        const startIdx = moment().valueOf()
         for (let idx = 0; idx < newItems.length; idx++) { //ensure idx are all unique
-            newItems[idx]['id'] = idx
+            newItems[idx]['id'] = idx + startIdx
         }
 
         console.log('new entries', entries, 'groups', newGroups, 'items', newItems)
