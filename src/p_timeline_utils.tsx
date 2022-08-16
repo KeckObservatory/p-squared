@@ -48,6 +48,7 @@ const get_location_color = (location: string) => {
         case "Vacation":
             color = colorMapping['yellow']
             break;
+        case "Leave":
         case "Sick":
         case "FamilySick":
         case "Sick":

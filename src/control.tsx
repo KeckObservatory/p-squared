@@ -6,6 +6,7 @@ import moment from 'moment'
 import YearMonthPicker from './year_month_picker'
 import Box from '@mui/material/Box'
 import { NewEntryDialog } from './new_entry_dialog'
+import Paper from '@mui/material/Paper'
 import DepartmentSelect from './department_select'
 import { UrlWithStringQuery } from 'url';
 import { PTimeline } from './p_timeline'
@@ -195,7 +196,7 @@ export const Control = (props: Props) => {
     }
 
     return (
-        <React.Fragment>
+        <Paper sx={{margin: '4px'}} elevation={3}>
             <Box >
                 <FormControl sx={{ width: 150, margin: '6px', marginTop: '22px' }}>
                     <YearMonthPicker date={state.date} handleDateChange={handleDateChange} />
@@ -231,7 +232,7 @@ export const Control = (props: Props) => {
             {employees.length > 0 ? (
                 < PTimeline employees={employees} controlState={state} setControlState={setState} />
             ) : <div>Loading table...</div>}
-        </React.Fragment >
+        </Paper >
     )
 
 }

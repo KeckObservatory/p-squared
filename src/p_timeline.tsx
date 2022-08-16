@@ -16,6 +16,7 @@ import Button from '@mui/material/Button'
 import { delete_entry_by_id, get_entries_by_date_range, mock_get_entries_by_date_range } from './api'
 import { ControlState, Employee } from './control'
 import Popover from '@mui/material/Popover'
+import Paper from '@mui/material/Paper'
 import {
     make_employee_groups,
     EntryData,
@@ -216,7 +217,7 @@ export const PTimeline = (props: Props) => {
     const id = open ? 'simple-popover' : undefined;
 
     return (
-        <div>
+        <Paper sx={{marginTop: '12px', margin: '4px'}} elevation={3}>
             <Button onClick={() => onScrollClick(-1)}>{"< Prev"}</Button>
             <Button onClick={() => onScrollClick(1)}>{"Next >"}</Button>
             <Button onClick={() => handleTimeHeaderChange("day")}>
@@ -270,6 +271,6 @@ export const PTimeline = (props: Props) => {
                 {/* <Typography sx={{ p: 2 }}>The content of the Popover.</Typography> */}
                 <Button onClick={deleteSelected}>Delete</Button>
             </Popover>
-        </div>
+        </Paper>
     )
 }
