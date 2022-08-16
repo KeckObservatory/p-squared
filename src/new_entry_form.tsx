@@ -216,13 +216,13 @@ export const NewEntryForm = (props: Props) => {
                         placeholder={""}
                     />
                     {/* <TextField disabled label={'Staff'} id="staff" value={entryState.staff} /> */}
-                    <TextField sx={formControlStyle}
-                        label={'Note'}
-                        id="note"
-                        onChange={handleCommentChange}
-                        value={props.entryState.comment} />
                 </React.Fragment>
             }
+            <TextField sx={formControlStyle}
+                label={'Note'}
+                id="note"
+                onChange={handleCommentChange}
+                value={props.entryState.comment} />
         </Box>
     );
 }

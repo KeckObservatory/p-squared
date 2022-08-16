@@ -177,7 +177,9 @@ export const entries_to_items = (entries: EntryData[]) => {
             const dr = entry[loc] as string
             if (dr !== null && dr !== "null" && dr !== "[]") {
                 dateRange = JSON.parse(dr) as DateRange
+                const leave = ["Vacation", "Sick", "FamilySick", "JuryDuty"].includes(loc)
                 title = loc
+                if(leave) title = 'Leave'
                 titles.push(title)
                 dateRanges.push(dateRange as DateRange)
             }
@@ -198,7 +200,7 @@ export const itemRenderer =
         const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
         const backgroundColor = itemContext.selected ? (itemContext.dragging ? "red" : item.selectedBgColor) : item.bgColor;
         const borderColor = itemContext.resizing ? "red" : item.color;
-        const comment = item.comment ? `${item.title}\n${item.comment}` : item.title
+        const comment = item.comment ? `${item.title}:${item.comment}` : item.title
         return (
             <Tooltip title={comment}>
                 <div

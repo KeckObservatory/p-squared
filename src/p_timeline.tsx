@@ -228,9 +228,6 @@ export const PTimeline = (props: Props) => {
             <Button onClick={() => handleTimeHeaderChange("month")}>
                 {"Monthly"}
             </Button>
-            <Button onClick={() => handleTimeHeaderChange("year")}>
-                {"Yearly"}
-            </Button>
             {groups.length >= 0 && (
                 <Timeline
                     groups={groups}
