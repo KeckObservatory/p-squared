@@ -11,6 +11,7 @@ import { EntryState, Employee } from './control';
 import { add_entry } from './api';
 import moment from 'moment';
 import { EntryData } from './p_timeline_utils';
+import Typography from '@mui/material/Typography';
 
 interface Props {
   employees: Employee[]
@@ -113,6 +114,7 @@ const state_to_entries = (entryState: EntryState) => {
 
 export const NewEntryDialog = (props: Props) => {
   const [open, setOpen] = React.useState(false);
+  const [errMsg, setErrMsg] = React.useState<string | undefined>(undefined);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -134,7 +136,69 @@ export const NewEntryDialog = (props: Props) => {
     setOpen(false);
   };
 
+  const check_if_overlap = () => {
+
+    const secondLocation = props.entryState.startTime2
+      && props.entryState.endTime2
+      && props.entryState.location2
+    if (secondLocation) {
+      const sd = moment(props.entryState.dateRange[0])
+        .set('hour', props.entryState.startTime)
+        .set('minute', 0).set('second', 0)
+      let ed = moment(props.entryState.dateRange[1])
+        .set('hour', props.entryState.endTime)
+        .set('minute', 0).set('second', 0)
+      if (props.entryState.startTime > props.entryState.endTime) {
+        console.log('adding day to endDate')
+        ed = ed.add(1, 'days') // add 24 hours so that startDate <= endDate
+      }
+
+      const sd2 = moment(props.entryState.dateRange[0])
+        .set('hour', props.entryState.startTime2 as number)
+        .set('minute', 0).set('second', 0)
+      let ed2 = moment(props.entryState.dateRange[1])
+        .set('hour', props.entryState.endTime2 as number)
+        .set('minute', 0).set('second', 0)
+      const wrapAround = (props.entryState.startTime2 as number) > (props.entryState.endTime2 as number)
+      if (wrapAround) {
+        console.log('adding day to endDate')
+        ed2 = ed2.add(1, 'days') // add 24 hours so that startDate <= endDate
+      }
+
+      const overlap = (ed2 > sd) || (sd2 < ed)
+      return overlap
+    }
+    return false
+
+  }
+
+    const check_for_errors = () => {
+
+      //date range
+      const maxDayRange = 7
+      const dt = moment(props.entryState.dateRange[1]).diff(moment(props.entryState.dateRange[0]), 'days')
+      if (dt >= maxDayRange) {
+        setErrMsg(`date range cannot be longer than ${maxDayRange}`)
+        return false
+      }
+
+      //overlap with second location
+      const overlap = check_if_overlap()
+      if (overlap) {
+        setErrMsg('Locations cannot overlap. Adjust times')
+        return false
+      }
+    }
+
+
+    setErrMsg(undefined)
+    return true
+  }
+
   const handleSubmit = () => {
+    //check if there are too many entries
+    const errors = check_for_errors()
+    if (errors) return
     const entries = state_to_entries(props.entryState)
     for (let idx = 0; idx < entries.length; idx++) {
       const entry = entries[idx]
@@ -166,6 +230,9 @@ export const NewEntryDialog = (props: Props) => {
           {"Create new entry"}
         </DialogTitle>
         <DialogContent>
+          {errMsg && (
+            <Typography sx={{ color: 'red' }} variant="caption">{errMsg}</Typography>
+          )}
           <NewEntryForm
             employees={props.employees}
             entryState={props.entryState}
