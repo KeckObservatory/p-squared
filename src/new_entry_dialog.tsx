@@ -169,7 +169,6 @@ export const NewEntryDialog = (props: Props) => {
       return overlap
     }
     return false
-
   }
 
     const check_for_errors = () => {
@@ -188,8 +187,14 @@ export const NewEntryDialog = (props: Props) => {
         setErrMsg('Locations cannot overlap. Adjust times')
         return false
       }
-    }
 
+      //location not specified
+      const missing2ndLoc = props.entryState.location2 === undefined && 
+        (props.entryState.startTime2!==undefined && props.entryState.endTime2!==undefined)
+      if (!props.entryState.location || missing2ndLoc ) {
+        setErrMsg('Locations cannot be blank')
+        return false
+      }
 
     setErrMsg(undefined)
     return true
