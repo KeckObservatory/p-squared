@@ -183,14 +183,14 @@ export const NewEntryDialog = (props: Props) => {
       const dt = moment(props.entryState.dateRange[1]).diff(moment(props.entryState.dateRange[0]), 'days')
       if (dt >= maxDayRange) {
         setErrMsg(`date range cannot be longer than ${maxDayRange}`)
-        return false
+        return true 
       }
 
       //overlap with second location
       const overlap = check_if_overlap()
       if (overlap) {
         setErrMsg('Locations cannot overlap. Adjust times')
-        return false
+        return true 
       }
 
       //location not specified
@@ -198,11 +198,11 @@ export const NewEntryDialog = (props: Props) => {
         (props.entryState.startTime2!==undefined && props.entryState.endTime2!==undefined)
       if (!props.entryState.location || missing2ndLoc ) {
         setErrMsg('Locations cannot be blank')
-        return false
+        return true 
       }
 
     setErrMsg(undefined)
-    return true
+    return false 
   }
 
   const handleSubmit = () => {
