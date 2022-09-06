@@ -105,6 +105,7 @@ export interface Item {
     group: string,
     title: string,
     entryId: number,
+    location: string,
     comment?: string,
     bgColor?: string,
     selectedBgColor?: string,
@@ -126,12 +127,25 @@ export interface Group {
     primaryLocation: string
 }
 
+export const filter_groups_by_location = (groups: Group[], items: Item[]) => {
+    let newGroups = [...groups]
+    let gNames = items.map((item: Item) => {
+        return item.group
+    })
+    const sgNames= new Set(gNames)
+    gNames = Array.from(sgNames)
+    newGroups.filter(g => gNames.includes(g.title))
+
+    return newGroups
+}
+
 export const make_employee_groups = (employees: Employee[], controlState: ControlState) => {
     const groups: Group[] = []
     employees.forEach((emp: Employee, idx: number) => {
         const primaryShift = emp.PrimaryShift && emp.PrimaryShift !== "None" ? JSON.parse(emp.PrimaryShift) : [8, 17]
         const primaryLocation = emp.PrimaryLocation ? emp.PrimaryLocation : 'HQ'
-        if (controlState.department === "" || emp.Department === controlState.department) {
+        const matchesDept = controlState.department === "" || emp.Department === controlState.department
+        if ( matchesDept ) {
             const group = {
                 id: emp.label as string,
                 title: emp.label as string,
@@ -144,7 +158,7 @@ export const make_employee_groups = (employees: Employee[], controlState: Contro
     return groups
 }
 
-const create_item = (title: string, dateRange: DateRange, entry: EntryData) => {
+const create_item = (title: string, location: string, dateRange: DateRange, entry: EntryData) => {
     const item: Item = {
         id: entry.id,
         group: entry.Name,
@@ -153,6 +167,7 @@ const create_item = (title: string, dateRange: DateRange, entry: EntryData) => {
         entryId: entry.id,
         color: colorMapping['white'],
         bgColor: get_location_color(title),
+        location: location,
         start_time: moment(dateRange[0]),
         end_time: moment(dateRange[1])
     }
@@ -173,6 +188,7 @@ export const entries_to_items = (entries: EntryData[]) => {
         moment(entry.Date + " 17:00:00").toISOString()] as DateRange
         let title: string = ''
         const titles: string[] = []
+        const locations: string[] = []
         const dateRanges: DateRange[] = []
         LOCATIONS.forEach((loc: keyof EntryData) => {
             const dr = entry[loc] as string
@@ -180,6 +196,7 @@ export const entries_to_items = (entries: EntryData[]) => {
                 dateRange = JSON.parse(dr) as DateRange
                 const leave = ["Vacation", "Sick", "FamilySick", "JuryDuty"].includes(loc)
                 title = loc
+                locations.push(loc)
                 if(leave) title = 'Leave'
                 titles.push(title)
                 dateRanges.push(dateRange as DateRange)
@@ -187,7 +204,7 @@ export const entries_to_items = (entries: EntryData[]) => {
         })
 
         for (let idx = 0; idx < titles.length; idx++) {
-            const item = create_item(titles[idx], dateRanges[idx], entry)
+            const item = create_item(titles[idx], locations[idx], dateRanges[idx], entry)
             items.push(item)
         }
     })
@@ -272,6 +289,7 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
                 id: newIdx,
                 group: group.id,
                 entryId: newIdx,
+                location: group.primaryLocation,
                 comment: 'synthetic event',
                 title: group.primaryLocation,
                 start_time: date.clone().set({

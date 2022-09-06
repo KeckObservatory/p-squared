@@ -23,7 +23,8 @@ import {
     entries_to_items,
     itemRenderer,
     generate_synthetic_items,
-    Item
+    Item,
+    filter_groups_by_location
 } from './p_timeline_utils'
 
 
@@ -154,6 +155,10 @@ export const PTimeline = (props: Props) => {
         let newGroups = make_employee_groups(props.employees, props.controlState)
         console.log('employeGroups', newGroups, props.employees, props.controlState)
         let newItems = entries_to_items(entries)
+        const locationFiltering = props.controlState.location !== ""
+        newGroups = locationFiltering? filter_groups_by_location(newGroups, newItems) : newGroups
+        console.log('location filtered groups', newGroups)
+
         let syntheticItems = generate_synthetic_items(
             newGroups,
             newItems,
