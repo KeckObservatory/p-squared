@@ -157,7 +157,6 @@ export const PTimeline = (props: Props) => {
         let newItems = entries_to_items(entries)
         const locationFiltering = props.controlState.location !== ""
         newGroups = locationFiltering? filter_groups_by_location(newGroups, newItems) : newGroups
-        console.log('location filtered groups', newGroups)
 
         let syntheticItems = generate_synthetic_items(
             newGroups,
