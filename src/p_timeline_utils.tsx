@@ -180,7 +180,7 @@ export const entries_to_items = (entries: EntryData[]) => {
         let locs = ALL_LOCATIONS as Array<keyof EntryData>
         locs.forEach((loc: keyof EntryData) => {
             const dr = entry[loc] as string
-            const notEmpty = dr !== null && dr !== "null" && dr !== "[]"
+            const notEmpty = dr !== null && dr !== "null" && dr !== "[]" && dr !== undefined
             if (notEmpty) {
                 dateRange = JSON.parse(dr) as DateRange
                 const leave = ["Vacation", "Sick", "FamilySick", "JuryDuty"].includes(loc)
