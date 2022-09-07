@@ -135,7 +135,7 @@ export const filter_groups_by_location = (groups: Group[], items: Item[]) => {
     const sgNames= new Set(gNames)
     gNames = Array.from(sgNames)
     newGroups = newGroups.filter(g => gNames.includes(g.title))
-    console.log('filterd groups', newGroups)
+    console.log('filtered groups', newGroups)
 
     return newGroups
 }

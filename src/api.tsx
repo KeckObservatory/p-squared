@@ -106,9 +106,16 @@ export const get_entries_by_date_range= (
     if(department) {
         url += '&Department=' + department
     }
-    if(location) {
+    if(location==='leave') {
+        url += '&Sick=1&JuryDuty=1&Vacation=1&FamilySick=1' 
+    }
+    else if(location) {
         url += '&' + location + '=1' 
     }
+    else {
+
+    }
+
     return axios.get(url)
     .then(handleResponse)
     .then((entry: any) => {

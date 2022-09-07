@@ -30,10 +30,7 @@ export const LOCATIONS = [
     "Hilo",
     "Kona",
     "WFH",
-    "Vacation",
-    "Sick",
-    "FamilySick",
-    "JuryDuty",
+    "Leave",
     "Travel",
     "Other",
 ]
