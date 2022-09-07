@@ -22,7 +22,7 @@ export interface ControlState {
     idx: number
 }
 
-export const LOCATIONS = [
+export const ABV_LOCATIONS = [
     "",
     "HQ",
     "SU",
@@ -31,6 +31,22 @@ export const LOCATIONS = [
     "Kona",
     "WFH",
     "Leave",
+    "Travel",
+    "Other",
+]
+
+export const ALL_LOCATIONS = [
+    "",
+    "HQ",
+    "SU",
+    "HP",
+    "Hilo",
+    "Kona",
+    "WFH",
+    "Sick",
+    "Vacation",
+    "JuryDuty",
+    "FamilySick",
     "Travel",
     "Other",
 ]
@@ -199,7 +215,7 @@ export const Control = (props: Props) => {
                     <YearMonthPicker date={state.date} handleDateChange={handleDateChange} />
                 </FormControl>
                 <FormControl sx={{ width: 100, margin: '16px', marginTop: '16px' }}>
-                    <DropDown arr={LOCATIONS}
+                    <DropDown arr={ABV_LOCATIONS}
                         handleChange={handleLocationChange}
                         value={state.location}
                         placeholder={'Select Location'}

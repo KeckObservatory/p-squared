@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import DropDown from './drop_down';
 import { Autocomplete, Typography } from "@mui/material";
-import { Employee, EntryState, LOCATIONS, User } from './control';
+import { Employee, EntryState, ALL_LOCATIONS, User } from './control';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { DEPARTMENTS } from './department_select';
 import { get_staffinfo } from './api';
@@ -186,7 +186,7 @@ export const NewEntryForm = (props: Props) => {
                     placeholder={""}
                 />
             </div >
-            <DropDown arr={LOCATIONS}
+            <DropDown arr={ALL_LOCATIONS}
                 value={props.entryState.location}
                 handleChange={handleLocationChange}
                 label={'Location'}
@@ -209,7 +209,7 @@ export const NewEntryForm = (props: Props) => {
                             placeholder={""}
                         />
                     </div >
-                    <DropDown arr={LOCATIONS}
+                    <DropDown arr={ALL_LOCATIONS}
                         value={props.entryState.location2}
                         handleChange={handleLocation2Change}
                         label={'Location'}

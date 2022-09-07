@@ -2,21 +2,7 @@ import moment from 'moment'
 import { ReactCalendarItemRendererProps } from 'react-calendar-timeline'
 import { ControlState, Employee } from './control'
 import Tooltip from '@mui/material/Tooltip';
-
-export const LOCATIONS: Array<keyof EntryData> = [
-    "HQ",
-    "SU",
-    "HP",
-    "Hilo",
-    "Kona",
-    "WFH",
-    "Vacation",
-    "Sick",
-    "FamilySick",
-    "JuryDuty",
-    "Travel",
-    "Other",
-]
+import { ABV_LOCATIONS } from './control';
 
 const colorMapping = {
     orange: '#e69f00',
@@ -191,7 +177,8 @@ export const entries_to_items = (entries: EntryData[]) => {
         const titles: string[] = []
         const locations: string[] = []
         const dateRanges: DateRange[] = []
-        LOCATIONS.forEach((loc: keyof EntryData) => {
+        let locs = ABV_LOCATIONS as Array<keyof EntryData>
+        locs.forEach((loc: keyof EntryData) => {
             const dr = entry[loc] as string
             if (dr !== null && dr !== "null" && dr !== "[]") {
                 dateRange = JSON.parse(dr) as DateRange
