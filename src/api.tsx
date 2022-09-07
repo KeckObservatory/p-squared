@@ -106,7 +106,7 @@ export const get_entries_by_date_range= (
     if(department) {
         url += '&Department=' + department
     }
-    if(location==='leave') {
+    if(location==='Leave') {
         url += '&Sick=1&JuryDuty=1&Vacation=1&FamilySick=1' 
     }
     else if(location) {
