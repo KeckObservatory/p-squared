@@ -107,7 +107,7 @@ export const get_entries_by_date_range= (
         url += '&Department=' + department
     }
     if(location==='Leave') {
-        url += '&Sick=1&JuryDuty=1&Vacation=1&FamilySick=1' 
+        url += '&leave=1'  //needs to be lowercase
     }
     else if(location) {
         url += '&' + location + '=1' 
