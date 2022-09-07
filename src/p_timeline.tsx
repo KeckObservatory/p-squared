@@ -85,8 +85,8 @@ export const PTimeline = (props: Props) => {
         const visibleTimeStart = date.clone()
             .startOf(state.unit)
         const visibleTimeEnd = date.clone()
-            .startOf(state.unit)
-            .add(1, state.unit)
+            .startOf(state.unit as any)
+            .add(1, state.unit as any)
         setState({
             ...state,
             visibleTimeStart,
@@ -136,8 +136,8 @@ export const PTimeline = (props: Props) => {
 
     const onScrollClick = (inc: number) => {
         let newDate = props.controlState.date.clone()
-            .add(inc, state.unit)
-            .startOf(state.unit)
+            .add(inc, state.unit as any)
+            .startOf(state.unit as any)
         console.log(newDate)
 
         props.setControlState(
@@ -241,7 +241,6 @@ export const PTimeline = (props: Props) => {
                     itemHeightRatio={0.85}
                     canMove={false}
                     canResize={false}
-                    //@ts-ignore
                     buffer={1} // prevent mouse scrolling
                     visibleTimeStart={state.visibleTimeStart}
                     visibleTimeEnd={state.visibleTimeEnd}

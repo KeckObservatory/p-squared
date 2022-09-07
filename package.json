@@ -65,7 +65,7 @@
   "devDependencies": {
     "@types/faker": "^5.5.9",
     "@types/randomcolor": "^0.5.6",
-    "@types/react-calendar-timeline": "^0.26.5",
+    "@types/react-calendar-timeline": "^0.26.7",
     "@types/react-time-picker": "^4.0.2",
     "@types/wojtekmaj__react-daterange-picker": "^3.4.0"
   }
