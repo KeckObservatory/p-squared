@@ -241,6 +241,8 @@ export const PTimeline = (props: Props) => {
                     itemHeightRatio={0.85}
                     canMove={false}
                     canResize={false}
+                    //@ts-ignore
+                    buffer={1} // prevent mouse scrolling
                     visibleTimeStart={state.visibleTimeStart}
                     visibleTimeEnd={state.visibleTimeEnd}
                     itemRenderer={itemRenderer}
