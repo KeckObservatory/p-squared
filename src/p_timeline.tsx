@@ -206,12 +206,12 @@ export const PTimeline = (props: Props) => {
         updateScrollCanvas: (start: number, end: number) => void) => {
         const momTS = moment(visibleTimeStart)
         const momTE = moment(visibleTimeEnd)
-        updateScrollCanvas(momTS.valueOf(), momTE.valueOf())
-        setState({
-            ...state,
-            visibleTimeStart: momTS,
-            visibleTimeEnd: momTE,
-        });
+        updateScrollCanvas(state.visibleTimeStart.valueOf(), state.visibleTimeEnd.valueOf())
+        // setState({
+        //     ...state,
+        //     visibleTimeStart: momTS,
+        //     visibleTimeEnd: momTE,
+        // });
     };
 
     const handleClosePopover = () => {
