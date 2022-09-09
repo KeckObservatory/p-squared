@@ -156,7 +156,7 @@ export const PTimeline = (props: Props) => {
         console.log('employeGroups', newGroups, props.employees, props.controlState)
         let newItems = entries_to_items(entries)
         const locationFiltering = props.controlState.location !== ""
-        newGroups = locationFiltering? filter_groups_by_location(newGroups, newItems) : newGroups
+        newGroups = locationFiltering ? filter_groups_by_location(newGroups, newItems) : newGroups
 
         let syntheticItems = generate_synthetic_items(
             newGroups,
@@ -202,9 +202,11 @@ export const PTimeline = (props: Props) => {
     }
 
     const handleTimeChange = (visibleTimeStart: number,
-        visibleTimeEnd: number) => {
+        visibleTimeEnd: number,
+        updateScrollCanvas: (start: number, end: number) => void) => {
         const momTS = moment(visibleTimeStart)
         const momTE = moment(visibleTimeEnd)
+        updateScrollCanvas(momTS.valueOf(), momTE.valueOf())
         setState({
             ...state,
             visibleTimeStart: momTS,
@@ -216,12 +218,11 @@ export const PTimeline = (props: Props) => {
         setAnchorEl(null);
     };
 
-
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
 
     return (
-        <Paper sx={{marginTop: '12px', margin: '4px'}} elevation={3}>
+        <Paper sx={{ marginTop: '12px', margin: '4px' }} elevation={3}>
             <Button onClick={() => onScrollClick(-1)}>{"< Prev"}</Button>
             <Button onClick={() => onScrollClick(1)}>{"Next >"}</Button>
             <Button onClick={() => handleTimeHeaderChange("day")}>
@@ -241,7 +242,6 @@ export const PTimeline = (props: Props) => {
                     itemHeightRatio={0.85}
                     canMove={false}
                     canResize={false}
-                    buffer={1} // prevent mouse scrolling
                     visibleTimeStart={state.visibleTimeStart}
                     visibleTimeEnd={state.visibleTimeEnd}
                     itemRenderer={itemRenderer}
