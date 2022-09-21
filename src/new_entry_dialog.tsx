@@ -126,7 +126,8 @@ export const NewEntryDialog = (props: Props) => {
           ...et,
           location2: undefined,
           startTime2: undefined,
-          endTime2: undefined
+          endTime2: undefined,
+          comment: undefined
         }
       )
     })
@@ -168,7 +169,7 @@ export const NewEntryDialog = (props: Props) => {
 
       const firstEventFirst = ( (sd < sd2) && (ed<=sd2) && (ed < ed2 ) )
       const firstEventSecond = ( (sd > sd2) && (ed2<=sd) && (ed2 < ed ) )
-      console.log('firstEventFirst', firstEventFirst, sd, sd2, ed, ed2)
+      console.log('firstEventFirst', firstEventFirst, sd.valueOf(), sd2.valueOf(), ed.valueOf(), ed2.valueOf())
       console.log('secondEventFirst', firstEventSecond)
       const overlap = !firstEventFirst && !firstEventSecond
       return overlap
