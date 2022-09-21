@@ -217,11 +217,12 @@ export const Control = (props: Props) => {
         console.log(value)
         let newFiltEmployees: Employee[] = []
         employees.map((emp: Employee) => {
-            const name = emp.FirstName+emp.LastName+emp.Alias
+            const name = emp.LastName + ", " + emp.FirstName + emp.Alias
             if(name.includes(value)) {
                 newFiltEmployees.push(emp)
             }
         })
+        console.log(newFiltEmployees)
         setFiltEmployees(newFiltEmployees)
     }
 
