@@ -11,6 +11,8 @@ import DepartmentSelect from './department_select'
 import { UrlWithStringQuery } from 'url';
 import { PTimeline } from './p_timeline'
 import { mock_get_employees, get_employees, get_staffinfo } from './api'
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 
 export interface Props { }
 
@@ -137,6 +139,7 @@ export const Control = (props: Props) => {
         idx: 0
     }
     const [employees, setEmployees] = React.useState([] as Employee[])
+    const [filtEmployees, setFiltEmployees] = React.useState([] as Employee[])
     const [state, setState] = useState(initState)
 
     const [entryState, setEntryState] = React.useState({
@@ -157,6 +160,7 @@ export const Control = (props: Props) => {
                 })
                 console.log('num employees', labelEmps.length)
                 setEmployees(labelEmps)
+                setFiltEmployees(labelEmps)
             }
         })
 
@@ -208,8 +212,21 @@ export const Control = (props: Props) => {
         })
     }
 
+
+    const handleInputFilterChange = (evt: React.SyntheticEvent, value: string) => {
+        console.log(value)
+        let newFiltEmployees: Employee[] = []
+        employees.map((emp: Employee) => {
+            const name = emp.FirstName+emp.LastName+emp.Alias
+            if(name.includes(value)) {
+                newFiltEmployees.push(emp)
+            }
+        })
+        setFiltEmployees(newFiltEmployees)
+    }
+
     return (
-        <Paper sx={{margin: '4px'}} elevation={3}>
+        <Paper sx={{ margin: '4px' }} elevation={3}>
             <Box >
                 <FormControl sx={{ width: 150, margin: '6px', marginTop: '22px' }}>
                     <YearMonthPicker date={state.date} handleDateChange={handleDateChange} />
@@ -230,6 +247,22 @@ export const Control = (props: Props) => {
                         label={'Department'}
                     />
                 </FormControl>
+                <FormControl sx={{ width: 250, marginLeft: '33px', marginTop: '22px' }}>
+                    <Autocomplete
+                        // sx={{ ...formControlStyle, marginTop: '12px' }}
+                        disablePortal
+                        id="filter-box-demo"
+                        options={employees}
+                        getOptionLabel={(option) => option.label as string}
+                        renderInput={(params) => <TextField
+                            {...params}
+                            InputLabelProps={{ shrink: true }}
+                            label="Filter Names" />}
+                        // disabled={!entryState.admin}} TODO: disable when admin is in API
+                        // onChange={handleFilterChange}
+                        onInputChange={handleInputFilterChange}
+                    />
+                </FormControl>
                 {/* <FormControl sx={{ m: 2, width: 300, marginTop: '22px'}}>
                     <DepartmentSelect departments={state.department} handleDepartmentChange={handleDepartmentChange} />
                 </FormControl> */}
@@ -243,7 +276,7 @@ export const Control = (props: Props) => {
                     handleEntrySubmit={handleEntrySubmit} />
             </Box>
             {employees.length > 0 ? (
-                < PTimeline employees={employees} controlState={state} setControlState={setState} />
+                < PTimeline employees={filtEmployees} controlState={state} setControlState={setState} />
             ) : <div>Loading table...</div>}
         </Paper >
     )
