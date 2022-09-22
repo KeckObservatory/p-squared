@@ -158,7 +158,6 @@ export const Control = (props: Props) => {
                     const label = `${emp.LastName}, ${emp.FirstName}`
                     return { ...emp, label: label }
                 })
-                console.log('num employees', labelEmps.length)
                 setEmployees(labelEmps)
                 setFiltEmployees(labelEmps)
             }
@@ -181,11 +180,6 @@ export const Control = (props: Props) => {
 
 
     }, [])
-
-    React.useEffect(() => {
-        console.log('filtered employees', filtEmployees)
-        handleEntrySubmit()
-    }, [filtEmployees ])
 
     const handleDateChange = (date: Date | null, keyboardInputValue?: string | undefined): void => {
         const d = moment(date)
@@ -227,7 +221,7 @@ export const Control = (props: Props) => {
             }
         })
         console.log(newFiltEmployees)
-        setFiltEmployees(newFiltEmployees)
+        setFiltEmployees((oldFiltEmployees) => [...newFiltEmployees])
     }
 
     return (
@@ -268,12 +262,6 @@ export const Control = (props: Props) => {
                         onInputChange={handleInputFilterChange}
                     />
                 </FormControl>
-                {/* <FormControl sx={{ m: 2, width: 300, marginTop: '22px'}}>
-                    <DepartmentSelect departments={state.department} handleDepartmentChange={handleDepartmentChange} />
-                </FormControl> */}
-                {/* <div style={{ margin: '9px' }}>
-                    <Button variant="contained">Go</Button>
-                </div> */}
                 <NewEntryDialog
                     employees={employees}
                     entryState={entryState}
