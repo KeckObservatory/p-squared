@@ -184,7 +184,9 @@ export const Control = (props: Props) => {
 
     React.useEffect(() => {
         console.log('filtered employees', filtEmployees)
+        handleEntrySubmit()
     }, [filtEmployees ])
+
     const handleDateChange = (date: Date | null, keyboardInputValue?: string | undefined): void => {
         const d = moment(date)
         console.log(d, date)
