@@ -182,7 +182,9 @@ export const Control = (props: Props) => {
 
     }, [])
 
-
+    React.useEffect(() => {
+        console.log('filtered employees', filtEmployees)
+    }, [filtEmployees ])
     const handleDateChange = (date: Date | null, keyboardInputValue?: string | undefined): void => {
         const d = moment(date)
         console.log(d, date)
@@ -218,7 +220,7 @@ export const Control = (props: Props) => {
         let newFiltEmployees: Employee[] = []
         employees.map((emp: Employee) => {
             const name = emp.LastName + ", " + emp.FirstName + emp.Alias
-            if(name.includes(value)) {
+            if(name.toUpperCase().includes(value.toUpperCase())) {
                 newFiltEmployees.push(emp)
             }
         })
@@ -276,7 +278,7 @@ export const Control = (props: Props) => {
                     setEntryState={setEntryState}
                     handleEntrySubmit={handleEntrySubmit} />
             </Box>
-            {employees.length > 0 ? (
+            {filtEmployees.length > 0 ? (
                 < PTimeline employees={filtEmployees} controlState={state} setControlState={setState} />
             ) : <div>Loading table...</div>}
         </Paper >
