@@ -180,7 +180,7 @@ export const Control = (props: Props) => {
     }, [])
 
     React.useEffect(() => {
-        handleEntrySubmit() //force PTimeline to refresh on filtEmployee change
+        // handleEntrySubmit() //force PTimeline to refresh on filtEmployee change
     }, [filtEmployees ])
 
     const handleDateChange = (date: Date | null, keyboardInputValue?: string | undefined): void => {
@@ -223,6 +223,7 @@ export const Control = (props: Props) => {
         })
         console.log(newFiltEmployees)
         setFiltEmployees(newFiltEmployees) //WARNING: may not cause rerender
+        handleEntrySubmit() //this will force a rerender
     }
 
     return (
