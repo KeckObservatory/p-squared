@@ -179,10 +179,6 @@ export const Control = (props: Props) => {
 
     }, [])
 
-    React.useEffect(() => {
-        // handleEntrySubmit() //force PTimeline to refresh on filtEmployee change
-    }, [filtEmployees ])
-
     const handleDateChange = (date: Date | null, keyboardInputValue?: string | undefined): void => {
         const d = moment(date)
         console.log(d, date)
