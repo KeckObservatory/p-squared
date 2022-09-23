@@ -126,8 +126,6 @@ export interface Employee {
     PrimaryShift?: string,
 }
 
-const EntryContext = React.createContext(null as any);
-
 export const Control = (props: Props) => {
     const now = moment()
 
@@ -213,7 +211,6 @@ export const Control = (props: Props) => {
             ...state
         })
     }
-
 
     const handleInputFilterChange = (evt: React.SyntheticEvent, value: string) => {
         console.log(value)

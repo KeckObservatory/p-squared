@@ -171,7 +171,7 @@ export const PTimeline = (props: Props) => {
             visibleTimeEnd.format('YYYY-MM-DD'))
         const startIdx = moment().valueOf()
         for (let idx = 0; idx < newItems.length; idx++) { //ensure idx are all unique
-            newItems[idx]['id'] = idx + startIdx
+            newItems[idx]['id'] = JSON.stringify(idx + startIdx)
         }
 
         console.log('new entries', entries, 'groups', newGroups, 'items', newItems)
