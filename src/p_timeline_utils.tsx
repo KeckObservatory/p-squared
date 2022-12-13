@@ -113,7 +113,7 @@ export interface Group {
     primaryLocation: string
 }
 
-type Unit = `second` | `minute` | `hour` | `day` | `month` | `year`
+type Unit = `second` | `minute` | `hour` | `day` | `week` | `isoWeek` | `month` | `year`
 
 const formatLabel: LabelFormat = {
     year: {
@@ -135,8 +135,8 @@ const formatLabel: LabelFormat = {
         short: 'w'
     },
     day: {
-        long: 'dddd, LL',
-        mediumLong: 'dd, L',
+        long: 'dd, D',
+        mediumLong: 'dd, D',
         medium: 'dd D',
         short: 'D'
     },
@@ -157,7 +157,7 @@ const formatLabel: LabelFormat = {
 export const label_format = ([startTime, endTime]: [moment.Moment, moment.Moment],
     unit: Unit,
     labelWidth: number,
-    formatOptions: LabelFormat=formatLabel) => {
+    formatOptions: LabelFormat=formatLabel): string => {
     let format
     if (labelWidth >= 150) {
         //@ts-ignore

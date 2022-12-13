@@ -251,8 +251,7 @@ export const PTimeline = (props: Props) => {
                             }}
                         </SidebarHeader>
                         <DateHeader unit="primaryHeader" />
-                        labelFormat=label_format
-                        <DateHeader />
+                        <DateHeader labelFormatter={label_format} />
                     </TimelineHeaders>
                     <TimelineMarkers>
                         <TodayMarker date={new Date()} />
