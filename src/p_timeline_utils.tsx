@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { ReactCalendarItemRendererProps } from 'react-calendar-timeline'
+import { ReactCalendarItemRendererProps, LabelFormat } from 'react-calendar-timeline'
 import { ControlState, Employee } from './control'
 import Tooltip from '@mui/material/Tooltip';
 import { ALL_LOCATIONS } from './control';
@@ -113,12 +113,74 @@ export interface Group {
     primaryLocation: string
 }
 
+type Unit = `second` | `minute` | `hour` | `day` | `month` | `year`
+
+const formatLabel: LabelFormat = {
+    year: {
+        long: 'YYYY',
+        mediumLong: 'YY',
+        medium: 'YY',
+        short: 'YY'
+    },
+    month: {
+        long: 'MMMM YYYY',
+        mediumLong: 'MM',
+        medium: 'MM',
+        short: 'MM/YY'
+    },
+    week: {
+        long: 'w',
+        mediumLong: 'w',
+        medium: 'w',
+        short: 'w'
+    },
+    day: {
+        long: 'dddd, LL',
+        mediumLong: 'dd, L',
+        medium: 'dd D',
+        short: 'D'
+    },
+    hour: {
+        long: 'dddd, LL, HH:00',
+        mediumLong: 'L, HH:00',
+        medium: 'HH:00',
+        short: 'HH'
+    },
+    minute: {
+        long: 'HH:mm',
+        mediumLong: 'HH:mm',
+        medium: 'HH:mm',
+        short: 'mm',
+    }
+}
+
+export const label_format = ([startTime, endTime]: [moment.Moment, moment.Moment],
+    unit: Unit,
+    labelWidth: number,
+    formatOptions: LabelFormat=formatLabel) => {
+    let format
+    if (labelWidth >= 150) {
+        //@ts-ignore
+        format = formatOptions[unit]['long']
+    } else if (labelWidth >= 100) {
+        //@ts-ignore
+        format = formatOptions[unit]['mediumLong']
+    } else if (labelWidth >= 50) {
+        //@ts-ignore
+        format = formatOptions[unit]['medium']
+    } else {
+        //@ts-ignore
+        format = formatOptions[unit]['short']
+    }
+    return startTime.format(format)
+}
+
 export const filter_groups_by_location = (groups: Group[], items: Item[]) => {
     let newGroups = [...groups]
     let gNames = items.map((item: Item) => {
         return item.group
     })
-    const sgNames= new Set(gNames)
+    const sgNames = new Set(gNames)
     gNames = Array.from(sgNames)
     newGroups = newGroups.filter(g => gNames.includes(g.title))
     console.log('filtered groups', newGroups)
@@ -132,7 +194,7 @@ export const make_employee_groups = (employees: Employee[], controlState: Contro
         const primaryShift = emp.PrimaryShift && emp.PrimaryShift !== "None" ? JSON.parse(emp.PrimaryShift) : [8, 17]
         const primaryLocation = emp.PrimaryLocation ? emp.PrimaryLocation : 'HQ'
         const matchesDept = controlState.department === "" || emp.Department === controlState.department
-        if ( matchesDept ) {
+        if (matchesDept) {
             const group = {
                 id: emp.label as string,
                 title: emp.label as string,
@@ -186,7 +248,7 @@ export const entries_to_items = (entries: EntryData[]) => {
                 const leave = ["Vacation", "Sick", "FamilySick", "JuryDuty"].includes(loc)
                 title = loc
                 locations.push(loc)
-                if(leave) title = 'Leave'
+                if (leave) title = 'Leave'
                 titles.push(title)
                 dateRanges.push(dateRange as DateRange)
             }

@@ -24,7 +24,8 @@ import {
     itemRenderer,
     generate_synthetic_items,
     Item,
-    filter_groups_by_location
+    filter_groups_by_location,
+    label_format
 } from './p_timeline_utils'
 
 
@@ -250,6 +251,7 @@ export const PTimeline = (props: Props) => {
                             }}
                         </SidebarHeader>
                         <DateHeader unit="primaryHeader" />
+                        labelFormat=label_format
                         <DateHeader />
                     </TimelineHeaders>
                     <TimelineMarkers>
