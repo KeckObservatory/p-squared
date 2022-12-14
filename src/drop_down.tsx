@@ -26,7 +26,7 @@ interface MenuProps {
 }
 
 const MakeMenuItem = (value: string, key: number, disabled = false) => {
-    return <MenuItem disabled={disabled} value={value} key={key}>{value}</MenuItem>
+    return <MenuItem dense={true} disabled={disabled} value={value} key={key}>{value}</MenuItem>
 }
 
 const DropDown = (props: MenuProps): JSX.Element => {

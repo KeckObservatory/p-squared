@@ -5,6 +5,7 @@ import DropDown from './drop_down'
 import moment from 'moment'
 import YearMonthPicker from './year_month_picker'
 import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
 import { NewEntryDialog } from './new_entry_dialog'
 import Paper from '@mui/material/Paper'
 import DepartmentSelect from './department_select'
@@ -224,7 +225,8 @@ export const Control = (props: Props) => {
 
     return (
         <Paper sx={{ margin: '4px' }} elevation={3}>
-            <Box >
+            <Box 
+            >
                 <FormControl sx={{ width: 150, margin: '6px', marginTop: '22px' }}>
                     <YearMonthPicker date={state.date} handleDateChange={handleDateChange} />
                 </FormControl>
@@ -236,7 +238,7 @@ export const Control = (props: Props) => {
                         label={'Location'}
                     />
                 </FormControl>
-                <FormControl sx={{ width: 150, marginLeft: '33px', marginTop: '16px' }}>
+                <FormControl sx={{ minWidth: 150, marginLeft: '33px', marginTop: '16px' }}>
                     <DropDown arr={DEPARTMENTS}
                         handleChange={handleDepartmentChange}
                         value={state.department}

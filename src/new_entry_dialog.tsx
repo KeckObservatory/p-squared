@@ -228,7 +228,7 @@ export const NewEntryDialog = (props: Props) => {
 
   return (
     <div>
-      <Button style={{ margin: '9px' }} variant="outlined" onClick={handleClickOpen}>
+      <Button style={{ margin: '12px' }} variant="contained" onClick={handleClickOpen}>
         Create New Entry
       </Button>
       <Dialog
