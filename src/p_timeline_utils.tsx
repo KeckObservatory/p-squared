@@ -330,12 +330,13 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
 
         const isWeekday = date.isoWeekday() < 6 //saturday=6 sunday=7
         const isSummit = group.primaryLocation === 'SU'
-        const realItem = groupItems.find((item: Item) => {
-            return item.start_time.isSame(date, 'day')
-        })
+        // const realItem = groupItems.find((item: Item) => {
+        //     return item.start_time.isSame(date, 'day')
+        // })
         newIdx += 1
 
-        if (!realItem && isWeekday && !isSummit) {
+        // if (!realItem && isWeekday && !isSummit) {
+        if (isWeekday && !isSummit) {
             const synthItem: Item = {
                 id: newIdx,
                 group: group.id,

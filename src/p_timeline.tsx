@@ -11,7 +11,7 @@ import Timeline, {
 import './p_timeline.css'
 import moment from 'moment'
 import { default as mock_entries } from './entries.json'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Button from '@mui/material/Button'
 import { delete_entry_by_id, get_entries_by_date_range, mock_get_entries_by_date_range } from './api'
 import { ControlState, Employee } from './control'
@@ -61,6 +61,10 @@ export const PTimeline = (props: Props) => {
         visibleTimeEnd: initVisibleTimeEnd,
         unit: initUnit
     }
+
+    
+    const localDate = new Date()
+    const HIdate = new Date( localDate.toLocaleString('en-US', { timeZone: 'Pacifig/Honolulu' } ) )
 
     const [state, setState] = React.useState(init_state)
     const [groups, setGroups] = React.useState([...init_groups])
@@ -254,7 +258,7 @@ export const PTimeline = (props: Props) => {
                         <DateHeader labelFormat={label_format} />
                     </TimelineHeaders>
                     <TimelineMarkers>
-                        <TodayMarker date={new Date()} />
+                        <TodayMarker date={ HIdate } />
                     </TimelineMarkers>
                 </Timeline>
             )}
