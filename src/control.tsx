@@ -213,10 +213,6 @@ export const Control = (props: Props) => {
 
     const handleInputFilterChange = (evt: React.SyntheticEvent, value: string) => {
         console.log(value)
-        setState({
-            ...state,
-            nameFilter: value
-        })
         let newFiltEmployees: Employee[] = []
         employees.map((emp: Employee) => {
             const name = emp.LastName + ", " + emp.FirstName + emp.Alias
@@ -226,7 +222,10 @@ export const Control = (props: Props) => {
         })
         console.log(newFiltEmployees)
         setFiltEmployees(newFiltEmployees) //WARNING: may not cause rerender
-        handleEntrySubmit() //this will force a rerender
+        setState({
+            ...state,
+            nameFilter: value
+        })
     }
 
     return (
@@ -255,13 +254,15 @@ export const Control = (props: Props) => {
                 <FormControl sx={{ width: 250, marginLeft: '33px', marginTop: '22px' }}>
                     <Autocomplete
                         // sx={{ ...formControlStyle, marginTop: '12px' }}
+                        freeSolo
                         disablePortal
                         id="filter-box-demo"
                         options={employees}
+                        //@ts-ignore
                         getOptionLabel={(option) => option.label as string}
                         renderInput={(params) => <TextField
-                            value={state.nameFilter}
                             {...params}
+                            value={state.nameFilter}
                             InputLabelProps={{ shrink: true }}
                             label="Filter Names" />}
                         // disabled={!entryState.admin}} TODO: disable when admin is in API
