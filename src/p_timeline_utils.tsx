@@ -158,7 +158,7 @@ const formatLabel: LabelFormat = {
 export const label_format = ([startTime, endTime]: [moment.Moment, moment.Moment],
     unit: Unit,
     labelWidth: number,
-    formatOptions: LabelFormat=formatLabel): string => {
+    formatOptions: LabelFormat = formatLabel): string => {
     let format
     if (labelWidth >= 150) {
         //@ts-ignore
@@ -265,13 +265,12 @@ export const entries_to_items = (entries: EntryData[]) => {
 }
 
 const tooltip_creator = (comment?: string, title?: string, startTime?: moment.Moment, endTime?: moment.Moment) => {
-    return( 
-    <React.Fragment>
-        title   && (<p>{comment}</p>)
-        comment && (<p>{comment}</p>)
-        startTime && (<p>{startTime?.format()}</p>)
-        endTime && (<p>{endTime?.format()}</p>)
-    </React.Fragment>
+    return (
+        <React.Fragment>
+            comment && (<p>{comment}</p>)
+            startTime && (<p>Start time: {startTime?.format('ddd HH:mm')}</p>)
+            endTime && (<p>End time: {endTime?.format('ddd HH:mm')}</p>)
+        </React.Fragment>
     )
 }
 
@@ -353,7 +352,7 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
                 group: group.id,
                 entryId: newIdx,
                 location: group.primaryLocation,
-                comment: 'synthetic event',
+                comment: 'Synthetic event',
                 title: group.primaryLocation,
                 start_time: date.clone().set({
                     hour: group.primaryShift[0],
