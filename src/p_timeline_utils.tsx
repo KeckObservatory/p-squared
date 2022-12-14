@@ -265,13 +265,14 @@ export const entries_to_items = (entries: EntryData[]) => {
 }
 
 const tooltip_creator = (comment?: string, title?: string, startTime?: moment.Moment, endTime?: moment.Moment) => {
-    return 
+    return( 
     <React.Fragment>
         title   && (<p>{comment}</p>)
         comment && (<p>{comment}</p>)
         startTime && (<p>{startTime?.format()}</p>)
         endTime && (<p>{endTime?.format()}</p>)
     </React.Fragment>
+    )
 }
 
 export const itemRenderer =
@@ -279,9 +280,9 @@ export const itemRenderer =
         const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
         const backgroundColor = itemContext.selected ? (itemContext.dragging ? "red" : item.selectedBgColor) : item.bgColor;
         const borderColor = itemContext.resizing ? "red" : item.color;
-        const comment = item.comment ? `${item.title}:${item.comment}` : item.title
+        const tooltipPopup = tooltip_creator(item.comment, item.title, item.start_time, item.end_time)
         return (
-            <Tooltip title={comment}>
+            <Tooltip title={tooltipPopup}>
                 <div
                     {...getItemProps({
                         style: {
