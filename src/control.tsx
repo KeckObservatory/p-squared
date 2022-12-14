@@ -22,6 +22,7 @@ export interface ControlState {
     location: string,
     date: moment.Moment
     department: string
+    nameFilter: string
     idx: number
 }
 
@@ -135,6 +136,7 @@ export const Control = (props: Props) => {
         // base: '',
         location: '',
         department: '',
+        nameFilter: '',
         idx: 0
     }
     const [employees, setEmployees] = React.useState([] as Employee[])
@@ -211,6 +213,10 @@ export const Control = (props: Props) => {
 
     const handleInputFilterChange = (evt: React.SyntheticEvent, value: string) => {
         console.log(value)
+        setState({
+            ...state,
+            nameFilter: value
+        })
         let newFiltEmployees: Employee[] = []
         employees.map((emp: Employee) => {
             const name = emp.LastName + ", " + emp.FirstName + emp.Alias
@@ -254,6 +260,7 @@ export const Control = (props: Props) => {
                         options={employees}
                         getOptionLabel={(option) => option.label as string}
                         renderInput={(params) => <TextField
+                            value={state.nameFilter}
                             {...params}
                             InputLabelProps={{ shrink: true }}
                             label="Filter Names" />}
