@@ -64,7 +64,7 @@ export const PTimeline = (props: Props) => {
 
     
     const localDate = new Date()
-    const HIdate = new Date( localDate.toLocaleString('en-US', { timeZone: 'Pacifig/Honolulu' } ) )
+    const HIdate = new Date( localDate.toLocaleString('en-US', { timeZone: 'Pacific/Honolulu' } ) )
 
     const [state, setState] = React.useState(init_state)
     const [groups, setGroups] = React.useState([...init_groups])
