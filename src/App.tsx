@@ -5,6 +5,7 @@ import { Calendar } from './calendar'
 import { PTimeline } from './p_timeline'
 import { Control } from './control'
 import Box from '@mui/material/Box'
+import MobiscrollDemo from './mobiscroll_demo';
 
 const style = {margin: 'auto', minWidth: '500px', maxWidth: '1500px'}
 function App() {
@@ -17,7 +18,7 @@ function App() {
         sx={style}>
         <Control />
       </Box>
-      {/* <Calendar /> */}
+      <MobiscrollDemo />
     </React.Fragment>
   );
 }

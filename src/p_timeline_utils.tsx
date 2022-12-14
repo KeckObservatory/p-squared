@@ -234,7 +234,7 @@ export const entries_to_items = (entries: EntryData[]) => {
 
     entries.forEach((entry: EntryData, idx) => {
         let dateRange = [moment(entry.Date + " 8:00:00").toISOString(),
-        moment(entry.Date + " 17:00:00").toISOString()] as DateRange
+                         moment(entry.Date + " 17:00:00").toISOString()] as DateRange
         let title: string = ''
         const titles: string[] = []
         const locations: string[] = []
@@ -330,13 +330,12 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
 
         const isWeekday = date.isoWeekday() < 6 //saturday=6 sunday=7
         const isSummit = group.primaryLocation === 'SU'
-        // const realItem = groupItems.find((item: Item) => {
-        //     return item.start_time.isSame(date, 'day')
-        // })
+        const realItem = groupItems.find((item: Item) => {
+            return item.start_time.isSame(date, 'day')
+        })
         newIdx += 1
 
-        // if (!realItem && isWeekday && !isSummit) {
-        if (isWeekday && !isSummit) {
+        if (!realItem && isWeekday && !isSummit) {
             const synthItem: Item = {
                 id: newIdx,
                 group: group.id,
