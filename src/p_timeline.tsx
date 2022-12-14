@@ -4,7 +4,7 @@ import Timeline, {
     DateHeader,
     Unit,
     TimelineMarkers,
-    TodayMarker,
+    CustomMarker,
     TimelineGroupBase,
     TimelineItemBase,
 } from 'react-calendar-timeline'
@@ -258,7 +258,7 @@ export const PTimeline = (props: Props) => {
                         <DateHeader labelFormat={label_format} />
                     </TimelineHeaders>
                     <TimelineMarkers>
-                        <TodayMarker date={ HIdate } />
+                        <CustomMarker date={ HIdate } />
                     </TimelineMarkers>
                 </Timeline>
             )}

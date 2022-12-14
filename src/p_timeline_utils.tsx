@@ -135,10 +135,10 @@ const formatLabel: LabelFormat = {
         short: 'w'
     },
     day: {
-        long: 'DDDD Do',
-        mediumLong: 'dd Do',
-        medium: 'dd Do',
-        short: 'dd Do'
+        long: 'ddd Do',
+        mediumLong: 'ddd Do',
+        medium: 'ddd Do',
+        short: 'ddd Do'
     },
     hour: {
         long: 'dddd, LL, HH:00',
