@@ -183,12 +183,13 @@ export const NewEntryDialog = (props: Props) => {
       //date range
       const maxDayRange = 7
       const leaveDayRange = 21 
+      const isVacation = props.entryState.location.includes('Vacation')
       const dt = moment(props.entryState.dateRange[1]).diff(moment(props.entryState.dateRange[0]), 'days')
-      if (props.entryState.location.includes('Vacation') && dt >= leaveDayRange ) {
+      if ( isVacation && dt >= leaveDayRange ) {
         setErrMsg(`date range cannot be longer than ${leaveDayRange}`)
         return true 
       }
-      else if (dt >= maxDayRange) {
+      else if (!isVacation && dt >= maxDayRange) {
         setErrMsg(`date range cannot be longer than ${maxDayRange}`)
         return true 
       }
