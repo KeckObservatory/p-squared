@@ -267,9 +267,9 @@ export const entries_to_items = (entries: EntryData[]) => {
 const tooltip_creator = (comment?: string, title?: string, startTime?: moment.Moment, endTime?: moment.Moment) => {
     return (
         <React.Fragment>
-            comment && (<p>{comment}</p>)
-            startTime && (<p>Start time: {startTime?.format('ddd HH:mm')}</p>)
-            endTime && (<p>End time: {endTime?.format('ddd HH:mm')}</p>)
+            {comment && (<p>{comment}</p>)}
+            {startTime && (<p>Start time: {startTime?.format('ddd HH:mm')}</p>)}
+            {endTime && (<p>End time: {endTime?.format('ddd HH:mm')}</p>)}
         </React.Fragment>
     )
 }
