@@ -3,6 +3,7 @@ import { ReactCalendarItemRendererProps, LabelFormat } from 'react-calendar-time
 import { ControlState, Employee } from './control'
 import Tooltip from '@mui/material/Tooltip';
 import { ALL_LOCATIONS } from './control';
+import React from 'react';
 
 const colorMapping = {
     orange: '#e69f00',
@@ -263,6 +264,15 @@ export const entries_to_items = (entries: EntryData[]) => {
     return items
 }
 
+const tooltip_creator = (comment?: string, title?: string, startTime?: moment.Moment, endTime?: moment.Moment) => {
+    return 
+    <React.Fragment>
+        title   && (<p>{comment}</p>)
+        comment && (<p>{comment}</p>)
+        startTime && (<p>{startTime?.format()}</p>)
+        endTime && (<p>{endTime?.format()}</p>)
+    </React.Fragment>
+}
 
 export const itemRenderer =
     ({ item, itemContext, getItemProps, getResizeProps }: ReactCalendarItemRendererProps<Item>) => {
