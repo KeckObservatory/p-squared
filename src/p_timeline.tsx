@@ -46,6 +46,8 @@ export const PTimeline = (props: Props) => {
 
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
     const [selectedItemId, setSelectedItemId] = React.useState(undefined as unknown as number);
+    const [selectedName, setSelectedName] = React.useState("");
+
     const [selectedComment, setSelectedComment] = React.useState('');
     const init_groups = make_employee_groups(props.employees, props.controlState) as TimelineGroupBase[]
     const init_items = [] as TimelineItemBase<any>[]
@@ -272,7 +274,6 @@ export const PTimeline = (props: Props) => {
                     horizontal: 'left',
                 }}
             >
-                {/* <Typography sx={{ p: 2 }}>The content of the Popover.</Typography> */}
                 <Button onClick={deleteSelected}>Delete</Button>
             </Popover>
         </Paper>
