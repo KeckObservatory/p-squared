@@ -4,10 +4,10 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import DropDown from './drop_down';
 import { Autocomplete, Typography } from "@mui/material";
-import { Employee, EntryState, ALL_LOCATIONS, User } from './control';
+import { Employee, EntryState, ALL_LOCATIONS } from './control';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { DEPARTMENTS } from './department_select';
-import { get_staffinfo } from './api';
+import { get_staffinfo, User } from './api';
 
 const formControlStyle = {
     minWidth: 120,
@@ -39,8 +39,7 @@ export const NewEntryForm = (props: Props) => {
     useEffect(() => {
 
         get_staffinfo()
-            .then((output: object) => {
-                const user = output as User
+            .then((user: User) => {
                 props.setEntryState(
                     {
                         ...props.entryState,

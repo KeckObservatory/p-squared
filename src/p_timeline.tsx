@@ -14,7 +14,7 @@ import { default as mock_entries } from './entries.json'
 import React, { useEffect } from 'react'
 import Button from '@mui/material/Button'
 import { delete_entry_by_id, get_entries_by_date_range, mock_get_entries_by_date_range } from './api'
-import { ControlState, Employee } from './control'
+import { ControlState, Employee, EntryState } from './control'
 import Popover from '@mui/material/Popover'
 import Paper from '@mui/material/Paper'
 import {
@@ -33,6 +33,7 @@ interface Props {
     controlState: ControlState,
     setControlState: Function,
     employees: Employee[],
+    entryState: EntryState
 }
 
 interface State {
@@ -192,7 +193,12 @@ export const PTimeline = (props: Props) => {
         console.log('itemId', itemId, 'item', item, evt, time)
         setSelectedItemId(item.entryId)
         setSelectedComment(item.comment ? item.comment : '')
-        setAnchorEl(evt.currentTarget);
+
+        const matches_name = props.entryState.name === item.group
+        console.log('matches_name', matches_name)
+        if (matches_name || props.entryState.admin) {
+            setAnchorEl(evt.currentTarget);
+        }
     }
 
     const deleteSelected = () => {

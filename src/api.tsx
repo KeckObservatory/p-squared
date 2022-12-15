@@ -2,7 +2,7 @@ import { resolve } from 'node:path/win32'
 import { default as mock_entries } from './entries.json'
 import { default as mock_employees } from './employees.json'
 import { Entry, EntryData } from './p_timeline_utils'
-import { Employee, User } from './control'
+import { Employee } from './control'
 import moment from 'moment'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
@@ -13,6 +13,21 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 const BASE_URL = "https://www3build.keck.hawaii.edu"
 const API_URL = BASE_URL + "/api/pp/"
 const TEL_API_URL = 'https://www3build.keck.hawaii.edu/api/telSchedule2?cmd=getEmployee' 
+
+export interface User {
+    Status: string,
+    Alias: string,
+    FirstName: string,
+    LastName: string,
+    Department: string,
+    Role: string,
+    BaseCamp: string,
+    HomePhone: string,
+    CellPhone: string,
+    OfficePhone: string,
+    SummitPhone: string,
+    Admin?: string
+}
 
 export function handleResponse(response: AxiosResponse) {
     if (response.data) {
@@ -28,11 +43,11 @@ export function handleError(error: Error | AxiosError) {
     return error;
 }
 
-export const get_staffinfo = () => {
+export const get_staffinfo = (): Promise<User> => {
     const url = BASE_URL + '/staffinfo';
     return axiosInstance.get(url)
         .then(handleResponse)
-        .then(handleError)
+        .then(handleError) as Promise<User>
 }
 
 //TODO format to match api output (entry with an array of entrydata)

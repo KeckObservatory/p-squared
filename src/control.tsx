@@ -11,7 +11,7 @@ import Paper from '@mui/material/Paper'
 import DepartmentSelect from './department_select'
 import { UrlWithStringQuery } from 'url';
 import { PTimeline } from './p_timeline'
-import { mock_get_employees, get_employees, get_staffinfo } from './api'
+import { mock_get_employees, get_employees, get_staffinfo, User} from './api'
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
@@ -93,20 +93,6 @@ export interface EntryState {
     staff: string,
     admin?: boolean
 }
-export interface User {
-    Status: string,
-    Alias: string,
-    FirstName: string,
-    LastName: string,
-    Department: string,
-    Role: string,
-    BaseCamp: string,
-    HomePhone: string,
-    CellPhone: string,
-    OfficePhone: string,
-    SummitPhone: string,
-    Admin?: string
-}
 
 export interface Employee {
     label?: string
@@ -166,7 +152,7 @@ export const Control = (props: Props) => {
 
 
         get_staffinfo()
-            .then((output: object) => {
+            .then((output: User) => {
                 const user = output as User
                 setEntryState(
                     {
@@ -277,7 +263,7 @@ export const Control = (props: Props) => {
                     handleEntrySubmit={handleEntrySubmit} />
             </Box>
             {filtEmployees.length > 0 ? (
-                < PTimeline employees={filtEmployees} controlState={state} setControlState={setState} />
+                < PTimeline entryState={entryState} employees={filtEmployees} controlState={state} setControlState={setState} />
             ) : <div>Loading table...</div>}
         </Paper >
     )

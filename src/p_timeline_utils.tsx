@@ -111,7 +111,8 @@ export interface Group {
     id: string,
     title: string
     primaryShift: [number, number],
-    primaryLocation: string
+    primaryLocation: string,
+    alias: string
 }
 
 type Unit = `second` | `minute` | `hour` | `day` | `week` | `isoWeek` | `month` | `year`
@@ -201,6 +202,7 @@ export const make_employee_groups = (employees: Employee[], controlState: Contro
                 title: emp.label as string,
                 primaryShift: primaryShift as [number, number],
                 primaryLocation: primaryLocation,
+                alias: emp.Alias
             }
             groups.push(group)
         }
