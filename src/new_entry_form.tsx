@@ -169,10 +169,10 @@ export const NewEntryForm = (props: Props) => {
                 label={'Base Camp'}
                 value={props.entryState.baseCamp}
                 disabled id="base-camp" />
-            <div style={{ "marginLeft": "6px", "width": "100%" }}>
+            <div style={{ 'zIndex': 999, "marginLeft": "6px", "width": "100%" }}>
                 <DateRangePicker onChange={onDateRangeChange} value={props.entryState.dateRange} />
             </div>
-            <div style={{ 'zIndex': 0, "display": "flex", "marginTop": "12px", "width": "100%" }}>
+            <div style={{ "display": "flex", "marginTop": "12px", "width": "100%" }}>
                 <DropDown arr={hours}
                     value={JSON.stringify(props.entryState.startTime)}
                     handleChange={onStartTimeChange}
@@ -186,7 +186,6 @@ export const NewEntryForm = (props: Props) => {
                     placeholder={""}
                 />
             </div >
-            <div style={{'zIndex': 0}}>
             <DropDown 
                 arr={ALL_LOCATIONS}
                 value={props.entryState.location}
@@ -194,7 +193,6 @@ export const NewEntryForm = (props: Props) => {
                 label={'Location'}
                 placeholder={""}
             />
-            </div>
             <Button onClick={handle2ndLocationSelect}>Add 2nd location</Button>
             {show2ndLocation &&
                 <React.Fragment>
