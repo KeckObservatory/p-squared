@@ -30,6 +30,7 @@ const get_location_color = (location: string) => {
             color = colorMapping['orange']
             break;
         case "WFH":
+        case "Remote":
             color = colorMapping['pink']
             break;
         case "Vacation":
@@ -69,13 +70,14 @@ export interface EntryData {
     "Hilo": null | DateRange,
     "Kona": null | DateRange,
     "WFH": null | DateRange,
+    "Remote": null | DateRange,
     "Vacation": null | DateRange,
     "Sick": null | DateRange,
     "FamilySick": null | DateRange,
     "JuryDuty": null | DateRange,
     "Travel": null | DateRange,
     "Other": null | DateRange,
-    "Comment": string
+    "Comment": string,
     "Staff": string,
     "DelFlag": number,
     "AlternatePickup": unknown,
