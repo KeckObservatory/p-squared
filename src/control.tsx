@@ -5,15 +5,15 @@ import DropDown from './drop_down'
 import moment from 'moment'
 import YearMonthPicker from './year_month_picker'
 import Box from '@mui/material/Box'
-import Stack from '@mui/material/Stack'
 import { NewEntryDialog } from './new_entry_dialog'
 import Paper from '@mui/material/Paper'
-import DepartmentSelect from './department_select'
-import { UrlWithStringQuery } from 'url';
 import { PTimeline } from './p_timeline'
-import { mock_get_employees, get_employees, get_staffinfo, User} from './api'
+import { mock_get_employees, mock_get_staffinfo, get_employees, get_staffinfo, User } from './api'
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import Skeleton from '@mui/material/Skeleton';
+
+const IS_PRODUCTION: boolean = process.env.REACT_APP_ENVIRONMENT === 'production'
 
 export interface Props { }
 
@@ -139,8 +139,7 @@ export const Control = (props: Props) => {
 
 
     React.useEffect(() => {
-
-        get_employees().then((emps) => {
+        const set_emp_and_user = (emps: Employee[], user: User) => {
             if (emps.length > 0) {
                 emps = emps.slice(1, emps.length) // remove first entry (*HOLIDAY)
                 const labelEmps = emps.map((emp: Employee) => {
@@ -149,13 +148,6 @@ export const Control = (props: Props) => {
                 })
                 setEmployees(labelEmps)
                 setFiltEmployees(labelEmps)
-            }
-        })
-
-
-        get_staffinfo()
-            .then((output: User) => {
-                const user = output as User
                 setEntryState(
                     {
                         ...entryState,
@@ -165,8 +157,24 @@ export const Control = (props: Props) => {
                         admin: user?.Admin === 'True'
                     }
                 )
-            })
+            }
+        }
 
+        const init_employees = async () => {
+            let emps = await get_employees()
+            const user = await get_staffinfo()
+            set_emp_and_user(emps, user)
+        }
+
+        const mock_init_employees = async () => {
+            let emps = await mock_get_employees()
+            const user = await mock_get_staffinfo()
+            set_emp_and_user(emps, user)
+        }
+
+
+        if (IS_PRODUCTION) init_employees()
+        else mock_init_employees()
 
     }, [])
 
@@ -204,7 +212,7 @@ export const Control = (props: Props) => {
         let newFiltEmployees: Employee[] = []
         employees.map((emp: Employee) => {
             const name = emp.LastName + ", " + emp.FirstName + emp.Alias
-            if(name.toUpperCase().includes(value.toUpperCase())) {
+            if (name.toUpperCase().includes(value.toUpperCase())) {
                 newFiltEmployees.push(emp)
             }
         })
@@ -218,7 +226,7 @@ export const Control = (props: Props) => {
 
     return (
         <Paper sx={{ margin: '4px' }} elevation={3}>
-            <Box 
+            <Box
             >
                 <FormControl sx={{ width: 150, margin: '6px', marginTop: '22px' }}>
                     <YearMonthPicker date={state.date} handleDateChange={handleDateChange} />
@@ -266,7 +274,11 @@ export const Control = (props: Props) => {
             </Box>
             {filtEmployees.length > 0 ? (
                 < PTimeline entryState={entryState} employees={filtEmployees} controlState={state} setControlState={setState} />
-            ) : <div>Loading table...</div>}
+            ) :
+                <React.Fragment>
+                    <div>Loading table...</div>
+                    <Skeleton variant="rectangular" height={118} />
+                </React.Fragment>}
         </Paper >
     )
 

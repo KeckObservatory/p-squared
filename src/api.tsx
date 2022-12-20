@@ -12,7 +12,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 
 const BASE_URL = "https://www3build.keck.hawaii.edu"
 const API_URL = BASE_URL + "/api/pp/"
-const TEL_API_URL = 'https://www3build.keck.hawaii.edu/api/telSchedule2?cmd=getEmployee' 
+const TEL_API_URL = 'https://www3build.keck.hawaii.edu/api/telSchedule2?cmd=getEmployee'
 
 export interface User {
     Status: string,
@@ -50,6 +50,26 @@ export const get_staffinfo = (): Promise<User> => {
         .then(handleError) as Promise<User>
 }
 
+export const mock_get_staffinfo = (): Promise<User> => {
+    const mockPromise = new Promise<User>((resolve) => {
+        resolve({
+            Status: "GOOD",
+            Alias: "ttucker",
+            FirstName: "Tyler",
+            LastName: "Tucker",
+            Department: "Scientific Software",
+            Role: "",
+            BaseCamp: "Waimea",
+            HomePhone: "",
+            CellPhone: "",
+            OfficePhone: "",
+            SummitPhone: "",
+        })
+    })
+    return mockPromise
+}
+
+
 //TODO format to match api output (entry with an array of entrydata)
 export const mock_get_entries_by_date_range = (
     startDate: string,
@@ -58,7 +78,7 @@ export const mock_get_entries_by_date_range = (
     location?: string): Promise<EntryData[]> => {
     const mockPromise = new Promise<EntryData[]>((resolve) => {
         const entryData: EntryData[] = []
-        mock_entries.forEach( (entry: any) => {
+        mock_entries.forEach((entry: any) => {
             entryData.push(entry.data)
         })
         resolve(entryData)
@@ -83,58 +103,58 @@ const axiosInstance = axios.create({
 
 export const get_employees = (): Promise<Employee[]> => {
     return axiosInstance.get(TEL_API_URL)
-    .then(handleResponse)
-    .catch(handleError)
+        .then(handleResponse)
+        .catch(handleError)
 }
 
 export const delete_entry_by_id = (
     id: number) => {
     let url = API_URL + "entryById?"
-    + "id=" + JSON.stringify(id)
+        + "id=" + JSON.stringify(id)
     return axios.delete(url)
-    .then(handleResponse)
-    .catch(handleError)
+        .then(handleResponse)
+        .catch(handleError)
 }
 
 export const add_entry = (entry: EntryData) => {
     let url = API_URL + "entryById?"
-	return axios({
-		method: "post", 
-		url: url, 
-		data: entry,
-		headers: { "Content-Type": "multipart/form-data" }
-	}
-	)
-    .then(handleResponse)
-    .catch(handleError)
+    return axios({
+        method: "post",
+        url: url,
+        data: entry,
+        headers: { "Content-Type": "multipart/form-data" }
+    }
+    )
+        .then(handleResponse)
+        .catch(handleError)
 
 }
 
-export const get_entries_by_date_range= (
+export const get_entries_by_date_range = (
     startDate: string,
     endDate: string,
     department?: string,
-    location?: string): Promise<EntryData[]>  => {
+    location?: string): Promise<EntryData[]> => {
     let url = API_URL + "entryByDateRange?"
-    + "startdate=" + startDate
-    +  "&enddate=" + endDate
-    if(department) {
+        + "startdate=" + startDate
+        + "&enddate=" + endDate
+    if (department) {
         url += '&Department=' + department
     }
-    if(location==='Leave') {
+    if (location === 'Leave') {
         url += '&leave=1'  //needs to be lowercase
     }
-    else if(location) {
-        url += '&' + location + '=1' 
+    else if (location) {
+        url += '&' + location + '=1'
     }
     else {
 
     }
 
     return axios.get(url)
-    .then(handleResponse)
-    .then((entry: any) => {
-        return entry.data        
-    })
-    .catch(handleError)
+        .then(handleResponse)
+        .then((entry: any) => {
+            return entry.data
+        })
+        .catch(handleError)
 }
