@@ -408,13 +408,13 @@ export const generate_synthetic_items = (
             }
         })
 
-        //generate_entries 
-        const { synthItems, newIdx } = generate_items(group, groupItems, dates, idx)
-        idx = newIdx
-
-
         //add to pool of synthetic entries
-        syntheticEntries = [...syntheticEntries, ...synthItems]
+        if (group.primaryLocation !== "None") {
+            //generate_entries 
+            const { synthItems, newIdx } = generate_items(group, groupItems, dates, idx)
+            idx = newIdx
+            syntheticEntries = [...syntheticEntries, ...synthItems]
+        }
 
 
     })
