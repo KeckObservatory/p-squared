@@ -8,12 +8,10 @@ import Box from '@mui/material/Box'
 import { NewEntryDialog } from './new_entry_dialog'
 import Paper from '@mui/material/Paper'
 import { PTimeline } from './p_timeline'
-import { mock_get_employees, mock_get_staffinfo, get_employees, get_staffinfo, User } from './api'
+import { get_employees, get_staffinfo, User } from './api'
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Skeleton from '@mui/material/Skeleton';
-
-const IS_PRODUCTION: boolean = process.env.REACT_APP_ENVIRONMENT === 'production'
 
 export interface Props { }
 
@@ -166,15 +164,7 @@ export const Control = (props: Props) => {
             set_emp_and_user(emps, user)
         }
 
-        const mock_init_employees = async () => {
-            let emps = await mock_get_employees()
-            const user = await mock_get_staffinfo()
-            set_emp_and_user(emps, user)
-        }
-
-
-        if (IS_PRODUCTION) init_employees()
-        else mock_init_employees()
+        init_employees()
 
     }, [])
 

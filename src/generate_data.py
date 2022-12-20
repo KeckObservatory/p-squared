@@ -5,6 +5,7 @@ import string
 import itertools
 import datetime
 import pdb
+import json
 
 letters = string.ascii_lowercase
 names = [
@@ -106,7 +107,13 @@ date_list = [base + datetime.timedelta(days=x) for x in range(numDays)]
 date_list_str = [datetime.datetime.strftime(x, '%Y-%m-%d') for x in date_list]
 
 
-def randName(): return random.choice(names)
+#def randName(): return random.choice(names)
+def randName(): 
+    with open('./employees.json') as f:
+        employees = json.loads(f.read())
+    employee = random.choice(employees)
+    name = employee.get('LastName') + ', ' + employee.get('FirstName')
+    return name 
 def randDate(): return random.choice(date_list_str)
 def randBase(): return random.choice(basecamp)
 def randDept(): return random.choice(departments)
@@ -145,7 +152,6 @@ def optionalRandArrString(x, y=1): return random.choice(
     [None, randArrStr(x, y)])
 
 
-def randName(): return random.choice(names)
 def z_fill_number(x, zf=2): return str(x).zfill(2)
 
 

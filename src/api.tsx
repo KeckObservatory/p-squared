@@ -14,6 +14,8 @@ const BASE_URL = "https://www3build.keck.hawaii.edu"
 const API_URL = BASE_URL + "/api/pp/"
 const TEL_API_URL = 'https://www3build.keck.hawaii.edu/api/telSchedule2?cmd=getEmployee'
 
+const IS_PRODUCTION: boolean = process.env.REACT_APP_ENVIRONMENT === 'production'
+
 export interface User {
     Status: string,
     Alias: string,
@@ -43,14 +45,14 @@ export function handleError(error: Error | AxiosError) {
     return error;
 }
 
-export const get_staffinfo = (): Promise<User> => {
+const get_staffinfo_promise = (): Promise<User> => {
     const url = BASE_URL + '/staffinfo';
     return axiosInstance.get(url)
         .then(handleResponse)
         .then(handleError) as Promise<User>
 }
 
-export const mock_get_staffinfo = (): Promise<User> => {
+const mock_get_staffinfo_promise = (): Promise<User> => {
     const mockPromise = new Promise<User>((resolve) => {
         resolve({
             Status: "GOOD",
@@ -71,10 +73,10 @@ export const mock_get_staffinfo = (): Promise<User> => {
 
 
 //TODO format to match api output (entry with an array of entrydata)
-export const mock_get_entries_by_date_range = (
+const mock_get_entries_by_date_range_promise = (
     startDate: string,
     endDate: string,
-    department?: string[],
+    department?: string,
     location?: string): Promise<EntryData[]> => {
     const mockPromise = new Promise<EntryData[]>((resolve) => {
         const entryData: EntryData[] = []
@@ -86,7 +88,7 @@ export const mock_get_entries_by_date_range = (
     return mockPromise
 }
 
-export const mock_get_employees = (): Promise<Employee[]> => {
+const mock_get_employees_promise = (): Promise<Employee[]> => {
     const mockPromise = new Promise<Employee[]>((resolve) => {
         resolve(mock_employees)
     })
@@ -101,7 +103,7 @@ const axiosInstance = axios.create({
     }
 })
 
-export const get_employees = (): Promise<Employee[]> => {
+export const get_employees_promise = (): Promise<Employee[]> => {
     return axiosInstance.get(TEL_API_URL)
         .then(handleResponse)
         .catch(handleError)
@@ -130,7 +132,7 @@ export const add_entry = (entry: EntryData) => {
 
 }
 
-export const get_entries_by_date_range = (
+export const get_entries_by_date_range_promise = (
     startDate: string,
     endDate: string,
     department?: string,
@@ -158,3 +160,7 @@ export const get_entries_by_date_range = (
         })
         .catch(handleError)
 }
+
+export const get_staffinfo = IS_PRODUCTION ? get_staffinfo_promise : mock_get_staffinfo_promise
+export const get_entries_by_date_range = IS_PRODUCTION ? get_entries_by_date_range_promise : mock_get_entries_by_date_range_promise
+export const get_employees = IS_PRODUCTION ? get_employees_promise : mock_get_employees_promise
