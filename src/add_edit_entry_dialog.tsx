@@ -18,6 +18,7 @@ interface Props {
   handleEntrySubmit: Function
   entryState: EntryState,
   setEntryState: Function
+  edit: boolean
 }
 
 const get_days_between_dates = function (startDate: moment.Moment, endDate: moment.Moment) {
@@ -112,7 +113,7 @@ const state_to_entries = (entryState: EntryState) => {
   return entries
 }
 
-export const NewEntryDialog = (props: Props) => {
+export const AddEditEntryDialog = (props: Props) => {
   const [open, setOpen] = React.useState(false);
   const [errMsg, setErrMsg] = React.useState<string | undefined>(undefined);
   const theme = useTheme();
@@ -127,7 +128,7 @@ export const NewEntryDialog = (props: Props) => {
           location2: undefined,
           startTime2: undefined,
           endTime2: undefined,
-          comment: undefined
+          comment: props.edit? et.comment : undefined
         }
       )
     })
@@ -235,7 +236,7 @@ export const NewEntryDialog = (props: Props) => {
   return (
     <div>
       <Button style={{ margin: '12px' }} variant="contained" onClick={handleClickOpen}>
-        Create New Entry
+        {props.edit? 'Edit entry' : 'Create New Entry'}
       </Button>
       <Dialog
         sx={{ paddingTop: '3px' }}

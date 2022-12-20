@@ -5,7 +5,7 @@ import DropDown from './drop_down'
 import moment from 'moment'
 import YearMonthPicker from './year_month_picker'
 import Box from '@mui/material/Box'
-import { NewEntryDialog } from './new_entry_dialog'
+import { AddEditEntryDialog } from './add_edit_entry_dialog'
 import Paper from '@mui/material/Paper'
 import { PTimeline } from './p_timeline'
 import { get_employees, get_staffinfo, User } from './api'
@@ -256,14 +256,21 @@ export const Control = (props: Props) => {
                         onInputChange={handleInputFilterChange}
                     />
                 </FormControl>
-                <NewEntryDialog
+                <AddEditEntryDialog
                     employees={employees}
                     entryState={entryState}
+                    edit={false}
                     setEntryState={setEntryState}
                     handleEntrySubmit={handleEntrySubmit} />
             </Box>
             {filtEmployees.length > 0 ? (
-                < PTimeline entryState={entryState} employees={filtEmployees} controlState={state} setControlState={setState} />
+                < PTimeline
+                    entryState={entryState}
+                    setEntryState={setEntryState}
+                    handleEntrySubmit={handleEntrySubmit}
+                    employees={filtEmployees}
+                    controlState={state}
+                    setControlState={setState} />
             ) :
                 <React.Fragment>
                     <div>Loading table...</div>

@@ -129,6 +129,14 @@ export const add_entry = (entry: EntryData) => {
     )
         .then(handleResponse)
         .catch(handleError)
+}
+
+export const edit_entry_by_id = (id: number, entry: EntryData) => {
+    let url = API_URL + "entryById?"
+        + "id=" + JSON.stringify(id)
+    return axios.put(url)
+        .then(handleResponse)
+        .catch(handleError)
 
 }
 

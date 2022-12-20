@@ -12,7 +12,7 @@ import './p_timeline.css'
 import moment from 'moment'
 import React, { useEffect } from 'react'
 import Button from '@mui/material/Button'
-import { delete_entry_by_id, get_entries_by_date_range } from './api'
+import { edit_entry_by_id, delete_entry_by_id, get_entries_by_date_range } from './api'
 import { ControlState, Employee, EntryState } from './control'
 import Popover from '@mui/material/Popover'
 import Paper from '@mui/material/Paper'
@@ -26,6 +26,7 @@ import {
     filter_groups_by_location,
     label_format
 } from './p_timeline_utils'
+import { AddEditEntryDialog } from './add_edit_entry_dialog'
 
 
 interface Props {
@@ -33,6 +34,8 @@ interface Props {
     setControlState: Function,
     employees: Employee[],
     entryState: EntryState
+    setEntryState: Function,
+    handleEntrySubmit: Function
 }
 
 interface State {
@@ -45,8 +48,7 @@ interface State {
 export const PTimeline = (props: Props) => {
 
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
-    const [selectedItemId, setSelectedItemId] = React.useState(undefined as unknown as number);
-    const [selectedName, setSelectedName] = React.useState("");
+    const [selectedItem, setSelectedItem] = React.useState(undefined as unknown as Item);
 
     const [selectedComment, setSelectedComment] = React.useState('');
     const init_groups = make_employee_groups(props.employees, props.controlState) as TimelineGroupBase[]
@@ -190,21 +192,45 @@ export const PTimeline = (props: Props) => {
     const onItemClick = (itemId: number, evt: any, time: any) => {
         const item = items.find(i => itemId === i.id) as Item
         console.log('itemId', itemId, 'item', item, evt, time)
-        setSelectedItemId(item.entryId)
+        setSelectedItem(item)
         setSelectedComment(item.comment ? item.comment : '')
 
         const matches_name = props.entryState.name === item.group
         console.log('matches_name', matches_name)
         if (matches_name || props.entryState.admin) {
             setAnchorEl(evt.currentTarget);
+            props.setEntryState(
+                {
+                    ...props.entryState,
+                    name: item.group,
+                    comment: item.comment,
+                    location: item.location,
+                    startTime: item.start_time.hour(),
+                    endTime: item.end_time.hour(),
+                    dateRange: [item.start_time, item.end_time]
+                }
+            )
         }
     }
+    
+    // const editSelected = () => {
+    //     setAnchorEl(null);
+    //     if (!selectedComment.includes('synthetic event')) {
+    //         console.log('deleting item', selectedItem.entryId)
+    //         edit_entry_by_id(selectedItem.entryId, selectedItem).then((response: any) => {
+    //             console.log('delete response', response)
+    //             props.setControlState((pcs: ControlState) => {
+    //                 return { ...pcs, idx: pcs.idx + 1 }
+    //             })
+    //         })
+    //     }
+    // }
 
     const deleteSelected = () => {
         setAnchorEl(null);
         if (!selectedComment.includes('synthetic event')) {
-            console.log('deleting item', selectedItemId)
-            delete_entry_by_id(selectedItemId).then((response: any) => {
+            console.log('deleting item', selectedItem.entryId)
+            delete_entry_by_id(selectedItem.entryId).then((response: any) => {
                 console.log('delete response', response)
                 props.setControlState((pcs: ControlState) => {
                     return { ...pcs, idx: pcs.idx + 1 }
@@ -280,6 +306,12 @@ export const PTimeline = (props: Props) => {
                 }}
             >
                 <Button onClick={deleteSelected}>Delete</Button>
+                <AddEditEntryDialog
+                    employees={props.employees}
+                    entryState={props.entryState}
+                    setEntryState={props.setEntryState}
+                    edit={true}
+                    handleEntrySubmit={props.handleEntrySubmit} />
             </Popover>
         </Paper>
     )
