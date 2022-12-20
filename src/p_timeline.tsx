@@ -207,7 +207,8 @@ export const PTimeline = (props: Props) => {
                     location: item.location,
                     startTime: item.start_time.hour(),
                     endTime: item.end_time.hour(),
-                    dateRange: [item.start_time, item.end_time]
+                    dateRange: [item.start_time, item.end_time],
+                    entryId: item.entryId
                 }
             )
         }
@@ -305,7 +306,7 @@ export const PTimeline = (props: Props) => {
                     horizontal: 'left',
                 }}
             >
-                <Button onClick={deleteSelected}>Delete</Button>
+                <Button style={{ margin: '12px' }} variant="contained" onClick={deleteSelected}>Delete</Button>
                 <AddEditEntryDialog
                     employees={props.employees}
                     entryState={props.entryState}

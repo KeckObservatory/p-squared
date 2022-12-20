@@ -91,7 +91,8 @@ export interface EntryState {
     endTime2?: number,
     location2?: string,
     staff: string,
-    admin?: boolean
+    admin?: boolean,
+    entryID?: number,
 }
 
 export interface Employee {

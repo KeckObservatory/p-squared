@@ -8,7 +8,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { NewEntryForm } from './new_entry_form'
 import { EntryState, Employee } from './control';
-import { add_entry } from './api';
+import { add_entry, edit_entry_by_id } from './api';
 import moment from 'moment';
 import { EntryData } from './p_timeline_utils';
 import Typography from '@mui/material/Typography';
@@ -128,7 +128,7 @@ export const AddEditEntryDialog = (props: Props) => {
           location2: undefined,
           startTime2: undefined,
           endTime2: undefined,
-          comment: props.edit? et.comment : undefined
+          comment: props.edit ? et.comment : undefined
         }
       )
     })
@@ -168,8 +168,8 @@ export const AddEditEntryDialog = (props: Props) => {
       }
 
 
-      const firstEventFirst = ( (sd < sd2) && (ed<=sd2) && (ed < ed2 ) )
-      const firstEventSecond = ( (sd > sd2) && (ed2<=sd) && (ed2 < ed ) )
+      const firstEventFirst = ((sd < sd2) && (ed <= sd2) && (ed < ed2))
+      const firstEventSecond = ((sd > sd2) && (ed2 <= sd) && (ed2 < ed))
       console.log('firstEventFirst', firstEventFirst, sd.valueOf(), sd2.valueOf(), ed.valueOf(), ed2.valueOf())
       console.log('entry state:', props.entryState)
       console.log('secondEventFirst', firstEventSecond)
@@ -179,39 +179,39 @@ export const AddEditEntryDialog = (props: Props) => {
     return false
   }
 
-    const check_for_errors = () => {
+  const check_for_errors = () => {
 
-      //date range
-      const maxDayRange = 7
-      const leaveDayRange = 21 
-      const isVacation = props.entryState.location.includes('Vacation')
-      const dt = moment(props.entryState.dateRange[1]).diff(moment(props.entryState.dateRange[0]), 'days')
-      if ( isVacation && dt >= leaveDayRange ) {
-        setErrMsg(`date range cannot be longer than ${leaveDayRange}`)
-        return true 
-      }
-      else if (!isVacation && dt >= maxDayRange) {
-        setErrMsg(`date range cannot be longer than ${maxDayRange}`)
-        return true 
-      }
+    //date range
+    const maxDayRange = 7
+    const leaveDayRange = 21
+    const isVacation = props.entryState.location.includes('Vacation')
+    const dt = moment(props.entryState.dateRange[1]).diff(moment(props.entryState.dateRange[0]), 'days')
+    if (isVacation && dt >= leaveDayRange) {
+      setErrMsg(`date range cannot be longer than ${leaveDayRange}`)
+      return true
+    }
+    else if (!isVacation && dt >= maxDayRange) {
+      setErrMsg(`date range cannot be longer than ${maxDayRange}`)
+      return true
+    }
 
-      //overlap with second location
-      const overlap = check_if_overlap()
-      if (overlap) {
-        setErrMsg('Locations cannot overlap. Adjust times')
-        return true 
-      }
+    //overlap with second location
+    const overlap = check_if_overlap()
+    if (overlap) {
+      setErrMsg('Locations cannot overlap. Adjust times')
+      return true
+    }
 
-      //location not specified
-      const missing2ndLoc = props.entryState.location2 === undefined && 
-        (props.entryState.startTime2!==undefined && props.entryState.endTime2!==undefined)
-      if (!props.entryState.location || missing2ndLoc ) {
-        setErrMsg('Locations cannot be blank')
-        return true 
-      }
+    //location not specified
+    const missing2ndLoc = props.entryState.location2 === undefined &&
+      (props.entryState.startTime2 !== undefined && props.entryState.endTime2 !== undefined)
+    if (!props.entryState.location || missing2ndLoc) {
+      setErrMsg('Locations cannot be blank')
+      return true
+    }
 
     setErrMsg(undefined)
-    return false 
+    return false
   }
 
   const handleSubmit = () => {
@@ -221,14 +221,26 @@ export const AddEditEntryDialog = (props: Props) => {
     const entries = state_to_entries(props.entryState)
     for (let idx = 0; idx < entries.length; idx++) {
       const entry = entries[idx]
-      add_entry(entry)
-        .then((response: any) => {
-          console.log('response', response)
-        })
-        .finally(() => {
-          setOpen(false)
-          props.handleEntrySubmit()
-        })
+      if (props.edit) {
+        edit_entry_by_id(props.entryState.entryID as number, entry)
+          .then((response: any) => {
+            console.log('response', response)
+          })
+          .finally(() => {
+            setOpen(false)
+            props.handleEntrySubmit()
+          })
+      }
+      else {
+        add_entry(entry)
+          .then((response: any) => {
+            console.log('response', response)
+          })
+          .finally(() => {
+            setOpen(false)
+            props.handleEntrySubmit()
+          })
+      }
     }
 
   }
@@ -236,7 +248,7 @@ export const AddEditEntryDialog = (props: Props) => {
   return (
     <div>
       <Button style={{ margin: '12px' }} variant="contained" onClick={handleClickOpen}>
-        {props.edit? 'Edit entry' : 'Create New Entry'}
+        {props.edit ? 'Edit entry' : 'Create New Entry'}
       </Button>
       <Dialog
         sx={{ paddingTop: '3px' }}

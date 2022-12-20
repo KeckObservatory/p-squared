@@ -132,7 +132,7 @@ export const add_entry = (entry: EntryData) => {
 }
 
 export const edit_entry_by_id = (id: number, entry: EntryData) => {
-    let url = API_URL + "entryById?"
+    let url = API_URL + "editEntryById?"
         + "id=" + JSON.stringify(id)
     return axios.put(url)
         .then(handleResponse)
