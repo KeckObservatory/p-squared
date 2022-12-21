@@ -229,7 +229,6 @@ export const AddEditEntryDialog = (props: Props) => {
           })
           .finally(() => {
             setOpen(false)
-            console.log('handleClosePopover', props.handleClosePopover)
             props.handleClosePopover && props.handleClosePopover()
             props.handleEntrySubmit()
           })

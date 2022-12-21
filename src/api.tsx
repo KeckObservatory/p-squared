@@ -132,9 +132,14 @@ export const add_entry = (entry: EntryData) => {
 }
 
 export const edit_entry_by_id = (id: number, entry: EntryData) => {
-    let url = API_URL + "putEntryById?"
+    let url = API_URL + "entryById?"
         + "id=" + JSON.stringify(id)
-    return axios.put(url)
+    return axios({
+        method: "put",
+        url: url,
+        data: entry,
+        headers: { "Content-Type": "multipart/form-data" }
+    })
         .then(handleResponse)
         .catch(handleError)
 
