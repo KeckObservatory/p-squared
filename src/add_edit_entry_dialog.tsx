@@ -8,7 +8,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { NewEntryForm } from './new_entry_form'
 import { EntryState, Employee } from './control';
-import { add_entry, edit_entry_by_id } from './api';
+import { add_entry, delete_entry_by_id, edit_entry_by_id } from './api';
 import moment from 'moment';
 import { EntryData } from './p_timeline_utils';
 import Typography from '@mui/material/Typography';
@@ -19,7 +19,7 @@ interface Props {
   entryState: EntryState,
   setEntryState: Function
   edit: boolean
-  handleClosePopover?: Function 
+  handleClosePopover?: Function
 }
 
 const get_days_between_dates = function (startDate: moment.Moment, endDate: moment.Moment) {
@@ -215,7 +215,7 @@ export const AddEditEntryDialog = (props: Props) => {
     return false
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     //check if there are too many entries
     const errors = check_for_errors()
     if (errors) return
@@ -223,25 +223,19 @@ export const AddEditEntryDialog = (props: Props) => {
     for (let idx = 0; idx < entries.length; idx++) {
       const entry = entries[idx]
       if (props.edit) {
-        edit_entry_by_id(props.entryState.entryId as number, entry)
-          .then((response: any) => {
-            console.log('response', response)
-          })
-          .finally(() => {
-            setOpen(false)
-            props.handleClosePopover && props.handleClosePopover()
-            props.handleEntrySubmit()
-          })
+        const deleteResponse: any = await delete_entry_by_id(props.entryState.entryId as number)
+        console.log('deleteResponse', deleteResponse)
+        const addResponse: any = await add_entry(entry)
+        console.log('addResponse', addResponse)
+        setOpen(false)
+        props.handleClosePopover && props.handleClosePopover()
+        props.handleEntrySubmit()
       }
       else {
-        add_entry(entry)
-          .then((response: any) => {
-            console.log('response', response)
-          })
-          .finally(() => {
-            setOpen(false)
-            props.handleEntrySubmit()
-          })
+        const addResponse: any = await add_entry(entry)
+        console.log('addResponse', addResponse)
+        setOpen(false)
+        props.handleEntrySubmit()
       }
     }
 
