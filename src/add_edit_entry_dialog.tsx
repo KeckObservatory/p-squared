@@ -235,11 +235,11 @@ export const AddEditEntryDialog = (props: Props) => {
       else {
         add_entry(entry)
           .then((response: any) => {
-            console.log('response', response)
+            console.log('response', response, props.setAnchorEl)
           })
           .finally(() => {
-            setOpen(false)
             props.setAnchorEl && props.setAnchorEl(null)
+            setOpen(false)
             props.handleEntrySubmit()
           })
       }

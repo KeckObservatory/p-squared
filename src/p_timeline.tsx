@@ -209,6 +209,7 @@ export const PTimeline = (props: Props) => {
                     endTime: item.end_time.hour(),
                     dateRange: [item.start_time, item.end_time],
                     entryId: item.entryId
+                    
                 }
             )
         }
@@ -314,7 +315,7 @@ export const PTimeline = (props: Props) => {
                     edit={true}
                     handleEntrySubmit={props.handleEntrySubmit} 
                     setAnchorEl={setAnchorEl}
-                    />
+                />
             </Popover>
         </Paper>
     )
