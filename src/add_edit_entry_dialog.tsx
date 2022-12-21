@@ -19,6 +19,7 @@ interface Props {
   entryState: EntryState,
   setEntryState: Function
   edit: boolean
+  setAnchorEl?: Function 
 }
 
 const get_days_between_dates = function (startDate: moment.Moment, endDate: moment.Moment) {
@@ -238,6 +239,7 @@ export const AddEditEntryDialog = (props: Props) => {
           })
           .finally(() => {
             setOpen(false)
+            props.setAnchorEl && props.setAnchorEl(null)
             props.handleEntrySubmit()
           })
       }
