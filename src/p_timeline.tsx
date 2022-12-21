@@ -314,7 +314,7 @@ export const PTimeline = (props: Props) => {
                     setEntryState={props.setEntryState}
                     edit={true}
                     handleEntrySubmit={props.handleEntrySubmit} 
-                    setAnchorEl={setAnchorEl}
+                    handleClosePopover={handleClosePopover}
                 />
             </Popover>
         </Paper>

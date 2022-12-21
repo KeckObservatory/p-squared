@@ -19,7 +19,7 @@ interface Props {
   entryState: EntryState,
   setEntryState: Function
   edit: boolean
-  setAnchorEl?: Function 
+  handleClosePopover?: Function 
 }
 
 const get_days_between_dates = function (startDate: moment.Moment, endDate: moment.Moment) {
@@ -235,10 +235,11 @@ export const AddEditEntryDialog = (props: Props) => {
       else {
         add_entry(entry)
           .then((response: any) => {
-            console.log('response', response, props.setAnchorEl)
+            console.log('response', response)
           })
           .finally(() => {
-            props.setAnchorEl && props.setAnchorEl(null)
+            console.log('handleClosePopover', props.handleClosePopover)
+            props.handleClosePopover && props.handleClosePopover()
             setOpen(false)
             props.handleEntrySubmit()
           })
