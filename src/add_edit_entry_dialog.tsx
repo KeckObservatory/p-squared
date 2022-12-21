@@ -222,7 +222,7 @@ export const AddEditEntryDialog = (props: Props) => {
     for (let idx = 0; idx < entries.length; idx++) {
       const entry = entries[idx]
       if (props.edit) {
-        edit_entry_by_id(props.entryState.entryID as number, entry)
+        edit_entry_by_id(props.entryState.entryId as number, entry)
           .then((response: any) => {
             console.log('response', response)
           })

@@ -92,7 +92,7 @@ export interface EntryState {
     location2?: string,
     staff: string,
     admin?: boolean,
-    entryID?: number,
+    entryId?: number,
 }
 
 export interface Employee {
