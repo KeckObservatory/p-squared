@@ -6,13 +6,9 @@ import { Employee } from './control'
 import moment from 'moment'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
-// const BASE_URL = "https://vm-appserver.keck.hawaii.edu/api/pp/"
-// const TEL_API_URL =  'https://www3build.keck.hawaii.edu/api/telSchedule?cmd=getEmployee'
-// const TEL_API_URL = 'https://www.keck.hawaii.edu/sandbox/jmader/www/software/db_api/telSchedule.php?cmd=getEmployee'
-
 const BASE_URL = "https://www3build.keck.hawaii.edu"
 const API_URL = BASE_URL + "/api/pp/"
-const TEL_API_URL = 'https://www3build.keck.hawaii.edu/api/telSchedule2?cmd=getEmployee'
+const TEL_API_URL = 'https://www3build.keck.hawaii.edu/api/telSchedule?cmd=getEmployee'
 
 const IS_PRODUCTION: boolean = process.env.REACT_APP_ENVIRONMENT === 'production'
 
