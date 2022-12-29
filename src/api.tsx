@@ -6,7 +6,7 @@ import { Employee } from './control'
 import moment from 'moment'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
-const BASE_URL = ""
+const BASE_URL = "https://www3.keck.hawaii.edu"
 const API_URL = BASE_URL + "/api/pp/"
 const TEL_API_URL = BASE_URL + "api/telSchedule?cmd=getEmployee"
 
