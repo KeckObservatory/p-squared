@@ -6,9 +6,8 @@ import { Employee } from './control'
 import moment from 'moment'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
-const BASE_URL = "https://www3.keck.hawaii.edu"
-const API_URL = BASE_URL + "/api/pp/"
-const TEL_API_URL = BASE_URL + "api/telSchedule?cmd=getEmployee"
+const API_URL = "/api/pp/"
+const TEL_API_URL = "/api/telSchedule?cmd=getEmployee"
 
 const IS_PRODUCTION: boolean = process.env.REACT_APP_ENVIRONMENT === 'production'
 
@@ -42,7 +41,7 @@ export function handleError(error: Error | AxiosError) {
 }
 
 const get_staffinfo_promise = (): Promise<User> => {
-    const url = BASE_URL + '/staffinfo';
+    const url = '/staffinfo';
     return axiosInstance.get(url)
         .then(handleResponse)
         .then(handleError) as Promise<User>
