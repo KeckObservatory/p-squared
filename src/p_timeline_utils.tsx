@@ -341,7 +341,6 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
     let synthItems: Item[] = []
     let newIdx = idx
 
-    console.log('generate_items', location, dates, groupItems, synthItems)
     dates.forEach((date: moment.Moment) => {
 
         const isWeekday = date.isoWeekday() < 6 //saturday=6 sunday=7
@@ -351,7 +350,6 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
         })
         if (location.includes('Holiday')) realItem = undefined 
         newIdx += 1
-        console.log('making item', realItem, isWeekday, isSummit)
 
         if (!realItem && isWeekday && !isSummit) {
             const synthItem: Item = {
