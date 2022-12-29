@@ -41,6 +41,7 @@ const get_location_color = (location: string) => {
         case "FamilySick":
         case "Sick":
         case "JuryDuty":
+        case "Holiday":
             color = colorMapping['green']
             break;
         case "Travel":
@@ -268,7 +269,7 @@ export const entries_to_items = (entries: EntryData[]) => {
     return items
 }
 
-const tooltip_creator = (comment?: string, title?: string, startTime?: moment.Moment, endTime?: moment.Moment) => {
+const tooltip_creator = (comment?: string, startTime?: moment.Moment, endTime?: moment.Moment) => {
     return (
         <React.Fragment>
             {comment && (<p>{comment}</p>)}
@@ -283,7 +284,7 @@ export const itemRenderer =
         const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
         const backgroundColor = itemContext.selected ? (itemContext.dragging ? "red" : item.selectedBgColor) : item.bgColor;
         const borderColor = itemContext.resizing ? "red" : item.color;
-        const tooltipPopup = tooltip_creator(item.comment, item.title, item.start_time, item.end_time)
+        const tooltipPopup = tooltip_creator(item.comment, item.start_time, item.end_time)
         return (
             <Tooltip title={tooltipPopup}>
                 <div
@@ -335,28 +336,31 @@ const get_date_array = (startDate: moment.Moment, endDate: moment.Moment) => {
     return dates;
 };
 
-const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[], idx: number) => {
+const generate_items = (group: Group, location: string, groupItems: Item[], dates: moment.Moment[], idx: number, comment='Synthetic event' ) => {
 
     let synthItems: Item[] = []
     let newIdx = idx
 
+    console.log('generate_items', location, dates, groupItems, synthItems)
     dates.forEach((date: moment.Moment) => {
 
         const isWeekday = date.isoWeekday() < 6 //saturday=6 sunday=7
         const isSummit = group.primaryLocation === 'SU'
-        const realItem = groupItems.find((item: Item) => {
+        let realItem = groupItems.find((item: Item) => {
             return item.start_time.isSame(date, 'day')
         })
+        if (location.includes('Holiday')) realItem = undefined 
         newIdx += 1
+        console.log('making item', realItem, isWeekday, isSummit)
 
         if (!realItem && isWeekday && !isSummit) {
             const synthItem: Item = {
                 id: newIdx,
                 group: group.id,
                 entryId: newIdx,
-                location: group.primaryLocation,
-                comment: 'Synthetic event',
-                title: group.primaryLocation,
+                location: location,
+                comment: comment, 
+                title: location,
                 start_time: date.clone().set({
                     hour: group.primaryShift[0],
                     minute: 0,
@@ -367,7 +371,7 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
                     minute: 0,
                     second: 0
                 }),
-                bgColor: get_location_color(group.primaryLocation),
+                bgColor: get_location_color(location),
                 color: colorMapping['white'],
             }
             synthItems.push(synthItem)
@@ -377,6 +381,47 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
 
     return ({ synthItems, newIdx })
 }
+
+export const generate_holiday_items = ( 
+    groups: Group[],
+    items: Item[],
+    datesStr: string[]) => {
+
+
+    if (datesStr.length===0) return [] //ignore if no holidays
+
+    let idx = moment().valueOf()
+    let syntheticEntries: Item[] = []
+
+    const dates = datesStr.map( (date: string) => {
+        return moment(date)
+    }) 
+
+
+    // generate entries for group
+    groups.forEach((group: Group) => {
+        // get exiting entries for group
+        const groupItems: Item[] = []
+        items.forEach((item: Item) => {
+            if (item.group === group.id) {
+                groupItems.push(item)
+            }
+        })
+
+        //add to pool of synthetic entries
+        if (group.primaryLocation !== "None") {
+            //generate_entries 
+            const { synthItems, newIdx } = generate_items(group, 'Holiday', groupItems, dates, idx, 'Holiday')
+            idx = newIdx
+            syntheticEntries = [...syntheticEntries, ...synthItems]
+        }
+    })
+
+    console.log('generate_holiday_items', groups, dates, syntheticEntries)
+
+    return syntheticEntries
+
+    }
 
 export const generate_synthetic_items = (
     groups: Group[],
@@ -411,7 +456,7 @@ export const generate_synthetic_items = (
         //add to pool of synthetic entries
         if (group.primaryLocation !== "None") {
             //generate_entries 
-            const { synthItems, newIdx } = generate_items(group, groupItems, dates, idx)
+            const { synthItems, newIdx } = generate_items(group, group.primaryLocation, groupItems, dates, idx)
             idx = newIdx
             syntheticEntries = [...syntheticEntries, ...synthItems]
         }

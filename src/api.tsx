@@ -91,6 +91,11 @@ const mock_get_employees_promise = (): Promise<Employee[]> => {
     return mockPromise
 }
 
+const mock_get_holidays = (startDate: string, endDate: string) => {
+    https://www3build.keck.hawaii.edu/api/pp/holidays?startdate=2022-12-25&enddate=2023-01-01
+    return ["2022-12-26"]
+}
+
 const axiosInstance = axios.create({
     withCredentials: true,
     headers: {
@@ -98,6 +103,18 @@ const axiosInstance = axios.create({
         'Content-Type': 'application/json'
     }
 })
+
+const get_holidays_promise = (startDate: string, endDate: string): Promise<string[]> => {
+    let url = API_URL + "holidays?"
+        + "startdate=" + startDate
+        + "&enddate=" + endDate
+    return axios.get(url)
+        .then(handleResponse)
+        .then((entry: any) => {
+            return entry.data
+        })
+        .catch(handleError)
+}
 
 export const get_employees_promise = (): Promise<Employee[]> => {
     return axiosInstance.get(TEL_API_URL)
@@ -173,3 +190,4 @@ export const get_entries_by_date_range_promise = (
 export const get_staffinfo = IS_PRODUCTION ? get_staffinfo_promise : mock_get_staffinfo_promise
 export const get_entries_by_date_range = IS_PRODUCTION ? get_entries_by_date_range_promise : mock_get_entries_by_date_range_promise
 export const get_employees = IS_PRODUCTION ? get_employees_promise : mock_get_employees_promise
+export const get_holidays = IS_PRODUCTION ? get_holidays_promise : mock_get_holidays
