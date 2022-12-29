@@ -89,7 +89,7 @@ export const PTimeline = (props: Props) => {
                 state.visibleTimeEnd.format('YYYY-MM-DD'),
             )
             make_groups_and_items(entries,
-                state.visibleTimeStart, state.visibleTimeEnd, holidays)
+                state.visibleTimeStart, state.visibleTimeEnd, holidays.holidays)
         }
 
     }, [])
@@ -130,7 +130,7 @@ export const PTimeline = (props: Props) => {
                 state.visibleTimeEnd.format('YYYY-MM-DD'),
             )
             make_groups_and_items(entries,
-                state.visibleTimeStart, state.visibleTimeEnd, holidays)
+                state.visibleTimeStart, state.visibleTimeEnd, holidays.holidays)
         }
 
         control_state_change_handler()
@@ -159,7 +159,7 @@ export const PTimeline = (props: Props) => {
             state.visibleTimeEnd.format('YYYY-MM-DD'),
         )
         make_groups_and_items(entries,
-            state.visibleTimeStart, state.visibleTimeEnd, holidays)
+            state.visibleTimeStart, state.visibleTimeEnd, holidays.holidays)
     };
 
     const onScrollClick = (inc: number) => {

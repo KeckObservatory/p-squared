@@ -91,8 +91,7 @@ const mock_get_employees_promise = (): Promise<Employee[]> => {
 }
 
 const mock_get_holidays = (startDate: string, endDate: string) => {
-    https://www3build.keck.hawaii.edu/api/pp/holidays?startdate=2022-12-25&enddate=2023-01-01
-    return ["2022-12-26"]
+    return {holidays: ["2022-12-26"]}
 }
 
 const axiosInstance = axios.create({
@@ -103,7 +102,11 @@ const axiosInstance = axios.create({
     }
 })
 
-const get_holidays_promise = (startDate: string, endDate: string): Promise<string[]> => {
+export interface Holidays {
+    holidays: string[]
+}
+
+const get_holidays_promise = (startDate: string, endDate: string): Promise<Holidays> => {
     let url = API_URL + "holidays?"
         + "startdate=" + startDate
         + "&enddate=" + endDate
