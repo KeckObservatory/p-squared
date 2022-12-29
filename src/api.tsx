@@ -109,7 +109,7 @@ const get_holidays_promise = (startDate: string, endDate: string): Promise<strin
     return axiosInstance.get(url)
         .then(handleResponse)
         .then((entry: any) => {
-            return entry.data
+            return entry
         })
         .catch(handleError)
 }
