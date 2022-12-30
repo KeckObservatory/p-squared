@@ -151,6 +151,7 @@ export const Control = (props: Props) => {
                     {
                         ...entryState,
                         name: user.LastName + ', ' + user.FirstName,
+                        staff: user.Alias,
                         department: user.Department,
                         baseCamp: user.BaseCamp,
                         admin: user?.Admin === 'True'
