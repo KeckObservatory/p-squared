@@ -329,7 +329,10 @@ const get_date_array = (startDate: moment.Moment, endDate: moment.Moment) => {
 
     let currDate = startDate.startOf('day');
     const lastDate = endDate.startOf('day');
-    while (currDate.add(1, 'days').diff(lastDate) < 0) {
+    if (currDate.diff(lastDate, 'days')<=0) { //day view
+        dates.push(currDate.clone())
+    }
+    while (currDate.add(1, 'days').diff(lastDate, 'days') < 0) {
         dates.push(currDate.clone());
     }
 
@@ -434,13 +437,13 @@ export const generate_synthetic_items = (
     // get array of dates. 
 
     const dates = get_date_array(startDate, endDate)
-    console.log(
-        'n dates:', dates.length,
-        'n groups', groups.length,
-        'n items', items.length,
-        'start date', startDate.format('YYYY-MM-DD HH:mm:ss'),
-        'endDate', endDate.format('YYYY-MM-DD HH:mm:ss')
-    )
+    // console.log(
+    //     'n dates:', dates.length,
+    //     'n groups', groups.length,
+    //     'n items', items.length,
+    //     'start date', startDate.format('YYYY-MM-DD HH:mm:ss'),
+    //     'endDate', endDate.format('YYYY-MM-DD HH:mm:ss')
+    // )
     let idx = moment().valueOf()
 
     // generate entries for group

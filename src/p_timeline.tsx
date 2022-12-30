@@ -92,6 +92,8 @@ export const PTimeline = (props: Props) => {
                 state.visibleTimeStart, state.visibleTimeEnd, holidays)
         }
 
+        init_handler()
+
     }, [])
 
     useEffect(() => {
@@ -126,17 +128,18 @@ export const PTimeline = (props: Props) => {
                 props.controlState.location)
 
             const holidays = await get_holidays(
-                state.visibleTimeStart.format('YYYY-MM-DD'),
-                state.visibleTimeEnd.format('YYYY-MM-DD'),
+                visibleTimeStart.format('YYYY-MM-DD'),
+                visibleTimeEnd.format('YYYY-MM-DD'),
             )
             make_groups_and_items(entries,
-                state.visibleTimeStart, state.visibleTimeEnd, holidays)
+                visibleTimeStart, visibleTimeEnd, holidays)
         }
 
         control_state_change_handler()
     }, [props.controlState])
 
     const handleTimeHeaderChange = async (unit: Unit) => {
+        console.log('handleTimeHeaderChange selected')
         const date = props.controlState.date.clone()
         const visibleTimeStart = date.clone().startOf(unit)
         const visibleTimeEnd = date.clone().endOf(unit)
@@ -155,11 +158,11 @@ export const PTimeline = (props: Props) => {
             props.controlState.location)
 
         const holidays = await get_holidays(
-            state.visibleTimeStart.format('YYYY-MM-DD'),
-            state.visibleTimeEnd.format('YYYY-MM-DD'),
+            visibleTimeStart.format('YYYY-MM-DD'),
+            visibleTimeEnd.format('YYYY-MM-DD'),
         )
         make_groups_and_items(entries,
-            state.visibleTimeStart, state.visibleTimeEnd, holidays)
+            visibleTimeStart, visibleTimeEnd, holidays)
     };
 
     const onScrollClick = (inc: number) => {
