@@ -147,10 +147,10 @@ export const AddEditEntryDialog = (props: Props) => {
     if (secondLocation) {
       const sd = moment(props.entryState.dateRange[0])
         .set('hour', props.entryState.startTime)
-        .set('minute', 0).set('second', 0)
+        .set('minute', 0).set('second', 0).set('millisecond', 0)
       let ed = moment(props.entryState.dateRange[1])
         .set('hour', props.entryState.endTime)
-        .set('minute', 0).set('second', 0)
+        .set('minute', 0).set('second', 0).set('millisecond', 0)
       if (props.entryState.startTime > props.entryState.endTime) {
         console.log('adding day to endDate')
         ed = ed.add(1, 'days') // add 24 hours so that startDate <= endDate
