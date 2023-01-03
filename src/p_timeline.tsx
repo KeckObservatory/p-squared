@@ -304,10 +304,10 @@ export const PTimeline = (props: Props) => {
                     <TimelineHeaders className="sticky">
                         <SidebarHeader >
                             {({ getRootProps }) => {
-                                return <div className="names" {...getRootProps()}>Names</div>
+                                return <div className="names" {...getRootProps()}>Employees</div>
                             }}
                         </SidebarHeader>
-                        <DateHeader unit="primaryHeader" />
+                        <DateHeader unit={'primaryHeader'} />
                         <DateHeader labelFormat={label_format} />
                     </TimelineHeaders>
                     <TimelineMarkers>

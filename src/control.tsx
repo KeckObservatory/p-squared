@@ -128,6 +128,7 @@ export const Control = (props: Props) => {
     }
     const [employees, setEmployees] = React.useState([] as Employee[])
     const [filtEmployees, setFiltEmployees] = React.useState([] as Employee[])
+    const [departments, setDepartments] = React.useState([] as string[])
     const [state, setState] = useState(initState)
 
     const [entryState, setEntryState] = React.useState({
@@ -162,6 +163,9 @@ export const Control = (props: Props) => {
 
         const init_employees = async () => {
             let emps = await get_employees()
+            let empDeps = emps.map((emp: Employee) => { return emp.Department })
+            let dpnts = Array.from(new Set(empDeps))
+            setDepartments(dpnts)
             const user = await get_staffinfo()
             set_emp_and_user(emps, user)
         }
@@ -232,7 +236,7 @@ export const Control = (props: Props) => {
                     />
                 </FormControl>
                 <FormControl sx={{ minWidth: 150, marginLeft: '33px', marginTop: '16px' }}>
-                    <DropDown arr={DEPARTMENTS}
+                    <DropDown arr={departments}
                         handleChange={handleDepartmentChange}
                         value={state.department}
                         placeholder={'Select Department'}

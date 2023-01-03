@@ -134,7 +134,7 @@ const formatLabel: LabelFormat = {
         short: 'MM/YY'
     },
     week: {
-        long: 'w',
+        long: 'MMMM YYYY',
         mediumLong: 'w',
         medium: 'w',
         short: 'w'
