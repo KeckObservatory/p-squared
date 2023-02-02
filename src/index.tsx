@@ -16,9 +16,6 @@ root.render(
     <BrowserRouter>
       <QueryParamProvider adapter={ReactRouter6Adapter}>
         <App/>
-        {/* <Routes>
-          <Route path="/" element={<App />} />
-        </Routes> */}
       </QueryParamProvider>
     </BrowserRouter>,
   </React.StrictMode>

@@ -227,10 +227,10 @@ export const Control = (props: Props) => {
         <Paper sx={{ margin: '4px' }} elevation={3}>
             <Box
             >
-                <FormControl sx={{ width: 150, margin: '6px', marginTop: '22px' }}>
+                <FormControl sx={{ width: 150, margin: '6px', marginTop: '12px' }}>
                     <YearMonthPicker date={moment(state.date, DATE_FORMAT)} handleDateChange={handleDateChange} />
                 </FormControl>
-                <FormControl sx={{ width: 100, margin: '16px', marginTop: '16px' }}>
+                <FormControl sx={{ width: 100, margin: '6px', marginTop: '6px' }}>
                     <DropDown arr={ABV_LOCATIONS}
                         handleChange={handleLocationChange}
                         value={state.location}
@@ -238,7 +238,7 @@ export const Control = (props: Props) => {
                         label={'Location'}
                     />
                 </FormControl>
-                <FormControl sx={{ minWidth: 150, marginLeft: '33px', marginTop: '16px' }}>
+                <FormControl sx={{ minWidth: 150, marginLeft: '33px', marginTop: '6px' }}>
                     <DropDown arr={departments}
                         handleChange={handleDepartmentChange}
                         value={state.department}
@@ -246,7 +246,7 @@ export const Control = (props: Props) => {
                         label={'Department'}
                     />
                 </FormControl>
-                <FormControl sx={{ width: 250, marginLeft: '33px', marginTop: '22px' }}>
+                <FormControl sx={{ width: 250, marginLeft: '33px', marginTop: '12px' }}>
                     <Autocomplete
                         // sx={{ ...formControlStyle, marginTop: '12px' }}
                         freeSolo

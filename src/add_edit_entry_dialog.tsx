@@ -243,7 +243,7 @@ export const AddEditEntryDialog = (props: Props) => {
 
   return (
     <div>
-      <Button style={{ margin: '12px' }} variant="contained" onClick={handleClickOpen}>
+      <Button style={{ margin: '2px' }} variant="contained" onClick={handleClickOpen}>
         {props.edit ? 'Edit entry' : 'Create New Entry'}
       </Button>
       <Dialog
