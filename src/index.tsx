@@ -12,14 +12,16 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <BrowserRouter>
-    <QueryParamProvider adapter={ReactRouter6Adapter}>
-      <Routes>
-        <Route path="/" element={<App />} />
-      </Routes>
-    </QueryParamProvider>
-  </BrowserRouter>,
-  document.getElementById('root')
+  <React.StrictMode>
+    <BrowserRouter>
+      <QueryParamProvider adapter={ReactRouter6Adapter}>
+        <App/>
+        {/* <Routes>
+          <Route path="/" element={<App />} />
+        </Routes> */}
+      </QueryParamProvider>
+    </BrowserRouter>,
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
