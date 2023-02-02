@@ -12,13 +12,15 @@ import { get_employees, get_staffinfo, User } from './api'
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Skeleton from '@mui/material/Skeleton';
+import { ObjectParam, useQueryParam, withDefault } from 'use-query-params';
+
+export const DATE_FORMAT = 'YYYY-MM-DD'
 
 export interface Props { }
 
 export interface ControlState {
-    // base: string,
     location: string,
-    date: moment.Moment
+    date: string 
     department: string
     nameFilter: string
     idx: number
@@ -119,7 +121,7 @@ export const Control = (props: Props) => {
     const now = moment()
 
     const initState: ControlState = {
-        date: now,
+        date: now.format(DATE_FORMAT),
         // base: '',
         location: '',
         department: '',
@@ -129,7 +131,8 @@ export const Control = (props: Props) => {
     const [employees, setEmployees] = React.useState([] as Employee[])
     const [filtEmployees, setFiltEmployees] = React.useState([] as Employee[])
     const [departments, setDepartments] = React.useState([] as string[])
-    const [state, setState] = useState(initState)
+    // const [state, setState] = useState(initState)
+    const [state, setState] = useQueryParam('controlState', withDefault(ObjectParam, initState as any) )
 
     const [entryState, setEntryState] = React.useState({
         dateRange: [new Date(), new Date()],
@@ -179,7 +182,7 @@ export const Control = (props: Props) => {
         console.log(d, date)
         setState({
             ...state,
-            date: d
+            date: d.format(DATE_FORMAT)
         })
     }
 
@@ -225,7 +228,7 @@ export const Control = (props: Props) => {
             <Box
             >
                 <FormControl sx={{ width: 150, margin: '6px', marginTop: '22px' }}>
-                    <YearMonthPicker date={state.date} handleDateChange={handleDateChange} />
+                    <YearMonthPicker date={moment(state.date, DATE_FORMAT)} handleDateChange={handleDateChange} />
                 </FormControl>
                 <FormControl sx={{ width: 100, margin: '16px', marginTop: '16px' }}>
                     <DropDown arr={ABV_LOCATIONS}

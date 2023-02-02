@@ -13,7 +13,7 @@ import moment from 'moment'
 import React, { useEffect } from 'react'
 import Button from '@mui/material/Button'
 import { edit_entry_by_id, delete_entry_by_id, get_entries_by_date_range, get_holidays } from './api'
-import { ControlState, Employee, EntryState } from './control'
+import { ControlState, Employee, EntryState, DATE_FORMAT } from './control'
 import Popover from '@mui/material/Popover'
 import Paper from '@mui/material/Paper'
 import {
@@ -28,7 +28,7 @@ import {
     generate_holiday_items
 } from './p_timeline_utils'
 import { AddEditEntryDialog } from './add_edit_entry_dialog'
-
+import { ObjectParam, useQueryParam, withDefault } from "use-query-params"
 
 interface Props {
     controlState: ControlState,
@@ -40,8 +40,10 @@ interface Props {
 }
 
 interface State {
-    visibleTimeStart: moment.Moment
-    visibleTimeEnd: moment.Moment
+    // visibleTimeStart: moment.Moment
+    // visibleTimeEnd: moment.Moment
+    visibleTimeStart: string
+    visibleTimeEnd: string
     unit: Unit
 }
 
@@ -55,15 +57,16 @@ export const PTimeline = (props: Props) => {
     const init_groups = make_employee_groups(props.employees, props.controlState) as TimelineGroupBase[]
     const init_items = [] as TimelineItemBase<any>[]
 
+
     const initUnit = "week"
-    const initVisibleTimeStart = props.controlState.date.clone()
+    const initVisibleTimeStart = moment(props.controlState.date, DATE_FORMAT)
         .startOf(initUnit)
-    const initVisibleTimeEnd = props.controlState.date.clone()
+    const initVisibleTimeEnd = moment(props.controlState.date, DATE_FORMAT)
         .startOf(initUnit)
         .add(7, "day")
     const init_state: State = {
-        visibleTimeStart: initVisibleTimeStart,
-        visibleTimeEnd: initVisibleTimeEnd,
+        visibleTimeStart: initVisibleTimeStart.format(DATE_FORMAT),
+        visibleTimeEnd: initVisibleTimeEnd.format(DATE_FORMAT),
         unit: initUnit
     }
 
@@ -71,7 +74,10 @@ export const PTimeline = (props: Props) => {
     const localDate = new Date()
     const HIdate = new Date(localDate.toLocaleString('en-US', { timeZone: 'Pacific/Honolulu' }))
 
-    const [state, setState] = React.useState(init_state)
+    // const [state, setState] = React.useState(init_state)
+    const [state, setState] = useQueryParam('state', withDefault(ObjectParam, init_state as any) )
+    console.log('state', state)
+
     const [groups, setGroups] = React.useState([...init_groups])
     const [items, setItems] = React.useState(init_items)
 
@@ -80,16 +86,16 @@ export const PTimeline = (props: Props) => {
         const init_handler = async () => {
 
             const entries = await get_entries_by_date_range(
-                state.visibleTimeStart.format('YYYY-MM-DD'),
-                state.visibleTimeEnd.format('YYYY-MM-DD'),
+                state.visibleTimeStart,
+                state.visibleTimeEnd,
                 props.controlState.department,
                 props.controlState.location)
             const holidays = await get_holidays(
-                state.visibleTimeStart.format('YYYY-MM-DD'),
-                state.visibleTimeEnd.format('YYYY-MM-DD'),
+                state.visibleTimeStart,
+                state.visibleTimeEnd,
             )
             make_groups_and_items(entries,
-                state.visibleTimeStart, state.visibleTimeEnd, holidays)
+                moment(state.visibleTimeStart, DATE_FORMAT), moment(state.visibleTimeEnd, DATE_FORMAT), holidays)
         }
 
         init_handler()
@@ -101,7 +107,7 @@ export const PTimeline = (props: Props) => {
         const control_state_change_handler = async () => {
 
 
-            const date = props.controlState.date.clone()
+            const date = moment(props.controlState.date, DATE_FORMAT)
             // console.log('date has changed', date)
             const visibleTimeStart = date.clone()
                 .startOf(state.unit)
@@ -110,63 +116,63 @@ export const PTimeline = (props: Props) => {
                 .add(1, state.unit as any)
             setState({
                 ...state,
-                visibleTimeStart,
-                visibleTimeEnd
+                visibleTimeStart: visibleTimeStart.format(DATE_FORMAT),
+                visibleTimeEnd: visibleTimeEnd.format(DATE_FORMAT)
             })
 
 
-            console.log('control state changed. dates', visibleTimeStart.format('YYYY-MM-DD'),
-                visibleTimeEnd.format('YYYY-MM-DD'))
+            console.log('control state changed. dates', visibleTimeStart.format(DATE_FORMAT),
+                visibleTimeEnd.format(DATE_FORMAT))
 
             const employeeGroups = make_employee_groups(props.employees, props.controlState)
             setGroups(employeeGroups)
 
             const entries = await get_entries_by_date_range(
-                visibleTimeStart.format('YYYY-MM-DD'),
-                visibleTimeEnd.format('YYYY-MM-DD'),
+                visibleTimeStart.format(DATE_FORMAT),
+                visibleTimeEnd.format(DATE_FORMAT),
                 props.controlState.department,
                 props.controlState.location)
 
             const holidays = await get_holidays(
-                visibleTimeStart.format('YYYY-MM-DD'),
-                visibleTimeEnd.format('YYYY-MM-DD'),
+                visibleTimeStart.format(DATE_FORMAT),
+                visibleTimeEnd.format(DATE_FORMAT),
             )
             make_groups_and_items(entries,
                 visibleTimeStart, visibleTimeEnd, holidays)
         }
 
         control_state_change_handler()
-    }, [props.controlState])
+    }, [props.controlState, state.unit])
 
     const handleTimeHeaderChange = async (unit: Unit) => {
-        console.log('handleTimeHeaderChange selected')
-        const date = props.controlState.date.clone()
+        console.log('handleTimeHeaderChange selected', unit)
+        const date = moment(props.controlState.date, DATE_FORMAT)
         const visibleTimeStart = date.clone().startOf(unit)
         const visibleTimeEnd = date.clone().endOf(unit)
 
         setState({
             ...state,
             unit,
-            visibleTimeStart,
-            visibleTimeEnd
+            visibleTimeStart: visibleTimeStart.format(DATE_FORMAT),
+            visibleTimeEnd: visibleTimeEnd.format(DATE_FORMAT)
         });
 
         const entries = await get_entries_by_date_range(
-            visibleTimeStart.format('YYYY-MM-DD'),
-            visibleTimeEnd.format('YYYY-MM-DD'),
+            visibleTimeStart.format(DATE_FORMAT),
+            visibleTimeEnd.format(DATE_FORMAT),
             props.controlState.department,
             props.controlState.location)
 
         const holidays = await get_holidays(
-            visibleTimeStart.format('YYYY-MM-DD'),
-            visibleTimeEnd.format('YYYY-MM-DD'),
+            visibleTimeStart.format(DATE_FORMAT),
+            visibleTimeEnd.format(DATE_FORMAT),
         )
         make_groups_and_items(entries,
             visibleTimeStart, visibleTimeEnd, holidays)
     };
 
     const onScrollClick = (inc: number) => {
-        let newDate = props.controlState.date.clone()
+        let newDate = moment(props.controlState.date, DATE_FORMAT)
             .add(inc, state.unit as any)
             .startOf(state.unit as any)
         console.log(newDate)
@@ -180,7 +186,9 @@ export const PTimeline = (props: Props) => {
     };
 
     const make_groups_and_items = (entries: EntryData[],
-        visibleTimeStart: moment.Moment, visibleTimeEnd: moment.Moment, holidays: string[]
+        visibleTimeStart: moment.Moment,
+        visibleTimeEnd: moment.Moment,
+        holidays: string[]
     ) => {
 
         let newGroups = make_employee_groups(props.employees, props.controlState)
@@ -207,11 +215,24 @@ export const PTimeline = (props: Props) => {
         newItems = [...newItems, ...syntheticItems]
 
 
-        console.log('make_groups_and_items dates', visibleTimeStart.format('YYYY-MM-DD'),
-            visibleTimeEnd.format('YYYY-MM-DD'))
+        console.log('make_groups_and_items dates', visibleTimeStart.format(DATE_FORMAT),
+            visibleTimeEnd.format(DATE_FORMAT))
         const startIdx = moment().valueOf()
         for (let idx = 0; idx < newItems.length; idx++) { //ensure idx are all unique
             newItems[idx]['id'] = idx + startIdx
+        }
+
+        console.log('state unit is', state.unit)
+
+        if (state.unit.includes('month')) {
+            console.log('setting entries to full day')
+            const monthItems: Item[] = [] 
+            newItems.forEach((item: Item) => {
+                const start_time = item.start_time.startOf('day')
+                const end_time = item.end_time.endOf('day')
+                monthItems.push({...item, start_time, end_time } as Item )
+            })
+            newItems = monthItems
         }
 
         console.log('new entries', entries, 'groups', newGroups, 'items', newItems)
@@ -263,7 +284,7 @@ export const PTimeline = (props: Props) => {
         visibleTimeEnd: number,
         updateScrollCanvas: (start: number, end: number) => void) => {
         //disable scrolling
-        updateScrollCanvas(state.visibleTimeStart.valueOf(), state.visibleTimeEnd.valueOf())
+        updateScrollCanvas(moment(state.visibleTimeStart, DATE_FORMAT).valueOf(), moment(state.visibleTimeEnd, DATE_FORMAT).valueOf())
     };
 
     const handleClosePopover = () => {
@@ -294,8 +315,8 @@ export const PTimeline = (props: Props) => {
                     itemHeightRatio={0.85}
                     canMove={false}
                     canResize={false}
-                    visibleTimeStart={state.visibleTimeStart}
-                    visibleTimeEnd={state.visibleTimeEnd}
+                    visibleTimeStart={moment(state.visibleTimeStart, DATE_FORMAT)}
+                    visibleTimeEnd={moment(state.visibleTimeEnd, DATE_FORMAT)}
                     itemRenderer={itemRenderer}
                     onTimeChange={handleTimeChange}
                     onItemSelect={onItemClick}
