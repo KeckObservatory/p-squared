@@ -180,7 +180,7 @@ export const PTimeline = (props: Props) => {
         props.setControlState(
             {
                 ...props.controlState,
-                date: newDate
+                date: newDate.format('DATE_FORMAT')
             }
         )
     };
