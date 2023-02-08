@@ -173,14 +173,15 @@ export const PTimeline = (props: Props) => {
 
     const onScrollClick = (inc: number) => {
         let newDate = moment(props.controlState.date, DATE_FORMAT)
-            .add(inc, state.unit as any)
+        
+            newDate.add(inc, state.unit as any)
             .startOf(state.unit as any)
         console.log(newDate)
 
         props.setControlState(
             {
                 ...props.controlState,
-                date: newDate.format('DATE_FORMAT')
+                date: newDate.format(DATE_FORMAT)
             }
         )
     };
