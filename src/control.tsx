@@ -203,7 +203,7 @@ export const Control = (props: Props) => {
     }
 
     const handleEntrySubmit = async () => {
-        await new Promise(resolve => setTimeout(resolve, 1500)); // wait for database to update
+        await new Promise(resolve => setTimeout(resolve, 500)); // wait for database to update
         setState({
             ...state,
             idx: state.idx+1
