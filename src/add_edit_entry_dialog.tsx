@@ -183,8 +183,8 @@ export const AddEditEntryDialog = (props: Props) => {
   const check_for_errors = () => {
 
     //date range
-    const maxDayRange = 7
-    const leaveDayRange = 21
+    const maxDayRange = 30 
+    const leaveDayRange = 30 
     const isVacation = props.entryState.location.includes('Vacation')
     const dt = moment(props.entryState.dateRange[1]).diff(moment(props.entryState.dateRange[0]), 'days')
     if (isVacation && dt >= leaveDayRange) {
