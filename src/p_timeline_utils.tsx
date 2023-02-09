@@ -317,7 +317,6 @@ export const itemRenderer =
                     >
                         {itemContext.title}
                     </div>
-
                     {itemContext.useResizeHandle ? <div {...rightResizeProps} /> : null}
                 </div>
             </Tooltip>

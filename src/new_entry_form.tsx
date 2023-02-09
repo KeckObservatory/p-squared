@@ -6,7 +6,6 @@ import DropDown from './drop_down';
 import { Autocomplete, Typography } from "@mui/material";
 import { Employee, EntryState, ALL_LOCATIONS } from './control';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
-import { DEPARTMENTS } from './department_select';
 import { get_staffinfo, User } from './api';
 
 const formControlStyle = {

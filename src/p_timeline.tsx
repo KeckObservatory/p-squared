@@ -21,7 +21,6 @@ import {
     EntryData,
     entries_to_items,
     itemRenderer,
-    generate_synthetic_items,
     Item,
     filter_groups_by_location,
     label_format,
@@ -75,7 +74,7 @@ export const PTimeline = (props: Props) => {
     const HIdate = new Date(localDate.toLocaleString('en-US', { timeZone: 'Pacific/Honolulu' }))
 
     // const [state, setState] = React.useState(init_state)
-    const [state, setState] = useQueryParam('state', withDefault(ObjectParam, init_state as any) )
+    const [state, setState] = useQueryParam('state', withDefault(ObjectParam, init_state as any))
     console.log('state', state)
 
     const [groups, setGroups] = React.useState([...init_groups])
@@ -173,8 +172,8 @@ export const PTimeline = (props: Props) => {
 
     const onScrollClick = (inc: number) => {
         let newDate = moment(props.controlState.date, DATE_FORMAT)
-        
-            newDate.add(inc, state.unit as any)
+
+        newDate.add(inc, state.unit as any)
             .startOf(state.unit as any)
         console.log(newDate)
 
@@ -202,6 +201,7 @@ export const PTimeline = (props: Props) => {
             newGroups,
             newItems,
             holidays,
+
         )
 
         newItems = [...newItems, ...holidayItems]
@@ -217,11 +217,11 @@ export const PTimeline = (props: Props) => {
 
         if (state.unit.includes('month')) {
             console.log('setting entries to full day')
-            const monthItems: Item[] = [] 
+            const monthItems: Item[] = []
             newItems.forEach((item: Item) => {
                 const start_time = item.start_time.startOf('day')
                 const end_time = item.end_time.endOf('day')
-                monthItems.push({...item, start_time, end_time } as Item )
+                monthItems.push({ ...item, start_time, end_time } as Item)
             })
             newItems = monthItems
         }
@@ -260,15 +260,13 @@ export const PTimeline = (props: Props) => {
 
     const deleteSelected = () => {
         setAnchorEl(null);
-        if (!selectedComment.includes('synthetic event')) {
-            console.log('deleting item', selectedItem.entryId)
-            delete_entry_by_id(selectedItem.entryId).then((response: any) => {
-                console.log('delete response', response)
-                props.setControlState((pcs: ControlState) => {
-                    return { ...pcs, idx: pcs.idx + 1 }
-                })
+        console.log('deleting item', selectedItem.entryId)
+        delete_entry_by_id(selectedItem.entryId).then((response: any) => {
+            console.log('delete response', response)
+            props.setControlState((pcs: ControlState) => {
+                return { ...pcs, idx: pcs.idx + 1 }
             })
-        }
+        })
     }
 
     const handleTimeChange = (visibleTimeStart: number,
