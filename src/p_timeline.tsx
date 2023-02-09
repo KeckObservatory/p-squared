@@ -242,19 +242,23 @@ export const PTimeline = (props: Props) => {
         console.log('matches_name', matches_name)
         if (matches_name || props.entryState.admin) {
             setAnchorEl(evt.currentTarget);
-            props.setEntryState(
-                {
-                    ...props.entryState,
-                    name: item.group,
-                    comment: item.comment,
-                    location: item.location,
-                    startTime: item.start_time.hour(),
-                    endTime: item.end_time.hour(),
-                    dateRange: [item.start_time, item.end_time],
-                    entryId: item.entryId
+            // NOTE: this will cause a rerender, moving the edit button to the top left of the page!!!
+            if ( props.entryState.admin ) {
+                props.setEntryState( 
+                    {
+                        ...props.entryState,
+                        name: item.group,
+                        comment: item.comment,
+                        location: item.location,
+                        startTime: item.start_time.hour(),
+                        endTime: item.end_time.hour(),
+                        dateRange: [item.start_time, item.end_time],
+                        entryId: item.entryId
 
-                }
-            )
+                    }
+                )
+
+            }
         }
     }
 
