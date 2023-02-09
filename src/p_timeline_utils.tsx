@@ -14,7 +14,8 @@ const colorMapping = {
     darkBlue: '#1976d2',
     darkOrange: '#d55e00',
     white: '#FFFFFF',
-    black: '#000000'
+    black: '#000000',
+    gold: '#D4AF37'
 }
 
 const get_location_color = (location: string) => {
@@ -27,15 +28,13 @@ const get_location_color = (location: string) => {
         case "HP":
         case "Hilo":
         case "Kona":
-            color = colorMapping['orange']
+            color = colorMapping['gold']
             break;
         case "WFH":
         case "Remote":
             color = colorMapping['pink']
             break;
         case "Vacation":
-            color = colorMapping['yellow']
-            break;
         case "Leave":
         case "Sick":
         case "FamilySick":
@@ -48,7 +47,7 @@ const get_location_color = (location: string) => {
             color = colorMapping['blue']
             break;
         case "other":
-            color = colorMapping['darkOrange']
+            color = colorMapping['orange']
             break;
         default:
             color = colorMapping['darkBlue']
