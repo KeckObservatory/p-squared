@@ -270,8 +270,10 @@ export const PTimeline = (props: Props) => {
     const deleteSelected = () => {
         setOpen(false)
         console.log('deleting item', selectedItem.entryId)
-        delete_entry_by_id(selectedItem.entryId).then((response: any) => {
+        delete_entry_by_id(selectedItem.entryId).then( async (response: any) => {
             console.log('delete response', response)
+
+            await new Promise(resolve => setTimeout(resolve, 500)); // wait for backend to update 
             props.setControlState((pcs: ControlState) => {
                 return { ...pcs, idx: pcs.idx + 1 }
             })
@@ -333,7 +335,12 @@ export const PTimeline = (props: Props) => {
             )}
             <Dialog onClose={handleCloseDialog} open={open}>
                 <DialogTitle>Edit/Delete Entry</DialogTitle>
-                <Button style={{ margin: '12px' }} variant="contained" onClick={deleteSelected}>Delete</Button>
+                <Button style={{ margin: '12px' }}
+                    variant="contained"
+                    onClick={deleteSelected}
+                >
+                    Delete
+                </Button>
                 <AddEditEntryDialog
                     employees={props.employees}
                     entryState={props.entryState}
