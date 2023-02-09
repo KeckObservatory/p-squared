@@ -14,7 +14,8 @@ const colorMapping = {
     darkBlue: '#1976d2',
     darkOrange: '#d55e00',
     white: '#FFFFFF',
-    black: '#000000'
+    black: '#000000',
+    gold: '#D4AF37'
 }
 
 const get_location_color = (location: string) => {
@@ -27,27 +28,26 @@ const get_location_color = (location: string) => {
         case "HP":
         case "Hilo":
         case "Kona":
-            color = colorMapping['orange']
+            color = colorMapping['gold']
             break;
         case "WFH":
         case "Remote":
             color = colorMapping['pink']
             break;
         case "Vacation":
-            color = colorMapping['yellow']
-            break;
         case "Leave":
         case "Sick":
         case "FamilySick":
         case "Sick":
         case "JuryDuty":
+        case "Holiday":
             color = colorMapping['green']
             break;
         case "Travel":
             color = colorMapping['blue']
             break;
         case "other":
-            color = colorMapping['darkOrange']
+            color = colorMapping['orange']
             break;
         default:
             color = colorMapping['darkBlue']
@@ -133,15 +133,15 @@ const formatLabel: LabelFormat = {
         short: 'MM/YY'
     },
     week: {
-        long: 'w',
+        long: 'MMMM YYYY',
         mediumLong: 'w',
         medium: 'w',
         short: 'w'
     },
     day: {
-        long: 'ddd Do',
-        mediumLong: 'ddd Do',
-        medium: 'ddd Do',
+        long: 'ddd MMM Do',
+        mediumLong: 'ddd MMM Do',
+        medium:  'ddd MMM Do',
         short: 'ddd Do'
     },
     hour: {
@@ -268,12 +268,13 @@ export const entries_to_items = (entries: EntryData[]) => {
     return items
 }
 
-const tooltip_creator = (comment?: string, title?: string, startTime?: moment.Moment, endTime?: moment.Moment) => {
+const tooltip_creator = (item: Item) => {
     return (
         <React.Fragment>
-            {comment && (<p>{comment}</p>)}
-            {startTime && (<p>Start time: {startTime?.format('ddd HH:mm')}</p>)}
-            {endTime && (<p>End time: {endTime?.format('ddd HH:mm')}</p>)}
+            {item.group && (<p>{item.group}</p>)}
+            {item.comment && (<p>{item.comment}</p>)}
+            {item.start_time && (<p>Start time: {item.start_time?.format('ddd HH:mm')}</p>)}
+            {item.end_time && (<p>End time: {item.end_time?.format('ddd HH:mm')}</p>)}
         </React.Fragment>
     )
 }
@@ -283,7 +284,7 @@ export const itemRenderer =
         const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
         const backgroundColor = itemContext.selected ? (itemContext.dragging ? "red" : item.selectedBgColor) : item.bgColor;
         const borderColor = itemContext.resizing ? "red" : item.color;
-        const tooltipPopup = tooltip_creator(item.comment, item.title, item.start_time, item.end_time)
+        const tooltipPopup = tooltip_creator(item)
         return (
             <Tooltip title={tooltipPopup}>
                 <div
@@ -328,14 +329,17 @@ const get_date_array = (startDate: moment.Moment, endDate: moment.Moment) => {
 
     let currDate = startDate.startOf('day');
     const lastDate = endDate.startOf('day');
-    while (currDate.add(1, 'days').diff(lastDate) < 0) {
+    if (currDate.diff(lastDate, 'days')<=0) { //day view
+        dates.push(currDate.clone())
+    }
+    while (currDate.add(1, 'days').diff(lastDate, 'days') < 0) {
         dates.push(currDate.clone());
     }
 
     return dates;
 };
 
-const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[], idx: number) => {
+const generate_items = (group: Group, location: string, groupItems: Item[], dates: moment.Moment[], idx: number, comment='Synthetic event' ) => {
 
     let synthItems: Item[] = []
     let newIdx = idx
@@ -344,9 +348,10 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
 
         const isWeekday = date.isoWeekday() < 6 //saturday=6 sunday=7
         const isSummit = group.primaryLocation === 'SU'
-        const realItem = groupItems.find((item: Item) => {
+        let realItem = groupItems.find((item: Item) => {
             return item.start_time.isSame(date, 'day')
         })
+        if (location.includes('Holiday')) realItem = undefined 
         newIdx += 1
 
         if (!realItem && isWeekday && !isSummit) {
@@ -354,9 +359,9 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
                 id: newIdx,
                 group: group.id,
                 entryId: newIdx,
-                location: group.primaryLocation,
-                comment: 'Synthetic event',
-                title: group.primaryLocation,
+                location: location,
+                comment: comment, 
+                title: location,
                 start_time: date.clone().set({
                     hour: group.primaryShift[0],
                     minute: 0,
@@ -367,7 +372,7 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
                     minute: 0,
                     second: 0
                 }),
-                bgColor: get_location_color(group.primaryLocation),
+                bgColor: get_location_color(location),
                 color: colorMapping['white'],
             }
             synthItems.push(synthItem)
@@ -377,6 +382,49 @@ const generate_items = (group: Group, groupItems: Item[], dates: moment.Moment[]
 
     return ({ synthItems, newIdx })
 }
+
+export const generate_holiday_items = ( 
+    groups: Group[],
+    items: Item[],
+    datesStr: string[]) => {
+
+
+    console.log('holiday datesStr', datesStr)
+    if (!Array.isArray(datesStr)) return [] //ignore if error 
+    if (datesStr.length<=0) return [] //ignore if no holidays
+
+    let idx = moment().valueOf()
+    let syntheticEntries: Item[] = []
+
+    const dates = datesStr.map( (date: string) => {
+        return moment(date)
+    }) 
+
+
+    // generate entries for group
+    groups.forEach((group: Group) => {
+        // get exiting entries for group
+        const groupItems: Item[] = []
+        items.forEach((item: Item) => {
+            if (item.group === group.id) {
+                groupItems.push(item)
+            }
+        })
+
+        //add to pool of synthetic entries
+        if (group.primaryLocation !== "None") {
+            //generate_entries 
+            const { synthItems, newIdx } = generate_items(group, 'Holiday', groupItems, dates, idx, 'Holiday')
+            idx = newIdx
+            syntheticEntries = [...syntheticEntries, ...synthItems]
+        }
+    })
+
+    console.log('generate_holiday_items', groups, dates, syntheticEntries)
+
+    return syntheticEntries
+
+    }
 
 export const generate_synthetic_items = (
     groups: Group[],
@@ -389,13 +437,13 @@ export const generate_synthetic_items = (
     // get array of dates. 
 
     const dates = get_date_array(startDate, endDate)
-    console.log(
-        'n dates:', dates.length,
-        'n groups', groups.length,
-        'n items', items.length,
-        'start date', startDate.format('YYYY-MM-DD HH:mm:ss'),
-        'endDate', endDate.format('YYYY-MM-DD HH:mm:ss')
-    )
+    // console.log(
+    //     'n dates:', dates.length,
+    //     'n groups', groups.length,
+    //     'n items', items.length,
+    //     'start date', startDate.format('YYYY-MM-DD HH:mm:ss'),
+    //     'endDate', endDate.format('YYYY-MM-DD HH:mm:ss')
+    // )
     let idx = moment().valueOf()
 
     // generate entries for group
@@ -411,7 +459,7 @@ export const generate_synthetic_items = (
         //add to pool of synthetic entries
         if (group.primaryLocation !== "None") {
             //generate_entries 
-            const { synthItems, newIdx } = generate_items(group, groupItems, dates, idx)
+            const { synthItems, newIdx } = generate_items(group, group.primaryLocation, groupItems, dates, idx)
             idx = newIdx
             syntheticEntries = [...syntheticEntries, ...synthItems]
         }

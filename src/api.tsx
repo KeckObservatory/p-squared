@@ -6,9 +6,8 @@ import { Employee } from './control'
 import moment from 'moment'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
-const BASE_URL = ""
-const API_URL = BASE_URL + "/api/pp/"
-const TEL_API_URL = BASE_URL + "api/telSchedule?cmd=getEmployee"
+const API_URL = "/api/pp/"
+const TEL_API_URL = "/api/telSchedule?cmd=getEmployee"
 
 const IS_PRODUCTION: boolean = process.env.REACT_APP_ENVIRONMENT === 'production'
 
@@ -42,7 +41,7 @@ export function handleError(error: Error | AxiosError) {
 }
 
 const get_staffinfo_promise = (): Promise<User> => {
-    const url = BASE_URL + '/staffinfo';
+    const url = '/staffinfo';
     return axiosInstance.get(url)
         .then(handleResponse)
         .then(handleError) as Promise<User>
@@ -91,6 +90,10 @@ const mock_get_employees_promise = (): Promise<Employee[]> => {
     return mockPromise
 }
 
+const mock_get_holidays = (startDate: string, endDate: string) => {
+    return ["2022-12-26"]
+}
+
 const axiosInstance = axios.create({
     withCredentials: true,
     headers: {
@@ -98,6 +101,18 @@ const axiosInstance = axios.create({
         'Content-Type': 'application/json'
     }
 })
+
+const get_holidays_promise = (startDate: string, endDate: string): Promise<string[]> => {
+    let url = API_URL + "holidays?"
+        + "startdate=" + startDate
+        + "&enddate=" + endDate
+    return axiosInstance.get(url)
+        .then(handleResponse)
+        .then((entry: any) => {
+            return entry
+        })
+        .catch(handleError)
+}
 
 export const get_employees_promise = (): Promise<Employee[]> => {
     return axiosInstance.get(TEL_API_URL)
@@ -173,3 +188,4 @@ export const get_entries_by_date_range_promise = (
 export const get_staffinfo = IS_PRODUCTION ? get_staffinfo_promise : mock_get_staffinfo_promise
 export const get_entries_by_date_range = IS_PRODUCTION ? get_entries_by_date_range_promise : mock_get_entries_by_date_range_promise
 export const get_employees = IS_PRODUCTION ? get_employees_promise : mock_get_employees_promise
+export const get_holidays = IS_PRODUCTION ? get_holidays_promise : mock_get_holidays

@@ -93,7 +93,7 @@ const state_to_entries = (entryState: EntryState) => {
     Department: entryState.department,
     BaseCamp: entryState.baseCamp,
     Comment: entryState.comment ?? undefined,
-    Staff: entryState.staff ?? 'test',
+    Staff: entryState.staff ? entryState.staff : undefined,
     AlternatePickup: entryState.alternatePickup ?? undefined,
     SummitLead: entryState.summitLead ?? undefined,
     CrewLead: entryState.crewLead ?? undefined,
@@ -147,10 +147,10 @@ export const AddEditEntryDialog = (props: Props) => {
     if (secondLocation) {
       const sd = moment(props.entryState.dateRange[0])
         .set('hour', props.entryState.startTime)
-        .set('minute', 0).set('second', 0)
+        .set('minute', 0).set('second', 0).set('millisecond', 0)
       let ed = moment(props.entryState.dateRange[1])
         .set('hour', props.entryState.endTime)
-        .set('minute', 0).set('second', 0)
+        .set('minute', 0).set('second', 0).set('millisecond', 0)
       if (props.entryState.startTime > props.entryState.endTime) {
         console.log('adding day to endDate')
         ed = ed.add(1, 'days') // add 24 hours so that startDate <= endDate
@@ -243,7 +243,7 @@ export const AddEditEntryDialog = (props: Props) => {
 
   return (
     <div>
-      <Button style={{ margin: '12px' }} variant="contained" onClick={handleClickOpen}>
+      <Button style={{ margin: '2px' }} variant="contained" onClick={handleClickOpen}>
         {props.edit ? 'Edit entry' : 'Create New Entry'}
       </Button>
       <Dialog

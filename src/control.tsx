@@ -12,13 +12,15 @@ import { get_employees, get_staffinfo, User } from './api'
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Skeleton from '@mui/material/Skeleton';
+import { ObjectParam, useQueryParam, withDefault } from 'use-query-params';
+
+export const DATE_FORMAT = 'YYYY-MM-DD'
 
 export interface Props { }
 
 export interface ControlState {
-    // base: string,
     location: string,
-    date: moment.Moment
+    date: string 
     department: string
     nameFilter: string
     idx: number
@@ -119,7 +121,7 @@ export const Control = (props: Props) => {
     const now = moment()
 
     const initState: ControlState = {
-        date: now,
+        date: now.format(DATE_FORMAT),
         // base: '',
         location: '',
         department: '',
@@ -128,7 +130,9 @@ export const Control = (props: Props) => {
     }
     const [employees, setEmployees] = React.useState([] as Employee[])
     const [filtEmployees, setFiltEmployees] = React.useState([] as Employee[])
-    const [state, setState] = useState(initState)
+    const [departments, setDepartments] = React.useState([] as string[])
+    // const [state, setState] = useState(initState)
+    const [state, setState] = useQueryParam('controlState', withDefault(ObjectParam, initState as any) )
 
     const [entryState, setEntryState] = React.useState({
         dateRange: [new Date(), new Date()],
@@ -151,6 +155,7 @@ export const Control = (props: Props) => {
                     {
                         ...entryState,
                         name: user.LastName + ', ' + user.FirstName,
+                        staff: user.Alias,
                         department: user.Department,
                         baseCamp: user.BaseCamp,
                         admin: user?.Admin === 'True'
@@ -161,6 +166,9 @@ export const Control = (props: Props) => {
 
         const init_employees = async () => {
             let emps = await get_employees()
+            let empDeps = emps.map((emp: Employee) => { return emp.Department })
+            let dpnts = Array.from(new Set(empDeps))
+            setDepartments(dpnts)
             const user = await get_staffinfo()
             set_emp_and_user(emps, user)
         }
@@ -174,7 +182,7 @@ export const Control = (props: Props) => {
         console.log(d, date)
         setState({
             ...state,
-            date: d
+            date: d.format(DATE_FORMAT)
         })
     }
 
@@ -219,10 +227,10 @@ export const Control = (props: Props) => {
         <Paper sx={{ margin: '4px' }} elevation={3}>
             <Box
             >
-                <FormControl sx={{ width: 150, margin: '6px', marginTop: '22px' }}>
-                    <YearMonthPicker date={state.date} handleDateChange={handleDateChange} />
+                <FormControl sx={{ width: 150, margin: '6px', marginTop: '12px' }}>
+                    <YearMonthPicker date={moment(state.date, DATE_FORMAT)} handleDateChange={handleDateChange} />
                 </FormControl>
-                <FormControl sx={{ width: 100, margin: '16px', marginTop: '16px' }}>
+                <FormControl sx={{ width: 100, margin: '6px', marginTop: '6px' }}>
                     <DropDown arr={ABV_LOCATIONS}
                         handleChange={handleLocationChange}
                         value={state.location}
@@ -230,17 +238,16 @@ export const Control = (props: Props) => {
                         label={'Location'}
                     />
                 </FormControl>
-                <FormControl sx={{ minWidth: 150, marginLeft: '33px', marginTop: '16px' }}>
-                    <DropDown arr={DEPARTMENTS}
+                <FormControl sx={{ minWidth: 150, marginLeft: '33px', marginTop: '6px' }}>
+                    <DropDown arr={departments}
                         handleChange={handleDepartmentChange}
                         value={state.department}
                         placeholder={'Select Department'}
                         label={'Department'}
                     />
                 </FormControl>
-                <FormControl sx={{ width: 250, marginLeft: '33px', marginTop: '22px' }}>
+                <FormControl sx={{ width: 250, marginLeft: '33px', marginTop: '12px' }}>
                     <Autocomplete
-                        // sx={{ ...formControlStyle, marginTop: '12px' }}
                         freeSolo
                         disablePortal
                         id="filter-box-demo"
@@ -252,8 +259,6 @@ export const Control = (props: Props) => {
                             value={state.nameFilter}
                             InputLabelProps={{ shrink: true }}
                             label="Filter Names" />}
-                        // disabled={!entryState.admin}} TODO: disable when admin is in API
-                        // onChange={handleFilterChange}
                         onInputChange={handleInputFilterChange}
                     />
                 </FormControl>
