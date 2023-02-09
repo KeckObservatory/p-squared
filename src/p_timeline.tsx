@@ -206,14 +206,14 @@ export const PTimeline = (props: Props) => {
 
         newItems = [...newItems, ...holidayItems]
 
-        let syntheticItems = generate_synthetic_items(
-            newGroups,
-            newItems,
-            visibleTimeStart.clone(),
-            visibleTimeEnd.clone()
-        )
         // uncomment to use synthetic events
-        //newItems = [...newItems, ...syntheticItems]
+        // let syntheticItems = generate_synthetic_items(
+        //     newGroups,
+        //     newItems,
+        //     visibleTimeStart.clone(),
+        //     visibleTimeEnd.clone()
+        // )
+        // newItems = [...newItems, ...syntheticItems]
 
 
         console.log('make_groups_and_items dates', visibleTimeStart.format(DATE_FORMAT),
