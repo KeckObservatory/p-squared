@@ -28,6 +28,9 @@ import {
 } from './p_timeline_utils'
 import { AddEditEntryDialog } from './add_edit_entry_dialog'
 import { ObjectParam, useQueryParam, withDefault } from "use-query-params"
+import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
+import { setSourceMapRange } from 'typescript'
 
 interface Props {
     controlState: ControlState,
@@ -53,6 +56,7 @@ export const PTimeline = (props: Props) => {
     const [selectedItem, setSelectedItem] = React.useState(undefined as unknown as Item);
 
     const [selectedComment, setSelectedComment] = React.useState('');
+    const [open, setOpen] = React.useState(false)
     const init_groups = make_employee_groups(props.employees, props.controlState) as TimelineGroupBase[]
     const init_items = [] as TimelineItemBase<any>[]
 
@@ -233,6 +237,7 @@ export const PTimeline = (props: Props) => {
 
 
     const onItemClick = (itemId: number, evt: any, time: any) => {
+        setOpen(true)
         const item = items.find(i => itemId === i.id) as Item
         console.log('itemId', itemId, 'item', item, evt, time)
         setSelectedItem(item)
@@ -243,8 +248,8 @@ export const PTimeline = (props: Props) => {
         if (matches_name || props.entryState.admin) {
             setAnchorEl(evt.currentTarget);
             // NOTE: this will cause a rerender, moving the edit button to the top left of the page!!!
-            if ( props.entryState.admin ) {
-                props.setEntryState( 
+            if (props.entryState.admin) {
+                props.setEntryState(
                     {
                         ...props.entryState,
                         name: item.group,
@@ -263,7 +268,7 @@ export const PTimeline = (props: Props) => {
     }
 
     const deleteSelected = () => {
-        setAnchorEl(null);
+        setOpen(false)
         console.log('deleting item', selectedItem.entryId)
         delete_entry_by_id(selectedItem.entryId).then((response: any) => {
             console.log('delete response', response)
@@ -280,12 +285,9 @@ export const PTimeline = (props: Props) => {
         updateScrollCanvas(moment(state.visibleTimeStart, DATE_FORMAT).valueOf(), moment(state.visibleTimeEnd, DATE_FORMAT).valueOf())
     };
 
-    const handleClosePopover = () => {
-        setAnchorEl(null);
+    const handleCloseDialog = () => {
+        setOpen(false)
     };
-
-    const open = Boolean(anchorEl);
-    const id = open ? 'simple-popover' : undefined;
 
     return (
         <Paper sx={{ marginTop: '12px', margin: '4px' }} elevation={3}>
@@ -329,16 +331,8 @@ export const PTimeline = (props: Props) => {
                     </TimelineMarkers>
                 </Timeline>
             )}
-            <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClosePopover}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                }}
-            >
+            <Dialog onClose={handleCloseDialog} open={open}>
+                <DialogTitle>Edit/Delete Entry</DialogTitle>
                 <Button style={{ margin: '12px' }} variant="contained" onClick={deleteSelected}>Delete</Button>
                 <AddEditEntryDialog
                     employees={props.employees}
@@ -346,9 +340,9 @@ export const PTimeline = (props: Props) => {
                     setEntryState={props.setEntryState}
                     edit={true}
                     handleEntrySubmit={props.handleEntrySubmit}
-                    handleClosePopover={handleClosePopover}
+                    handleCloseDialog={handleCloseDialog}
                 />
-            </Popover>
+            </Dialog>
         </Paper>
     )
 }

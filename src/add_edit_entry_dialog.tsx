@@ -19,7 +19,7 @@ interface Props {
   entryState: EntryState,
   setEntryState: Function
   edit: boolean
-  handleClosePopover?: Function
+  handleCloseDialog?: Function
 }
 
 const get_days_between_dates = function (startDate: moment.Moment, endDate: moment.Moment) {
@@ -228,7 +228,7 @@ export const AddEditEntryDialog = (props: Props) => {
         const addResponse: any = await add_entry(entry)
         console.log('addResponse', addResponse)
         setOpen(false)
-        props.handleClosePopover && props.handleClosePopover()
+        props.handleCloseDialog && props.handleCloseDialog()
         props.handleEntrySubmit()
       }
       else {
@@ -242,8 +242,8 @@ export const AddEditEntryDialog = (props: Props) => {
   }
 
   return (
-    <div>
-      <Button style={{ margin: '2px' }} variant="contained" onClick={handleClickOpen}>
+    <React.Fragment>
+      <Button style={{ margin: '12px'  }} variant="contained" onClick={handleClickOpen}>
         {props.edit ? 'Edit entry' : 'Create New Entry'}
       </Button>
       <Dialog
@@ -275,6 +275,6 @@ export const AddEditEntryDialog = (props: Props) => {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </React.Fragment>
   );
 }
