@@ -57,7 +57,7 @@ export const PTimeline = (props: Props) => {
 
     const [selectedComment, setSelectedComment] = React.useState('');
     const [open, setOpen] = React.useState(false)
-    const init_groups = make_employee_groups(props.employees, props.controlState) as TimelineGroupBase[]
+    const init_groups = make_employee_groups(props.employees, props.controlState.department) as TimelineGroupBase[]
     const init_items = [] as TimelineItemBase<any>[]
 
 
@@ -127,9 +127,6 @@ export const PTimeline = (props: Props) => {
             console.log('control state changed. dates', visibleTimeStart.format(DATE_FORMAT),
                 visibleTimeEnd.format(DATE_FORMAT))
 
-            const employeeGroups = make_employee_groups(props.employees, props.controlState)
-            setGroups(employeeGroups)
-
             const entries = await get_entries_by_date_range(
                 visibleTimeStart.format(DATE_FORMAT),
                 visibleTimeEnd.format(DATE_FORMAT),
@@ -195,8 +192,7 @@ export const PTimeline = (props: Props) => {
         holidays: string[]
     ) => {
 
-        let newGroups = make_employee_groups(props.employees, props.controlState)
-        console.log('employeGroups', newGroups, props.employees, props.controlState)
+        let newGroups = make_employee_groups(props.employees, props.controlState.department)
         let newItems = entries_to_items(entries)
         const locationFiltering = props.controlState.location !== ""
         newGroups = locationFiltering ? filter_groups_by_location(newGroups, newItems) : newGroups
@@ -215,26 +211,18 @@ export const PTimeline = (props: Props) => {
         const startIdx = moment().valueOf()
         for (let idx = 0; idx < newItems.length; idx++) { //ensure idx are all unique
             newItems[idx]['id'] = idx + startIdx
+
+            if (state.unit.includes('month')) { //month items are a full day
+                const start_time = newItems[idx].start_time.startOf('day')
+                const end_time = newItems[idx].end_time.endOf('day')
+                newItems[idx] = {...newItems[idx], start_time, end_time} as Item
+            }
         }
 
-        console.log('state unit is', state.unit)
-
-        if (state.unit.includes('month')) {
-            console.log('setting entries to full day')
-            const monthItems: Item[] = []
-            newItems.forEach((item: Item) => {
-                const start_time = item.start_time.startOf('day')
-                const end_time = item.end_time.endOf('day')
-                monthItems.push({ ...item, start_time, end_time } as Item)
-            })
-            newItems = monthItems
-        }
-
-        console.log('new entries', entries, 'groups', newGroups, 'items', newItems)
+        console.log('new entries', entries.length, 'groups', newGroups.length, 'items', newItems.length)
         setItems(newItems)
         setGroups(newGroups)
     }
-
 
     const onItemClick = (itemId: number, evt: any, time: any) => {
         setOpen(true)

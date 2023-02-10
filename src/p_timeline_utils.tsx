@@ -192,12 +192,12 @@ export const filter_groups_by_location = (groups: Group[], items: Item[]) => {
     return newGroups
 }
 
-export const make_employee_groups = (employees: Employee[], controlState: ControlState) => {
+export const make_employee_groups = (employees: Employee[], department: string) => {
     const groups: Group[] = []
     employees.forEach((emp: Employee, idx: number) => {
         const primaryShift = emp.PrimaryShift && emp.PrimaryShift !== "None" ? JSON.parse(emp.PrimaryShift) : [8, 17]
         const primaryLocation = emp.PrimaryLocation ? emp.PrimaryLocation : 'HQ'
-        const matchesDept = controlState.department === "" || emp.Department === controlState.department
+        const matchesDept = department === "" || emp.Department === department
         if (matchesDept) {
             const group = {
                 id: emp.label as string,
@@ -241,28 +241,20 @@ export const entries_to_items = (entries: EntryData[]) => {
         let dateRange = [moment(entry.Date + " 8:00:00").toISOString(),
         moment(entry.Date + " 17:00:00").toISOString()] as DateRange
         let title: string = ''
-        const titles: string[] = []
-        const locations: string[] = []
-        const dateRanges: DateRange[] = []
         let locs = ALL_LOCATIONS as Array<keyof EntryData>
-        locs.forEach((loc: keyof EntryData) => {
+        locs.forEach((loc: keyof EntryData, idx: number) => {
             const dr = entry[loc] as string
             const notEmpty = dr !== null && dr !== "null" && dr !== "[]" && dr !== undefined
             if (notEmpty) {
                 dateRange = JSON.parse(dr) as DateRange
                 const leave = ["Vacation", "Sick", "FamilySick", "JuryDuty"].includes(loc)
                 title = loc
-                locations.push(loc)
                 if (leave) title = 'Leave'
-                titles.push(title)
-                dateRanges.push(dateRange as DateRange)
+
+                const item = create_item(title, loc, dateRange, entry)
+                items.push(item)
             }
         })
-
-        for (let idx = 0; idx < titles.length; idx++) {
-            const item = create_item(titles[idx], locations[idx], dateRanges[idx], entry)
-            items.push(item)
-        }
     })
 
     return items

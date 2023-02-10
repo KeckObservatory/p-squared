@@ -241,6 +241,8 @@ export const AddEditEntryDialog = (props: Props) => {
 
   }
 
+  const title = props.edit? "Edit entry" : "Create new entry"
+
   return (
     <React.Fragment>
       <Button style={{ margin: '12px'  }} variant="contained" onClick={handleClickOpen}>
@@ -251,10 +253,9 @@ export const AddEditEntryDialog = (props: Props) => {
         fullScreen={fullScreen}
         open={open}
         onClose={handleClose}
-        aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle id="responsive-dialog-title">
-          {"Create new entry"}
+        <DialogTitle>
+          {title}
         </DialogTitle>
         <DialogContent>
           {errMsg && (
