@@ -37,7 +37,6 @@ export const ABV_LOCATIONS = [
     "Remote",
     "Leave",
     "Travel",
-    "Other",
 ]
 
 export const ALL_LOCATIONS = [
