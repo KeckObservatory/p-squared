@@ -165,7 +165,7 @@ export const get_entries_by_date_range_promise = (
         + "startdate=" + startDate
         + "&enddate=" + endDate
     if (department) {
-        url += '&Department=' + department
+        url += '&Department=' + encodeURIComponent(department)
     }
     if (location === 'Leave') {
         url += '&leave=1'  //needs to be lowercase
