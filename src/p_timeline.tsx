@@ -86,27 +86,6 @@ export const PTimeline = (props: Props) => {
 
     useEffect(() => {
 
-        const init_handler = async () => {
-
-            // const entries = await get_entries_by_date_range(
-            //     state.visibleTimeStart,
-            //     state.visibleTimeEnd,
-            //     props.controlState.department,
-            //     props.controlState.location)
-            // const holidays = await get_holidays(
-            //     state.visibleTimeStart,
-            //     state.visibleTimeEnd,
-            // )
-            //make_groups_and_items(entries, moment(state.visibleTimeStart, DATE_FORMAT), moment(state.visibleTimeEnd, DATE_FORMAT), holidays)
-
-        }
-
-        init_handler()
-
-    }, [])
-
-    useEffect(() => {
-
         const control_state_change_handler = async () => {
 
 
