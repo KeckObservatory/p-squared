@@ -194,7 +194,7 @@ export const PTimeline = (props: Props) => {
             if (state.unit.includes('month')) { //month items are a full day
                 const start_time = newItems[idx].start_time.startOf('day')
                 const end_time = newItems[idx].end_time.endOf('day')
-                newItems[idx] = {...newItems[idx], start_time, end_time} as Item
+                newItems[idx] = { ...newItems[idx], start_time, end_time } as Item
             }
         }
 
@@ -204,15 +204,14 @@ export const PTimeline = (props: Props) => {
     }
 
     const onItemClick = (itemId: number, evt: any, time: any) => {
-        setOpen(true)
         const item = items.find(i => itemId === i.id) as Item
-        console.log('itemId', itemId, 'item', item, evt, time)
-        setSelectedItem(item)
-        setSelectedComment(item.comment ? item.comment : '')
-
         const matches_name = props.entryState.name === item.group
         console.log('matches_name', matches_name)
         if (matches_name || props.entryState.admin) {
+            setOpen(true)
+            console.log('itemId', itemId, 'item', item, evt, time)
+            setSelectedItem(item)
+            setSelectedComment(item.comment ? item.comment : '')
             setAnchorEl(evt.currentTarget);
             props.setEntryState(
                 {
