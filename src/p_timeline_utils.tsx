@@ -339,7 +339,7 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
 
         const isWeekday = date.isoWeekday() < 6 //saturday=6 sunday=7
         const isSummit = group.primaryLocation === 'SU'
-        let realItem = groupItems.find((item: Item) => {
+        let realItem = groupItems.find((item: Item) => { // find first item that falls on date.
             return item.start_time.isSame(date, 'day')
         })
         if (location.includes('Holiday')) realItem = undefined 

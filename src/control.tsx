@@ -131,7 +131,6 @@ export const Control = (props: Props) => {
     const [employees, setEmployees] = React.useState([] as Employee[])
     const [filtEmployees, setFiltEmployees] = React.useState([] as Employee[])
     const [departments, setDepartments] = React.useState([] as string[])
-    // const [state, setState] = useState(initState)
     const [state, setState] = useQueryParam('controlState', withDefault(ObjectParam, initState as any) )
 
     const [entryState, setEntryState] = React.useState({
