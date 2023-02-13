@@ -121,7 +121,7 @@ export const PTimeline = (props: Props) => {
         }
 
         control_state_change_handler()
-    }, [props.controlState.date, props.controlState.department, props.controlState.location, state.unit])
+    }, [props.controlState, state.unit])
 
     const handleTimeHeaderChange = async (unit: Unit) => {
         console.log('handleTimeHeaderChange selected', unit)
