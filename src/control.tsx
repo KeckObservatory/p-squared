@@ -53,7 +53,6 @@ export const ALL_LOCATIONS = [
     "JuryDuty",
     "FamilySick",
     "Travel",
-    "Other",
 ]
 
 export const DEPARTMENTS = [
