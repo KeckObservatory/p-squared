@@ -227,8 +227,8 @@ export const Control = (props: Props) => {
     }
 
     return (
-        <Paper sx={{ margin: '4px' }} elevation={3}>
-            <Box
+        <Paper sx={{ margin: '4px', paddingTop: '2px' }} elevation={3}>
+            <Box sx={{marginTop: '16px'}}
             >
                 <FormControl sx={{ width: 150, margin: '6px', marginTop: '12px' }}>
                     <YearMonthPicker date={moment(state.date, DATE_FORMAT)} handleDateChange={handleDateChange} />
