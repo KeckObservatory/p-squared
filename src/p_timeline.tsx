@@ -206,7 +206,7 @@ export const PTimeline = (props: Props) => {
     const onItemClick = (itemId: number, evt: any, time: any) => {
         const item = items.find(i => itemId === i.id) as Item
         const matches_name = props.entryState.name === item.group
-        console.log('matches_name', matches_name)
+        console.log('matches_name', matches_name, 'is admin', props.entryState.admin)
         if (matches_name || props.entryState.admin) {
             setOpen(true)
             console.log('itemId', itemId, 'item', item, evt, time)
