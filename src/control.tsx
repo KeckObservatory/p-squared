@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
-import React, { useState } from 'react'
+import React, { useContext, createContext, useState } from 'react'
 import DropDown from './drop_down'
 import moment from 'moment'
 import YearMonthPicker from './year_month_picker'
@@ -20,11 +20,17 @@ export interface Props { }
 
 export interface ControlState {
     location: string,
-    date: string 
+    date: string
     department: string
     nameFilter: string
     idx: number
 }
+
+
+const init_entry_state_context = {} as EntryState
+
+const EntryStateContext = createContext<EntryState>(init_entry_state_context)
+export const useEntryStateContext = () => useContext(EntryStateContext)
 
 export const ABV_LOCATIONS = [
     "",
@@ -72,10 +78,41 @@ export const DEPARTMENTS = [
     'Guest'
 ];
 
+export const ALTERNATE_PICKUP = [
+    '',
+    'HPP',
+    'HQ',
+    'Hilo',
+    'SJP',
+    'WJP'
+]
+
+export const SUMMIT_LEAD = [
+    '',
+    '7-3',
+    '7-0',
+    '9-5',
+    '3-5'
+]
+
+export const SUPPORT_LEAD = [
+    '',
+    '1',
+    '2',
+    '3',
+]
+
+export const CREW_LEAD = [
+    '0', '1'
+]
+
+export const SEATS = [
+    '0', '1', '2', '3', '4', '5', '6'
+]
 
 export interface EntryState {
     baseCamp?: string,
-    seats?: number,
+    seats?: string,
     name?: string,
     department?: string,
     comment?: string,
@@ -129,7 +166,7 @@ export const Control = (props: Props) => {
     const [employees, setEmployees] = React.useState([] as Employee[])
     const [filtEmployees, setFiltEmployees] = React.useState([] as Employee[])
     const [departments, setDepartments] = React.useState([] as string[])
-    const [state, setState] = useQueryParam('controlState', withDefault(ObjectParam, initState as any) )
+    const [state, setState] = useQueryParam('controlState', withDefault(ObjectParam, initState as any))
 
     const [entryState, setEntryState] = React.useState({
         dateRange: [new Date(), new Date()],
@@ -203,7 +240,7 @@ export const Control = (props: Props) => {
         await new Promise(resolve => setTimeout(resolve, 500)); // wait for database to update
         setState({
             ...state,
-            idx: state.idx+1
+            idx: state.idx + 1
         })
     }
 
@@ -224,66 +261,73 @@ export const Control = (props: Props) => {
         })
     }
 
+
+    const name = entryState.name
+    const admin = entryState.admin
+
+
     return (
-        <Paper sx={{ margin: '4px', paddingTop: '2px' }} elevation={3}>
-            <Box sx={{marginTop: '16px'}}
-            >
-                <FormControl sx={{ width: 150, margin: '6px', marginTop: '12px' }}>
-                    <YearMonthPicker date={moment(state.date, DATE_FORMAT)} handleDateChange={handleDateChange} />
-                </FormControl>
-                <FormControl sx={{ width: 100, margin: '6px', marginTop: '6px' }}>
-                    <DropDown arr={ABV_LOCATIONS}
-                        handleChange={handleLocationChange}
-                        value={state.location}
-                        placeholder={'Select Location'}
-                        label={'Location'}
-                    />
-                </FormControl>
-                <FormControl sx={{ minWidth: 150, marginLeft: '33px', marginTop: '6px' }}>
-                    <DropDown arr={departments}
-                        handleChange={handleDepartmentChange}
-                        value={state.department}
-                        placeholder={'Select Department'}
-                        label={'Department'}
-                    />
-                </FormControl>
-                <FormControl sx={{ width: 250, marginLeft: '33px', marginTop: '12px' }}>
-                    <Autocomplete
-                        freeSolo
-                        disablePortal
-                        id="filter-box-demo"
-                        options={employees}
-                        //@ts-ignore
-                        getOptionLabel={(option) => option.label as string}
-                        renderInput={(params) => <TextField
-                            {...params}
-                            value={state.nameFilter}
-                            InputLabelProps={{ shrink: true }}
-                            label="Filter Names" />}
-                        onInputChange={handleInputFilterChange}
-                    />
-                </FormControl>
-                <AddEditEntryDialog
-                    employees={employees}
-                    entryState={entryState}
-                    edit={false}
-                    setEntryState={setEntryState}
-                    handleEntrySubmit={handleEntrySubmit} />
-            </Box>
-            {filtEmployees.length > 0 ? (
-                < PTimeline
-                    entryState={entryState}
-                    setEntryState={setEntryState}
-                    handleEntrySubmit={handleEntrySubmit}
-                    employees={filtEmployees}
-                    controlState={state}
-                    setControlState={setState} />
-            ) :
-                <React.Fragment>
-                    <div>Loading table...</div>
-                    <Skeleton variant="rectangular" height={118} />
-                </React.Fragment>}
-        </Paper >
+        <EntryStateContext.Provider value={entryState} >
+            <Paper sx={{ margin: '4px', paddingTop: '2px' }} elevation={3}>
+                <Box sx={{ marginTop: '16px' }}
+                >
+                    <FormControl sx={{ width: 150, margin: '6px', marginTop: '12px' }}>
+                        <YearMonthPicker date={moment(state.date, DATE_FORMAT)} handleDateChange={handleDateChange} />
+                    </FormControl>
+                    <FormControl sx={{ width: 100, margin: '6px', marginTop: '6px' }}>
+                        <DropDown arr={ABV_LOCATIONS}
+                            handleChange={handleLocationChange}
+                            value={state.location}
+                            placeholder={'Select Location'}
+                            label={'Location'}
+                        />
+                    </FormControl>
+                    <FormControl sx={{ minWidth: 150, marginLeft: '33px', marginTop: '6px' }}>
+                        <DropDown arr={departments}
+                            handleChange={handleDepartmentChange}
+                            value={state.department}
+                            placeholder={'Select Department'}
+                            label={'Department'}
+                        />
+                    </FormControl>
+                    <FormControl sx={{ width: 250, marginLeft: '33px', marginTop: '12px' }}>
+                        <Autocomplete
+                            freeSolo
+                            disablePortal
+                            id="filter-box-demo"
+                            options={employees}
+                            //@ts-ignore
+                            getOptionLabel={(option) => option.label as string}
+                            renderInput={(params) => <TextField
+                                {...params}
+                                value={state.nameFilter}
+                                InputLabelProps={{ shrink: true }}
+                                label="Filter Names" />}
+                            onInputChange={handleInputFilterChange}
+                        />
+                    </FormControl>
+                    <AddEditEntryDialog
+                        employees={employees}
+                        edit={false}
+                        setEntryState={setEntryState}
+                        handleEntrySubmit={handleEntrySubmit} />
+                </Box>
+                {filtEmployees.length > 0 ? (
+                    < PTimeline
+                        name={name}
+                        admin={admin}
+                        setEntryState={setEntryState}
+                        handleEntrySubmit={handleEntrySubmit}
+                        employees={filtEmployees}
+                        controlState={state}
+                        setControlState={setState} />
+                 ) :
+                    <React.Fragment>
+                        <div>Loading table...</div>
+                        <Skeleton variant="rectangular" height={118} />
+                    </React.Fragment>} 
+            </Paper >
+        </EntryStateContext.Provider>
     )
 
 }

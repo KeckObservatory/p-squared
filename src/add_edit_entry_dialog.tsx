@@ -6,8 +6,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import { NewEntryForm } from './new_entry_form'
-import { EntryState, Employee } from './control';
+import { EntryForm } from './entry_form'
+import { EntryState, Employee, useEntryStateContext } from './control';
 import { add_entry, delete_entry_by_id, edit_entry_by_id } from './api';
 import moment from 'moment';
 import { EntryData } from './p_timeline_utils';
@@ -16,7 +16,6 @@ import Typography from '@mui/material/Typography';
 interface Props {
   employees: Employee[]
   handleEntrySubmit: Function
-  entryState: EntryState,
   setEntryState: Function
   edit: boolean
   handleCloseDialog?: Function
@@ -119,6 +118,7 @@ export const AddEditEntryDialog = (props: Props) => {
   const [errMsg, setErrMsg] = React.useState<string | undefined>(undefined);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const entryState = useEntryStateContext()
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -141,28 +141,28 @@ export const AddEditEntryDialog = (props: Props) => {
 
   const check_if_overlap = () => {
 
-    const secondLocation = props.entryState.startTime2
-      && props.entryState.endTime2
-      && props.entryState.location2
+    const secondLocation = entryState.startTime2
+      && entryState.endTime2
+      && entryState.location2
     if (secondLocation) {
-      const sd = moment(props.entryState.dateRange[0])
-        .set('hour', props.entryState.startTime)
+      const sd = moment(entryState.dateRange[0])
+        .set('hour', entryState.startTime)
         .set('minute', 0).set('second', 0).set('millisecond', 0)
-      let ed = moment(props.entryState.dateRange[1])
-        .set('hour', props.entryState.endTime)
+      let ed = moment(entryState.dateRange[1])
+        .set('hour', entryState.endTime)
         .set('minute', 0).set('second', 0).set('millisecond', 0)
-      if (props.entryState.startTime > props.entryState.endTime) {
+      if (entryState.startTime > entryState.endTime) {
         console.log('adding day to endDate')
         ed = ed.add(1, 'days') // add 24 hours so that startDate <= endDate
       }
 
-      const sd2 = moment(props.entryState.dateRange[0])
-        .set('hour', props.entryState.startTime2 as number)
+      const sd2 = moment(entryState.dateRange[0])
+        .set('hour', entryState.startTime2 as number)
         .set('minute', 0).set('second', 0)
-      let ed2 = moment(props.entryState.dateRange[1])
-        .set('hour', props.entryState.endTime2 as number)
+      let ed2 = moment(entryState.dateRange[1])
+        .set('hour', entryState.endTime2 as number)
         .set('minute', 0).set('second', 0)
-      const wrapAround = (props.entryState.startTime2 as number) > (props.entryState.endTime2 as number)
+      const wrapAround = (entryState.startTime2 as number) > (entryState.endTime2 as number)
       if (wrapAround) {
         console.log('adding day to endDate')
         ed2 = ed2.add(1, 'days') // add 24 hours so that startDate <= endDate
@@ -172,7 +172,7 @@ export const AddEditEntryDialog = (props: Props) => {
       const firstEventFirst = ((sd < sd2) && (ed <= sd2) && (ed < ed2))
       const firstEventSecond = ((sd > sd2) && (ed2 <= sd) && (ed2 < ed))
       console.log('firstEventFirst', firstEventFirst, sd.valueOf(), sd2.valueOf(), ed.valueOf(), ed2.valueOf())
-      console.log('entry state:', props.entryState)
+      console.log('entry state:', entryState)
       console.log('secondEventFirst', firstEventSecond)
       const overlap = !firstEventFirst && !firstEventSecond
       return overlap
@@ -185,8 +185,8 @@ export const AddEditEntryDialog = (props: Props) => {
     //date range
     const maxDayRange = 30 
     const leaveDayRange = 30 
-    const isVacation = props.entryState.location.includes('Vacation')
-    const dt = moment(props.entryState.dateRange[1]).diff(moment(props.entryState.dateRange[0]), 'days')
+    const isVacation = entryState.location.includes('Vacation')
+    const dt = moment(entryState.dateRange[1]).diff(moment(entryState.dateRange[0]), 'days')
     if (isVacation && dt >= leaveDayRange) {
       setErrMsg(`date range cannot be longer than ${leaveDayRange}`)
       return true
@@ -204,12 +204,14 @@ export const AddEditEntryDialog = (props: Props) => {
     }
 
     //location not specified
-    const missing2ndLoc = props.entryState.location2 === undefined &&
-      (props.entryState.startTime2 !== undefined && props.entryState.endTime2 !== undefined)
-    if (!props.entryState.location || missing2ndLoc) {
+    const missing2ndLoc = entryState.location2 === undefined &&
+      (entryState.startTime2 !== undefined && entryState.endTime2 !== undefined)
+    if (!entryState.location || missing2ndLoc) {
       setErrMsg('Locations cannot be blank')
       return true
     }
+
+    //if rideboard needs to select crew lead and seats
 
     setErrMsg(undefined)
     return false
@@ -219,11 +221,11 @@ export const AddEditEntryDialog = (props: Props) => {
     //check if there are too many entries
     const errors = check_for_errors()
     if (errors) return
-    const entries = state_to_entries(props.entryState)
+    const entries = state_to_entries(entryState)
     for (let idx = 0; idx < entries.length; idx++) {
       const entry = entries[idx]
       if (props.edit) {
-        const deleteResponse: any = await delete_entry_by_id(props.entryState.entryId as number)
+        const deleteResponse: any = await delete_entry_by_id(entryState.entryId as number)
         console.log('deleteResponse', deleteResponse)
         const addResponse: any = await add_entry(entry)
         console.log('addResponse', addResponse)
@@ -261,9 +263,9 @@ export const AddEditEntryDialog = (props: Props) => {
           {errMsg && (
             <Typography sx={{ color: 'red' }} variant="caption">{errMsg}</Typography>
           )}
-          <NewEntryForm
+          <EntryForm
             employees={props.employees}
-            entryState={props.entryState}
+            entryState={entryState}
             setEntryState={props.setEntryState}
           />
         </DialogContent>

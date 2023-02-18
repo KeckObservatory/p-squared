@@ -411,8 +411,6 @@ export const generate_holiday_items = (
         }
     })
 
-    console.log('generate_holiday_items', groups, dates, syntheticEntries)
-
     return syntheticEntries
 
     }

@@ -3,8 +3,17 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import DropDown from './drop_down';
-import { Autocomplete, Typography } from "@mui/material";
-import { Employee, EntryState, ALL_LOCATIONS } from './control';
+import { Autocomplete, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from "@mui/material";
+import {
+    Employee,
+    EntryState,
+    ALL_LOCATIONS,
+    ALTERNATE_PICKUP,
+    SUMMIT_LEAD,
+    SUPPORT_LEAD,
+    CREW_LEAD,
+    SEATS
+} from './control';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { get_staffinfo, User } from './api';
 
@@ -31,9 +40,13 @@ interface Props {
 }
 
 
-export const NewEntryForm = (props: Props) => {
+export const EntryForm = (props: Props) => {
 
     const [show2ndLocation, setShow2ndLocation] = useState(false)
+    const isRideBoard = ['SU', 'HQ', 'Hilo', 'HP', 'Kona'].includes(props.entryState.location)
+    console.log('location', props.entryState.location, isRideBoard)
+
+    const isRideBoard2 = props.entryState.location ? ['SU', 'HQ', 'Hilo', 'HP', 'Kona'].includes(props.entryState.location2 as string) : false
 
     useEffect(() => {
 
@@ -127,6 +140,32 @@ export const NewEntryForm = (props: Props) => {
         )
     }
 
+    const handlePickupChange = (value: string) => {
+        props.setEntryState(
+            { ...props.entryState, alternatePickup: value }
+        )
+    }
+    const handleSummitLeadChange = (value: string) => {
+        props.setEntryState(
+            { ...props.entryState, summitLead: value }
+        )
+    }
+    const handleSupportLeadChange = (value: string) => {
+        props.setEntryState(
+            { ...props.entryState, supportLead: value }
+        )
+    }
+    const handleCrewLeadChange = (value: string) => {
+        props.setEntryState(
+            { ...props.entryState, crewLead: value }
+        )
+    }
+    const handleSeatChange = (value: string) => {
+        props.setEntryState(
+            { ...props.entryState, seats: value }
+        )
+    }
+
     const autoValue = props.employees.find(e => e.label === props.entryState.name)
 
     const handle2ndLocationSelect = () => {
@@ -184,13 +223,65 @@ export const NewEntryForm = (props: Props) => {
                     placeholder={""}
                 />
             </div >
-            <DropDown 
+            <DropDown
                 arr={ALL_LOCATIONS}
                 value={props.entryState.location}
                 handleChange={handleLocationChange}
                 label={'Location'}
                 placeholder={""}
             />
+            {isRideBoard &&
+                <React.Fragment>
+                    <Typography>Ride Board Form</Typography>
+                    <DropDown
+                        arr={ALTERNATE_PICKUP}
+                        value={props.entryState.alternatePickup}
+                        handleChange={handlePickupChange}
+                        label={'Alternate Pickup'}
+                        placeholder={""}
+                    />
+                    <DropDown
+                        arr={SUMMIT_LEAD}
+                        value={props.entryState.summitLead}
+                        handleChange={handleSummitLeadChange}
+                        label={'Summit Lead'}
+                        placeholder={""}
+                    />
+                    <DropDown
+                        arr={SUPPORT_LEAD}
+                        value={props.entryState.supportLead}
+                        handleChange={handleSupportLeadChange}
+                        label={'Support Lead'}
+                        placeholder={""}
+                    />
+
+                    <Typography>Crew Lead</Typography>
+                    <FormControl>
+                        <RadioGroup
+                            row
+                            value={props.entryState.crewLead}
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                handleCrewLeadChange(event.target.value)
+                            }}
+                        >
+                            {
+                                CREW_LEAD.map((cl: string) => {
+                                    return <FormControlLabel value={cl} control={<Radio />} label={cl} />
+                                })
+                            }
+                            {/* <FormControlLabel value="ofname" control={<Radio />} label="OFNAME" />
+                            <FormControlLabel value="koaid" control={<Radio />} label="KOAID" /> */}
+                        </RadioGroup>
+                    </FormControl>
+                    <DropDown
+                        arr={SEATS}
+                        value={props.entryState.seats}
+                        handleChange={handleSeatChange}
+                        label={'SEATS'}
+                        placeholder={""}
+                    />
+                </React.Fragment>
+            }
             <Button onClick={handle2ndLocationSelect}>Add 2nd location</Button>
             {show2ndLocation &&
                 <React.Fragment>

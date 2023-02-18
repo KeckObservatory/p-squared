@@ -10,7 +10,7 @@ import Timeline, {
 } from 'react-calendar-timeline'
 import './p_timeline.css'
 import moment from 'moment'
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import Button from '@mui/material/Button'
 import { edit_entry_by_id, delete_entry_by_id, get_entries_by_date_range, get_holidays } from './api'
 import { ControlState, Employee, EntryState, DATE_FORMAT } from './control'
@@ -36,7 +36,8 @@ interface Props {
     controlState: ControlState,
     setControlState: Function,
     employees: Employee[],
-    entryState: EntryState
+    name?: string,
+    admin?: boolean 
     setEntryState: Function,
     handleEntrySubmit: Function
 }
@@ -51,8 +52,8 @@ interface State {
 
 
 export const PTimeline = (props: Props) => {
+    console.log('init ptimeline')
 
-    const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
     const [selectedItem, setSelectedItem] = React.useState(undefined as unknown as Item);
 
     const [selectedComment, setSelectedComment] = React.useState('');
@@ -85,6 +86,8 @@ export const PTimeline = (props: Props) => {
     const [items, setItems] = React.useState(init_items)
 
     useEffect(() => {
+
+        console.log('props.controlState or unit changed', props.controlState, state.unit)
 
         const control_state_change_handler = async () => {
 
@@ -205,17 +208,16 @@ export const PTimeline = (props: Props) => {
 
     const onItemClick = (itemId: number, evt: any, time: any) => {
         const item = items.find(i => itemId === i.id) as Item
-        const matches_name = props.entryState.name === item.group
-        console.log('matches_name', matches_name, 'is admin', props.entryState.admin)
-        if (matches_name || props.entryState.admin) {
+        const matches_name = props.name === item.group
+        console.log('matches_name', matches_name, 'is admin', props.admin)
+        if (matches_name || props.admin) {
             setOpen(true)
             console.log('itemId', itemId, 'item', item, evt, time)
             setSelectedItem(item)
             setSelectedComment(item.comment ? item.comment : '')
-            setAnchorEl(evt.currentTarget);
-            props.setEntryState(
-                {
-                    ...props.entryState,
+            props.setEntryState( (entryState: EntryState) => {
+               return( {
+                    entryState,
                     name: item.group,
                     comment: item.comment,
                     location: item.location,
@@ -223,8 +225,8 @@ export const PTimeline = (props: Props) => {
                     endTime: item.end_time.hour(),
                     dateRange: [item.start_time, item.end_time],
                     entryId: item.entryId
-
-                }
+                })
+            }
             )
 
         }
@@ -306,7 +308,6 @@ export const PTimeline = (props: Props) => {
                 </Button>
                 <AddEditEntryDialog
                     employees={props.employees}
-                    entryState={props.entryState}
                     setEntryState={props.setEntryState}
                     edit={true}
                     handleEntrySubmit={props.handleEntrySubmit}
