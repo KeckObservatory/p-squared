@@ -52,7 +52,6 @@ interface State {
 
 
 export const PTimeline = (props: Props) => {
-    console.log('init ptimeline')
 
     const [selectedItem, setSelectedItem] = React.useState(undefined as unknown as Item);
 
@@ -78,22 +77,17 @@ export const PTimeline = (props: Props) => {
     const localDate = new Date()
     const HIdate = new Date(localDate.toLocaleString('en-US', { timeZone: 'Pacific/Honolulu' }))
 
-    // const [state, setState] = React.useState(init_state)
     const [state, setState] = useQueryParam('state', withDefault(ObjectParam, init_state as any))
-    console.log('state', state)
 
     const [groups, setGroups] = React.useState([...init_groups])
     const [items, setItems] = React.useState(init_items)
 
     useEffect(() => {
 
-        console.log('props.controlState or unit changed', props.controlState, state.unit)
-
         const control_state_change_handler = async () => {
 
 
             const date = moment(props.controlState.date, DATE_FORMAT)
-            // console.log('date has changed', date)
             const visibleTimeStart = date.clone()
                 .startOf(state.unit)
             const visibleTimeEnd = date.clone()
@@ -124,7 +118,7 @@ export const PTimeline = (props: Props) => {
         }
 
         control_state_change_handler()
-    }, [props.controlState, state.unit])
+    }, [props.controlState.date, props.controlState.department, props.controlState.location, state.unit])
 
     const handleTimeHeaderChange = async (unit: Unit) => {
         console.log('handleTimeHeaderChange selected', unit)

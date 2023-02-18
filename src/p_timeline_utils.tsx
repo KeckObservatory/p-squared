@@ -380,7 +380,6 @@ export const generate_holiday_items = (
     datesStr: string[]) => {
 
 
-    console.log('holiday datesStr', datesStr)
     if (!Array.isArray(datesStr)) return [] //ignore if error 
     if (datesStr.length<=0) return [] //ignore if no holidays
 

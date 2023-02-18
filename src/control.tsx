@@ -154,7 +154,6 @@ export interface Employee {
 
 export const Control = (props: Props) => {
     const now = moment()
-
     const initState: ControlState = {
         date: now.format(DATE_FORMAT),
         // base: '',
@@ -199,11 +198,11 @@ export const Control = (props: Props) => {
         }
 
         const init_employees = async () => {
+            console.log('init employees')
             let emps = await get_employees()
             let empDeps = emps.map((emp: Employee) => { return emp.Department })
             let dpnts = Array.from(new Set(empDeps))
             dpnts = ["", ...dpnts]
-            console.log('departments ', dpnts)
             setDepartments(dpnts)
             const user = await get_staffinfo()
             set_emp_and_user(emps, user)
@@ -238,6 +237,7 @@ export const Control = (props: Props) => {
 
     const handleEntrySubmit = async () => {
         await new Promise(resolve => setTimeout(resolve, 500)); // wait for database to update
+        console.log('submitting entry')
         setState({
             ...state,
             idx: state.idx + 1
