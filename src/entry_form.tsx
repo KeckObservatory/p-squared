@@ -58,7 +58,8 @@ export const EntryForm = (props: Props) => {
                         name: user.LastName + ', ' + user.FirstName,
                         department: user.Department,
                         baseCamp: user.BaseCamp,
-                        admin: user?.Admin === 'True'
+                        // canEdit: user?.Admin === 'True'
+                        canEdit: true 
                     }
                 )
             })
@@ -191,7 +192,7 @@ export const EntryForm = (props: Props) => {
                     {...params}
                     InputLabelProps={{ shrink: true }}
                     label="Name" />}
-                // disabled={!entryState.admin}} TODO: disable when admin is in API
+                // disabled={!entryState.canEdit}} TODO: disable when canEdit is in API
                 onChange={handleNameChange}
             />
             <TextField

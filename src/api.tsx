@@ -23,7 +23,7 @@ export interface User {
     CellPhone: string,
     OfficePhone: string,
     SummitPhone: string,
-    Admin?: string
+    canEdit?: string
 }
 
 export function handleResponse(response: AxiosResponse) {

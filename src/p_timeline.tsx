@@ -37,7 +37,7 @@ interface Props {
     setControlState: Function,
     employees: Employee[],
     name?: string,
-    admin?: boolean 
+    canEdit?: boolean 
     setEntryState: Function,
     handleEntrySubmit: Function
 }
@@ -203,8 +203,8 @@ export const PTimeline = (props: Props) => {
     const onItemClick = (itemId: number, evt: any, time: any) => {
         const item = items.find(i => itemId === i.id) as Item
         const matches_name = props.name === item.group
-        console.log('matches_name', matches_name, 'is admin', props.admin)
-        if (matches_name || props.admin) {
+        console.log('matches_name', matches_name, 'is canEdit', props.canEdit)
+        if (matches_name || props.canEdit) {
             setOpen(true)
             console.log('itemId', itemId, 'item', item, evt, time)
             setSelectedItem(item)

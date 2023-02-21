@@ -128,7 +128,7 @@ export interface EntryState {
     endTime2?: number,
     location2?: string,
     staff: string,
-    admin?: boolean,
+    canEdit?: boolean,
     entryId?: number,
 }
 
@@ -190,7 +190,8 @@ export const Control = (props: Props) => {
                         staff: user.Alias,
                         department: user.Department,
                         baseCamp: user.BaseCamp,
-                        admin: user?.Admin === 'True'
+                        // canEdit: user?.canEdit === 'True'
+                        canEdit: true 
                     }
                 console.log('state init to...', newState)
                 setEntryState(
@@ -265,7 +266,7 @@ export const Control = (props: Props) => {
 
 
     const name = entryState.name
-    const admin = entryState.admin
+    const canEdit = entryState.canEdit
 
 
     return (
@@ -317,7 +318,7 @@ export const Control = (props: Props) => {
                 {filtEmployees.length > 0 ? (
                     < PTimeline
                         name={name}
-                        admin={admin}
+                        canEdit={canEdit}
                         setEntryState={setEntryState}
                         handleEntrySubmit={handleEntrySubmit}
                         employees={filtEmployees}
