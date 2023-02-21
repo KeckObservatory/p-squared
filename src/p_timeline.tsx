@@ -211,7 +211,7 @@ export const PTimeline = (props: Props) => {
             setSelectedComment(item.comment ? item.comment : '')
             props.setEntryState( (entryState: EntryState) => {
                return( {
-                    entryState,
+                    ...entryState,
                     name: item.group,
                     comment: item.comment,
                     location: item.location,
