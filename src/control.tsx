@@ -184,8 +184,7 @@ export const Control = (props: Props) => {
                 })
                 setEmployees(labelEmps)
                 setFiltEmployees(labelEmps)
-                setEntryState(
-                    {
+                const newState = {
                         ...entryState,
                         name: user.LastName + ', ' + user.FirstName,
                         staff: user.Alias,
@@ -193,6 +192,9 @@ export const Control = (props: Props) => {
                         baseCamp: user.BaseCamp,
                         admin: user?.Admin === 'True'
                     }
+                console.log('state init to...', newState)
+                setEntryState(
+                    newState
                 )
             }
         }

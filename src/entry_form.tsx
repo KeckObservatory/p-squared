@@ -206,6 +206,7 @@ export const EntryForm = (props: Props) => {
                 label={'Base Camp'}
                 value={props.entryState.baseCamp}
                 disabled id="base-camp" />
+            <TextField disabled label={'Staff'} id="staff" value={props.entryState.staff} />
             <div style={{ 'zIndex': 999, "marginLeft": "6px", "width": "100%" }}>
                 <DateRangePicker onChange={onDateRangeChange} value={props.entryState.dateRange} />
             </div>
@@ -305,7 +306,6 @@ export const EntryForm = (props: Props) => {
                         label={'Location'}
                         placeholder={""}
                     />
-                    {/* <TextField disabled label={'Staff'} id="staff" value={entryState.staff} /> */}
                 </React.Fragment>
             }
             <TextField sx={formControlStyle}
