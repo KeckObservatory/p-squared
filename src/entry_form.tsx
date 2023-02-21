@@ -34,6 +34,7 @@ const hours = [
 ]
 
 interface Props {
+    edit: boolean,
     employees: Employee[]
     entryState: EntryState,
     setEntryState: Function
@@ -50,6 +51,8 @@ export const EntryForm = (props: Props) => {
 
     useEffect(() => {
 
+        if (!props.edit) {
+
         get_staffinfo()
             .then((user: User) => {
                 props.setEntryState(
@@ -63,6 +66,8 @@ export const EntryForm = (props: Props) => {
                     }
                 )
             })
+
+        }
 
 
     }, [])

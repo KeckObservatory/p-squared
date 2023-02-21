@@ -264,6 +264,7 @@ export const AddEditEntryDialog = (props: Props) => {
             <Typography sx={{ color: 'red' }} variant="caption">{errMsg}</Typography>
           )}
           <EntryForm
+            edit={props.edit}
             employees={props.employees}
             entryState={entryState}
             setEntryState={props.setEntryState}

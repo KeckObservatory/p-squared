@@ -190,7 +190,7 @@ export const Control = (props: Props) => {
                         staff: user.Alias,
                         department: user.Department,
                         baseCamp: user.BaseCamp,
-                        // canEdit: user?.canEdit === 'True'
+                        // canEdit: user?.Admin === 'True'
                         canEdit: true 
                     }
                 console.log('state init to...', newState)
