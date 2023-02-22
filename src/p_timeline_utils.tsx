@@ -62,6 +62,7 @@ export interface EntryData {
     "id": number,
     "Date": string | DateRange,
     "Name": string,
+    "Alias": string
     "Department": string,
     "BaseCamp": string,
     "HQ": null | DateRange,
@@ -95,6 +96,7 @@ export interface Item {
     title: string,
     entryId: number,
     location: string,
+    alias: string,
     comment?: string,
     bgColor?: string,
     selectedBgColor?: string,
@@ -217,6 +219,7 @@ const create_item = (title: string, location: string, dateRange: DateRange, entr
         id: entry.id,
         group: entry.Name,
         title: title,
+        alias: entry.Alias,
         comment: entry.Comment,
         entryId: entry.id,
         color: colorMapping['white'],
@@ -349,6 +352,7 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
             const synthItem: Item = {
                 id: newIdx,
                 group: group.id,
+                alias: group.alias,
                 entryId: newIdx,
                 location: location,
                 comment: comment, 
@@ -384,7 +388,7 @@ export const generate_holiday_items = (
     if (datesStr.length<=0) return [] //ignore if no holidays
 
     let idx = moment().valueOf()
-    let syntheticEntries: Item[] = []
+    let entries : Item[] = []
 
     const dates = datesStr.map( (date: string) => {
         return moment(date)
@@ -406,11 +410,11 @@ export const generate_holiday_items = (
             //generate_entries 
             const { synthItems, newIdx } = generate_items(group, 'Holiday', groupItems, dates, idx, 'Holiday')
             idx = newIdx
-            syntheticEntries = [...syntheticEntries, ...synthItems]
+            entries = [...entries , ...synthItems]
         }
     })
 
-    return syntheticEntries
+    return entries 
 
     }
 
