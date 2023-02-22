@@ -211,6 +211,15 @@ export const AddEditEntryDialog = (props: Props) => {
       return true
     }
 
+    //if WFH notes are needed
+    const missingWFHComment = !entryState.comment && entryState.location.includes('WFH')
+
+    console.log('is comment and WFH?', !entryState.comment, entryState.location, missingWFHComment)
+    if(missingWFHComment) {
+      setErrMsg('Please add cell phone and contact information to Note entry')
+      return true
+    }
+
     //if rideboard needs to select crew lead and seats
 
     setErrMsg(undefined)

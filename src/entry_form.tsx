@@ -53,19 +53,25 @@ export const EntryForm = (props: Props) => {
 
         if (!props.edit) {
 
-        get_staffinfo()
-            .then((user: User) => {
-                props.setEntryState(
-                    {
-                        ...props.entryState,
-                        name: user.LastName + ', ' + user.FirstName,
-                        department: user.Department,
-                        baseCamp: user.BaseCamp,
-                        // canEdit: user?.Admin === 'True'
-                        canEdit: true 
-                    }
-                )
-            })
+            get_staffinfo()
+                .then((user: User) => {
+                    const userName = user.LastName + ', ' + user.FirstName
+                    const employee = props.employees.find((employee: Employee) => {
+                        const name = employee.LastName + ', ' + employee.FirstName
+                        return userName.includes(name)
+                    })
+                    props.setEntryState(
+                        {
+                            ...props.entryState,
+                            name: userName,
+                            employeeId: employee ? employee.EId : undefined,
+                            department: user.Department,
+                            baseCamp: user.BaseCamp,
+                            // canEdit: user?.Admin === 'True'
+                            canEdit: true
+                        }
+                    )
+                })
 
         }
 
@@ -116,9 +122,27 @@ export const EntryForm = (props: Props) => {
         )
     }
 
+    const addContactNumberIfWFH = (state: EntryState, value: string) => {
+        if (value.includes('WFH')) {
+            //get employee contact number
+            const employee = props.employees.find((employee: Employee) => {
+                const name = employee.LastName + ', ' + employee.FirstName
+                return props.entryState.name?.includes(name)
+            })
+            const contactNumber = employee?.CellPhone
+            const missingContactNumber = contactNumber && !state.comment?.includes(contactNumber) 
+            if (missingContactNumber) {
+                state['comment'] = state.comment ? contactNumber + ', ' + state.comment : contactNumber + ' '
+            }
+        }
+        return state
+    }
+
     const handleLocation2Change = (value: string) => {
+        let newState = { ...props.entryState, location2: value } as EntryState
+        newState = addContactNumberIfWFH(newState, value)
         props.setEntryState(
-            { ...props.entryState, location2: value }
+            newState
         )
     }
     const onStartTimeChange = (value: string) => {
@@ -134,8 +158,10 @@ export const EntryForm = (props: Props) => {
     }
 
     const handleLocationChange = (value: string) => {
+        let newState = { ...props.entryState, location: value } as EntryState
+        newState = addContactNumberIfWFH(newState, value)
         props.setEntryState(
-            { ...props.entryState, location: value }
+            newState
         )
     }
 
@@ -314,7 +340,9 @@ export const EntryForm = (props: Props) => {
                     />
                 </React.Fragment>
             }
-            <TextField sx={formControlStyle}
+            <TextField 
+                focused 
+                sx={formControlStyle}
                 label={'Note'}
                 id="note"
                 onChange={handleCommentChange}

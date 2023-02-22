@@ -114,6 +114,7 @@ export interface EntryState {
     baseCamp?: string,
     seats?: string,
     name?: string,
+    employeeId?: string,
     department?: string,
     comment?: string,
     location: string,
@@ -182,17 +183,24 @@ export const Control = (props: Props) => {
                     const label = `${emp.LastName}, ${emp.FirstName}`
                     return { ...emp, label: label }
                 })
+
+                const userName = user.LastName + ', ' + user.FirstName
+                const employee = labelEmps.find((employee: Employee) => {
+                    const name = employee.LastName + ', ' + employee.FirstName
+                    return userName.includes(name)
+                })
                 setEmployees(labelEmps)
                 setFiltEmployees(labelEmps)
                 const newState = {
-                        ...entryState,
-                        name: user.LastName + ', ' + user.FirstName,
-                        staff: user.Alias,
-                        department: user.Department,
-                        baseCamp: user.BaseCamp,
-                        // canEdit: user?.Admin === 'True'
-                        canEdit: true 
-                    }
+                    ...entryState,
+                    name: userName,
+                    staff: user.Alias,
+                    employeeId: employee ? employee.EId : undefined,
+                    department: user.Department,
+                    baseCamp: user.BaseCamp,
+                    // canEdit: user?.Admin === 'True'
+                    canEdit: true
+                }
                 console.log('state init to...', newState)
                 setEntryState(
                     newState
@@ -324,11 +332,11 @@ export const Control = (props: Props) => {
                         employees={filtEmployees}
                         controlState={state}
                         setControlState={setState} />
-                 ) :
+                ) :
                     <React.Fragment>
                         <div>Loading table...</div>
                         <Skeleton variant="rectangular" height={118} />
-                    </React.Fragment>} 
+                    </React.Fragment>}
             </Paper >
         </EntryStateContext.Provider>
     )
