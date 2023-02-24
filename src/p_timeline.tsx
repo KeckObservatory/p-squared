@@ -218,6 +218,7 @@ export const PTimeline = (props: Props) => {
                return( {
                     ...entryState,
                     name: item.group,
+                    alias: employee && employee.Alias,
                     employeeId: employee ? employee.EId : undefined, 
                     comment: item.comment,
                     location: item.location,

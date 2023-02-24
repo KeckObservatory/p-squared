@@ -70,6 +70,7 @@ export const EntryForm = (props: Props) => {
                             department: user.Department,
                             baseCamp: user.BaseCamp,
                             staff: user.Alias,
+                            alias: user.Alias,
                             // canEdit: user?.Admin === 'True'
                             canEdit: true
                         }

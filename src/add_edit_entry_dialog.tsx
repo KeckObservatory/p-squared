@@ -91,6 +91,7 @@ const state_to_entries = (entryState: EntryState) => {
     Date: date,
     Department: entryState.department,
     BaseCamp: entryState.baseCamp,
+    Alias: entryState.alias,
     Comment: entryState.comment ?? undefined,
     Staff: entryState.staff ? entryState.staff : undefined,
     AlternatePickup: entryState.alternatePickup ?? undefined,
