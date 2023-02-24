@@ -195,7 +195,8 @@ export const PTimeline = (props: Props) => {
             }
         }
 
-        console.log('new entries', entries.length, 'groups', newGroups.length, 'items', newItems.length)
+        // console.log('new entries', entries.length, 'groups', newGroups.length, 'items', newItems.length)
+        console.log('new entries', entries, 'groups', newGroups, 'items', newItems)
         setItems(newItems)
         setGroups(newGroups)
     }
