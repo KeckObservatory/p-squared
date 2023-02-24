@@ -56,10 +56,12 @@ export const EntryForm = (props: Props) => {
             get_staffinfo()
                 .then((user: User) => {
                     const userName = user.LastName + ', ' + user.FirstName
+
+                    // switch when alias becomes available
                     const employee = props.employees.find((employee: Employee) => {
-                        const name = employee.LastName + ', ' + employee.FirstName
-                        return userName.includes(name)
+                        return user.Alias.includes(employee.Alias)
                     })
+
                     props.setEntryState(
                         {
                             ...props.entryState,
@@ -67,6 +69,7 @@ export const EntryForm = (props: Props) => {
                             employeeId: employee ? employee.EId : undefined,
                             department: user.Department,
                             baseCamp: user.BaseCamp,
+                            staff: user.Alias,
                             // canEdit: user?.Admin === 'True'
                             canEdit: true
                         }
@@ -125,12 +128,14 @@ export const EntryForm = (props: Props) => {
     const addContactNumberIfWFH = (state: EntryState, value: string) => {
         if (value.includes('WFH')) {
             //get employee contact number
+
+            // switch when alias becomes available
             const employee = props.employees.find((employee: Employee) => {
-                const name = employee.LastName + ', ' + employee.FirstName
-                return props.entryState.name?.includes(name)
+                return props.entryState.staff.includes(employee.Alias)
             })
+
             const contactNumber = employee?.CellPhone
-            const missingContactNumber = contactNumber && !state.comment?.includes(contactNumber) 
+            const missingContactNumber = contactNumber && !state.comment?.includes(contactNumber)
             if (missingContactNumber) {
                 state['comment'] = state.comment ? contactNumber + ', ' + state.comment : contactNumber + ' '
             }
@@ -204,16 +209,16 @@ export const EntryForm = (props: Props) => {
         setShow2ndLocation(true)
     }
 
-    const autocompleteInput = (params: AutocompleteRenderInputParams) => { 
+    const autocompleteInput = (params: AutocompleteRenderInputParams) => {
         return props.edit ? <TextField
-                    {...params}
-                    InputLabelProps={{ shrink: true }}
-                    disabled
-                    label="Name" /> : 
-                <TextField
-                    {...params}
-                    InputLabelProps={{ shrink: true }}
-                    label="Name" />
+            {...params}
+            InputLabelProps={{ shrink: true }}
+            disabled
+            label="Name" /> :
+            <TextField
+                {...params}
+                InputLabelProps={{ shrink: true }}
+                label="Name" />
     }
 
     return (
@@ -234,9 +239,9 @@ export const EntryForm = (props: Props) => {
                 renderInput={(params) => <TextField
                     {...params}
                     InputLabelProps={{ shrink: true }}
-                    label="Name" 
-                    disabled={props.edit} 
-                    />}
+                    label="Name"
+                    disabled={props.edit}
+                />}
                 onChange={handleNameChange}
             />
             <TextField
@@ -353,8 +358,8 @@ export const EntryForm = (props: Props) => {
                     />
                 </React.Fragment>
             }
-            <TextField 
-                focused 
+            <TextField
+                focused
                 sx={formControlStyle}
                 label={'Note'}
                 id="note"

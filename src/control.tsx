@@ -128,7 +128,7 @@ export interface EntryState {
     startTime2?: number,
     endTime2?: number,
     location2?: string,
-    staff: string,
+    staff: string, //same as alias
     canEdit?: boolean,
     entryId?: number,
 }
