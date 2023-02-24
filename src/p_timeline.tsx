@@ -221,6 +221,8 @@ export const PTimeline = (props: Props) => {
                     employeeId: employee ? employee.EId : undefined, 
                     comment: item.comment,
                     location: item.location,
+                    department: item.department ? item.department : entryState.department,
+                    baseCamp: item.baseCamp ? item.baseCamp : entryState.baseCamp,
                     startTime: item.start_time.hour(),
                     endTime: item.end_time.hour(),
                     dateRange: [item.start_time, item.end_time],

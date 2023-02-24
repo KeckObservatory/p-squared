@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import DropDown from './drop_down';
-import { Autocomplete, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from "@mui/material";
+import { Autocomplete, AutocompleteRenderInputParams, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from "@mui/material";
 import {
     Employee,
     EntryState,
@@ -204,6 +204,18 @@ export const EntryForm = (props: Props) => {
         setShow2ndLocation(true)
     }
 
+    const autocompleteInput = (params: AutocompleteRenderInputParams) => { 
+        return props.edit ? <TextField
+                    {...params}
+                    InputLabelProps={{ shrink: true }}
+                    disabled
+                    label="Name" /> : 
+                <TextField
+                    {...params}
+                    InputLabelProps={{ shrink: true }}
+                    label="Name" />
+    }
+
     return (
         <Box
             sx={{
@@ -222,8 +234,9 @@ export const EntryForm = (props: Props) => {
                 renderInput={(params) => <TextField
                     {...params}
                     InputLabelProps={{ shrink: true }}
-                    label="Name" />}
-                // disabled={!entryState.canEdit}} TODO: disable when canEdit is in API
+                    label="Name" 
+                    disabled={props.edit} 
+                    />}
                 onChange={handleNameChange}
             />
             <TextField
