@@ -132,7 +132,7 @@ export const EntryForm = (props: Props) => {
 
             // switch when alias becomes available
             const employee = props.employees.find((employee: Employee) => {
-                return props.entryState.staff.includes(employee.Alias)
+                return props.entryState.alias.includes(employee.Alias)
             })
 
             const contactNumber = employee?.CellPhone
