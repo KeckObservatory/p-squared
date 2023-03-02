@@ -214,7 +214,7 @@ export const Control = (props: Props) => {
             let emps = await get_employees()
             let empDeps = emps.map((emp: Employee) => { return emp.Department })
             let dpnts = Array.from(new Set(empDeps))
-            dpnts = ["", ...dpnts]
+            dpnts = ["", ...dpnts.sort()]
             setDepartments(dpnts)
             const user = await get_staffinfo()
             set_emp_and_user(emps, user)
