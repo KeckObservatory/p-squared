@@ -91,6 +91,7 @@ export const EntryForm = (props: Props) => {
                     name: employee?.label,
                     department: employee?.Department,
                     baseCamp: employee?.BaseCamp,
+                    alias: employee?.Alias
                 }
             )
         }
@@ -129,8 +130,6 @@ export const EntryForm = (props: Props) => {
     const addContactNumberIfWFH = (state: EntryState, value: string) => {
         if (value.includes('WFH')) {
             //get employee contact number
-
-            // switch when alias becomes available
             const employee = props.employees.find((employee: Employee) => {
                 return props.entryState.alias.includes(employee.Alias)
             })
