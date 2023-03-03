@@ -22,6 +22,7 @@ export interface ControlState {
     location: string,
     date: string
     department: string
+    role: string
     nameFilter: string
     idx: number
 }
@@ -161,12 +162,14 @@ export const Control = (props: Props) => {
         // base: '',
         location: '',
         department: '',
+        role: '',
         nameFilter: '',
         idx: 0
     }
     const [employees, setEmployees] = React.useState([] as Employee[])
     const [filtEmployees, setFiltEmployees] = React.useState([] as Employee[])
     const [departments, setDepartments] = React.useState([] as string[])
+    const [roles , setRoles] = React.useState([] as string[])
     const [state, setState] = useQueryParam('controlState', withDefault(ObjectParam, initState as any))
 
     const [entryState, setEntryState] = React.useState({
@@ -213,6 +216,14 @@ export const Control = (props: Props) => {
             console.log('init employees')
             let emps = await get_employees()
             let empDeps = emps.map((emp: Employee) => { return emp.Department })
+            let roleArr = emps.map((emp: Employee) => { return emp.Role.split(',') })
+            let roles: string[] = []
+            roleArr.forEach( (arr: string[]) => {
+                arr.forEach( (role: string) => {
+                    roles.push(role.trim())
+                })
+            })
+            setRoles(Array.from(new Set(["", ...roles.sort()])))
             let dpnts = Array.from(new Set(empDeps))
             dpnts = ["", ...dpnts.sort()]
             setDepartments(dpnts)
@@ -237,6 +248,13 @@ export const Control = (props: Props) => {
         setState({
             ...state,
             department: dept
+        })
+    }
+
+    const handleRoleChange = (role: string) => {
+        setState({
+            ...state,
+            role: role 
         })
     }
 
@@ -300,6 +318,14 @@ export const Control = (props: Props) => {
                             value={state.department}
                             placeholder={'Select Department'}
                             label={'Department'}
+                        />
+                    </FormControl>
+                    <FormControl sx={{ minWidth: 150, marginLeft: '33px', marginTop: '6px' }}>
+                        <DropDown arr={roles}
+                            handleChange={handleRoleChange}
+                            value={state.role}
+                            placeholder={'Select Role'}
+                            label={'Roles'}
                         />
                     </FormControl>
                     <FormControl sx={{ width: 250, marginLeft: '33px', marginTop: '12px' }}>

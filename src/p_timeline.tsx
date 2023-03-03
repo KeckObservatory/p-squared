@@ -57,7 +57,9 @@ export const PTimeline = (props: Props) => {
 
     const [selectedComment, setSelectedComment] = React.useState('');
     const [open, setOpen] = React.useState(false)
-    const init_groups = make_employee_groups(props.employees, props.controlState.department) as TimelineGroupBase[]
+    const init_groups = make_employee_groups(props.employees, 
+        props.controlState.department,
+        props.controlState.role) as TimelineGroupBase[]
     const init_items = [] as TimelineItemBase<any>[]
 
 
@@ -118,7 +120,13 @@ export const PTimeline = (props: Props) => {
         }
 
         control_state_change_handler()
-    }, [props.controlState.date, props.controlState.department, props.controlState.location, props.controlState.idx, state.unit, props.controlState.nameFilter])
+    }, [props.controlState.date, 
+        props.controlState.department, 
+        props.controlState.role, 
+        props.controlState.location, 
+        props.controlState.idx, 
+        state.unit, 
+        props.controlState.nameFilter])
 
     const handleTimeHeaderChange = async (unit: Unit) => {
         console.log('handleTimeHeaderChange selected', unit)
@@ -168,7 +176,9 @@ export const PTimeline = (props: Props) => {
         holidays: string[]
     ) => {
 
-        let newGroups = make_employee_groups(props.employees, props.controlState.department)
+        let newGroups = make_employee_groups(props.employees, 
+            props.controlState.department,
+            props.controlState.role)
         let newItems = entries_to_items(entries)
         const locationFiltering = props.controlState.location !== ""
         newGroups = locationFiltering ? filter_groups_by_location(newGroups, newItems) : newGroups
@@ -177,7 +187,6 @@ export const PTimeline = (props: Props) => {
             newGroups,
             newItems,
             holidays,
-
         )
 
         newItems = [...newItems, ...holidayItems]

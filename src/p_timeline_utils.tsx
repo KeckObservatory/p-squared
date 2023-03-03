@@ -145,7 +145,7 @@ const formatLabel: LabelFormat = {
     day: {
         long: 'ddd MMM Do',
         mediumLong: 'ddd MMM Do',
-        medium:  'ddd MMM Do',
+        medium: 'ddd MMM Do',
         short: 'ddd Do'
     },
     hour: {
@@ -196,23 +196,28 @@ export const filter_groups_by_location = (groups: Group[], items: Item[]) => {
     return newGroups
 }
 
-export const make_employee_groups = (employees: Employee[], department: string) => {
+export const make_employee_groups = (employees: Employee[], department: string, role: string) => {
     const groups: Group[] = []
     employees.forEach((emp: Employee, idx: number) => {
         const primaryShift = emp.PrimaryShift && emp.PrimaryShift !== "None" ? JSON.parse(emp.PrimaryShift) : [8, 17]
         const primaryLocation = emp.PrimaryLocation ? emp.PrimaryLocation : 'HQ'
         const matchesDept = department === "" || emp.Department === department
-        if (matchesDept) {
+        const matchesRole = role === "" || emp.Role.includes(role)
+        // console.log('matchesDept', matchesDept, 'matchesRole', matchesRole)
+        if (matchesDept && matchesRole) {
             const group = {
                 id: emp.label as string,
                 title: emp.label as string,
                 primaryShift: primaryShift as [number, number],
                 primaryLocation: primaryLocation,
-                alias: emp.Alias
+                alias: emp.Alias,
+                deptartment: emp.Department,
+                role: emp.Role
             }
             groups.push(group)
         }
     })
+    console.log('groups', groups)
     return groups
 }
 
@@ -327,7 +332,7 @@ const get_date_array = (startDate: moment.Moment, endDate: moment.Moment) => {
 
     let currDate = startDate.startOf('day');
     const lastDate = endDate.startOf('day');
-    if (currDate.diff(lastDate, 'days')<=0) { //day view
+    if (currDate.diff(lastDate, 'days') <= 0) { //day view
         dates.push(currDate.clone())
     }
     while (currDate.add(1, 'days').diff(lastDate, 'days') < 0) {
@@ -337,7 +342,7 @@ const get_date_array = (startDate: moment.Moment, endDate: moment.Moment) => {
     return dates;
 };
 
-const generate_items = (group: Group, location: string, groupItems: Item[], dates: moment.Moment[], idx: number, comment='Synthetic event' ) => {
+const generate_items = (group: Group, location: string, groupItems: Item[], dates: moment.Moment[], idx: number, comment = 'Synthetic event') => {
 
     let synthItems: Item[] = []
     let newIdx = idx
@@ -349,7 +354,7 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
         let realItem = groupItems.find((item: Item) => { // find first item that falls on date.
             return item.start_time.isSame(date, 'day')
         })
-        if (location.includes('Holiday')) realItem = undefined 
+        if (location.includes('Holiday')) realItem = undefined
         newIdx += 1
 
         if (!realItem && isWeekday && !isSummit) {
@@ -359,7 +364,7 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
                 alias: group.alias,
                 entryId: newIdx,
                 location: location,
-                comment: comment, 
+                comment: comment,
                 title: location,
                 start_time: date.clone().set({
                     hour: group.primaryShift[0],
@@ -382,21 +387,21 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
     return ({ synthItems, newIdx })
 }
 
-export const generate_holiday_items = ( 
+export const generate_holiday_items = (
     groups: Group[],
     items: Item[],
     datesStr: string[]) => {
 
 
     if (!Array.isArray(datesStr)) return [] //ignore if error 
-    if (datesStr.length<=0) return [] //ignore if no holidays
+    if (datesStr.length <= 0) return [] //ignore if no holidays
 
     let idx = moment().valueOf()
-    let entries : Item[] = []
+    let entries: Item[] = []
 
-    const dates = datesStr.map( (date: string) => {
+    const dates = datesStr.map((date: string) => {
         return moment(date)
-    }) 
+    })
 
 
     // generate entries for group
@@ -414,13 +419,13 @@ export const generate_holiday_items = (
             //generate_entries 
             const { synthItems, newIdx } = generate_items(group, 'Holiday', groupItems, dates, idx, 'Holiday')
             idx = newIdx
-            entries = [...entries , ...synthItems]
+            entries = [...entries, ...synthItems]
         }
     })
 
-    return entries 
+    return entries
 
-    }
+}
 
 export const generate_synthetic_items = (
     groups: Group[],
