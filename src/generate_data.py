@@ -81,12 +81,13 @@ location = [
     "Hilo",
     "Kona",
     "WFH",
-    "Vacation",
+    "Remote",
     "Sick",
-    "FamilySick",
+    "Vacation",
     "JuryDuty",
+    "FamilySick",
     "Travel",
-    "Other",
+    "NS"
 ]
 
 comments = [
