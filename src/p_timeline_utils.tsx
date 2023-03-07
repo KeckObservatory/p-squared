@@ -20,6 +20,7 @@ const colorMapping = {
 
 const get_location_color = (location: string) => {
     let color: string
+    let fontColor = colorMapping['white'] 
     switch (location) {
         case "HQ":
             color = 'darkBlue'
@@ -29,6 +30,7 @@ const get_location_color = (location: string) => {
         case "Hilo":
         case "Kona":
             color = colorMapping['gold']
+            fontColor = colorMapping['black']
             break;
         case "WFH":
         case "Remote":
@@ -45,6 +47,7 @@ const get_location_color = (location: string) => {
             break;
         case "Travel":
             color = colorMapping['blue']
+            fontColor = colorMapping['black']
             break;
         case "other":
             color = colorMapping['orange']
@@ -52,7 +55,7 @@ const get_location_color = (location: string) => {
         default:
             color = colorMapping['darkBlue']
     }
-    return color
+    return [color, fontColor]
 
 }
 
@@ -222,6 +225,7 @@ export const make_employee_groups = (employees: Employee[], department: string, 
 }
 
 const create_item = (title: string, location: string, dateRange: DateRange, entry: EntryData) => {
+    const [locationColor, fontColor] = get_location_color(title) 
     const item: Item = {
         id: entry.id,
         group: entry.Name,
@@ -231,8 +235,8 @@ const create_item = (title: string, location: string, dateRange: DateRange, entr
         baseCamp: entry.BaseCamp,
         comment: entry.Comment,
         entryId: entry.id,
-        color: colorMapping['white'],
-        bgColor: get_location_color(title),
+        color: fontColor,
+        bgColor: locationColor,
         location: location,
         start_time: moment(dateRange[0]),
         end_time: moment(dateRange[1])
@@ -358,6 +362,7 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
         newIdx += 1
 
         if (!realItem && isWeekday && !isSummit) {
+            const [locationColor, fontColor] = get_location_color(location)
             const synthItem: Item = {
                 id: newIdx,
                 group: group.id,
@@ -376,8 +381,8 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
                     minute: 0,
                     second: 0
                 }),
-                bgColor: get_location_color(location),
-                color: colorMapping['white'],
+                bgColor: locationColor,
+                color: fontColor,
             }
             synthItems.push(synthItem)
         }
