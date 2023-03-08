@@ -17,8 +17,8 @@ P-Squared allows users to enter in their status in hour blocks, and up to two lo
 For example, for an Wamiea-based employee working a half day in the morning, 
 they would have an entry showing their location as "HQ" from 8am-12pm and then "Leave" from 12pm to 5pm.
 
-The People planner comprises of a user interface (UI) run by a web browser, either Firefox, Chrome, Safari, or Edge. 
-The UI leverages an API which connects to a databse, where user entries are created, edited, and deleted. 
+The People planner comprises of a user interface (UI or Frontend) run by a web browser, either Firefox, Chrome, Safari, or Edge. 
+The UI leverages an API (or Backend) which connects to a databse, where user entries are created, edited, and deleted. 
 
 
 All Keck Staff has access to P-Squared. They log in through the authentication portal, using their

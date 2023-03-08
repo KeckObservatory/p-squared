@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Troubleshooting &#8212; P-Squared 0.1 documentation</title>
+    <title>Troubleshooting &amp; FAQ &#8212; P-Squared 0.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/keck.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -28,7 +28,7 @@
           <a href="build.html" title="P-Squared Front End and API Deployment"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">P-Squared 0.1 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Troubleshooting</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Troubleshooting &amp; FAQ</a></li> 
       </ul>
     </div>  
 
@@ -37,8 +37,26 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="troubleshooting">
-<h1>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this heading">¶</a></h1>
+  <section id="troubleshooting-faq">
+<h1>Troubleshooting &amp; FAQ<a class="headerlink" href="#troubleshooting-faq" title="Permalink to this heading">¶</a></h1>
+<ol class="upperalpha">
+<li><p>Userinfo is not correct.</p></li>
+<li><p>Employee info is not showing.</p></li>
+<li><p>Entry was not created after exiting</p>
+<p>Entries may not overlap in time with one another. If a validated entry is added to the database and there already exists an entry,
+then the entry will not get added.</p>
+</li>
+<li><p>Entry was not created after clicking submit button</p>
+<p>Entries are first passed through a validation procedure before submitting to database. The reason why is provided at the top of
+the entry form. See example below.</p>
+</li>
+<li><p>Observation Assistant and/or night attendent entries are not showing.</p>
+<p>Check cron scripts. try running manually and see what the error is.</p>
+</li>
+<li><p>Staff Astronomer entries are not showing up.</p>
+<p>Check cron scripts. Try running them manually and see what the error is.</p>
+</li>
+</ol>
 <p>Some text on the API <code class="docutils literal notranslate"><span class="pre">inline</span> <span class="pre">text</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="s2">&quot;name1&quot;</span><span class="p">:</span> <span class="s2">&quot;some text&quot;</span><span class="p">,</span>
@@ -46,6 +64,10 @@
 <span class="p">}</span>
 </pre></div>
 </div>
+</section>
+<section id="training">
+<h1>Training<a class="headerlink" href="#training" title="Permalink to this heading">¶</a></h1>
+<p>A link to how to use the tool is provided at <a class="reference external" href="https://vimeo.com/752784618/fe1f9eaebb">https://vimeo.com/752784618/fe1f9eaebb</a></p>
 </section>
 
 
@@ -58,6 +80,14 @@
             <p class="logo"><a href="index.html">
               <img class="logo" src="_static/logo_128.png" alt="Logo"/>
             </a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Troubleshooting &amp; FAQ</a></li>
+<li><a class="reference internal" href="#training">Training</a></li>
+</ul>
+
+  </div>
   <div>
     <h4>Previous topic</h4>
     <p class="topless"><a href="build.html"
@@ -94,7 +124,7 @@
           <a href="build.html" title="P-Squared Front End and API Deployment"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">P-Squared 0.1 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Troubleshooting</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Troubleshooting &amp; FAQ</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

@@ -2,6 +2,40 @@
 P-Squared Front End and API Deployment
 ======================================
 
+High Level Architecture
+-----------------------
+
+Servers and Accounts
+--------------------
+
+Frontend
+^^^^^^^^
+The frontend is built as webdev on www3build.
+
+Backend
+^^^^^^^
+
+Build Procedure
+---------------
+
+Frontend
+^^^^^^^^
+
+Backend
+^^^^^^^
+
+Release Procedure
+-----------------
+
+Frontend
+^^^^^^^^
+
+Backend
+^^^^^^^
+
+Operations
+----------
+
 
 Installing Frontend 
 -------------------
