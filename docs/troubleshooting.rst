@@ -1,0 +1,11 @@
+Troubleshooting
+---------------
+
+Some text on the API ``inline text``. 
+
+.. code-block:: python
+
+    {
+    "name1": "some text",
+    "name2": "some other text" 
+    }

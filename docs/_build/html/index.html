@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Welcome to People Planner’s Documentation! &#8212; P-Squared 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/keck.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="P-Squared Front End and API Deployment" href="build.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="build.html" title="P-Squared Front End and API Deployment"
+             accesskey="N">next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">P-Squared 0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Welcome to People Planner’s Documentation!</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="welcome-to-people-planner-s-documentation">
+<h1>Welcome to People Planner’s Documentation!<a class="headerlink" href="#welcome-to-people-planner-s-documentation" title="Permalink to this heading">¶</a></h1>
+<section id="overview">
+<h2>Overview:<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h2>
+<p>The <a class="reference external" href="https://www3.keck.hawaii.edu/staff/p-squared/rel/index.html">People Planner</a> (AKA P-Squared, P^2, or PP) is a web tool that notifies Keck staff where
+every employee is during their working shift and what their status is.
+It answers the question “Where is (insert name here)?”.
+If an employee is unavailable then P^2 shows a designated status explaining their absense that
+includes but is not limited to: Leave, Travel, and Jury Duty.
+P-Squared allows users to enter in their status in hour blocks, and up to two locations per day.
+For example, for an Wamiea-based employee working a half day in the morning,
+they would have an entry showing their location as “HQ” from 8am-12pm and then “Leave” from 12pm to 5pm.</p>
+<p>The People planner comprises of a user interface (UI) run by a web browser, either Firefox, Chrome, Safari, or Edge.
+The UI leverages an API which connects to a databse, where user entries are created, edited, and deleted.</p>
+<p>All Keck Staff has access to P-Squared. They log in through the authentication portal, using their
+LDAP (Windows) account name and password. All staff can create, edit and delete entries for themselves or other employees.</p>
+</section>
+<section id="use-cases">
+<h2>Use Cases:<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>An employee’s manager inserts a sick day for their employee.</p></li>
+<li><p>An employee adds an entry showing that they will be working remotely on the first half of the day.</p></li>
+<li><p>An employee edits their existing entry’s location from Summit to HP due to weather.</p></li>
+</ul>
+</section>
+<section id="interconnected-systems">
+<h2>Interconnected Systems:<a class="headerlink" href="#interconnected-systems" title="Permalink to this heading">¶</a></h2>
+<p>The Userinfo API adds user specific information for the person running the application. This is how the UI knows who is ‘signed in’ to
+an instance of the UI.</p>
+<p>TelSchedule API adds information for every employee, including but not limited to: name, alias, and phone number.
+For example, when edding an employee entry as ‘WFH’ their cell phone number is automatically added to the comment field.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="build.html">P-Squared Front End and API Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="build.html#installing-frontend">Installing Frontend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html#database-deployment">Database Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html#build-procedure">Build Procedure</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</div>
+</section>
+<section id="software-source-control">
+<h2>Software Source Control<a class="headerlink" href="#software-source-control" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Github source for the ui is located at <a class="reference external" href="https://github.com/KeckObservatory/p-squared">https://github.com/KeckObservatory/p-squared</a></p></li>
+<li><p>SVN location for the backend API:  <strong>Place where API lives</strong></p></li>
+<li><p>Database is located at: <strong>Place where database lives</strong></p></li>
+</ul>
+</section>
+<section id="security">
+<h2>Security<a class="headerlink" href="#security" title="Permalink to this heading">¶</a></h2>
+<p>P-Squared is accessable through staff, but has no authorization control.
+Any user can change any user’s status.
+This includes editing and deleting existing entries. Be careful!</p>
+</section>
+<section id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/logo_128.png" alt="Logo"/>
+            </a></p>
+  <div>
+    <h3><a href="#">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Welcome to People Planner’s Documentation!</a><ul>
+<li><a class="reference internal" href="#overview">Overview:</a></li>
+<li><a class="reference internal" href="#use-cases">Use Cases:</a></li>
+<li><a class="reference internal" href="#interconnected-systems">Interconnected Systems:</a></li>
+<li><a class="reference internal" href="#software-source-control">Software Source Control</a></li>
+<li><a class="reference internal" href="#security">Security</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="build.html"
+                          title="next chapter">P-Squared Front End and API Deployment</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="build.html" title="P-Squared Front End and API Deployment"
+             >next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">P-Squared 0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Welcome to People Planner’s Documentation!</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023, Tyler Tucker.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+    </div>
+  </body>
+</html>
