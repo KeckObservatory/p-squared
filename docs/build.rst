@@ -40,6 +40,8 @@ P^2 also runs a script that creates LOAR entries periodically in much of the sam
 Build and Release Procedure
 ---------------------------
 
+* LOARtoPP.py is run as kcron on vm-hqcronserver.
+
 Frontend
 ^^^^^^^^
 While as webdev@vm-www3build navigate to ``path/to/project`` and enter the command ``npm run build``.

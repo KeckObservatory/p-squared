@@ -27,7 +27,7 @@ D. **Entry was not created after clicking submit button**
    .. figure:: _static/entry-form-fail.png
       :width: 300
 
-      Example of an entry that has not passed the validator. 
+      Example of an entry that has not passed the validation procedure. 
       Note the error message in red on the top.
 
 E. **Observation Assistant and/or night attendent entries are not showing**
@@ -48,7 +48,7 @@ G. **LOAR entries are not showing up**
 G. **While in monthly view the times are wrong**
 
    The Monthly view events are too thin to see, so they have been expanded to the whole day. 
-   Consequentially, the hovor over feature reflects this artificial time. Switch to week or day
+   Consequentially, the hover over feature reflects this artificial time. Switch to week or day
    view to see the correct start and end datetime.
 
 Some text on the API ``inline text``. 
