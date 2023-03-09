@@ -37,62 +37,39 @@ This script gathers the foretasted schedule and converts that schedule into P^2 
 
 P^2 also runs a script that creates LOAR entries periodically in much of the same way as it creates night operation entries.
 
-
-
-Servers and Accounts
---------------------
+Build and Release Procedure
+---------------------------
 
 Frontend
 ^^^^^^^^
-* The frontend is built as webdev on www3build.
+While as webdev@vm-www3build navigate to ``path/to/project`` and enter the command ``npm run build``.
+When complete the frontend will be in the ``build`` file. 
 
-* LOARtoPP.py is run as kcron on vm-hqcronserver.
+.. code-block:: bash 
+
+   cd /wwwbuild/staff/p-squared/version
+   git clone https://github.com/KeckObservatory/p-squared.git 
+   npm install
+   npm run build
+   make install
+
+Makefile is part of the repository.
+This will release to /www/staff/p-squared/version and create a rel link.
+Test at `https://www3build.keck.hawaii.edu/staff/p-squared/rel/index.html <https://www3build.keck.hawaii.edu/staff/p-squared/rel/index.html>`_.
+When ready, release to www3 using kdeploy.
+
+.. code-block:: bash 
+
+   kdeploy -a www/staff/p-squared
 
 Backend
 ^^^^^^^
 
-Build Procedure
----------------
+As webbld@vm-appserver, release to /api/peoplePortal/version
+Update default link (i.e. 1-0-0 -> 1-0-1)
 
-Frontend
-^^^^^^^^
+As webrun@vm-appserver
 
-Backend
-^^^^^^^
+.. code-block:: bash 
 
-Release Procedure
------------------
-
-Frontend
-^^^^^^^^
-
-Backend
-^^^^^^^
-
-Operations
-----------
-
-Installing Frontend 
--------------------
-
-Some text 
-
-Backend API
-^^^^^^^^^^^
-
-text
-
-Database Deployment
--------------------
-
-more Text 
-
-Build Procedure
----------------
-
-.. code-block:: python 
-
-   from some python module 
-   def fun(fileName):
-      return fileName 
-
+  5,15,25,32,45,55 * * * * /usr/local/anaconda/bin/python /api/peoplePortal/default/manager.py pp_api start --port 39999 > /dev/null 2>&1

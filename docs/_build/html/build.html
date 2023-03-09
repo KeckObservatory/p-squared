@@ -71,59 +71,36 @@ This script gathers the foretasted schedule and converts that schedule into P^2 
 <p>P^2 also runs a script that creates LOAR entries periodically in much of the same way as it creates night operation entries.</p>
 </section>
 </section>
-<section id="servers-and-accounts">
-<h2>Servers and Accounts<a class="headerlink" href="#servers-and-accounts" title="Permalink to this heading">¶</a></h2>
+<section id="build-and-release-procedure">
+<h2>Build and Release Procedure<a class="headerlink" href="#build-and-release-procedure" title="Permalink to this heading">¶</a></h2>
 <section id="frontend">
 <h3>Frontend<a class="headerlink" href="#frontend" title="Permalink to this heading">¶</a></h3>
-<ul class="simple">
-<li><p>The frontend is built as webdev on www3build.</p></li>
-<li><p>LOARtoPP.py is run as kcron on vm-hqcronserver.</p></li>
-</ul>
+<p>While as <a class="reference external" href="mailto:webdev&#37;&#52;&#48;vm-www3build">webdev<span>&#64;</span>vm-www3build</a> navigate to <code class="docutils literal notranslate"><span class="pre">path/to/project</span></code> and enter the command <code class="docutils literal notranslate"><span class="pre">npm</span> <span class="pre">run</span> <span class="pre">build</span></code>.
+When complete the frontend will be in the <code class="docutils literal notranslate"><span class="pre">build</span></code> file.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> /wwwbuild/staff/p-squared/version
+git clone https://github.com/KeckObservatory/p-squared.git
+npm install
+npm run build
+make install
+</pre></div>
+</div>
+<p>Makefile is part of the repository.
+This will release to /www/staff/p-squared/version and create a rel link.
+Test at <a class="reference external" href="https://www3build.keck.hawaii.edu/staff/p-squared/rel/index.html">https://www3build.keck.hawaii.edu/staff/p-squared/rel/index.html</a>.
+When ready, release to www3 using kdeploy.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kdeploy -a www/staff/p-squared
+</pre></div>
+</div>
 </section>
 <section id="backend">
 <h3>Backend<a class="headerlink" href="#backend" title="Permalink to this heading">¶</a></h3>
-</section>
-</section>
-<section id="build-procedure">
-<h2>Build Procedure<a class="headerlink" href="#build-procedure" title="Permalink to this heading">¶</a></h2>
-<section id="id1">
-<h3>Frontend<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
-</section>
-<section id="id2">
-<h3>Backend<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
-</section>
-</section>
-<section id="release-procedure">
-<h2>Release Procedure<a class="headerlink" href="#release-procedure" title="Permalink to this heading">¶</a></h2>
-<section id="id3">
-<h3>Frontend<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
-</section>
-<section id="id4">
-<h3>Backend<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h3>
-</section>
-</section>
-<section id="operations">
-<h2>Operations<a class="headerlink" href="#operations" title="Permalink to this heading">¶</a></h2>
-</section>
-<section id="installing-frontend">
-<h2>Installing Frontend<a class="headerlink" href="#installing-frontend" title="Permalink to this heading">¶</a></h2>
-<p>Some text</p>
-<section id="backend-api">
-<h3>Backend API<a class="headerlink" href="#backend-api" title="Permalink to this heading">¶</a></h3>
-<p>text</p>
-</section>
-</section>
-<section id="database-deployment">
-<h2>Database Deployment<a class="headerlink" href="#database-deployment" title="Permalink to this heading">¶</a></h2>
-<p>more Text</p>
-</section>
-<section id="id5">
-<h2>Build Procedure<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">some</span> <span class="n">python</span> <span class="n">module</span>
-<span class="k">def</span> <span class="nf">fun</span><span class="p">(</span><span class="n">fileName</span><span class="p">):</span>
-   <span class="k">return</span> <span class="n">fileName</span>
+<p>As <a class="reference external" href="mailto:webbld&#37;&#52;&#48;vm-appserver">webbld<span>&#64;</span>vm-appserver</a>, release to /api/peoplePortal/version
+Update default link (i.e. 1-0-0 -&gt; 1-0-1)</p>
+<p>As <a class="reference external" href="mailto:webrun&#37;&#52;&#48;vm-appserver">webrun<span>&#64;</span>vm-appserver</a></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">5</span>,15,25,32,45,55 * * * * /usr/local/anaconda/bin/python /api/peoplePortal/default/manager.py pp_api start --port <span class="m">39999</span> &gt; /dev/null <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
 </pre></div>
 </div>
+</section>
 </section>
 </section>
 
@@ -146,28 +123,11 @@ This script gathers the foretasted schedule and converts that schedule into P^2 
 <li><a class="reference internal" href="#interface-with-loar-and-night-operations">Interface with LOAR and Night Operations</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#servers-and-accounts">Servers and Accounts</a><ul>
+<li><a class="reference internal" href="#build-and-release-procedure">Build and Release Procedure</a><ul>
 <li><a class="reference internal" href="#frontend">Frontend</a></li>
 <li><a class="reference internal" href="#backend">Backend</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#build-procedure">Build Procedure</a><ul>
-<li><a class="reference internal" href="#id1">Frontend</a></li>
-<li><a class="reference internal" href="#id2">Backend</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#release-procedure">Release Procedure</a><ul>
-<li><a class="reference internal" href="#id3">Frontend</a></li>
-<li><a class="reference internal" href="#id4">Backend</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#operations">Operations</a></li>
-<li><a class="reference internal" href="#installing-frontend">Installing Frontend</a><ul>
-<li><a class="reference internal" href="#backend-api">Backend API</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#database-deployment">Database Deployment</a></li>
-<li><a class="reference internal" href="#id5">Build Procedure</a></li>
 </ul>
 </li>
 </ul>
