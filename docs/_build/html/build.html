@@ -45,26 +45,61 @@
 <h1>P-Squared Front End and API Deployment<a class="headerlink" href="#p-squared-front-end-and-api-deployment" title="Permalink to this heading">¶</a></h1>
 <section id="high-level-architecture">
 <h2>High Level Architecture<a class="headerlink" href="#high-level-architecture" title="Permalink to this heading">¶</a></h2>
+<p>P-Squared interfaces with several APIs, which access data stored in different areas.</p>
+<section id="when-a-user-logs-on">
+<h3>When a User Logs On<a class="headerlink" href="#when-a-user-logs-on" title="Permalink to this heading">¶</a></h3>
+<p>Upon entering the site, the user is immediately routed authentication server where they log in. Upon successful login, they are brought back
+to the People Planner with an authentication cookie. This cookie is used to obtain a user’s information from the Staffinfo API,
+allowing P^2 to customize the user’s instance with their information.</p>
+<p>When making the date-time table, P^2 obtains a list of employees from the telSchedule. Each Employee item contains information that
+P^2 uses to populate entry forms. Once obtained, the table is created where each row represents an employee.</p>
+<p>Next the entries are requested by P^2’s API. The API in turn queries the database for employee schedules. The API returns the schedules,
+which then populates the table. One thing worth mentioning is that the API fills in the gaps between events with default entries for
+most of the employees. For instance an employee who works at HQ normally from 8am-5pm will have that event on the table, even when the Entry
+is not stored in the database.</p>
+<p>The process described is repeated each time the user accesses the site, with the exception of the authentication step if their browser is
+caching a valid authentication cookie. See figure below for diagram of the process just described.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/p-squared-arch.png"><img alt="_images/p-squared-arch.png" src="_images/p-squared-arch.png" style="width: 600px;" /></a>
+</figure>
+<p>Architectural view of p-squared and how it interfaces with other elements.</p>
+</section>
+<section id="interface-with-loar-and-night-operations">
+<h3>Interface with LOAR and Night Operations<a class="headerlink" href="#interface-with-loar-and-night-operations" title="Permalink to this heading">¶</a></h3>
+<p>For Night Attendants, Staff Astronomers, and Observation Assistants, P^2 periodically creates entries from the Night Table via a script.
+This script gathers the foretasted schedule and converts that schedule into P^2 entries that are stored on P^2’s database.</p>
+<p>P^2 also runs a script that creates LOAR entries periodically in much of the same way as it creates night operation entries.</p>
+</section>
 </section>
 <section id="servers-and-accounts">
 <h2>Servers and Accounts<a class="headerlink" href="#servers-and-accounts" title="Permalink to this heading">¶</a></h2>
-</section>
-<section id="build-procedure">
-<h2>Build Procedure<a class="headerlink" href="#build-procedure" title="Permalink to this heading">¶</a></h2>
 <section id="frontend">
 <h3>Frontend<a class="headerlink" href="#frontend" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>The frontend is built as webdev on www3build.</p></li>
+<li><p>LOARtoPP.py is run as kcron on vm-hqcronserver.</p></li>
+</ul>
 </section>
 <section id="backend">
 <h3>Backend<a class="headerlink" href="#backend" title="Permalink to this heading">¶</a></h3>
 </section>
 </section>
-<section id="release-procedure">
-<h2>Release Procedure<a class="headerlink" href="#release-procedure" title="Permalink to this heading">¶</a></h2>
+<section id="build-procedure">
+<h2>Build Procedure<a class="headerlink" href="#build-procedure" title="Permalink to this heading">¶</a></h2>
 <section id="id1">
 <h3>Frontend<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
 </section>
 <section id="id2">
 <h3>Backend<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
+</section>
+</section>
+<section id="release-procedure">
+<h2>Release Procedure<a class="headerlink" href="#release-procedure" title="Permalink to this heading">¶</a></h2>
+<section id="id3">
+<h3>Frontend<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
+</section>
+<section id="id4">
+<h3>Backend<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h3>
 </section>
 </section>
 <section id="operations">
@@ -73,12 +108,6 @@
 <section id="installing-frontend">
 <h2>Installing Frontend<a class="headerlink" href="#installing-frontend" title="Permalink to this heading">¶</a></h2>
 <p>Some text</p>
-<figure class="align-default" id="id4">
-<a class="reference internal image-reference" href="_images/http-logger-arch.png"><img alt="_images/http-logger-arch.png" src="_images/http-logger-arch.png" style="width: 600px;" /></a>
-<figcaption>
-<p><span class="caption-text">some figure caption text</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
-</figcaption>
-</figure>
 <section id="backend-api">
 <h3>Backend API<a class="headerlink" href="#backend-api" title="Permalink to this heading">¶</a></h3>
 <p>text</p>
@@ -86,16 +115,15 @@
 </section>
 <section id="database-deployment">
 <h2>Database Deployment<a class="headerlink" href="#database-deployment" title="Permalink to this heading">¶</a></h2>
-<p>more Text <a class="reference download internal" download="" href="_downloads/c1bbc3b3a3b64fff5204db31f22f1484/logger_db.zip"><code class="xref download docutils literal notranslate"><span class="pre">attached</span> <span class="pre">files</span></code></a> with <code class="docutils literal notranslate"><span class="pre">mongorestore</span></code>.</p>
+<p>more Text</p>
 </section>
-<section id="id3">
-<h2>Build Procedure<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h2>
+<section id="id5">
+<h2>Build Procedure<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">some</span> <span class="n">python</span> <span class="n">module</span>
 <span class="k">def</span> <span class="nf">fun</span><span class="p">(</span><span class="n">fileName</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">fileName</span>
+   <span class="k">return</span> <span class="n">fileName</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/get_logz.png"><img alt="Alternative text" src="_images/get_logz.png" style="width: 800px;" /></a>
 </section>
 </section>
 
@@ -113,16 +141,24 @@
     <h3><a href="index.html">Table of Contents</a></h3>
     <ul>
 <li><a class="reference internal" href="#">P-Squared Front End and API Deployment</a><ul>
-<li><a class="reference internal" href="#high-level-architecture">High Level Architecture</a></li>
-<li><a class="reference internal" href="#servers-and-accounts">Servers and Accounts</a></li>
-<li><a class="reference internal" href="#build-procedure">Build Procedure</a><ul>
+<li><a class="reference internal" href="#high-level-architecture">High Level Architecture</a><ul>
+<li><a class="reference internal" href="#when-a-user-logs-on">When a User Logs On</a></li>
+<li><a class="reference internal" href="#interface-with-loar-and-night-operations">Interface with LOAR and Night Operations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#servers-and-accounts">Servers and Accounts</a><ul>
 <li><a class="reference internal" href="#frontend">Frontend</a></li>
 <li><a class="reference internal" href="#backend">Backend</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#release-procedure">Release Procedure</a><ul>
+<li><a class="reference internal" href="#build-procedure">Build Procedure</a><ul>
 <li><a class="reference internal" href="#id1">Frontend</a></li>
 <li><a class="reference internal" href="#id2">Backend</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#release-procedure">Release Procedure</a><ul>
+<li><a class="reference internal" href="#id3">Frontend</a></li>
+<li><a class="reference internal" href="#id4">Backend</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#operations">Operations</a></li>
@@ -131,7 +167,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#database-deployment">Database Deployment</a></li>
-<li><a class="reference internal" href="#id3">Build Procedure</a></li>
+<li><a class="reference internal" href="#id5">Build Procedure</a></li>
 </ul>
 </li>
 </ul>

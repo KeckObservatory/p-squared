@@ -40,21 +40,41 @@
   <section id="troubleshooting-faq">
 <h1>Troubleshooting &amp; FAQ<a class="headerlink" href="#troubleshooting-faq" title="Permalink to this heading">¶</a></h1>
 <ol class="upperalpha">
-<li><p>Userinfo is not correct.</p></li>
-<li><p>Employee info is not showing.</p></li>
-<li><p>Entry was not created after exiting</p>
-<p>Entries may not overlap in time with one another. If a validated entry is added to the database and there already exists an entry,
+<li><p><strong>Staffinfo is not correct</strong></p>
+<p>Check that the Staffinfo API is running by making the following request in your browser.</p>
+<p><a class="reference external" href="https://www3.keck.hawaii.edu/staffinfo/">https://www3.keck.hawaii.edu/staffinfo/</a></p>
+</li>
+<li><p><strong>Employee info is not showing</strong></p>
+<p>Check that telSchedule API is running by making the following request in your browser.</p>
+<p><a class="reference external" href="https://www3.keck.hawaii.edu/api/telSchedule?cmd=getEmployee">https://www3.keck.hawaii.edu/api/telSchedule?cmd=getEmployee</a></p>
+</li>
+<li><p><strong>Entry was not created after exiting</strong></p>
+<p>Check that the entry does not already exist for the given date(s).
+Entries may not overlap in time with one another. If a validated entry is added to the database and there already exists an entry,
 then the entry will not get added.</p>
 </li>
-<li><p>Entry was not created after clicking submit button</p>
+<li><p><strong>Entry was not created after clicking submit button</strong></p>
 <p>Entries are first passed through a validation procedure before submitting to database. The reason why is provided at the top of
 the entry form. See example below.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="_images/entry-form-fail.png"><img alt="_images/entry-form-fail.png" src="_images/entry-form-fail.png" style="width: 300px;" /></a>
+<figcaption>
+<p><span class="caption-text">Example of an entry that has not passed the validator.
+Note the error message in red on the top.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
 </li>
-<li><p>Observation Assistant and/or night attendent entries are not showing.</p>
-<p>Check cron scripts. try running manually and see what the error is.</p>
+<li><p><strong>Observation Assistant and/or night attendent entries are not showing</strong></p>
+<p>Check cron scripts. Try running them manually and see what the error is by debugging script.</p>
 </li>
-<li><p>Staff Astronomer entries are not showing up.</p>
-<p>Check cron scripts. Try running them manually and see what the error is.</p>
+<li><p><strong>Staff Astronomer entries are not showing up</strong></p>
+<p>Check cron scripts. Try running them manually and see what the error is by debugging script.</p>
+</li>
+<li><p><strong>LOAR entries are not showing up</strong></p>
+<p>Check cron scripts. Try running them manually and see what the error is by debugging script.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/run-loar-to-pp.png"><img alt="_images/run-loar-to-pp.png" src="_images/run-loar-to-pp.png" style="width: 800px;" /></a>
+</figure>
 </li>
 </ol>
 <p>Some text on the API <code class="docutils literal notranslate"><span class="pre">inline</span> <span class="pre">text</span></code>.</p>
