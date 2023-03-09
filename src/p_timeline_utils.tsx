@@ -20,7 +20,7 @@ const colorMapping = {
 
 const get_location_color = (location: string) => {
     let color: string
-    let fontColor = colorMapping['white'] 
+    let fontColor = colorMapping['white']
     switch (location) {
         case "HQ":
             color = 'darkBlue'
@@ -108,6 +108,8 @@ export interface Item {
     color?: string,
     start_time: moment.Moment,
     end_time: moment.Moment
+    start_display_time?: moment.Moment,
+    end_display_time?: moment.Moment
 }
 
 
@@ -225,7 +227,7 @@ export const make_employee_groups = (employees: Employee[], department: string, 
 }
 
 const create_item = (title: string, location: string, dateRange: DateRange, entry: EntryData) => {
-    const [locationColor, fontColor] = get_location_color(title) 
+    const [locationColor, fontColor] = get_location_color(title)
     const item: Item = {
         id: entry.id,
         group: entry.Name,
@@ -239,7 +241,7 @@ const create_item = (title: string, location: string, dateRange: DateRange, entr
         bgColor: locationColor,
         location: location,
         start_time: moment(dateRange[0]),
-        end_time: moment(dateRange[1])
+        end_time: moment(dateRange[1]),
     }
     return item
 }
@@ -277,12 +279,14 @@ export const entries_to_items = (entries: EntryData[]) => {
 }
 
 const tooltip_creator = (item: Item) => {
+    const st = item.start_display_time? item.start_display_time : item.start_time
+    const et = item.end_display_time? item.end_display_time : item.end_time
     return (
         <React.Fragment>
             {item.group && (<p>{item.group}</p>)}
             {item.comment && (<p>{item.comment}</p>)}
-            {item.start_time && (<p>Start time: {item.start_time?.format('ddd HH:mm')}</p>)}
-            {item.end_time && (<p>End time: {item.end_time?.format('ddd HH:mm')}</p>)}
+            {item.start_time && (<p>Start time: {st?.format('ddd HH:mm')}</p>)}
+            {item.end_time && (<p>End time: {et?.format('ddd HH:mm')}</p>)}
         </React.Fragment>
     )
 }

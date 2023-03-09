@@ -198,9 +198,12 @@ export const PTimeline = (props: Props) => {
             newItems[idx]['id'] = idx + startIdx
 
             if (state.unit.includes('month')) { //month items are a full day
-                const start_time = newItems[idx].start_time.startOf('day')
-                const end_time = newItems[idx].end_time.endOf('day')
-                newItems[idx] = { ...newItems[idx], start_time, end_time } as Item
+
+                const start_display_time = newItems[idx].start_time.clone()
+                const end_display_time = newItems[idx].end_time.clone()
+                newItems[idx].start_time.startOf('day')
+                newItems[idx].end_time.endOf('day')
+                newItems[idx] = { ...newItems[idx], start_display_time, end_display_time } as Item
             }
         }
 
