@@ -44,10 +44,11 @@ interface Props {
 export const EntryForm = (props: Props) => {
 
     const [show2ndLocation, setShow2ndLocation] = useState(false)
-    const isRideBoard = ['SU', 'HQ', 'Hilo', 'HP', 'Kona'].includes(props.entryState.location)
-    console.log('location', props.entryState.location, isRideBoard)
 
-    const isRideBoard2 = props.entryState.location ? ['SU', 'HQ', 'Hilo', 'HP', 'Kona'].includes(props.entryState.location2 as string) : false
+    const rideboardLocations= ['SU', 'HQ', 'Hilo', 'HP', 'Kona']
+    const isRideBoard = rideboardLocations.includes(props.entryState.location) ||
+                        rideboardLocations.includes(props.entryState.location2 as string)
+    console.log('location', props.entryState.location, 'location2', props.entryState.location2, 'isRideboard', isRideBoard)
 
     useEffect(() => {
 
