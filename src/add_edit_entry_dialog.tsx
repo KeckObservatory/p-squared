@@ -127,9 +127,9 @@ export const AddEditEntryDialog = (props: Props) => {
       return (
         {
           ...et,
-          location2: undefined,
-          startTime2: undefined,
-          endTime2: undefined,
+          location2: props.edit ? et.location2 : undefined,
+          startTime2: props.edit ? et.startTime2 : undefined,
+          endTime2: props.edit ? et.endTime2 : undefined,
           comment: props.edit ? et.comment : undefined
         }
       )
