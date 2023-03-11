@@ -13,6 +13,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Skeleton from '@mui/material/Skeleton';
 import { ObjectParam, useQueryParam, withDefault } from 'use-query-params';
+import { AddShiftsDialog } from './add_shifts_dialog';
 
 export const DATE_FORMAT = 'YYYY-MM-DD'
 
@@ -351,6 +352,10 @@ export const Control = (props: Props) => {
                         edit={false}
                         setEntryState={setEntryState}
                         handleEntrySubmit={handleEntrySubmit} />
+                    <AddShiftsDialog
+                        employees={employees}
+                        roles={roles}
+                        />
                 </Box>
                 {filtEmployees.length > 0 ? (
                     < PTimeline

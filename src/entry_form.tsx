@@ -321,8 +321,6 @@ export const EntryForm = (props: Props) => {
                                     return <FormControlLabel value={cl} control={<Radio />} label={cl} />
                                 })
                             }
-                            {/* <FormControlLabel value="ofname" control={<Radio />} label="OFNAME" />
-                            <FormControlLabel value="koaid" control={<Radio />} label="KOAID" /> */}
                         </RadioGroup>
                     </FormControl>
                     <DropDown

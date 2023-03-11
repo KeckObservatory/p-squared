@@ -72,7 +72,7 @@ const add_second_location = (entryState: EntryState, dte: moment.Moment, entry: 
   return entry
 }
 
-const state_to_entries = (entryState: EntryState) => {
+export const state_to_entries = (entryState: EntryState) => {
   const date = moment(entryState.dateRange[0]).format('YYYY-MM-DD')
   const creationTime = moment().format('YYYY-MM-DD HH:mm:ss')
   const sd = moment(entryState.dateRange[0])
