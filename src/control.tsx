@@ -174,7 +174,7 @@ export const Control = (props: Props) => {
     const [employees, setEmployees] = React.useState([] as Employee[])
     const [filtEmployees, setFiltEmployees] = React.useState([] as Employee[])
     const [departments, setDepartments] = React.useState([] as string[])
-    const [roles , setRoles] = React.useState([] as string[])
+    const [roles, setRoles] = React.useState([] as string[])
     const [state, setState] = useQueryParam('controlState', withDefault(ObjectParam, initState as any))
 
     const [entryState, setEntryState] = React.useState({
@@ -223,8 +223,8 @@ export const Control = (props: Props) => {
             let empDeps = emps.map((emp: Employee) => { return emp.Department })
             let roleArr = emps.map((emp: Employee) => { return emp.Role.split(',') })
             let roles: string[] = []
-            roleArr.forEach( (arr: string[]) => {
-                arr.forEach( (role: string) => {
+            roleArr.forEach((arr: string[]) => {
+                arr.forEach((role: string) => {
                     roles.push(role.trim())
                 })
             })
@@ -259,7 +259,7 @@ export const Control = (props: Props) => {
     const handleRoleChange = (role: string) => {
         setState({
             ...state,
-            role: role 
+            role: role
         })
     }
 
@@ -358,7 +358,8 @@ export const Control = (props: Props) => {
                         staff={entryState.staff}
                         employees={employees}
                         roles={roles}
-                        />
+                        handleEntrySubmit={handleEntrySubmit}
+                    />
                 </Box>
                 {filtEmployees.length > 0 ? (
                     < PTimeline
