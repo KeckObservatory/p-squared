@@ -148,8 +148,7 @@ export const AddShiftsDialog = (props: Props) => {
     const entries = shift_state_to_entries(shiftState, props.staff)
     console.log('shift entries are: ', entries)
     entries.forEach( (entry: EntryData) => {
-        const resp = add_entry(entry)
-        console.log(resp)
+        add_entry(entry)
     })
     setOpen(false);
   };
@@ -157,7 +156,7 @@ export const AddShiftsDialog = (props: Props) => {
   return (
     <React.Fragment>
       <Button style={{ margin: '12px' }} variant="contained" onClick={handleClickOpen}>
-        Create Shifts
+        Create Summit Shifts
       </Button>
       <Dialog
         sx={{ paddingTop: '3px' }}
@@ -166,7 +165,7 @@ export const AddShiftsDialog = (props: Props) => {
         onClose={handleClose}
       >
         <DialogTitle>
-          Create Shifts
+          Create Summit Shifts
         </DialogTitle>
         <DialogContent>
           {errMsg && (
