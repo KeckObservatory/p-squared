@@ -15,7 +15,9 @@ import Skeleton from '@mui/material/Skeleton';
 import { ObjectParam, useQueryParam, withDefault } from 'use-query-params';
 import { AddShiftsDialog } from './add_shifts_dialog';
 
+
 export const DATE_FORMAT = 'YYYY-MM-DD'
+export const DATETIME_FORMAT = 'YYYY-MM-DD HH:mm:ss'
 
 export interface Props { }
 
@@ -353,6 +355,7 @@ export const Control = (props: Props) => {
                         setEntryState={setEntryState}
                         handleEntrySubmit={handleEntrySubmit} />
                     <AddShiftsDialog
+                        staff={entryState.staff}
                         employees={employees}
                         roles={roles}
                         />

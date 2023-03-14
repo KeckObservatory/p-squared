@@ -451,8 +451,8 @@ export const generate_synthetic_items = (
     //     'n dates:', dates.length,
     //     'n groups', groups.length,
     //     'n items', items.length,
-    //     'start date', startDate.format('YYYY-MM-DD HH:mm:ss'),
-    //     'endDate', endDate.format('YYYY-MM-DD HH:mm:ss')
+    //     'start date', startDate.format(DATETIME_FORMAT),
+    //     'endDate', endDate.format(DATETIME_FORMAT)
     // )
     let idx = moment().valueOf()
 
