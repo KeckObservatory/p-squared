@@ -19,6 +19,7 @@ interface Props {
   staff: string
   employees: Employee[]
   roles: string[]
+  handleEntrySubmit: Function
 }
 
 const DAYS_OF_WEEK = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday' ]
@@ -150,6 +151,7 @@ export const AddShiftsDialog = (props: Props) => {
     entries.forEach( (entry: EntryData) => {
         add_entry(entry)
     })
+    props.handleEntrySubmit()
     setOpen(false);
   };
 
