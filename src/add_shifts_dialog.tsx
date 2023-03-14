@@ -7,12 +7,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { EntryForm } from './entry_form'
-import { EntryState, Employee, useEntryStateContext } from './control';
-import { add_entry, delete_entry_by_id, edit_entry_by_id } from './api';
+import { EntryState, Employee, useEntryStateContext, DATE_FORMAT } from './control';
+import { add_entry } from './api';
 import moment from 'moment';
 import { EntryData } from './p_timeline_utils';
 import Typography from '@mui/material/Typography';
-import { ShiftEntryForm, ShiftState } from './shift_entry_form';
+import { DaysOfWeek, ShiftEntryForm, ShiftState } from './shift_entry_form';
 import { DATETIME_FORMAT } from './control';
 
 interface Props {
@@ -20,6 +20,8 @@ interface Props {
   employees: Employee[]
   roles: string[]
 }
+
+const DAYS_OF_WEEK = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday' ]
 
 interface ChildRefObject {
   getChildState: Function
@@ -42,7 +44,7 @@ const check_for_errors = (shiftState: ShiftState, setErrMsg: Function) => {
   }
 
   //start hour > end hour
-  if (JSON.parse(shiftState.startTime) >= JSON.parse(shiftState.endTime) ){
+  if (JSON.parse(shiftState.startTime) >= JSON.parse(shiftState.endTime)) {
     setErrMsg('Start time cannot be larger than end time')
     return true
   }
@@ -51,14 +53,13 @@ const check_for_errors = (shiftState: ShiftState, setErrMsg: Function) => {
   return false
 }
 
-const enumerate_days_between_dates = function(startDate: moment.Moment, endDate: moment.Moment) {
-  let dates = [];
+const enumerate_days_between_dates = function (startDate: moment.Moment, endDate: moment.Moment) {
+  let currDate = startDate.startOf('day');
 
-  let currDate = moment(startDate).startOf('day');
-  const lastDate = moment(endDate).startOf('day');
-
-  while(currDate.add(1, 'days').diff(lastDate) < 0) {
-      dates.push(currDate.clone())
+  let dates = [currDate.clone()];
+  const lastDate = endDate.startOf('day');
+  while (currDate.add(1, 'days').diff(lastDate) <= 0) {
+    dates.push(currDate.clone())
   }
 
   return dates;
@@ -66,9 +67,18 @@ const enumerate_days_between_dates = function(startDate: moment.Moment, endDate:
 
 const shift_state_to_entries = (shiftState: ShiftState, staff: string) => {
 
+  let entries: EntryData[] = []
   const creationTime = moment().format(DATETIME_FORMAT)
 
-  const dates = enumerate_days_between_dates(shiftState.dateRange[0], shiftState.dateRange[1])
+  let dates = enumerate_days_between_dates(shiftState.dateRange[0], shiftState.dateRange[1])
+  dates = dates.filter((date: moment.Moment) => {
+    const dow = date.day()
+    const day = DAYS_OF_WEEK[dow] as keyof DaysOfWeek
+    const dowChecked = shiftState.selectedDaysOfWeek[day]
+    console.log(date.format(), 'dow', dow, 'day', day, 'dowChecked', dowChecked)
+    return dowChecked
+  })
+  console.log('shift dates', dates)
   // for user in users
   shiftState.selectedRoleEmployees.forEach((employee: Employee) => {
     const name = employee.LastName + ', ' + employee.FirstName
@@ -89,13 +99,27 @@ const shift_state_to_entries = (shiftState: ShiftState, staff: string) => {
       LastModification: creationTime,
     }
 
+    dates.forEach((date: moment.Moment) => {
+      const dateStr = date.format(DATE_FORMAT)
+      const startDatetime = date.clone()
+        .set('hour', JSON.parse(shiftState.startTime))
+        .set('minute', 0).set('second', 0)
+      let endDatetime = date.clone()
+        .set('hour', JSON.parse(shiftState.endTime))
+        .set('minute', 0).set('second', 0)
+      const shift = JSON.stringify([startDatetime.format(DATETIME_FORMAT), endDatetime.format(DATETIME_FORMAT)])
+      const entry = {
+        ...base_entry,
+        Date: dateStr,
+        [shiftState.location]: shift
+      }
+      entries.push(entry as EntryData)
+
+    })
 
   })
 
-  // for date in dates
-
-  // if day of week checked, add entry. Ignore holidays
-
+  return entries
 }
 
 export const AddShiftsDialog = (props: Props) => {
@@ -122,6 +146,11 @@ export const AddShiftsDialog = (props: Props) => {
     }
 
     const entries = shift_state_to_entries(shiftState, props.staff)
+    console.log('shift entries are: ', entries)
+    entries.forEach( (entry: EntryData) => {
+        const resp = add_entry(entry)
+        console.log(resp)
+    })
     setOpen(false);
   };
 
