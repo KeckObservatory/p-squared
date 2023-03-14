@@ -226,13 +226,13 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                     />)
                 })}
             </div>
-            <DropDown
+            {/* <DropDown
                 arr={SUMMIT_LEAD}
                 value={shift}
                 handleChange={handleShiftChange}
                 label={'Shift'}
                 placeholder={""}
-            />
+            /> */}
             <React.Fragment>
                 <Typography>Ride Board Form</Typography>
                 <DropDown
