@@ -1,5 +1,5 @@
 import * as React from 'react';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
+import TextField from '@mui/material/TextField';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
@@ -23,7 +23,7 @@ export const YearMonthPicker = (props: Props) => {
                 label="Date"
                 value={props.date.toDate()}
                 onChange={props.handleDateChange}
-                renderInput={(params: TextFieldProps) => <TextField {...params} helperText={null} />}
+                renderInput={(params) => <TextField {...params} helperText={null} />}
             />
         </LocalizationProvider>
     );
