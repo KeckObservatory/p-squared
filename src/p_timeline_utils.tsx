@@ -335,21 +335,6 @@ export const itemRenderer =
         );
     };
 
-const get_date_array = (startDate: moment.Moment, endDate: moment.Moment) => {
-    let dates = [];
-
-    let currDate = startDate.startOf('day');
-    const lastDate = endDate.startOf('day');
-    if (currDate.diff(lastDate, 'days') <= 0) { //day view
-        dates.push(currDate.clone())
-    }
-    while (currDate.add(1, 'days').diff(lastDate, 'days') < 0) {
-        dates.push(currDate.clone());
-    }
-
-    return dates;
-};
-
 const generate_items = (group: Group, location: string, groupItems: Item[], dates: moment.Moment[], idx: number, comment = 'Synthetic event') => {
 
     let synthItems: Item[] = []

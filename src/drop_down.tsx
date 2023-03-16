@@ -39,7 +39,7 @@ const DropDown = (props: MenuProps): JSX.Element => {
         <Select
             value={value}
             onChange={(event) => props.handleChange(event.target.value)}
-            label={props.placeholder}
+            label={props.label}
             >
             <MenuItem disabled value="">
                 <em>{props.placeholder}</em>

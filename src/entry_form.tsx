@@ -43,11 +43,11 @@ interface Props {
 
 export const EntryForm = (props: Props) => {
 
-    const [show2ndLocation, setShow2ndLocation] = useState(props.entryState.location2? true : false)
+    const [show2ndLocation, setShow2ndLocation] = useState(props.entryState.location2 ? true : false)
 
-    const rideboardLocations= ['SU', 'HQ', 'Hilo', 'HP', 'Kona']
+    const rideboardLocations = ['SU', 'HQ', 'Hilo', 'HP', 'Kona']
     const isRideBoard = rideboardLocations.includes(props.entryState.location) ||
-                        rideboardLocations.includes(props.entryState.location2 as string)
+        rideboardLocations.includes(props.entryState.location2 as string)
     console.log('location', props.entryState.location, 'location2', props.entryState.location2, 'isRideboard', isRideBoard)
 
     useEffect(() => {
@@ -257,12 +257,20 @@ export const EntryForm = (props: Props) => {
                 label={'Base Camp'}
                 value={props.entryState.baseCamp}
                 disabled id="base-camp" />
-            <TextField disabled label={'Staff'} id="staff" value={props.entryState.staff} />
-            <div style={{ 'zIndex': 999, "marginLeft": "6px", "width": "100%" }}>
+            <TextField
+                sx={formControlStyle}
+                InputLabelProps={{ shrink: true }}
+                disabled
+                label={'Staff'}
+                id="staff"
+                value={props.entryState.staff}
+            />
+            <div style={{ 'zIndex': 999, "margin": "6px", "marginRight": "0px", "width": "100%" }}>
                 <DateRangePicker onChange={onDateRangeChange} value={props.entryState.dateRange} />
             </div>
-            <div style={{ "display": "flex", "marginTop": "12px", "width": "100%" }}>
-                <DropDown arr={HOURS}
+            <div style={{ "display": "flex", "marginTop": "16px", "width": "100%" }}>
+                <DropDown 
+                    arr={HOURS}
                     value={JSON.stringify(props.entryState.startTime)}
                     handleChange={onStartTimeChange}
                     label={'Start Hour'}
