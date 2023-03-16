@@ -6,8 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import { EntryForm } from './entry_form'
-import { EntryState, Employee, useEntryStateContext, DATE_FORMAT } from './control';
+import { Employee, DATE_FORMAT } from './control';
 import { add_entry } from './api';
 import moment from 'moment';
 import { EntryData } from './p_timeline_utils';
@@ -19,7 +18,7 @@ interface Props {
   staff: string
   employees: Employee[]
   roles: string[]
-  handleEntrySubmit: Function
+  handleEntrySubmit: () => Promise<void> 
 }
 
 const DAYS_OF_WEEK = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday' ]
@@ -55,7 +54,7 @@ const check_for_errors = (shiftState: ShiftState, setErrMsg: Function) => {
   return false
 }
 
-const enumerate_days_between_dates = function (startDate: moment.Moment, endDate: moment.Moment) {
+const enumerate_days_between_dates = (startDate: moment.Moment, endDate: moment.Moment) => {
   let currDate = startDate.startOf('day');
 
   let dates = [currDate.clone()];
@@ -63,7 +62,6 @@ const enumerate_days_between_dates = function (startDate: moment.Moment, endDate
   while (currDate.add(1, 'days').diff(lastDate) <= 0) {
     dates.push(currDate.clone())
   }
-
   return dates;
 };
 

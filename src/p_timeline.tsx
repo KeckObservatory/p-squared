@@ -39,7 +39,7 @@ interface Props {
     name?: string,
     canEdit?: boolean 
     setEntryState: Function,
-    handleEntrySubmit: Function
+    handleEntrySubmit: () => Promise<void>
 }
 
 interface State {

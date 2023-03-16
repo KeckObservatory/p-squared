@@ -1,9 +1,8 @@
-import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import React, { useContext, createContext, useState } from 'react'
 import DropDown from './drop_down'
 import moment from 'moment'
-import YearMonthPicker from './year_month_picker'
+import { YearMonthPicker } from './year_month_picker'
 import Box from '@mui/material/Box'
 import { AddEditEntryDialog } from './add_edit_entry_dialog'
 import Paper from '@mui/material/Paper'
@@ -29,7 +28,6 @@ export interface ControlState {
     nameFilter: string
     idx: number
 }
-
 
 const init_entry_state_context = {} as EntryState
 
@@ -84,28 +82,13 @@ export const DEPARTMENTS = [
     'Guest'
 ];
 
-export const ALTERNATE_PICKUP = [
-    '',
-    'HPP',
-    'HQ',
-    'Hilo',
-    'SJP',
-    'WJP'
+export const ALTERNATE_PICKUP = [ '', 'HPP', 'HQ', 'Hilo', 'SJP', 'WJP'
 ]
 
-export const SUMMIT_LEAD = [
-    '',
-    '7-3',
-    '7-0',
-    '9-5',
-    '3-5'
+export const SUMMIT_LEAD = [ '', '7-3', '7-0', '9-5', '3-5'
 ]
 
-export const SUPPORT_LEAD = [
-    '',
-    '1',
-    '2',
-    '3',
+export const SUPPORT_LEAD = [ '', '1', '2', '3',
 ]
 
 export const CREW_LEAD = [
@@ -164,7 +147,6 @@ export const Control = (props: Props) => {
     const now = moment()
     const initState: ControlState = {
         date: now.format(DATE_FORMAT),
-        // base: '',
         location: '',
         department: '',
         role: '',
@@ -182,7 +164,6 @@ export const Control = (props: Props) => {
         startTime: 8,
         endTime: 17
     } as EntryState)
-
 
     React.useEffect(() => {
         const set_emp_and_user = (emps: Employee[], user: User) => {
@@ -295,8 +276,6 @@ export const Control = (props: Props) => {
             nameFilter: value
         })
     }
-
-
     const name = entryState.name
     const canEdit = entryState.canEdit
 

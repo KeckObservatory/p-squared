@@ -8,7 +8,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { EntryForm } from './entry_form'
 import { EntryState, Employee, useEntryStateContext, DATE_FORMAT, DATETIME_FORMAT } from './control';
-import { add_entry, delete_entry_by_id, edit_entry_by_id } from './api';
+import { add_entry, delete_entry_by_id } from './api';
 import moment from 'moment';
 import { EntryData } from './p_timeline_utils';
 import Typography from '@mui/material/Typography';
@@ -16,13 +16,13 @@ import Typography from '@mui/material/Typography';
 
 interface Props {
   employees: Employee[]
-  handleEntrySubmit: Function
+  handleEntrySubmit: () => Promise<void>
   setEntryState: Function
   edit: boolean
   handleCloseDialog?: Function
 }
 
-const get_days_between_dates = function (startDate: moment.Moment, endDate: moment.Moment) {
+const get_days_between_dates = (startDate: moment.Moment, endDate: moment.Moment) => {
   const now = startDate.clone()
   const dates = [];
   while (now.isSameOrBefore(endDate)) {
@@ -94,7 +94,7 @@ export const state_to_entries = (entryState: EntryState) => {
     BaseCamp: entryState.baseCamp,
     Alias: entryState.alias,
     Comment: entryState.comment ?? undefined,
-    Staff: entryState.staff ? entryState.staff : undefined,
+    Staff: entryState.staff ?? undefined,
     AlternatePickup: entryState.alternatePickup ?? undefined,
     SummitLead: entryState.summitLead ?? undefined,
     CrewLead: entryState.crewLead ?? undefined,
@@ -197,7 +197,6 @@ const check_for_errors = (entryState: EntryState, setErrMsg: Function) => {
     }
 
     //if rideboard needs to select crew lead and seats
-
     setErrMsg(undefined)
     return false
   }
@@ -211,14 +210,14 @@ export const AddEditEntryDialog = (props: Props) => {
 
   const handleClickOpen = () => {
     setOpen(true);
-    props.setEntryState((et: EntryState) => {
+    props.setEntryState((currentState: EntryState) => {
       return (
         {
-          ...et,
-          location2: props.edit ? et.location2 : undefined,
-          startTime2: props.edit ? et.startTime2 : undefined,
-          endTime2: props.edit ? et.endTime2 : undefined,
-          comment: props.edit ? et.comment : undefined
+          ...currentState,
+          location2: props.edit ? currentState.location2 : undefined,
+          startTime2: props.edit ? currentState.startTime2 : undefined,
+          endTime2: props.edit ? currentState.endTime2 : undefined,
+          comment: props.edit ? currentState.comment : undefined
         }
       )
     })

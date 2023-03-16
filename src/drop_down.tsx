@@ -9,9 +9,6 @@ export const formControlStyle = {
     margin: '6px',
     display: 'flex',
     flexWrap: 'wrap',
-    '& > *': {
-        // margin: '3px',
-    }
 }
 
 

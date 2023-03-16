@@ -130,13 +130,6 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
         setDateRange([moment(value[0]), moment(value[1])])
     }
 
-    const handleShiftChange = (value: string) => {
-        const values = value.split('-')
-        setShift(value)
-        setStartTime(JSON.parse(values[0]))
-        setEndTime(JSON.parse(values[1]))
-    }
-
     const handleDOWChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedDaysOfWeek({
             ...selectedDaysOfWeek,
@@ -163,7 +156,6 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
     const handleSeatChange = (value: string) => {
         setSeats(value)
     }
-
 
     const onStartTimeChange = (value: string) => {
         setStartTime(value)
@@ -226,13 +218,6 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                     />)
                 })}
             </div>
-            {/* <DropDown
-                arr={SUMMIT_LEAD}
-                value={shift}
-                handleChange={handleShiftChange}
-                label={'Shift'}
-                placeholder={""}
-            /> */}
             <React.Fragment>
                 <Typography>Ride Board Form</Typography>
                 <DropDown

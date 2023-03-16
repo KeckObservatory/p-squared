@@ -14,7 +14,7 @@ interface Props {
     handleDateChange: (date: Date | null, keyboardInputValue?: string | undefined) => void
 }
 
-export default function YearMonthPicker(props: Props) {
+export const YearMonthPicker = (props: Props) => {
 
     return (
         <LocalizationProvider sx={datePickerStyle} dateAdapter={AdapterDateFns}>

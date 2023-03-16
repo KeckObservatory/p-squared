@@ -1,9 +1,7 @@
-import { resolve } from 'node:path/win32'
 import { default as mock_entries } from './entries.json'
 import { default as mock_employees } from './employees.json'
-import { Entry, EntryData } from './p_timeline_utils'
+import { EntryData } from './p_timeline_utils'
 import { Employee } from './control'
-import moment from 'moment'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
 const API_URL = "/api/pp/"
@@ -26,14 +24,14 @@ export interface User {
     canEdit?: string
 }
 
-export function handleResponse(response: AxiosResponse) {
+export const handleResponse = (response: AxiosResponse) => {
     if (response.data) {
         return response.data;
     }
     return response;
 }
 
-export function handleError(error: Error | AxiosError) {
+export const handleError = (error: Error | AxiosError) => {
     if (axios.isAxiosError(error)) {
         return error.toJSON();
     }
