@@ -23,7 +23,7 @@ export const YearMonthPicker = (props: Props) => {
                 label="Date"
                 value={props.date.toDate()}
                 onChange={props.handleDateChange}
-                renderInput={(params) => <TextField {...params} helperText={null} />}
+                renderInput={(params: any) => <TextField {...params} helperText={null} />}
             />
         </LocalizationProvider>
     );
