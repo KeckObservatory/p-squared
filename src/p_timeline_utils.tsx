@@ -84,11 +84,11 @@ export interface EntryData {
     "Comment": string,
     "Staff": string,
     "DelFlag": number,
-    "AlternatePickup": unknown,
-    "SummitLead": unknown,
-    "SupportLead": unknown,
-    "CrewLead": unknown,
-    "Seats": unknown,
+    "AlternatePickup": string,
+    "SummitLead": string,
+    "SupportLead": string,
+    "CrewLead": string,
+    "Seats": string,
     "CreationTime": string,
     "LastModification": string,
 }
@@ -128,7 +128,7 @@ export interface Group {
 
 type Unit = `second` | `minute` | `hour` | `day` | `week` | `isoWeek` | `month` | `year`
 
-const formatLabel: LabelFormat = {
+const FORMAT_LABEL: LabelFormat = {
     year: {
         long: 'YYYY',
         mediumLong: 'YY',
@@ -170,7 +170,7 @@ const formatLabel: LabelFormat = {
 export const label_format = ([startTime, endTime]: [moment.Moment, moment.Moment],
     unit: Unit,
     labelWidth: number,
-    formatOptions: LabelFormat = formatLabel): string => {
+    formatOptions: LabelFormat = FORMAT_LABEL): string => {
     let format
     if (labelWidth >= 150) {
         //@ts-ignore
@@ -401,7 +401,6 @@ export const generate_holiday_items = (
     items: Item[],
     datesStr: string[]) => {
 
-
     if (!Array.isArray(datesStr)) return [] //ignore if error 
     if (datesStr.length <= 0) return [] //ignore if no holidays
 
@@ -411,7 +410,6 @@ export const generate_holiday_items = (
     const dates = datesStr.map((date: string) => {
         return moment(date)
     })
-
 
     // generate entries for group
     groups.forEach((group: Group) => {
@@ -433,50 +431,5 @@ export const generate_holiday_items = (
     })
 
     return entries
-
-}
-
-export const generate_synthetic_items = (
-    groups: Group[],
-    items: Item[],
-    startDate: moment.Moment,
-    endDate: moment.Moment) => {
-
-    let syntheticEntries: Item[] = []
-
-    // get array of dates. 
-
-    const dates = get_date_array(startDate, endDate)
-    // console.log(
-    //     'n dates:', dates.length,
-    //     'n groups', groups.length,
-    //     'n items', items.length,
-    //     'start date', startDate.format(DATETIME_FORMAT),
-    //     'endDate', endDate.format(DATETIME_FORMAT)
-    // )
-    let idx = moment().valueOf()
-
-    // generate entries for group
-    groups.forEach((group: Group) => {
-        // get exiting entries for group
-        const groupItems: Item[] = []
-        items.forEach((item: Item) => {
-            if (item.group === group.id) {
-                groupItems.push(item)
-            }
-        })
-
-        //add to pool of synthetic entries
-        if (group.primaryLocation !== "None") {
-            //generate_entries 
-            const { synthItems, newIdx } = generate_items(group, group.primaryLocation, groupItems, dates, idx)
-            idx = newIdx
-            syntheticEntries = [...syntheticEntries, ...synthItems]
-        }
-
-
-    })
-
-    return syntheticEntries
 
 }

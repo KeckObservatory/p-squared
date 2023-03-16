@@ -28,7 +28,7 @@ const formControlStyle = {
     }
 }
 
-const hours = [
+export const HOURS = [
     "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12",
     "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"
 ]
@@ -234,7 +234,7 @@ export const EntryForm = (props: Props) => {
                 sx={{ ...formControlStyle, marginTop: '12px' }}
                 disablePortal
                 value={autoValue}
-                id="combo-box-demo"
+                id="employee-box"
                 options={props.employees}
                 getOptionLabel={(option) => option.label as string}
                 renderInput={(params) => <TextField
@@ -262,13 +262,13 @@ export const EntryForm = (props: Props) => {
                 <DateRangePicker onChange={onDateRangeChange} value={props.entryState.dateRange} />
             </div>
             <div style={{ "display": "flex", "marginTop": "12px", "width": "100%" }}>
-                <DropDown arr={hours}
+                <DropDown arr={HOURS}
                     value={JSON.stringify(props.entryState.startTime)}
                     handleChange={onStartTimeChange}
                     label={'Start Hour'}
                     placeholder={""}
                 />
-                <DropDown arr={hours}
+                <DropDown arr={HOURS}
                     value={JSON.stringify(props.entryState.endTime)}
                     handleChange={onEndTimeChange}
                     label={'End Hour'}
@@ -285,6 +285,7 @@ export const EntryForm = (props: Props) => {
             {isRideBoard &&
                 <React.Fragment>
                     <Typography>Ride Board Form</Typography>
+
                     <DropDown
                         arr={ALTERNATE_PICKUP}
                         value={props.entryState.alternatePickup}
@@ -336,13 +337,13 @@ export const EntryForm = (props: Props) => {
             {show2ndLocation &&
                 <React.Fragment>
                     <div style={{ "display": "flex", "marginTop": "12px", "width": "100%" }}>
-                        <DropDown arr={hours}
+                        <DropDown arr={HOURS}
                             value={JSON.stringify(props.entryState.startTime2)}
                             handleChange={onStartTime2Change}
                             label={'Start Hour'}
                             placeholder={""}
                         />
-                        <DropDown arr={hours}
+                        <DropDown arr={HOURS}
                             value={JSON.stringify(props.entryState.endTime2)}
                             handleChange={onEndTime2Change}
                             label={'End Hour'}

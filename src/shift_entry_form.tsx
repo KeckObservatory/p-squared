@@ -14,6 +14,7 @@ import {
 } from './control';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import Chip from '@mui/material/Chip';
+import { HOURS } from "./entry_form";
 
 const formControlStyle = {
     minWidth: 120,
@@ -25,11 +26,6 @@ const formControlStyle = {
         // margin: '3px',
     }
 }
-
-const hours = [
-    "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12",
-    "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"
-]
 
 interface Props {
     employees: Employee[]
@@ -193,13 +189,13 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                 <DateRangePicker onChange={onDateRangeChange} value={[dateRange[0].toDate(), dateRange[1].toDate()]} />
             </div>
             <div style={{ "display": "flex", "marginTop": "12px", "width": "100%" }}>
-                <DropDown arr={hours}
+                <DropDown arr={HOURS}
                     value={startTime}
                     handleChange={onStartTimeChange}
                     label={'Start Hour'}
                     placeholder={""}
                 />
-                <DropDown arr={hours}
+                <DropDown arr={HOURS}
                     value={endTime}
                     handleChange={onEndTimeChange}
                     label={'End Hour'}

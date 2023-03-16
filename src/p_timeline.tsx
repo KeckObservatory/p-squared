@@ -12,9 +12,8 @@ import './p_timeline.css'
 import moment from 'moment'
 import React, { useEffect, useMemo } from 'react'
 import Button from '@mui/material/Button'
-import { edit_entry_by_id, delete_entry_by_id, get_entries_by_date_range, get_holidays } from './api'
+import { delete_entry_by_id, get_entries_by_date_range, get_holidays } from './api'
 import { ControlState, Employee, EntryState, DATE_FORMAT } from './control'
-import Popover from '@mui/material/Popover'
 import Paper from '@mui/material/Paper'
 import {
     make_employee_groups,
@@ -30,7 +29,6 @@ import { AddEditEntryDialog } from './add_edit_entry_dialog'
 import { ObjectParam, useQueryParam, withDefault } from "use-query-params"
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
-import { setSourceMapRange } from 'typescript'
 
 interface Props {
     controlState: ControlState,
@@ -43,8 +41,6 @@ interface Props {
 }
 
 interface State {
-    // visibleTimeStart: moment.Moment
-    // visibleTimeEnd: moment.Moment
     visibleTimeStart: string
     visibleTimeEnd: string
     unit: Unit
@@ -55,13 +51,11 @@ export const PTimeline = (props: Props) => {
 
     const [selectedItem, setSelectedItem] = React.useState(undefined as unknown as Item);
 
-    const [selectedComment, setSelectedComment] = React.useState('');
     const [open, setOpen] = React.useState(false)
     const init_groups = make_employee_groups(props.employees, 
         props.controlState.department,
         props.controlState.role) as TimelineGroupBase[]
     const init_items = [] as TimelineItemBase<any>[]
-
 
     const initUnit = "week"
     const initVisibleTimeStart = moment(props.controlState.date, DATE_FORMAT)
@@ -75,20 +69,15 @@ export const PTimeline = (props: Props) => {
         unit: initUnit
     }
 
-
     const localDate = new Date()
     const HIdate = new Date(localDate.toLocaleString('en-US', { timeZone: 'Pacific/Honolulu' }))
-
     const [state, setState] = useQueryParam('state', withDefault(ObjectParam, init_state as any))
-
     const [groups, setGroups] = React.useState([...init_groups])
     const [items, setItems] = React.useState(init_items)
 
     useEffect(() => {
 
         const control_state_change_handler = async () => {
-
-
             const date = moment(props.controlState.date, DATE_FORMAT)
             const visibleTimeStart = date.clone()
                 .startOf(state.unit)
@@ -100,11 +89,8 @@ export const PTimeline = (props: Props) => {
                 visibleTimeStart: visibleTimeStart.format(DATE_FORMAT),
                 visibleTimeEnd: visibleTimeEnd.format(DATE_FORMAT)
             })
-
-
             console.log('control state changed. dates', visibleTimeStart.format(DATE_FORMAT),
                 visibleTimeEnd.format(DATE_FORMAT))
-
             const entries = await get_entries_by_date_range(
                 visibleTimeStart.format(DATE_FORMAT),
                 visibleTimeEnd.format(DATE_FORMAT),
@@ -198,7 +184,6 @@ export const PTimeline = (props: Props) => {
             newItems[idx]['id'] = idx + startIdx
 
             if (state.unit.includes('month')) { //month items are a full day
-
                 const start_display_time = newItems[idx].start_time.clone()
                 const end_display_time = newItems[idx].end_time.clone()
                 newItems[idx].start_time.startOf('day')
@@ -207,7 +192,6 @@ export const PTimeline = (props: Props) => {
             }
         }
 
-        // console.log('new entries', entries.length, 'groups', newGroups.length, 'items', newItems.length)
         console.log('new entries', entries, 'groups', newGroups, 'items', newItems)
         setItems(newItems)
         setGroups(newGroups)
@@ -216,17 +200,14 @@ export const PTimeline = (props: Props) => {
     const onItemClick = (itemId: number, evt: any, time: any) => {
         const item = items.find(i => itemId === i.id) as Item
         const matches_name = props.name === item.group
-        // console.log('matches_name', matches_name, 'is canEdit', props.canEdit)
         const employee = props.employees.find( (employee: Employee) => {
             const name = employee.LastName + ', ' + employee.FirstName
             return item.group.includes(name)
         })
-        // console.log('item', item, 'employee', employee)
         if (matches_name || props.canEdit) {
             setOpen(true)
             console.log('itemId', itemId, 'item', item, evt, time)
             setSelectedItem(item)
-            setSelectedComment(item.comment ? item.comment : '')
             props.setEntryState( (entryState: EntryState) => {
                return( {
                     ...entryState,
@@ -253,7 +234,6 @@ export const PTimeline = (props: Props) => {
         console.log('deleting item', selectedItem.entryId)
         delete_entry_by_id(selectedItem.entryId).then(async (response: any) => {
             console.log('delete response', response)
-
             await new Promise(resolve => setTimeout(resolve, 500)); // wait for backend to update 
             props.setControlState((pcs: ControlState) => {
                 return { ...pcs, idx: pcs.idx + 1 }

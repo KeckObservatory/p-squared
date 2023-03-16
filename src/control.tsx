@@ -304,7 +304,7 @@ export const Control = (props: Props) => {
                             label={'Department'}
                         />
                     </FormControl>
-                    <FormControl sx={{ minWidth: 150, marginLeft: '33px', marginTop: '6px' }}>
+                    <FormControl sx={{ minWidth: 150, marginLeft: '20px', marginTop: '6px' }}>
                         <DropDown arr={roles}
                             handleChange={handleRoleChange}
                             value={state.role}
@@ -312,14 +312,12 @@ export const Control = (props: Props) => {
                             label={'Roles'}
                         />
                     </FormControl>
-                    <FormControl sx={{ width: 250, marginLeft: '33px', marginTop: '12px' }}>
+                    <FormControl sx={{ width: 250, marginLeft: '26px', marginTop: '12px' }}>
                         <Autocomplete
                             freeSolo
                             disablePortal
-                            id="filter-box-demo"
+                            id="employee-filter-box"
                             options={employees}
-                            //@ts-ignore
-                            getOptionLabel={(option) => option.label as string}
                             renderInput={(params) => <TextField
                                 {...params}
                                 value={state.nameFilter}
