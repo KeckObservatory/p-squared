@@ -124,7 +124,7 @@ const check_if_overlap = (entryState: EntryState) => {
       const sd = moment(entryState.dateRange[0])
         .set('hour', entryState.startTime)
         .set('minute', 0).set('second', 0).set('millisecond', 0)
-      let ed = moment(entryState.dateRange[1])
+      let ed = moment(entryState.dateRange[0])
         .set('hour', entryState.endTime)
         .set('minute', 0).set('second', 0).set('millisecond', 0)
       if (entryState.startTime > entryState.endTime) {
@@ -135,7 +135,7 @@ const check_if_overlap = (entryState: EntryState) => {
       const sd2 = moment(entryState.dateRange[0])
         .set('hour', entryState.startTime2 as number)
         .set('minute', 0).set('second', 0)
-      let ed2 = moment(entryState.dateRange[1])
+      let ed2 = moment(entryState.dateRange[0])
         .set('hour', entryState.endTime2 as number)
         .set('minute', 0).set('second', 0)
       const wrapAround = (entryState.startTime2 as number) > (entryState.endTime2 as number)
