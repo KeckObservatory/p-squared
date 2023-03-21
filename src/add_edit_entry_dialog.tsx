@@ -147,9 +147,9 @@ const check_if_overlap = (entryState: EntryState) => {
 
       const firstEventFirst = ((sd < sd2) && (ed <= sd2) && (ed < ed2))
       const firstEventSecond = ((sd > sd2) && (ed2 <= sd) && (ed2 < ed))
-      // console.log('firstEventFirst', firstEventFirst, sd.valueOf(), sd2.valueOf(), ed.valueOf(), ed2.valueOf())
-      // console.log('entry state:', entryState)
-      // console.log('secondEventFirst', firstEventSecond)
+      console.log('firstEventFirst', firstEventFirst, sd.valueOf(), sd2.valueOf(), ed.valueOf(), ed2.valueOf())
+      console.log('entry state:', entryState)
+      console.log('secondEventFirst', firstEventSecond)
       const overlap = !firstEventFirst && !firstEventSecond
       return overlap
     }
@@ -226,8 +226,6 @@ export const AddEditEntryDialog = (props: Props) => {
   const handleClose = () => {
     setOpen(false);
   };
-
-
 
   const handleSubmit = async () => {
     //check if there are too many entries
