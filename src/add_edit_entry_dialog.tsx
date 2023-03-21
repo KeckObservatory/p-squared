@@ -147,7 +147,10 @@ const check_if_overlap = (entryState: EntryState) => {
 
       const firstEventFirst = ((sd < sd2) && (ed <= sd2) && (ed < ed2))
       const firstEventSecond = ((sd > sd2) && (ed2 <= sd) && (ed2 < ed))
-      console.log('firstEventFirst', firstEventFirst, sd.valueOf(), sd2.valueOf(), ed.valueOf(), ed2.valueOf())
+      console.log('firstEventFirst', firstEventFirst, sd.format(DATETIME_FORMAT), 
+      sd2.format(DATETIME_FORMAT), 
+      ed.format(DATETIME_FORMAT), 
+      ed2.format(DATETIME_FORMAT))
       console.log('entry state:', entryState)
       console.log('secondEventFirst', firstEventSecond)
       const overlap = !firstEventFirst && !firstEventSecond
