@@ -23,7 +23,14 @@ interface MenuProps {
 }
 
 const MakeMenuItem = (value: string, key: number, disabled = false) => {
-    return <MenuItem dense={true} disabled={disabled} value={value} key={key}>{value}</MenuItem>
+    return <MenuItem
+        dense={true}
+        disabled={disabled}
+        value={value}
+        key={key}
+    >
+        {value}
+    </MenuItem>
 }
 
 const DropDown = (props: MenuProps): JSX.Element => {
@@ -39,8 +46,9 @@ const DropDown = (props: MenuProps): JSX.Element => {
         <Select
             value={value}
             onChange={(event) => props.handleChange(event.target.value)}
+            aria-label={props.label}
             label={props.label}
-            >
+        >
             <MenuItem disabled value="">
                 <em>{props.placeholder}</em>
             </MenuItem>

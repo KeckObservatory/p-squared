@@ -288,8 +288,10 @@ export const Control = (props: Props) => {
                     <FormControl sx={{ width: 150, margin: '6px', marginTop: '12px' }}>
                         <YearMonthPicker date={moment(state.date, DATE_FORMAT)} handleDateChange={handleDateChange} />
                     </FormControl>
-                    <FormControl sx={{ width: 100, margin: '6px', marginTop: '6px' }}>
-                        <DropDown arr={ABV_LOCATIONS}
+                    <FormControl aria-label='location' sx={{ width: 100, margin: '6px', marginTop: '6px' }}>
+                        <DropDown 
+                            aria-label='location'
+                            arr={ABV_LOCATIONS}
                             handleChange={handleLocationChange}
                             value={state.location}
                             placeholder={'Select Location'}
