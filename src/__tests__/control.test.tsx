@@ -93,7 +93,8 @@ test('Checks that location input exists', async () => {
   );
 
   // const dropdownButton = screen.getByText(/location​/i, {exact: false });
-  const dropdownButton = screen.getByRole("button", { name: /location/i, exact: false, hidden: true });
+  screen.debug()
+  const dropdownButton = await screen.findByRole("button", { name: /department/i });
   userEvent.click(dropdownButton);
 
   // Get and click in the dropdown item

@@ -273,8 +273,8 @@ export const PTimeline = (props: Props) => {
                     itemHeightRatio={0.85}
                     canMove={false}
                     canResize={false}
-                    visibleTimeStart={moment(state.visibleTimeStart, DATE_FORMAT)}
-                    visibleTimeEnd={moment(state.visibleTimeEnd, DATE_FORMAT)}
+                    visibleTimeStart={moment(state.visibleTimeStart, DATE_FORMAT).valueOf()}
+                    visibleTimeEnd={moment(state.visibleTimeEnd, DATE_FORMAT).valueOf()}
                     itemRenderer={itemRenderer}
                     onTimeChange={handleTimeChange}
                     onItemSelect={onItemClick}

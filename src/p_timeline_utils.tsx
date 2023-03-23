@@ -279,8 +279,8 @@ export const entries_to_items = (entries: EntryData[]) => {
 }
 
 const tooltip_creator = (item: Item) => {
-    const st = item.start_display_time? item.start_display_time : item.start_time
-    const et = item.end_display_time? item.end_display_time : item.end_time
+    const st = item.start_display_time ? item.start_display_time : item.start_time
+    const et = item.end_display_time ? item.end_display_time : item.end_time
     return (
         <React.Fragment>
             {item.group && (<p>{item.group}</p>)}
@@ -299,37 +299,39 @@ export const itemRenderer =
         const tooltipPopup = tooltip_creator(item)
         return (
             <Tooltip title={tooltipPopup}>
-                <div
-                    {...getItemProps({
-                        style: {
-                            backgroundColor,
-                            color: item.color,
-                            borderColor,
-                            borderStyle: "solid",
-                            borderWidth: 1,
-                            borderRadius: 4,
-                            borderLeftWidth: itemContext.selected ? 3 : 1,
-                            borderRightWidth: itemContext.selected ? 3 : 1
-                        },
-                        onMouseDown: () => {
-                            console.log("on item click", item);
-                        }
-                    })}
-                >
-                    {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : null}
-
+                <div>
                     <div
-                        style={{
-                            height: itemContext.dimensions.height,
-                            overflow: "hidden",
-                            paddingLeft: 3,
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap"
-                        }}
+                        {...getItemProps({
+                            style: {
+                                backgroundColor,
+                                color: item.color,
+                                borderColor,
+                                borderStyle: "solid",
+                                borderWidth: 1,
+                                borderRadius: 4,
+                                borderLeftWidth: itemContext.selected ? 3 : 1,
+                                borderRightWidth: itemContext.selected ? 3 : 1
+                            },
+                            onMouseDown: () => {
+                                console.log("on item click", item);
+                            }
+                        })}
                     >
-                        {itemContext.title}
+                        {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : null}
+
+                        <div
+                            style={{
+                                height: itemContext.dimensions.height,
+                                overflow: "hidden",
+                                paddingLeft: 3,
+                                textOverflow: "ellipsis",
+                                whiteSpace: "nowrap"
+                            }}
+                        >
+                            {itemContext.title}
+                        </div>
+                        {itemContext.useResizeHandle ? <div {...rightResizeProps} /> : null}
                     </div>
-                    {itemContext.useResizeHandle ? <div {...rightResizeProps} /> : null}
                 </div>
             </Tooltip>
         );
