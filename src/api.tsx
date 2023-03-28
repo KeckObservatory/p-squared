@@ -10,6 +10,7 @@ const IS_PRODUCTION: boolean = process.env.REACT_APP_ENVIRONMENT === 'production
 const IS_TEST: boolean = process.env.REACT_APP_TEST === 'test'
 const API_URL = IS_TEST? "/api/pp/" : "/api_test/pp/"
 console.log('API_URL set to ', API_URL)
+console.log('IS_PRODUCTION set to ', IS_PRODUCTION)
 
 export interface User {
     Status: string,
