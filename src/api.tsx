@@ -24,6 +24,12 @@ export interface User {
     canEdit?: string
 }
 
+export interface AdminMsg {
+    apiCode: string,
+    alias: string,
+    isAdmin: number
+}
+
 export const handleResponse = (response: AxiosResponse) => {
     if (response.data) {
         return response.data;
@@ -112,6 +118,29 @@ const get_holidays_promise = (startDate: string, endDate: string): Promise<strin
         .catch(handleError)
 }
 
+const get_can_edit_promise = (alias: string): Promise<number> => {
+    let url = API_URL + "isAdmin?"
+        + "alias=" + alias 
+    return axiosInstance.get(url)
+        .then(handleResponse)
+        .then((entry: any) => {
+            return entry.isAdmin
+        })
+        .catch(handleError)
+}
+
+const mock_get_can_edit_promise = (alias: string): Promise<number> => {
+    const adminMsg: AdminMsg = {
+        apiCode: "Success",
+        alias: "tcoda",
+        isAdmin: 1
+    }
+    const mockPromise = new Promise<number>((resolve) => {
+        resolve(adminMsg.isAdmin)
+    })
+    return mockPromise
+}
+
 export const get_employees_promise = (): Promise<Employee[]> => {
     return axiosInstance.get(TEL_API_URL)
         .then(handleResponse)
@@ -187,3 +216,4 @@ export const get_staffinfo = IS_PRODUCTION ? get_staffinfo_promise : mock_get_st
 export const get_entries_by_date_range = IS_PRODUCTION ? get_entries_by_date_range_promise : mock_get_entries_by_date_range_promise
 export const get_employees = IS_PRODUCTION ? get_employees_promise : mock_get_employees_promise
 export const get_holidays = IS_PRODUCTION ? get_holidays_promise : mock_get_holidays
+export const get_can_edit = IS_PRODUCTION ? get_can_edit_promise : mock_get_can_edit_promise

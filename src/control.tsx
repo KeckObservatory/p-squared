@@ -7,7 +7,7 @@ import Box from '@mui/material/Box'
 import { AddEditEntryDialog } from './add_edit_entry_dialog'
 import Paper from '@mui/material/Paper'
 import { PTimeline } from './p_timeline'
-import { get_employees, get_staffinfo, User } from './api'
+import { get_can_edit, get_employees, get_staffinfo, User } from './api'
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Skeleton from '@mui/material/Skeleton';
@@ -166,7 +166,7 @@ export const Control = (props: Props) => {
     } as EntryState)
 
     React.useEffect(() => {
-        const set_emp_and_user = (emps: Employee[], user: User) => {
+        const set_emp_and_user = (emps: Employee[], user: User, canEdit: boolean) => {
             if (emps.length > 0) {
                 emps = emps.slice(1, emps.length) // remove first entry (*HOLIDAY)
                 const labelEmps = emps.map((emp: Employee) => {
@@ -188,8 +188,7 @@ export const Control = (props: Props) => {
                     employeeId: employee ? employee.EId : undefined,
                     department: user.Department,
                     baseCamp: user.BaseCamp,
-                    // canEdit: user?.Admin === 'True'
-                    canEdit: true
+                    canEdit: canEdit 
                 }
                 console.log('state init to...', newState)
                 setEntryState(
@@ -214,7 +213,8 @@ export const Control = (props: Props) => {
             dpnts = ["", ...dpnts.sort()]
             setDepartments(dpnts)
             const user = await get_staffinfo()
-            set_emp_and_user(emps, user)
+            const canEdit = Boolean(await get_can_edit(user.Alias))
+            set_emp_and_user(emps, user, canEdit)
         }
 
         init_employees()
@@ -277,7 +277,6 @@ export const Control = (props: Props) => {
         })
     }
     const name = entryState.name
-    const canEdit = entryState.canEdit
 
 
     return (
@@ -343,7 +342,7 @@ export const Control = (props: Props) => {
                 {filtEmployees.length > 0 ? (
                     < PTimeline
                         name={name}
-                        canEdit={canEdit}
+                        canEdit={entryState.canEdit}
                         setEntryState={setEntryState}
                         handleEntrySubmit={handleEntrySubmit}
                         employees={filtEmployees}
