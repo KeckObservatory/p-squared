@@ -214,6 +214,7 @@ export const Control = (props: Props) => {
             setDepartments(dpnts)
             const user = await get_staffinfo()
             const canEdit = Boolean(await get_can_edit(user.Alias))
+            console.log('canEdit', canEdit)
             set_emp_and_user(emps, user, canEdit)
         }
 
