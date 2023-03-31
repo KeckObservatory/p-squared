@@ -298,7 +298,7 @@ export const itemRenderer =
         const borderColor = itemContext.resizing ? "red" : item.color;
         const tooltipPopup = tooltip_creator(item)
         return (
-            <Tooltip title={tooltipPopup}>
+            <Tooltip placement="top" title={tooltipPopup}>
                 <div>
                     <div
                         {...getItemProps({
