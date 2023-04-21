@@ -97,7 +97,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                     supportLead,
                     summitLead,
                     alternatePickup,
-                    location: 'SU',
+                    location: location,
                     startTime,
                     endTime,
                     dateRange,
@@ -161,6 +161,10 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
         setEndTime(value)
     }
 
+    const onLocationChange= (value: string) => {
+        setLocation(value)
+    }
+
     return (
         <Box
             sx={{
@@ -183,6 +187,12 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                         placeholder="Employees"
                     />
                 )}
+            />
+            <DropDown arr={["HQ", "SU"]}
+                value={location}
+                handleChange={onLocationChange}
+                label={'Location'}
+                placeholder={""}
             />
             <div style={{ 'zIndex': 999, "marginLeft": "6px", "width": "100%" }}>
                 <FormLabel component="legend">Date Range</FormLabel>

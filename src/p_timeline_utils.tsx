@@ -297,6 +297,11 @@ export const itemRenderer =
         const backgroundColor = itemContext.selected ? (itemContext.dragging ? "red" : item.selectedBgColor) : item.bgColor;
         const borderColor = itemContext.resizing ? "red" : item.color;
         const tooltipPopup = tooltip_creator(item)
+
+        let text = itemContext.title+" " + item.start_time.format('h') + "-"  + item.end_time.format('h') 
+        if (itemContext.title==='NS') {
+        text = "NightSup " + item.start_time.format('h') + "-"  + item.end_time.format('h') 
+        }
         return (
             <Tooltip placement="top" title={tooltipPopup}>
                 <div>
@@ -328,7 +333,7 @@ export const itemRenderer =
                                 whiteSpace: "nowrap"
                             }}
                         >
-                            {itemContext.title}
+                            {text}
                         </div>
                         {itemContext.useResizeHandle ? <div {...rightResizeProps} /> : null}
                     </div>

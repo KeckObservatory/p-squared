@@ -161,7 +161,7 @@ export const AddShiftsDialog = (props: Props) => {
   return (
     <React.Fragment>
       <Button style={{ margin: '12px' }} variant="contained" onClick={handleClickOpen}>
-        Create Summit Shifts
+        Create Shifts
       </Button>
       <Dialog
         sx={{ paddingTop: '3px' }}
