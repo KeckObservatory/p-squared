@@ -85,7 +85,7 @@ export const DEPARTMENTS = [
 export const ALTERNATE_PICKUP = [ '', 'HPP', 'HQ', 'Hilo', 'SJP', 'WJP'
 ]
 
-export const SUMMIT_LEAD = [ '', '7-3', '7-0', '9-5', '3-5'
+export const SUMMIT_LEAD = [ '', '7-3', '7-9', '9-5', '3-5'
 ]
 
 export const SUPPORT_LEAD = [ '', '1', '2', '3',
