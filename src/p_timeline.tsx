@@ -285,6 +285,7 @@ export const PTimeline = (props: Props) => {
                     itemRenderer={itemRenderer}
                     onTimeChange={handleTimeChange}
                     onItemSelect={onItemClick}
+                    buffer={1}
                     onItemClick={onItemClick}
                 >
                     <TimelineHeaders className="sticky">
