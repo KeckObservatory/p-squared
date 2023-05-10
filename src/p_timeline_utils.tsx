@@ -330,7 +330,8 @@ export const itemRenderer =
                                 overflow: "hidden",
                                 paddingLeft: 3,
                                 textOverflow: "ellipsis",
-                                whiteSpace: "nowrap"
+                                whiteSpace: "nowrap",
+                                textAlign: "center"
                             }}
                         >
                             {text}
