@@ -268,7 +268,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                     arr={SEATS}
                     value={seats}
                     handleChange={handleSeatChange}
-                    label={'SEATS'}
+                    label={'EXTRA SEATS'}
                     placeholder={""}
                 />
             </React.Fragment>
