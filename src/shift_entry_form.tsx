@@ -188,7 +188,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                     />
                 )}
             />
-            <DropDown arr={["HQ", "SU"]}
+            <DropDown arr={["HQ", "SU", "WFH"]}
                 value={location}
                 handleChange={onLocationChange}
                 label={'Location'}

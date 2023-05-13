@@ -84,13 +84,13 @@ export const DEPARTMENTS = [
     'Guest'
 ];
 
-export const ALTERNATE_PICKUP = [ '', 'HPP', 'HQ', 'Hilo', 'SJP', 'WJP'
+export const ALTERNATE_PICKUP = ['', 'HPP', 'HQ', 'Hilo', 'SJP', 'WJP'
 ]
 
-export const SUMMIT_LEAD = [ '', '7-3', '7-9', '9-5', '3-5'
+export const SUMMIT_LEAD = ['', '7-3', '7-9', '9-5', '3-5'
 ]
 
-export const SUPPORT_LEAD = [ '', '1', '2', '3',
+export const SUPPORT_LEAD = ['', '1', '2', '3',
 ]
 
 export const CREW_LEAD = [
@@ -163,7 +163,8 @@ export const Control = (props: Props) => {
 
     if (!state.date) {
         setState(
-            {...state,
+            {
+                ...state,
                 date: now.format(DATE_FORMAT),
             }
         )
@@ -198,7 +199,7 @@ export const Control = (props: Props) => {
                     employeeId: employee ? employee.EId : undefined,
                     department: user.Department,
                     baseCamp: user.BaseCamp,
-                    canEdit: canEdit 
+                    canEdit: canEdit
                 }
                 console.log('state init to...', newState)
                 setEntryState(
@@ -299,7 +300,7 @@ export const Control = (props: Props) => {
                         <YearMonthPicker date={moment(state.date, DATE_FORMAT)} handleDateChange={handleDateChange} />
                     </FormControl>
                     <FormControl aria-label='location' sx={{ width: 100, margin: '6px', marginTop: '6px' }}>
-                        <DropDown 
+                        <DropDown
                             aria-label='location'
                             arr={ABV_LOCATIONS}
                             handleChange={handleLocationChange}
@@ -343,12 +344,15 @@ export const Control = (props: Props) => {
                         edit={false}
                         setEntryState={setEntryState}
                         handleEntrySubmit={handleEntrySubmit} />
-                    <AddShiftsDialog
-                        staff={entryState.staff}
-                        employees={employees}
-                        roles={roles}
-                        handleEntrySubmit={handleEntrySubmit}
-                    />
+                    {entryState.canEdit && (
+                        <AddShiftsDialog
+                            staff={entryState.staff}
+                            employees={employees}
+                            roles={roles}
+                            handleEntrySubmit={handleEntrySubmit}
+                        />
+                    )
+                    }
                 </Box>
                 {filtEmployees.length > 0 ? (
                     < PTimeline
