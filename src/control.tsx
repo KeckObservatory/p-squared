@@ -44,8 +44,9 @@ export const ABV_LOCATIONS = [
     "WFH",
     "Remote",
     "Leave",
+    "Flex",
     "Travel",
-    "NS"
+    "NgtSup"
 ]
 
 export const ALL_LOCATIONS = [
@@ -61,8 +62,9 @@ export const ALL_LOCATIONS = [
     "Vacation",
     "JuryDuty",
     "FamilySick",
+    "Flex",
     "Travel",
-    "NS"
+    "NgtSup"
 ]
 
 export const DEPARTMENTS = [
