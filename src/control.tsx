@@ -161,6 +161,14 @@ export const Control = (props: Props) => {
     const [roles, setRoles] = React.useState([] as string[])
     const [state, setState] = useQueryParam('controlState', withDefault(ObjectParam, initState as any))
 
+    if (!state.date) {
+        setState(
+            {...state,
+                date: now.format(DATE_FORMAT),
+            }
+        )
+    }
+
     const [entryState, setEntryState] = React.useState({
         dateRange: [now.toDate(), now.toDate()],
         startTime: 8,
