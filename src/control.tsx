@@ -1,5 +1,5 @@
 import FormControl from '@mui/material/FormControl';
-import React, { useContext, createContext, useState } from 'react'
+import React from 'react'
 import DropDown from './drop_down'
 import moment from 'moment'
 import { YearMonthPicker } from './year_month_picker'
@@ -29,11 +29,6 @@ export interface ControlState {
     idx: number
 }
 
-const init_entry_state_context = {} as EntryState
-
-const EntryStateContext = createContext<EntryState>(init_entry_state_context)
-export const useEntryStateContext = () => useContext(EntryStateContext)
-
 export const ABV_LOCATIONS = [
     "",
     "HQ",
@@ -62,6 +57,19 @@ export const ALL_LOCATIONS = [
     "Vacation",
     "JuryDuty",
     "FamilySick",
+    "Flex",
+    "Travel",
+    "NgtSup"
+]
+
+export const REDUCED_LOCATIONS = [
+    "",
+    "HQ",
+    "SU",
+    "HP",
+    "Hilo",
+    "Kona",
+    "WFH",
     "Flex",
     "Travel",
     "NgtSup"
@@ -292,7 +300,6 @@ export const Control = (props: Props) => {
 
 
     return (
-        <EntryStateContext.Provider value={entryState} >
             <Paper sx={{ margin: '4px', paddingTop: '2px' }} elevation={3}>
                 <Box sx={{ marginTop: '16px' }}
                 >
@@ -342,6 +349,7 @@ export const Control = (props: Props) => {
                     <AddEditEntryDialog
                         employees={employees}
                         edit={false}
+                        entryState={entryState}
                         setEntryState={setEntryState}
                         handleEntrySubmit={handleEntrySubmit} />
                     {entryState.canEdit && (
@@ -358,6 +366,7 @@ export const Control = (props: Props) => {
                     < PTimeline
                         name={name}
                         canEdit={entryState.canEdit}
+                        entryState={entryState}
                         setEntryState={setEntryState}
                         handleEntrySubmit={handleEntrySubmit}
                         employees={filtEmployees}
@@ -369,7 +378,6 @@ export const Control = (props: Props) => {
                         <Skeleton variant="rectangular" height={118} />
                     </React.Fragment>}
             </Paper >
-        </EntryStateContext.Provider>
     )
 
 }

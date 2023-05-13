@@ -10,7 +10,7 @@ import Timeline, {
 } from 'react-calendar-timeline'
 import './p_timeline.css'
 import moment from 'moment'
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import Button from '@mui/material/Button'
 import { delete_entry_by_id, get_entries_by_date_range, get_holidays } from './api'
 import { ControlState, Employee, EntryState, DATE_FORMAT } from './control'
@@ -33,6 +33,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 interface Props {
     controlState: ControlState,
     setControlState: Function,
+    entryState: EntryState,
     employees: Employee[],
     name?: string,
     canEdit?: boolean
@@ -321,6 +322,7 @@ export const PTimeline = (props: Props) => {
                 </Button>
                 <AddEditEntryDialog
                     employees={props.employees}
+                    entryState={props.entryState}
                     setEntryState={props.setEntryState}
                     edit={true}
                     handleEntrySubmit={props.handleEntrySubmit}

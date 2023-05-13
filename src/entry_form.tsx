@@ -8,6 +8,7 @@ import {
     Employee,
     EntryState,
     ALL_LOCATIONS,
+    REDUCED_LOCATIONS,
     ALTERNATE_PICKUP,
     SUMMIT_LEAD,
     SUPPORT_LEAD,
@@ -50,7 +51,11 @@ export const EntryForm = (props: Props) => {
         rideboardLocations.includes(props.entryState.location2 as string)
     console.log('location', props.entryState.location, 'location2', props.entryState.location2, 'isRideboard', isRideBoard)
 
+    const locations = props.entryState.canEdit ? ALL_LOCATIONS : REDUCED_LOCATIONS
+    console.log('locations', locations, 'canEdit?', props.entryState.canEdit)
+
     useEffect(() => {
+
 
         if (!props.edit) {
 
@@ -72,8 +77,6 @@ export const EntryForm = (props: Props) => {
                             baseCamp: user.BaseCamp,
                             staff: user.Alias,
                             alias: user.Alias,
-                            // canEdit: user?.Admin === 'True'
-                            canEdit: true
                         }
                     )
                 })
@@ -170,7 +173,6 @@ export const EntryForm = (props: Props) => {
             newState
         )
     }
-
 
     const handleCommentChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
         props.setEntryState(
@@ -284,7 +286,7 @@ export const EntryForm = (props: Props) => {
                 />
             </div >
             <DropDown
-                arr={ALL_LOCATIONS}
+                arr={locations}
                 value={props.entryState.location}
                 handleChange={handleLocationChange}
                 label={'Location'}
@@ -358,7 +360,7 @@ export const EntryForm = (props: Props) => {
                             placeholder={""}
                         />
                     </div >
-                    <DropDown arr={ALL_LOCATIONS}
+                    <DropDown arr={locations}
                         value={props.entryState.location2}
                         handleChange={handleLocation2Change}
                         label={'Location'}
