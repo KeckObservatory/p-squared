@@ -80,7 +80,7 @@ const shift_state_to_entries = (shiftState: ShiftState, staff: string) => {
   })
   console.log('shift dates', dates)
   // for user in users
-  shiftState.selectedRoleEmployees.forEach((employee: Employee) => {
+  shiftState.selectedEmployees.forEach((employee: Employee) => {
     const name = employee.LastName + ', ' + employee.FirstName
 
     let base_entry: Partial<EntryData> = {

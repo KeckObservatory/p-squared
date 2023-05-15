@@ -28,7 +28,8 @@ const formControlStyle = {
 }
 
 interface Props {
-    employees: Employee[]
+    employees: Employee[],
+
     roles: string[]
 }
 
@@ -47,7 +48,7 @@ export interface DaysOfWeek {
 
 export interface ShiftState {
     comment: string,
-    selectedRoleEmployees: Employee[],
+    selectedEmployees: Employee[],
     seats: string,
     crewLead: string,
     supportLead: string,
@@ -63,16 +64,16 @@ export interface ShiftState {
 export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
 
     const [comment, setComment] = useState("")
-    const [selectedRoleEmployees, setSelectedRoleEmpoyees] = useState([] as Employee[])
+    const [selectedEmployees, setSelectedEmployees] = useState([] as Employee[])
     const [seats, setSeats] = useState("")
     const [crewLead, setCrewLead] = useState("")
+    const [role, setRole] = useState("")
     const [supportLead, setSupportLead] = useState("")
     const [summitLead, setSummitLead] = useState("")
     const [alternatePickup, setAlternativePickup] = useState("")
     const [location, setLocation] = useState("")
     const [startTime, setStartTime] = useState("")
     const [endTime, setEndTime] = useState("")
-    const [shift, setShift] = useState("")
     const [dateRange, setDateRange] = useState([moment(), moment()])
     const [selectedDaysOfWeek, setSelectedDaysOfWeek] = useState({
         monday: true,
@@ -91,7 +92,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
             return (
                 {
                     comment,
-                    selectedRoleEmployees,
+                    selectedEmployees,
                     seats,
                     crewLead,
                     supportLead,
@@ -116,8 +117,20 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
         newEmps: Employee[], 
         reason: AutocompleteChangeReason,
         details?: AutocompleteChangeDetails<Employee> | undefined) => {
-        setSelectedRoleEmpoyees(newEmps)
 
+        setSelectedEmployees(newEmps)
+
+    }
+
+    const onRoleChange = ( value: string ) => {
+        const employeeList: Employee[] = []
+        props.employees.forEach( (employee: Employee) => {
+            if (employee.Role.includes(value)) {
+                employeeList.push(employee)
+            }
+        })
+        console.log('employeeList', employeeList)
+        setSelectedEmployees(employeeList)
     }
 
     const onDateRangeChange = (value: Date | string) => {
@@ -182,6 +195,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
             <Autocomplete
                 multiple
                 id="tags-standard"
+                value={selectedEmployees}
                 options={props.employees}
                 getOptionLabel={(emp: Employee) => emp.Alias}
                 onChange={handleSelectedEmployeesChange}
@@ -193,6 +207,12 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                         placeholder="Employees"
                     />
                 )}
+            />
+            <DropDown arr={props.roles}
+                value={role}
+                handleChange={onRoleChange}
+                label={'Role'}
+                placeholder={""}
             />
             <DropDown arr={["HQ", "SU", "WFH"]}
                 value={location}
