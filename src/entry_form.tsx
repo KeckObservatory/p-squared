@@ -35,7 +35,7 @@ export const HOURS = [
     "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"
 ]
 
-const SHIFTS = [
+export const SHIFTS = [
     "7-4",
     "8-4",
     "8-5",
