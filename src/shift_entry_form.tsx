@@ -3,17 +3,15 @@ import moment from "moment";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import DropDown from './drop_down';
-import { Autocomplete, AutocompleteChangeDetails, AutocompleteChangeReason, Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel, InputLabel, ListItemText, MenuItem, OutlinedInput, Radio, RadioGroup, Select, SelectChangeEvent, Typography } from "@mui/material";
+import { Autocomplete, AutocompleteChangeDetails, AutocompleteChangeReason, Checkbox, FormControlLabel, FormLabel, Tooltip, Typography } from "@mui/material";
 import {
     Employee,
     ALTERNATE_PICKUP,
     SUMMIT_LEAD,
     SUPPORT_LEAD,
-    CREW_LEAD,
     SEATS
 } from './control';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
-import Chip from '@mui/material/Chip';
 import { HOURS, SHIFTS } from "./entry_form";
 
 const formControlStyle = {
@@ -113,8 +111,8 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
 
     }, [])
 
-    const handleSelectedEmployeesChange = (event: SyntheticEvent<Element, Event>, 
-        newEmps: Employee[], 
+    const handleSelectedEmployeesChange = (event: SyntheticEvent<Element, Event>,
+        newEmps: Employee[],
         reason: AutocompleteChangeReason,
         details?: AutocompleteChangeDetails<Employee> | undefined) => {
 
@@ -122,9 +120,9 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
 
     }
 
-    const onRoleChange = ( value: string ) => {
+    const onRoleChange = (value: string) => {
         const employeeList: Employee[] = []
-        props.employees.forEach( (employee: Employee) => {
+        props.employees.forEach((employee: Employee) => {
             if (employee.Role.toUpperCase().includes(value.toUpperCase())) {
                 employeeList.push(employee)
             }
@@ -181,7 +179,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
         setEndTime(value)
     }
 
-    const onLocationChange= (value: string) => {
+    const onLocationChange = (value: string) => {
         setLocation(value)
     }
 
@@ -281,30 +279,17 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                     label={'Support Lead'}
                     placeholder={""}
                 />
-
-                <Typography>Crew Lead</Typography>
-                <FormControl>
-                    <RadioGroup
-                        row
-                        value={crewLead}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                            handleCrewLeadChange(event.target.value)
-                        }}
-                    >
-                        {
-                            CREW_LEAD.map((cl: string) => {
-                                return <FormControlLabel value={cl} control={<Radio />} label={cl} />
-                            })
-                        }
-                    </RadioGroup>
-                </FormControl>
-                <DropDown
-                    arr={SEATS}
-                    value={seats}
-                    handleChange={handleSeatChange}
-                    label={'EXTRA SEATS'}
-                    placeholder={""}
-                />
+                <Tooltip placement="left" title={"Enter additional seats needed"}>
+                    <div>
+                        <DropDown
+                            arr={SEATS}
+                            value={seats}
+                            handleChange={handleSeatChange}
+                            label={'EXTRA SEATS'}
+                            placeholder={""}
+                        />
+                    </div>
+                </Tooltip>
             </React.Fragment>
             <TextField
                 focused

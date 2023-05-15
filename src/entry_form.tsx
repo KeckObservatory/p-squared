@@ -355,7 +355,6 @@ export const EntryForm = (props: Props) => {
                         label={'Support Lead'}
                         placeholder={""}
                     />
-                    <Typography>Crew Lead</Typography>
                     <Tooltip placement="left" title={"Enter additional seats needed"}>
                         <div>
                             <DropDown
