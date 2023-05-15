@@ -170,7 +170,7 @@ export const AddShiftsDialog = (props: Props) => {
         onClose={handleClose}
       >
         <DialogTitle>
-          Create Summit Shifts
+          Create Shifts
         </DialogTitle>
         <DialogContent>
           {errMsg && (
