@@ -125,11 +125,12 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
     const onRoleChange = ( value: string ) => {
         const employeeList: Employee[] = []
         props.employees.forEach( (employee: Employee) => {
-            if (employee.Role.includes(value)) {
+            if (employee.Role.toUpperCase().includes(value.toUpperCase())) {
                 employeeList.push(employee)
             }
         })
         console.log('employeeList', employeeList)
+        setRole(value)
         setSelectedEmployees(employeeList)
     }
 
