@@ -129,10 +129,6 @@ export const AddShiftsDialog = (props: Props) => {
   const childStateRef = React.useRef<ChildRefObject>(null);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-  // allow only summit employees to have shifts
-  const summitEmployees = props.employees.filter( (employee: Employee) => {
-    return employee.PrimaryLocation ? PRIMARY_LOCATION.includes(employee.PrimaryLocation): false
-  })
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -178,7 +174,7 @@ export const AddShiftsDialog = (props: Props) => {
           )}
           <ShiftEntryForm
             ref={childStateRef}
-            employees={summitEmployees}
+            employees={props.employees}
             roles={props.roles}
           />
         </DialogContent>
