@@ -18,6 +18,7 @@ import {
 } from './control';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { get_staffinfo, User } from './api';
+import { LargeTooltip } from "./App";
 
 const formControlStyle = {
     minWidth: 120,
@@ -337,7 +338,7 @@ export const EntryForm = (props: Props) => {
                         label={'Alternate Pickup Location'}
                         placeholder={""}
                     />
-                    <Tooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
+                    <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
                         <div>
                             <DropDown
                                 arr={SUMMIT_LEAD}
@@ -347,7 +348,7 @@ export const EntryForm = (props: Props) => {
                                 placeholder={""}
                             />
                         </div>
-                    </Tooltip>
+                    </LargeTooltip>
                     <DropDown
                         arr={SUPPORT_LEAD}
                         value={supportLeadValue}
@@ -355,7 +356,7 @@ export const EntryForm = (props: Props) => {
                         label={'Support Lead'}
                         placeholder={""}
                     />
-                    <Tooltip placement="left" title={"Enter additional seats needed"}>
+                    <LargeTooltip placement="left" title={"Enter additional seats needed"}>
                         <div>
                             <DropDown
                                 arr={SEATS}
@@ -365,7 +366,7 @@ export const EntryForm = (props: Props) => {
                                 placeholder={""}
                             />
                         </div>
-                    </Tooltip>
+                    </LargeTooltip>
                 </React.Fragment>
             }
             <Button onClick={handle2ndLocationSelect}>Add 2nd location</Button>

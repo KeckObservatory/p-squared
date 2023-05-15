@@ -3,7 +3,7 @@ import moment from "moment";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import DropDown from './drop_down';
-import { Autocomplete, AutocompleteChangeDetails, AutocompleteChangeReason, Checkbox, FormControlLabel, FormLabel, Tooltip, Typography } from "@mui/material";
+import { Autocomplete, AutocompleteChangeDetails, AutocompleteChangeReason, Checkbox, FormControlLabel, FormLabel, Typography } from "@mui/material";
 import {
     Employee,
     ALTERNATE_PICKUP,
@@ -13,6 +13,7 @@ import {
 } from './control';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { HOURS, SHIFTS } from "./entry_form";
+import { LargeTooltip } from "./App";
 
 const formControlStyle = {
     minWidth: 120,
@@ -258,6 +259,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
             </div>
             <React.Fragment>
                 <Typography>Ride Board Form</Typography>
+
                 <DropDown
                     arr={ALTERNATE_PICKUP}
                     value={alternatePickup}
@@ -265,13 +267,17 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                     label={'Alternate Pickup'}
                     placeholder={""}
                 />
-                <DropDown
-                    arr={SUMMIT_LEAD}
-                    value={summitLead}
-                    handleChange={handleSummitLeadChange}
-                    label={'Summit Lead'}
-                    placeholder={""}
-                />
+                <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
+                    <div>
+                        <DropDown
+                            arr={SUMMIT_LEAD}
+                            value={summitLead}
+                            handleChange={handleSummitLeadChange}
+                            label={'Summit Lead'}
+                            placeholder={""}
+                        />
+                    </div>
+                </LargeTooltip>
                 <DropDown
                     arr={SUPPORT_LEAD}
                     value={supportLead}
@@ -279,7 +285,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                     label={'Support Lead'}
                     placeholder={""}
                 />
-                <Tooltip placement="left" title={"Enter additional seats needed"}>
+                <LargeTooltip placement="left" title={"Enter additional seats needed"}>
                     <div>
                         <DropDown
                             arr={SEATS}
@@ -289,7 +295,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                             placeholder={""}
                         />
                     </div>
-                </Tooltip>
+                </LargeTooltip>
             </React.Fragment>
             <TextField
                 focused
