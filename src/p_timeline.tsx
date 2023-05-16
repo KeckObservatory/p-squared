@@ -190,11 +190,11 @@ export const PTimeline = (props: Props) => {
             newItems[idx]['id'] = idx + startIdx
 
             if (state.unit.includes('month')) { //month items are a full day
-                const start_display_time = newItems[idx].start_time.clone()
-                const end_display_time = newItems[idx].end_time.clone()
+                const start_actual_time = newItems[idx].start_time.clone()
+                const end_actual_time = newItems[idx].end_time.clone()
                 newItems[idx].start_time.startOf('day')
                 newItems[idx].end_time.endOf('day')
-                newItems[idx] = { ...newItems[idx], start_display_time, end_display_time } as Item
+                newItems[idx] = { ...newItems[idx], start_actual_time, end_actual_time } as Item
             }
         }
 
@@ -214,6 +214,9 @@ export const PTimeline = (props: Props) => {
             setOpen(true)
             console.log('itemId', itemId, 'item', item, evt, time)
             setSelectedItem(item)
+
+            const st = item.start_actual_time ? item.start_actual_time : item.start_time
+            const et = item.end_actual_time ? item.end_actual_time : item.end_time
             props.setEntryState((entryState: EntryState) => {
                 return ({
                     ...entryState,
@@ -224,8 +227,8 @@ export const PTimeline = (props: Props) => {
                     location: item.location,
                     department: item.department ? item.department : entryState.department,
                     baseCamp: item.baseCamp ? item.baseCamp : entryState.baseCamp,
-                    startTime: item.start_time.hour(),
-                    endTime: item.end_time.hour(),
+                    startTime: st.hour(),
+                    endTime: et.hour(),
                     dateRange: [item.start_time, item.end_time],
                     entryId: item.entryId
                 })

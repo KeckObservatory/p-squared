@@ -108,8 +108,8 @@ export interface Item {
     color?: string,
     start_time: moment.Moment,
     end_time: moment.Moment
-    start_display_time?: moment.Moment,
-    end_display_time?: moment.Moment
+    start_actual_time?: moment.Moment,
+    end_actual_time?: moment.Moment
 }
 
 
@@ -285,8 +285,8 @@ export const entries_to_items = (entries: EntryData[]) => {
 }
 
 const tooltip_creator = (item: Item) => {
-    const st = item.start_display_time ? item.start_display_time : item.start_time
-    const et = item.end_display_time ? item.end_display_time : item.end_time
+    const st = item.start_actual_time ? item.start_actual_time : item.start_time
+    const et = item.end_actual_time ? item.end_actual_time : item.end_time
     return (
         <React.Fragment>
             {item.group && (<p>{item.group}</p>)}
