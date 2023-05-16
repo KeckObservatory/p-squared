@@ -304,7 +304,10 @@ export const itemRenderer =
         const borderColor = itemContext.resizing ? "red" : item.color;
         const tooltipPopup = tooltip_creator(item)
 
-        const text = itemContext.title + " " + item.start_time.format('h') + "-"  + item.end_time.format('h') 
+        const st = item.start_actual_time ? item.start_actual_time : item.start_time
+        const et = item.end_actual_time ? item.end_actual_time : item.end_time
+
+        const text = itemContext.title + " " + st.format('h') + "-" + et.format('h')
         return (
             <Tooltip placement="top" title={tooltipPopup}>
                 <div>
@@ -363,36 +366,40 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
 
         const startArray = group.primaryShift[0].split(':')
         const endArray = group.primaryShift[1].split(':')
-        console.log('primary shift', group.primaryShift)
-        const sHour: number = Number(startArray[0])
-        const sMinute: number = startArray.length > 1 ? Number(startArray[1]) : 0
-        const eHour: number = Number(endArray[0])
-        const eMinute: number = endArray.length > 1 ? Number(endArray[1]) : 0
+        try {
+            const sHour: number = Number(startArray[0])
+            const sMinute: number = startArray.length > 1 ? Number(startArray[1]) : 0
+            const eHour: number = Number(endArray[0])
+            const eMinute: number = endArray.length > 1 ? Number(endArray[1]) : 0
 
-        if (!realItem && isWeekday && !isSummit) {
-            const [locationColor, fontColor] = get_location_color(location)
-            const synthItem: Item = {
-                id: newIdx,
-                group: group.id,
-                alias: group.alias,
-                entryId: newIdx,
-                location: location,
-                comment: comment,
-                title: location,
-                start_time: date.clone().set({
-                    hour: sHour,
-                    minute: sMinute,
-                    second: 0
-                }),
-                end_time: date.clone().set({
-                    hour: eHour,
-                    minute: eMinute,
-                    second: 0
-                }),
-                bgColor: locationColor,
-                color: fontColor,
+            if (!realItem && isWeekday && !isSummit) {
+                const [locationColor, fontColor] = get_location_color(location)
+                const synthItem: Item = {
+                    id: newIdx,
+                    group: group.id,
+                    alias: group.alias,
+                    entryId: newIdx,
+                    location: location,
+                    comment: comment,
+                    title: location,
+                    start_time: date.clone().set({
+                        hour: sHour,
+                        minute: sMinute,
+                        second: 0
+                    }),
+                    end_time: date.clone().set({
+                        hour: eHour,
+                        minute: eMinute,
+                        second: 0
+                    }),
+                    bgColor: locationColor,
+                    color: fontColor,
+                }
+                synthItems.push(synthItem)
             }
-            synthItems.push(synthItem)
+        }
+        catch {
+            console.error('failed to create item. primary shift', group.primaryShift)
         }
 
     })
