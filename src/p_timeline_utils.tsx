@@ -363,10 +363,11 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
 
         const startArray = group.primaryShift[0].split(':')
         const endArray = group.primaryShift[1].split(':')
-        const sHour: number = JSON.parse(startArray[0])
-        const sMinute: number = startArray.length > 1 ? JSON.parse(startArray[1]) : 0
-        const eHour: number = JSON.parse(endArray[0])
-        const eMinute: number = endArray.length > 1 ? JSON.parse(endArray[1]) : 0
+        console.log('primary shift', group.primaryShift)
+        const sHour: number = Number(startArray[0])
+        const sMinute: number = startArray.length > 1 ? Number(startArray[1]) : 0
+        const eHour: number = Number(endArray[0])
+        const eMinute: number = endArray.length > 1 ? Number(endArray[1]) : 0
 
         if (!realItem && isWeekday && !isSummit) {
             const [locationColor, fontColor] = get_location_color(location)
