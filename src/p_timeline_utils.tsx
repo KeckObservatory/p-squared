@@ -432,13 +432,10 @@ export const generate_holiday_items = (
             }
         })
 
-        //add to pool of synthetic entries
-        if (group.primaryLocation !== "None") {
-            //generate_entries 
-            const { synthItems, newIdx } = generate_items(group, 'Holiday', groupItems, dates, idx, 'Holiday')
-            idx = newIdx
-            entries = [...entries, ...synthItems]
-        }
+        //add holidays to pool of entries 
+        const { synthItems, newIdx } = generate_items(group, 'Holiday', groupItems, dates, idx, 'Holiday')
+        idx = newIdx
+        entries = [...entries, ...synthItems]
     })
 
     return entries
