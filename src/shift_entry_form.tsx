@@ -153,15 +153,15 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
     const handlePickupChange = (value: string) => {
         setAlternativePickup(value)
     }
+    
     const handleSummitLeadChange = (value: string) => {
         setSummitLead(value)
     }
+    
     const handleSupportLeadChange = (value: string) => {
         setSupportLead(value)
     }
-    const handleCrewLeadChange = (value: string) => {
-        setCrewLead(value)
-    }
+
     const handleSeatChange = (value: string) => {
         setSeats(value)
     }
