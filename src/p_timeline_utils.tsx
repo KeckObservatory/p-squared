@@ -363,10 +363,10 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
 
         const startArray = group.primaryShift[0].split(':')
         const endArray = group.primaryShift[1].split(':')
-        const sHour = startArray[0] 
-        const sMinute = startArray.length>1 ? JSON.parse(startArray[1]) : 0
-        const eHour = endArray[0] 
-        const eMinute = endArray.length>1 ? JSON.parse(endArray[1]) : 0
+        const sHour: number = JSON.parse(startArray[0])
+        const sMinute: number = startArray.length > 1 ? JSON.parse(startArray[1]) : 0
+        const eHour: number = JSON.parse(endArray[0])
+        const eMinute: number = endArray.length > 1 ? JSON.parse(endArray[1]) : 0
 
         if (!realItem && isWeekday && !isSummit) {
             const [locationColor, fontColor] = get_location_color(location)
@@ -379,13 +379,13 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
                 comment: comment,
                 title: location,
                 start_time: date.clone().set({
-                    hour: JSON.parse(sHour),
-                    minute: JSON.parse(sMinute),
+                    hour: sHour,
+                    minute: sMinute,
                     second: 0
                 }),
                 end_time: date.clone().set({
-                    hour: JSON.parse(eHour),
-                    minute: JSON.parse(eMinute),
+                    hour: eHour,
+                    minute: eMinute,
                     second: 0
                 }),
                 bgColor: locationColor,
