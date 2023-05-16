@@ -371,7 +371,7 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
             const eHour: number = Number(endArray[0])
             const eMinute: number = endArray.length > 1 ? Number(endArray[1]) : 0
 
-            if (!realItem && isWeekday) {
+            if ((!realItem && isWeekday) || location==='Holiday') { //holidays have double entries
                 const [locationColor, fontColor] = get_location_color(location)
                 const synthItem: Item = {
                     id: newIdx,
