@@ -357,7 +357,6 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
     dates.forEach((date: moment.Moment) => {
 
         const isWeekday = date.isoWeekday() < 6 //saturday=6 sunday=7
-        const isSummit = group.primaryLocation === 'SU'
         let realItem = groupItems.find((item: Item) => { // find first item that falls on date.
             return item.start_time.isSame(date, 'day')
         })
@@ -372,7 +371,7 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
             const eHour: number = Number(endArray[0])
             const eMinute: number = endArray.length > 1 ? Number(endArray[1]) : 0
 
-            if (!realItem && isWeekday && !isSummit) {
+            if (!realItem && isWeekday) {
                 const [locationColor, fontColor] = get_location_color(location)
                 const synthItem: Item = {
                     id: newIdx,
@@ -433,9 +432,12 @@ export const generate_holiday_items = (
         })
 
         //add holidays to pool of entries 
+        if (group.primaryLocation !== "None") { 
+        //generate_entries 
         const { synthItems, newIdx } = generate_items(group, 'Holiday', groupItems, dates, idx, 'Holiday')
         idx = newIdx
         entries = [...entries, ...synthItems]
+        }
     })
 
     return entries

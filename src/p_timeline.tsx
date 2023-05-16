@@ -175,7 +175,7 @@ export const PTimeline = (props: Props) => {
         const locationFiltering = props.controlState.location !== ""
         newGroups = locationFiltering ? filter_groups_by_location(newGroups, newItems) : newGroups
 
-        let holidayItems = generate_holiday_items( //holiday come before synthetic items
+        let holidayItems = generate_holiday_items(
             newGroups,
             newItems,
             holidays,
