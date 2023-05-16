@@ -121,7 +121,7 @@ export interface Entry {
 export interface Group {
     id: string,
     title: string
-    primaryShift: [number, number],
+    primaryShift: [string, string],
     primaryLocation: string,
     alias: string
 }
@@ -204,7 +204,13 @@ export const filter_groups_by_location = (groups: Group[], items: Item[]) => {
 export const make_employee_groups = (employees: Employee[], department: string, role: string) => {
     const groups: Group[] = []
     employees.forEach((emp: Employee, idx: number) => {
-        const primaryShift = emp.PrimaryShift && emp.PrimaryShift !== "None" ? JSON.parse(emp.PrimaryShift) : [8, 17]
+        var primaryShift: [string, string]
+        if (emp.PrimaryShift && emp.PrimaryShift !== "None") {
+            primaryShift = JSON.parse(emp.PrimaryShift) as [string, string]
+        }
+        else {
+            primaryShift = ["8:00", "17:00"]
+        }
         const primaryLocation = emp.PrimaryLocation ? emp.PrimaryLocation : 'HQ'
         const matchesDept = department === "" || emp.Department === department
         const matchesRole = role === "" || emp.Role.includes(role)
@@ -213,7 +219,7 @@ export const make_employee_groups = (employees: Employee[], department: string, 
             const group = {
                 id: emp.label as string,
                 title: emp.label as string,
-                primaryShift: primaryShift as [number, number],
+                primaryShift: primaryShift,
                 primaryLocation: primaryLocation,
                 alias: emp.Alias,
                 deptartment: emp.Department,
@@ -355,6 +361,13 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
         if (location.includes('Holiday')) realItem = undefined
         newIdx += 1
 
+        const startArray = group.primaryShift[0].split(':')
+        const endArray = group.primaryShift[1].split(':')
+        const sHour = startArray[0] 
+        const sMinute = startArray.length>1 ? JSON.parse(startArray[1]) : 0
+        const eHour = endArray[0] 
+        const eMinute = endArray.length>1 ? JSON.parse(endArray[1]) : 0
+
         if (!realItem && isWeekday && !isSummit) {
             const [locationColor, fontColor] = get_location_color(location)
             const synthItem: Item = {
@@ -366,13 +379,13 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
                 comment: comment,
                 title: location,
                 start_time: date.clone().set({
-                    hour: group.primaryShift[0],
-                    minute: 0,
+                    hour: JSON.parse(sHour),
+                    minute: JSON.parse(sMinute),
                     second: 0
                 }),
                 end_time: date.clone().set({
-                    hour: group.primaryShift[1],
-                    minute: 0,
+                    hour: JSON.parse(eHour),
+                    minute: JSON.parse(eMinute),
                     second: 0
                 }),
                 bgColor: locationColor,
