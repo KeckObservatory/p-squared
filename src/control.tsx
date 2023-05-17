@@ -187,7 +187,6 @@ export const Control = (props: Props) => {
     React.useEffect(() => {
         const set_emp_and_user = (emps: Employee[], user: User, canEdit: boolean) => {
             if (emps.length > 0) {
-                emps = emps.slice(1, emps.length) // remove first entry (*HOLIDAY)
                 const labelEmps = emps.map((emp: Employee) => {
                     const label = `${emp.LastName}, ${emp.FirstName}`
                     return { ...emp, label: label }
