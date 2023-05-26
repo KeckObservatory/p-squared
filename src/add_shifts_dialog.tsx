@@ -18,10 +18,10 @@ interface Props {
   staff: string
   employees: Employee[]
   roles: string[]
-  handleEntrySubmit: () => Promise<void> 
+  handleEntrySubmit: () => Promise<void>
 }
 
-const DAYS_OF_WEEK = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday' ]
+const DAYS_OF_WEEK = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 const PRIMARY_LOCATION = ['SU']
 
 interface ChildRefObject {
@@ -41,6 +41,14 @@ const check_for_errors = (shiftState: ShiftState, setErrMsg: Function) => {
   //location not specified
   if (!shiftState.location) {
     setErrMsg('Locations cannot be blank')
+    return true
+  }
+
+
+  //hours are zero
+  const shiftLength = Number(shiftState.endTime) - Number(shiftState.startTime)
+  if (shiftLength === 0) {
+    setErrMsg('Shift cannot be zero. Adjust times')
     return true
   }
 
@@ -147,8 +155,8 @@ export const AddShiftsDialog = (props: Props) => {
 
     const entries = shift_state_to_entries(shiftState, props.staff)
     console.log('shift entries are: ', entries)
-    entries.forEach( (entry: EntryData) => {
-        add_entry(entry)
+    entries.forEach((entry: EntryData) => {
+      add_entry(entry)
     })
     props.handleEntrySubmit()
     setOpen(false);

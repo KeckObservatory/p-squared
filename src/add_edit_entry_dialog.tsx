@@ -176,6 +176,13 @@ const check_for_errors = (entryState: EntryState, setErrMsg: Function) => {
       return true
     }
 
+    //hours are zero
+    const shiftLength = entryState.endTime - entryState.startTime
+    if (shiftLength === 0) {
+      setErrMsg('Shift cannot be zero. Adjust times')
+      return true
+    }
+
     //overlap with second location
     const overlap = check_if_overlap(entryState)
     if (overlap) {
