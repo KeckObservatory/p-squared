@@ -298,30 +298,36 @@ export const EntryForm = (props: Props) => {
                 <DateRangePicker onChange={onDateRangeChange} value={props.entryState.dateRange} />
             </div>
             <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
-                <DropDown
-                    arr={SHIFTS}
-                    value={JSON.stringify(props.entryState.startTime) + '-' + JSON.stringify(props.entryState.endTime)}
-                    handleChange={onShiftChange}
-                    label={'Shift Hours'}
-                    placeholder={""}
-                />
+                <div>
+                    <DropDown
+                        arr={SHIFTS}
+                        value={JSON.stringify(props.entryState.startTime) + '-' + JSON.stringify(props.entryState.endTime)}
+                        handleChange={onShiftChange}
+                        label={'Shift Hours'}
+                        placeholder={""}
+                    />
+                </div>
             </LargeTooltip>
             <div style={{ "display": "flex", "marginTop": "16px", "width": "100%" }}>
                 <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
-                    <DropDown
-                        arr={HOURS}
-                        value={JSON.stringify(props.entryState.startTime)}
-                        handleChange={onStartTimeChange}
-                        label={'Start Hour'}
+                    <div>
+                        <DropDown
+                            arr={HOURS}
+                            value={JSON.stringify(props.entryState.startTime)}
+                            handleChange={onStartTimeChange}
+                            label={'Start Hour'}
+                            placeholder={""}
+                        />
+                    </div>
+                </LargeTooltip>
+                <div>
+                    <DropDown arr={HOURS}
+                        value={JSON.stringify(props.entryState.endTime)}
+                        handleChange={onEndTimeChange}
+                        label={'End Hour'}
                         placeholder={""}
                     />
-                </LargeTooltip>
-                <DropDown arr={HOURS}
-                    value={JSON.stringify(props.entryState.endTime)}
-                    handleChange={onEndTimeChange}
-                    label={'End Hour'}
-                    placeholder={""}
-                />
+                </div>
             </div >
             <DropDown
                 arr={locations}

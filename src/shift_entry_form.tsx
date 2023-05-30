@@ -225,30 +225,36 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                 <DateRangePicker onChange={onDateRangeChange} value={[dateRange[0].toDate(), dateRange[1].toDate()]} />
             </div>
             <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
-                <DropDown
-                    arr={SHIFTS}
-                    value={JSON.stringify(startTime) + '-' + JSON.stringify(endTime)}
-                    handleChange={onShiftChange}
-                    label={'Shift Hours'}
-                    placeholder={""}
-                />
+                <div>
+                    <DropDown
+                        arr={SHIFTS}
+                        value={JSON.stringify(startTime) + '-' + JSON.stringify(endTime)}
+                        handleChange={onShiftChange}
+                        label={'Shift Hours'}
+                        placeholder={""}
+                    />
+                </div>
             </LargeTooltip>
             <div style={{ "display": "flex", "marginTop": "12px", "width": "100%" }}>
 
                 <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
+                    <div>
+                        <DropDown arr={HOURS}
+                            value={startTime}
+                            handleChange={onStartTimeChange}
+                            label={'Start Hour'}
+                            placeholder={""}
+                        />
+                    </div>
+                </LargeTooltip>
+                <div>
                     <DropDown arr={HOURS}
-                        value={startTime}
-                        handleChange={onStartTimeChange}
-                        label={'Start Hour'}
+                        value={endTime}
+                        handleChange={onEndTimeChange}
+                        label={'End Hour'}
                         placeholder={""}
                     />
-                </LargeTooltip>
-                <DropDown arr={HOURS}
-                    value={endTime}
-                    handleChange={onEndTimeChange}
-                    label={'End Hour'}
-                    placeholder={""}
-                />
+                </div>
             </div >
             <div>
                 <FormLabel component="legend">Shift Days of Week</FormLabel>
