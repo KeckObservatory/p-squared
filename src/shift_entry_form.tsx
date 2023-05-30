@@ -153,11 +153,11 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
     const handlePickupChange = (value: string) => {
         setAlternativePickup(value)
     }
-    
+
     const handleSummitLeadChange = (value: string) => {
         setSummitLead(value)
     }
-    
+
     const handleSupportLeadChange = (value: string) => {
         setSupportLead(value)
     }
@@ -224,20 +224,25 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                 <FormLabel component="legend">Date Range</FormLabel>
                 <DateRangePicker onChange={onDateRangeChange} value={[dateRange[0].toDate(), dateRange[1].toDate()]} />
             </div>
-            <DropDown
-                arr={SHIFTS}
-                value={JSON.stringify(startTime) + '-' + JSON.stringify(endTime)}
-                handleChange={onShiftChange}
-                label={'Shift Hours'}
-                placeholder={""}
-            />
-            <div style={{ "display": "flex", "marginTop": "12px", "width": "100%" }}>
-                <DropDown arr={HOURS}
-                    value={startTime}
-                    handleChange={onStartTimeChange}
-                    label={'Start Hour'}
+            <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
+                <DropDown
+                    arr={SHIFTS}
+                    value={JSON.stringify(startTime) + '-' + JSON.stringify(endTime)}
+                    handleChange={onShiftChange}
+                    label={'Shift Hours'}
                     placeholder={""}
                 />
+            </LargeTooltip>
+            <div style={{ "display": "flex", "marginTop": "12px", "width": "100%" }}>
+
+                <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
+                    <DropDown arr={HOURS}
+                        value={startTime}
+                        handleChange={onStartTimeChange}
+                        label={'Start Hour'}
+                        placeholder={""}
+                    />
+                </LargeTooltip>
                 <DropDown arr={HOURS}
                     value={endTime}
                     handleChange={onEndTimeChange}

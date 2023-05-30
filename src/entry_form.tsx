@@ -297,21 +297,25 @@ export const EntryForm = (props: Props) => {
             <div style={{ 'zIndex': 999, "margin": "6px", "marginRight": "0px", "width": "100%" }}>
                 <DateRangePicker onChange={onDateRangeChange} value={props.entryState.dateRange} />
             </div>
-            <DropDown
-                arr={SHIFTS}
-                value={JSON.stringify(props.entryState.startTime) + '-' + JSON.stringify(props.entryState.endTime)}
-                handleChange={onShiftChange}
-                label={'Shift Hours'}
-                placeholder={""}
-            />
-            <div style={{ "display": "flex", "marginTop": "16px", "width": "100%" }}>
+            <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
                 <DropDown
-                    arr={HOURS}
-                    value={JSON.stringify(props.entryState.startTime)}
-                    handleChange={onStartTimeChange}
-                    label={'Start Hour'}
+                    arr={SHIFTS}
+                    value={JSON.stringify(props.entryState.startTime) + '-' + JSON.stringify(props.entryState.endTime)}
+                    handleChange={onShiftChange}
+                    label={'Shift Hours'}
                     placeholder={""}
                 />
+            </LargeTooltip>
+            <div style={{ "display": "flex", "marginTop": "16px", "width": "100%" }}>
+                <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
+                    <DropDown
+                        arr={HOURS}
+                        value={JSON.stringify(props.entryState.startTime)}
+                        handleChange={onStartTimeChange}
+                        label={'Start Hour'}
+                        placeholder={""}
+                    />
+                </LargeTooltip>
                 <DropDown arr={HOURS}
                     value={JSON.stringify(props.entryState.endTime)}
                     handleChange={onEndTimeChange}
