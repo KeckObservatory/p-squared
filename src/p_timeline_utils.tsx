@@ -52,7 +52,7 @@ const get_location_color = (location: string) => {
         case "other":
             color = colorMapping['orange']
             break;
-        case "flex":
+        case "Flex":
             color = colorMapping['darkBlue']
             break;
         default:
