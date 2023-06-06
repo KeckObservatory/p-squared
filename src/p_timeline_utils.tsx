@@ -170,7 +170,7 @@ const FORMAT_LABEL: LabelFormat = {
     }
 }
 
-export const label_format = ([startTime, endTime]: [moment.Moment, moment.Moment],
+export const label_format = ([startHour, endHour]: [moment.Moment, moment.Moment],
     unit: Unit,
     labelWidth: number,
     formatOptions: LabelFormat = FORMAT_LABEL): string => {
@@ -188,7 +188,7 @@ export const label_format = ([startTime, endTime]: [moment.Moment, moment.Moment
         //@ts-ignore
         format = formatOptions[unit]['short']
     }
-    return startTime.format(format)
+    return startHour.format(format)
 }
 
 export const filter_groups_by_location = (groups: Group[], items: Item[]) => {

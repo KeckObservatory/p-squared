@@ -35,10 +35,10 @@ const get_days_between_dates = (startDate: moment.Moment, endDate: moment.Moment
 
 const add_first_location = (entryState: EntryState, dte: moment.Moment, entry: any) => {
   const startDate = dte.clone()
-    .set('hour', entryState.startTime)
+    .set('hour', entryState.startHour)
     .set('minute', 0).set('second', 0)
   let endDate = dte.clone()
-    .set('hour', entryState.endTime)
+    .set('hour', entryState.endHour)
     .set('minute', 0).set('second', 0)
   if (startDate.isAfter(endDate)) {
     console.log('adding day to endDate')
@@ -53,13 +53,13 @@ const add_first_location = (entryState: EntryState, dte: moment.Moment, entry: a
 }
 
 const add_second_location = (entryState: EntryState, dte: moment.Moment, entry: any) => {
-  const secondLocation = entryState.startTime2 && entryState.endTime2 && entryState.location2
+  const secondLocation = entryState.startHour2 && entryState.endHour2 && entryState.location2
   if (secondLocation) {
     const startDate2 = dte.clone()
-      .set('hour', entryState.startTime2 as number)
+      .set('hour', entryState.startHour2 as number)
       .set('minute', 0).set('second', 0)
     let endDate2 = dte.clone()
-      .set('hour', entryState.endTime2 as number)
+      .set('hour', entryState.endHour2 as number)
       .set('minute', 0).set('second', 0)
     if (startDate2.isAfter(endDate2)) {
       console.log('adding day to endDate')
@@ -78,12 +78,12 @@ export const state_to_entries = (entryState: EntryState) => {
   const date = moment(entryState.dateRange[0]).format(DATE_FORMAT)
   const creationTime = moment().format(DATETIME_FORMAT)
   const sd = moment(entryState.dateRange[0])
-    .set('hour', entryState.startTime)
+    .set('hour', entryState.startHour)
     .set('minute', 0).set('second', 0)
   let ed = moment(entryState.dateRange[1])
-    .set('hour', entryState.endTime)
+    .set('hour', entryState.endHour)
     .set('minute', 0).set('second', 0)
-  if (entryState.startTime > entryState.endTime) {
+  if (entryState.startHour > entryState.endHour) {
     console.log('adding day to endDate')
     ed = ed.add(1, 'days') // add 24 hours so that startDate <= endDate
   }
@@ -118,28 +118,28 @@ export const state_to_entries = (entryState: EntryState) => {
 
 const check_if_overlap = (entryState: EntryState) => {
 
-    const secondLocation = entryState.startTime2
-      && entryState.endTime2
+    const secondLocation = entryState.startHour2
+      && entryState.endHour2
       && entryState.location2
     if (secondLocation) {
       const sd = moment(entryState.dateRange[0])
-        .set('hour', entryState.startTime)
+        .set('hour', entryState.startHour)
         .set('minute', 0).set('second', entryState.startMinutes).set('millisecond', 0)
       let ed = moment(entryState.dateRange[0])
-        .set('hour', entryState.endTime)
+        .set('hour', entryState.endHour)
         .set('minute', 0).set('second', entryState.endMinutes).set('millisecond', 0)
-      if (entryState.startTime > entryState.endTime) {
+      if (entryState.startHour > entryState.endHour) {
         console.log('adding day to endDate')
         ed = ed.add(1, 'days') // add 24 hours so that startDate <= endDate
       }
 
       const sd2 = moment(entryState.dateRange[0])
-        .set('hour', entryState.startTime2 as number)
+        .set('hour', entryState.startHour2 as number)
         .set('minute', 0).set('second', entryState.startMinutes2 ?? 0)
       let ed2 = moment(entryState.dateRange[0])
-        .set('hour', entryState.endTime2 as number)
+        .set('hour', entryState.endHour2 as number)
         .set('minute', 0).set('second', entryState.endMinutes2 ?? 0)
-      const wrapAround = (entryState.startTime2 as number) > (entryState.endTime2 as number)
+      const wrapAround = (entryState.startHour2 as number) > (entryState.endHour2 as number)
       if (wrapAround) {
         console.log('adding day to endDate')
         ed2 = ed2.add(1, 'days') // add 24 hours so that startDate <= endDate
@@ -177,7 +177,7 @@ const check_for_errors = (entryState: EntryState, setErrMsg: Function) => {
     }
 
     //hours are zero
-    const shiftLength = entryState.endTime - entryState.startTime
+    const shiftLength = entryState.endHour - entryState.startHour
     if (shiftLength === 0) {
       setErrMsg('Shift cannot be zero. Adjust times')
       return true
@@ -192,7 +192,7 @@ const check_for_errors = (entryState: EntryState, setErrMsg: Function) => {
 
     //location not specified
     const missing2ndLoc = entryState.location2 === undefined &&
-      (entryState.startTime2 !== undefined && entryState.endTime2 !== undefined)
+      (entryState.startHour2 !== undefined && entryState.endHour2 !== undefined)
     if (!entryState.location || missing2ndLoc) {
       setErrMsg('Locations cannot be blank')
       return true
@@ -225,8 +225,8 @@ export const AddEditEntryDialog = (props: Props) => {
         {
           ...currentState,
           location2: props.edit ? currentState.location2 : undefined,
-          startTime2: props.edit ? currentState.startTime2 : undefined,
-          endTime2: props.edit ? currentState.endTime2 : undefined,
+          startHour2: props.edit ? currentState.startHour2 : undefined,
+          endHour2: props.edit ? currentState.endHour2 : undefined,
           comment: props.edit ? currentState.comment : undefined
         }
       )

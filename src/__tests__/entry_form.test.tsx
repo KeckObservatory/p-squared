@@ -19,8 +19,8 @@ import { default as mock_employees } from '../employees.json'
 //       staff: "ttester",
 //       alias: "ttester",
 //       dateRange: [new Date(), new Date()] as [Date | string, Date | string],
-//       startTime: 8,
-//       endTime: 17
+//       startHour: 8,
+//       endHour: 17
 //     },
 //     setEntryState: (state: any) => { }
 //   }

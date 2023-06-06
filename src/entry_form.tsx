@@ -134,21 +134,21 @@ export const EntryForm = (props: Props) => {
     }
 
     const onShift2Change = (value: string) => {
-        const [startTime, endTime] = value.split('-')
+        const [startHour, endHour] = value.split('-')
         props.setEntryState(
-            { ...props.entryState, startTime2: JSON.parse(startTime), endTime2: JSON.parse(endTime) }
+            { ...props.entryState, startHour2: JSON.parse(startHour), endHour2: JSON.parse(endHour) }
         )
     }
 
-    const onStartTime2Change = (value: string) => {
+    const onStartHour2Change = (value: string) => {
         props.setEntryState(
-            { ...props.entryState, startTime2: JSON.parse(value) }
+            { ...props.entryState, startHour2: JSON.parse(value) }
         )
     }
 
-    const onEndTime2Change = (value: string) => {
+    const onEndHour2Change = (value: string) => {
         props.setEntryState(
-            { ...props.entryState, endTime2: JSON.parse(value) }
+            { ...props.entryState, endHour2: JSON.parse(value) }
         )
     }
 
@@ -191,21 +191,21 @@ export const EntryForm = (props: Props) => {
     }
 
     const onShiftChange = (value: string) => {
-        const [startTime, endTime] = value.split('-')
+        const [startHour, endHour] = value.split('-')
         props.setEntryState(
-            { ...props.entryState, startTime: JSON.parse(startTime), endTime: JSON.parse(endTime) }
+            { ...props.entryState, startHour: JSON.parse(startHour), endHour: JSON.parse(endHour) }
         )
     }
 
-    const onStartTimeChange = (value: string) => {
+    const onStartHourChange = (value: string) => {
         props.setEntryState(
-            { ...props.entryState, startTime: Number(value) }
+            { ...props.entryState, startHour: Number(value) }
         )
     }
 
-    const onEndTimeChange = (value: string) => {
+    const onEndHourChange = (value: string) => {
         props.setEntryState(
-            { ...props.entryState, endTime: Number(value) }
+            { ...props.entryState, endHour: Number(value) }
         )
     }
 
@@ -329,7 +329,7 @@ export const EntryForm = (props: Props) => {
                 <div>
                     <DropDown
                         arr={SHIFTS}
-                        value={JSON.stringify(props.entryState.startTime) + '-' + JSON.stringify(props.entryState.endTime)}
+                        value={JSON.stringify(props.entryState.startHour) + '-' + JSON.stringify(props.entryState.endHour)}
                         handleChange={onShiftChange}
                         label={'Shift Hours'}
                         placeholder={""}
@@ -341,8 +341,8 @@ export const EntryForm = (props: Props) => {
                     <div>
                         <DropDown
                             arr={HOURS}
-                            value={JSON.stringify(props.entryState.startTime)}
-                            handleChange={onStartTimeChange}
+                            value={JSON.stringify(props.entryState.startHour)}
+                            handleChange={onStartHourChange}
                             label={'Start Hour'}
                             placeholder={""}
                         />
@@ -350,8 +350,8 @@ export const EntryForm = (props: Props) => {
                 </LargeTooltip>
                 <div>
                     <DropDown arr={HOURS}
-                        value={JSON.stringify(props.entryState.endTime)}
-                        handleChange={onEndTimeChange}
+                        value={JSON.stringify(props.entryState.endHour)}
+                        handleChange={onEndHourChange}
                         label={'End Hour'}
                         placeholder={""}
                     />
@@ -431,21 +431,21 @@ export const EntryForm = (props: Props) => {
                 <React.Fragment>
                     <DropDown
                         arr={SHIFTS}
-                        value={JSON.stringify(props.entryState.startTime2) + '-' + JSON.stringify(props.entryState.endTime2)}
+                        value={JSON.stringify(props.entryState.startHour2) + '-' + JSON.stringify(props.entryState.endHour2)}
                         handleChange={onShift2Change}
                         label={'Shift Hours'}
                         placeholder={""}
                     />
                     <div style={{ "display": "flex", "marginTop": "12px", "width": "100%" }}>
                         <DropDown arr={HOURS}
-                            value={JSON.stringify(props.entryState.startTime2)}
-                            handleChange={onStartTime2Change}
+                            value={JSON.stringify(props.entryState.startHour2)}
+                            handleChange={onStartHour2Change}
                             label={'Start Hour'}
                             placeholder={""}
                         />
                         <DropDown arr={HOURS}
-                            value={JSON.stringify(props.entryState.endTime2)}
-                            handleChange={onEndTime2Change}
+                            value={JSON.stringify(props.entryState.endHour2)}
+                            handleChange={onEndHour2Change}
                             label={'End Hour'}
                             placeholder={""}
                         />

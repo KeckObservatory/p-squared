@@ -46,14 +46,14 @@ const check_for_errors = (shiftState: ShiftState, setErrMsg: Function) => {
 
 
   //hours are zero
-  const shiftLength = Number(shiftState.endTime) - Number(shiftState.startTime)
+  const shiftLength = Number(shiftState.endHour) - Number(shiftState.startHour)
   if (shiftLength === 0) {
     setErrMsg('Shift cannot be zero. Adjust times')
     return true
   }
 
   //start hour > end hour
-  if (JSON.parse(shiftState.startTime) >= JSON.parse(shiftState.endTime)) {
+  if (JSON.parse(shiftState.startHour) >= JSON.parse(shiftState.endHour)) {
     setErrMsg('Start time cannot be larger than end time')
     return true
   }
@@ -110,10 +110,10 @@ const shift_state_to_entries = (shiftState: ShiftState, staff: string) => {
     dates.forEach((date: moment.Moment) => {
       const dateStr = date.format(DATE_FORMAT)
       const startDatetime = date.clone()
-        .set('hour', JSON.parse(shiftState.startTime))
+        .set('hour', JSON.parse(shiftState.startHour))
         .set('minute', 0).set('second', Number(shiftState.startMinutes))
       let endDatetime = date.clone()
-        .set('hour', JSON.parse(shiftState.endTime))
+        .set('hour', JSON.parse(shiftState.endHour))
         .set('minute', 0).set('second', Number(shiftState.endMinutes))
       const shift = JSON.stringify([startDatetime.format(DATETIME_FORMAT), endDatetime.format(DATETIME_FORMAT)])
       const entry = {

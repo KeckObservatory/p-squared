@@ -226,8 +226,8 @@ export const PTimeline = (props: Props) => {
                     location: item.location,
                     department: item.department ? item.department : entryState.department,
                     baseCamp: item.baseCamp ? item.baseCamp : entryState.baseCamp,
-                    startTime: st.hour(),
-                    endTime: et.hour(),
+                    startHour: st.hour(),
+                    endHour: et.hour(),
                     dateRange: [item.start_time, item.end_time],
                     entryId: item.entryId
                 })

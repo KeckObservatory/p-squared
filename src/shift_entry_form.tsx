@@ -50,8 +50,8 @@ export interface ShiftState {
     summitLead: string,
     alternatePickup: string,
     location: string,
-    startTime: string,
-    endTime: string,
+    startHour: string,
+    endHour: string,
     startMinutes: string,
     endMinutes: string
     dateRange: [moment.Moment, moment.Moment],
@@ -69,8 +69,8 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
     const [summitLead, setSummitLead] = useState("")
     const [alternatePickup, setAlternativePickup] = useState("")
     const [location, setLocation] = useState("")
-    const [startTime, setStartTime] = useState("")
-    const [endTime, setEndTime] = useState("")
+    const [startHour, setStartHour] = useState("")
+    const [endHour, setEndHour] = useState("")
     const [startMinutes, setStartMinutes] = useState("0")
     const [endMinutes, setEndMinutes] = useState("0")
     const [dateRange, setDateRange] = useState([moment(), moment()])
@@ -98,8 +98,8 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                     summitLead,
                     alternatePickup,
                     location: location,
-                    startTime,
-                    endTime,
+                    startHour,
+                    endHour,
                     startMinutes,
                     endMinutes,
                     dateRange,
@@ -169,17 +169,17 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
     }
 
     const onShiftChange = (value: string) => {
-        const [startTime, endTime] = value.split('-')
-        setStartTime(startTime)
-        setEndTime(endTime)
+        const [startHour, endHour] = value.split('-')
+        setStartHour(startHour)
+        setEndHour(endHour)
     }
 
-    const onStartTimeChange = (value: string) => {
-        setStartTime(value)
+    const onStartHourChange = (value: string) => {
+        setStartHour(value)
     }
 
-    const onEndTimeChange = (value: string) => {
-        setEndTime(value)
+    const onEndHourChange = (value: string) => {
+        setEndHour(value)
     }
 
 
@@ -239,7 +239,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                 <div>
                     <DropDown
                         arr={SHIFTS}
-                        value={JSON.stringify(startTime) + '-' + JSON.stringify(endTime)}
+                        value={JSON.stringify(startHour) + '-' + JSON.stringify(endHour)}
                         handleChange={onShiftChange}
                         label={'Shift Hours'}
                         placeholder={""}
@@ -251,8 +251,8 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                 <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
                     <div>
                         <DropDown arr={HOURS}
-                            value={startTime}
-                            handleChange={onStartTimeChange}
+                            value={startHour}
+                            handleChange={onStartHourChange}
                             label={'Start Hour'}
                             placeholder={""}
                         />
@@ -260,8 +260,8 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                 </LargeTooltip>
                 <div>
                     <DropDown arr={HOURS}
-                        value={endTime}
-                        handleChange={onEndTimeChange}
+                        value={endHour}
+                        handleChange={onEndHourChange}
                         label={'End Hour'}
                         placeholder={""}
                     />

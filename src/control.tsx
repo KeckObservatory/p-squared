@@ -122,13 +122,13 @@ export interface EntryState {
     crewLead?: string,
     supportLead?: string,
     summitLead?: string,
-    startTime: number,
+    startHour: number,
     startMinutes: number,
-    endTime: number,
+    endHour: number,
     endMinutes: number,
-    startTime2?: number,
+    startHour2?: number,
     startMinutes2?: number,
-    endTime2?: number,
+    endHour2?: number,
     endMinutes2?: number,
     location2?: string,
     staff: string, //always the user
@@ -184,9 +184,9 @@ export const Control = (props: Props) => {
 
     const [entryState, setEntryState] = React.useState({
         dateRange: [now.toDate(), now.toDate()],
-        startTime: 8,
+        startHour: 8,
         startMinutes: 0,
-        endTime: 17,
+        endHour: 17,
         endMinutes: 0
     } as EntryState)
 
