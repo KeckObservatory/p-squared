@@ -86,8 +86,9 @@ location = [
     "Vacation",
     "JuryDuty",
     "FamilySick",
+    "Flex",
     "Travel",
-    "NS"
+    "NgtSup"
 ]
 
 comments = [

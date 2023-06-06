@@ -1,5 +1,5 @@
 import FormControl from '@mui/material/FormControl';
-import React, { useContext, createContext, useState } from 'react'
+import React from 'react'
 import DropDown from './drop_down'
 import moment from 'moment'
 import { YearMonthPicker } from './year_month_picker'
@@ -29,11 +29,6 @@ export interface ControlState {
     idx: number
 }
 
-const init_entry_state_context = {} as EntryState
-
-const EntryStateContext = createContext<EntryState>(init_entry_state_context)
-export const useEntryStateContext = () => useContext(EntryStateContext)
-
 export const ABV_LOCATIONS = [
     "",
     "HQ",
@@ -44,8 +39,9 @@ export const ABV_LOCATIONS = [
     "WFH",
     "Remote",
     "Leave",
+    "Flex",
     "Travel",
-    "NS"
+    "NgtSup"
 ]
 
 export const ALL_LOCATIONS = [
@@ -61,8 +57,22 @@ export const ALL_LOCATIONS = [
     "Vacation",
     "JuryDuty",
     "FamilySick",
+    "Flex",
     "Travel",
-    "NS"
+    "NgtSup"
+]
+
+export const REDUCED_LOCATIONS = [
+    "",
+    "HQ",
+    "SU",
+    "HP",
+    "Hilo",
+    "Kona",
+    "WFH",
+    "Flex",
+    "Travel",
+    "NgtSup"
 ]
 
 export const DEPARTMENTS = [
@@ -82,13 +92,13 @@ export const DEPARTMENTS = [
     'Guest'
 ];
 
-export const ALTERNATE_PICKUP = [ '', 'HPP', 'HQ', 'Hilo', 'SJP', 'WJP'
+export const ALTERNATE_PICKUP = ['', 'HPP', 'HQ', 'Hilo', 'SJP', 'WJP'
 ]
 
 export const SUMMIT_LEAD = [ '', '7-3', '7-9', '9-5', '3-5'
 ]
 
-export const SUPPORT_LEAD = [ '', '1', '2', '3',
+export const SUPPORT_LEAD = ['', 'K1', 'K2', 'K1 & K2',
 ]
 
 export const CREW_LEAD = [
@@ -159,8 +169,17 @@ export const Control = (props: Props) => {
     const [roles, setRoles] = React.useState([] as string[])
     const [state, setState] = useQueryParam('controlState', withDefault(ObjectParam, initState as any))
 
+    if (!state.date) {
+        setState(
+            {
+                ...state,
+                date: now.format(DATE_FORMAT),
+            }
+        )
+    }
+
     const [entryState, setEntryState] = React.useState({
-        dateRange: [new Date(), new Date()],
+        dateRange: [now.toDate(), now.toDate()],
         startTime: 8,
         endTime: 17
     } as EntryState)
@@ -168,7 +187,6 @@ export const Control = (props: Props) => {
     React.useEffect(() => {
         const set_emp_and_user = (emps: Employee[], user: User, canEdit: boolean) => {
             if (emps.length > 0) {
-                emps = emps.slice(1, emps.length) // remove first entry (*HOLIDAY)
                 const labelEmps = emps.map((emp: Employee) => {
                     const label = `${emp.LastName}, ${emp.FirstName}`
                     return { ...emp, label: label }
@@ -188,7 +206,7 @@ export const Control = (props: Props) => {
                     employeeId: employee ? employee.EId : undefined,
                     department: user.Department,
                     baseCamp: user.BaseCamp,
-                    canEdit: canEdit 
+                    canEdit: canEdit
                 }
                 console.log('state init to...', newState)
                 setEntryState(
@@ -281,7 +299,6 @@ export const Control = (props: Props) => {
 
 
     return (
-        <EntryStateContext.Provider value={entryState} >
             <Paper sx={{ margin: '4px', paddingTop: '2px' }} elevation={3}>
                 <Box sx={{ marginTop: '16px' }}
                 >
@@ -289,7 +306,7 @@ export const Control = (props: Props) => {
                         <YearMonthPicker date={moment(state.date, DATE_FORMAT)} handleDateChange={handleDateChange} />
                     </FormControl>
                     <FormControl aria-label='location' sx={{ width: 100, margin: '6px', marginTop: '6px' }}>
-                        <DropDown 
+                        <DropDown
                             aria-label='location'
                             arr={ABV_LOCATIONS}
                             handleChange={handleLocationChange}
@@ -331,19 +348,24 @@ export const Control = (props: Props) => {
                     <AddEditEntryDialog
                         employees={employees}
                         edit={false}
+                        entryState={entryState}
                         setEntryState={setEntryState}
                         handleEntrySubmit={handleEntrySubmit} />
-                    <AddShiftsDialog
-                        staff={entryState.staff}
-                        employees={employees}
-                        roles={roles}
-                        handleEntrySubmit={handleEntrySubmit}
-                    />
+                    {entryState.canEdit && (
+                        <AddShiftsDialog
+                            staff={entryState.staff}
+                            employees={employees}
+                            roles={roles}
+                            handleEntrySubmit={handleEntrySubmit}
+                        />
+                    )
+                    }
                 </Box>
                 {filtEmployees.length > 0 ? (
                     < PTimeline
                         name={name}
                         canEdit={entryState.canEdit}
+                        entryState={entryState}
                         setEntryState={setEntryState}
                         handleEntrySubmit={handleEntrySubmit}
                         employees={filtEmployees}
@@ -355,7 +377,6 @@ export const Control = (props: Props) => {
                         <Skeleton variant="rectangular" height={118} />
                     </React.Fragment>}
             </Paper >
-        </EntryStateContext.Provider>
     )
 
 }

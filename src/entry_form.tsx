@@ -3,11 +3,12 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import DropDown from './drop_down';
-import { Autocomplete, AutocompleteRenderInputParams, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from "@mui/material";
+import { Autocomplete, AutocompleteRenderInputParams, Typography } from "@mui/material";
 import {
     Employee,
     EntryState,
     ALL_LOCATIONS,
+    REDUCED_LOCATIONS,
     ALTERNATE_PICKUP,
     SUMMIT_LEAD,
     SUPPORT_LEAD,
@@ -16,6 +17,7 @@ import {
 } from './control';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { get_staffinfo, User } from './api';
+import { LargeTooltip } from "./App";
 
 const formControlStyle = {
     minWidth: 120,
@@ -31,6 +33,17 @@ const formControlStyle = {
 export const HOURS = [
     "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12",
     "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"
+]
+
+export const SHIFTS = [
+    "5-15",
+    "7-15",
+    "7-17",
+    "8-17",
+    "8-12",
+    "9-18",
+    "12-16",
+    "13-17",
 ]
 
 interface Props {
@@ -50,7 +63,11 @@ export const EntryForm = (props: Props) => {
         rideboardLocations.includes(props.entryState.location2 as string)
     console.log('location', props.entryState.location, 'location2', props.entryState.location2, 'isRideboard', isRideBoard)
 
+    const locations = props.entryState.canEdit ? ALL_LOCATIONS : REDUCED_LOCATIONS
+    console.log('locations', locations, 'canEdit?', props.entryState.canEdit)
+
     useEffect(() => {
+
 
         if (!props.edit) {
 
@@ -72,8 +89,6 @@ export const EntryForm = (props: Props) => {
                             baseCamp: user.BaseCamp,
                             staff: user.Alias,
                             alias: user.Alias,
-                            // canEdit: user?.Admin === 'True'
-                            canEdit: true
                         }
                     )
                 })
@@ -116,6 +131,13 @@ export const EntryForm = (props: Props) => {
         })
     }
 
+    const onShift2Change = (value: string) => {
+        const [startTime, endTime] = value.split('-')
+        props.setEntryState(
+            { ...props.entryState, startTime2: JSON.parse(startTime), endTime2: JSON.parse(endTime) }
+        )
+    }
+
     const onStartTime2Change = (value: string) => {
         props.setEntryState(
             { ...props.entryState, startTime2: JSON.parse(value) }
@@ -151,6 +173,14 @@ export const EntryForm = (props: Props) => {
             newState
         )
     }
+
+    const onShiftChange = (value: string) => {
+        const [startTime, endTime] = value.split('-')
+        props.setEntryState(
+            { ...props.entryState, startTime: JSON.parse(startTime), endTime: JSON.parse(endTime) }
+        )
+    }
+
     const onStartTimeChange = (value: string) => {
         props.setEntryState(
             { ...props.entryState, startTime: JSON.parse(value) }
@@ -171,7 +201,6 @@ export const EntryForm = (props: Props) => {
         )
     }
 
-
     const handleCommentChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
         props.setEntryState(
             { ...props.entryState, comment: evt.target.value }
@@ -189,15 +218,12 @@ export const EntryForm = (props: Props) => {
         )
     }
     const handleSupportLeadChange = (value: string) => {
+        const idx = SUPPORT_LEAD.findIndex((el) => el === value)
         props.setEntryState(
-            { ...props.entryState, supportLead: value }
+            { ...props.entryState, supportLead: idx }
         )
     }
-    const handleCrewLeadChange = (value: string) => {
-        props.setEntryState(
-            { ...props.entryState, crewLead: value }
-        )
-    }
+
     const handleSeatChange = (value: string) => {
         props.setEntryState(
             { ...props.entryState, seats: value }
@@ -221,6 +247,9 @@ export const EntryForm = (props: Props) => {
                 InputLabelProps={{ shrink: true }}
                 label="Name" />
     }
+
+
+    const supportLeadValue = props.entryState.supportLead ? SUPPORT_LEAD[JSON.parse(props.entryState.supportLead)] : props.entryState.supportLead
 
     return (
         <Box
@@ -268,82 +297,98 @@ export const EntryForm = (props: Props) => {
             <div style={{ 'zIndex': 999, "margin": "6px", "marginRight": "0px", "width": "100%" }}>
                 <DateRangePicker onChange={onDateRangeChange} value={props.entryState.dateRange} />
             </div>
+            <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
+                <div>
+                    <DropDown
+                        arr={SHIFTS}
+                        value={JSON.stringify(props.entryState.startTime) + '-' + JSON.stringify(props.entryState.endTime)}
+                        handleChange={onShiftChange}
+                        label={'Shift Hours'}
+                        placeholder={""}
+                    />
+                </div>
+            </LargeTooltip>
             <div style={{ "display": "flex", "marginTop": "16px", "width": "100%" }}>
-                <DropDown 
-                    arr={HOURS}
-                    value={JSON.stringify(props.entryState.startTime)}
-                    handleChange={onStartTimeChange}
-                    label={'Start Hour'}
-                    placeholder={""}
-                />
-                <DropDown arr={HOURS}
-                    value={JSON.stringify(props.entryState.endTime)}
-                    handleChange={onEndTimeChange}
-                    label={'End Hour'}
-                    placeholder={""}
-                />
+                <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
+                    <div>
+                        <DropDown
+                            arr={HOURS}
+                            value={JSON.stringify(props.entryState.startTime)}
+                            handleChange={onStartTimeChange}
+                            label={'Start Hour'}
+                            placeholder={""}
+                        />
+                    </div>
+                </LargeTooltip>
+                <div>
+                    <DropDown arr={HOURS}
+                        value={JSON.stringify(props.entryState.endTime)}
+                        handleChange={onEndTimeChange}
+                        label={'End Hour'}
+                        placeholder={""}
+                    />
+                </div>
             </div >
             <DropDown
-                arr={ALL_LOCATIONS}
+                arr={locations}
                 value={props.entryState.location}
                 handleChange={handleLocationChange}
                 label={'Location'}
                 placeholder={""}
             />
+
             {isRideBoard &&
                 <React.Fragment>
                     <Typography>Ride Board Form</Typography>
-
                     <DropDown
                         arr={ALTERNATE_PICKUP}
                         value={props.entryState.alternatePickup}
                         handleChange={handlePickupChange}
-                        label={'Alternate Pickup'}
+                        label={'Alternate Pickup Location'}
                         placeholder={""}
                     />
-                    <DropDown
-                        arr={SUMMIT_LEAD}
-                        value={props.entryState.summitLead}
-                        handleChange={handleSummitLeadChange}
-                        label={'Summit Lead'}
-                        placeholder={""}
-                    />
+                    <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
+                        <div>
+                            <DropDown
+                                arr={SUMMIT_LEAD}
+                                value={props.entryState.summitLead}
+                                handleChange={handleSummitLeadChange}
+                                label={'Summit Lead'}
+                                placeholder={""}
+                            />
+                        </div>
+                    </LargeTooltip>
                     <DropDown
                         arr={SUPPORT_LEAD}
-                        value={props.entryState.supportLead}
+                        value={supportLeadValue}
                         handleChange={handleSupportLeadChange}
                         label={'Support Lead'}
                         placeholder={""}
                     />
-
-                    <Typography>Crew Lead</Typography>
-                    <FormControl>
-                        <RadioGroup
-                            row
-                            value={props.entryState.crewLead}
-                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                                handleCrewLeadChange(event.target.value)
-                            }}
-                        >
-                            {
-                                CREW_LEAD.map((cl: string) => {
-                                    return <FormControlLabel value={cl} control={<Radio />} label={cl} />
-                                })
-                            }
-                        </RadioGroup>
-                    </FormControl>
-                    <DropDown
-                        arr={SEATS}
-                        value={props.entryState.seats}
-                        handleChange={handleSeatChange}
-                        label={'SEATS'}
-                        placeholder={""}
-                    />
+                    <LargeTooltip placement="left" title={"Enter additional seats needed"}>
+                        <div>
+                            <DropDown
+                                arr={SEATS}
+                                value={props.entryState.seats}
+                                handleChange={handleSeatChange}
+                                label={'Additional Seats'}
+                                placeholder={""}
+                            />
+                        </div>
+                    </LargeTooltip>
                 </React.Fragment>
             }
             <Button onClick={handle2ndLocationSelect}>Add 2nd location</Button>
-            {show2ndLocation &&
+            {
+                show2ndLocation &&
                 <React.Fragment>
+                    <DropDown
+                        arr={SHIFTS}
+                        value={JSON.stringify(props.entryState.startTime2) + '-' + JSON.stringify(props.entryState.endTime2)}
+                        handleChange={onShift2Change}
+                        label={'Shift Hours'}
+                        placeholder={""}
+                    />
                     <div style={{ "display": "flex", "marginTop": "12px", "width": "100%" }}>
                         <DropDown arr={HOURS}
                             value={JSON.stringify(props.entryState.startTime2)}
@@ -358,7 +403,7 @@ export const EntryForm = (props: Props) => {
                             placeholder={""}
                         />
                     </div >
-                    <DropDown arr={ALL_LOCATIONS}
+                    <DropDown arr={locations}
                         value={props.entryState.location2}
                         handleChange={handleLocation2Change}
                         label={'Location'}
@@ -373,6 +418,6 @@ export const EntryForm = (props: Props) => {
                 id="note"
                 onChange={handleCommentChange}
                 value={props.entryState.comment} />
-        </Box>
+        </Box >
     );
 }

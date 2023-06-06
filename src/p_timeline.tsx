@@ -10,7 +10,7 @@ import Timeline, {
 } from 'react-calendar-timeline'
 import './p_timeline.css'
 import moment from 'moment'
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import Button from '@mui/material/Button'
 import { delete_entry_by_id, get_entries_by_date_range, get_holidays } from './api'
 import { ControlState, Employee, EntryState, DATE_FORMAT } from './control'
@@ -33,9 +33,10 @@ import DialogTitle from '@mui/material/DialogTitle'
 interface Props {
     controlState: ControlState,
     setControlState: Function,
+    entryState: EntryState,
     employees: Employee[],
     name?: string,
-    canEdit?: boolean 
+    canEdit?: boolean
     setEntryState: Function,
     handleEntrySubmit: () => Promise<void>
 }
@@ -52,7 +53,7 @@ export const PTimeline = (props: Props) => {
     const [selectedItem, setSelectedItem] = React.useState(undefined as unknown as Item);
 
     const [open, setOpen] = React.useState(false)
-    const init_groups = make_employee_groups(props.employees, 
+    const init_groups = make_employee_groups(props.employees,
         props.controlState.department,
         props.controlState.role) as TimelineGroupBase[]
     const init_items = [] as TimelineItemBase<any>[]
@@ -61,8 +62,8 @@ export const PTimeline = (props: Props) => {
     const initVisibleTimeStart = moment(props.controlState.date, DATE_FORMAT)
         .startOf(initUnit)
     const initVisibleTimeEnd = moment(props.controlState.date, DATE_FORMAT)
-        .startOf(initUnit)
-        .add(7, "day")
+        .startOf(initUnit).add(1, initUnit)
+
     const init_state: State = {
         visibleTimeStart: initVisibleTimeStart.format(DATE_FORMAT),
         visibleTimeEnd: initVisibleTimeEnd.format(DATE_FORMAT),
@@ -84,6 +85,11 @@ export const PTimeline = (props: Props) => {
             const visibleTimeEnd = date.clone()
                 .startOf(state.unit as any)
                 .add(1, state.unit as any)
+
+            if (state.unit === 'week') {
+                visibleTimeStart.add(1, "day")
+                visibleTimeEnd.add(1, "day")
+            }
             setState({
                 ...state,
                 visibleTimeStart: visibleTimeStart.format(DATE_FORMAT),
@@ -106,13 +112,13 @@ export const PTimeline = (props: Props) => {
         }
 
         control_state_change_handler()
-    }, [props.controlState.date, 
-        props.controlState.department, 
-        props.controlState.role, 
-        props.controlState.location, 
-        props.controlState.idx, 
-        state.unit, 
-        props.controlState.nameFilter])
+    }, [props.controlState.date,
+    props.controlState.department,
+    props.controlState.role,
+    props.controlState.location,
+    props.controlState.idx,
+    state.unit,
+    props.controlState.nameFilter])
 
     const handleTimeHeaderChange = async (unit: Unit) => {
         console.log('handleTimeHeaderChange selected', unit)
@@ -162,14 +168,14 @@ export const PTimeline = (props: Props) => {
         holidays: string[]
     ) => {
 
-        let newGroups = make_employee_groups(props.employees, 
+        let newGroups = make_employee_groups(props.employees,
             props.controlState.department,
             props.controlState.role)
         let newItems = entries_to_items(entries)
         const locationFiltering = props.controlState.location !== ""
         newGroups = locationFiltering ? filter_groups_by_location(newGroups, newItems) : newGroups
 
-        let holidayItems = generate_holiday_items( //holiday come before synthetic items
+        let holidayItems = generate_holiday_items(
             newGroups,
             newItems,
             holidays,
@@ -184,11 +190,11 @@ export const PTimeline = (props: Props) => {
             newItems[idx]['id'] = idx + startIdx
 
             if (state.unit.includes('month')) { //month items are a full day
-                const start_display_time = newItems[idx].start_time.clone()
-                const end_display_time = newItems[idx].end_time.clone()
+                const start_actual_time = newItems[idx].start_time.clone()
+                const end_actual_time = newItems[idx].end_time.clone()
                 newItems[idx].start_time.startOf('day')
                 newItems[idx].end_time.endOf('day')
-                newItems[idx] = { ...newItems[idx], start_display_time, end_display_time } as Item
+                newItems[idx] = { ...newItems[idx], start_actual_time, end_actual_time } as Item
             }
         }
 
@@ -200,7 +206,7 @@ export const PTimeline = (props: Props) => {
     const onItemClick = (itemId: number, evt: any, time: any) => {
         const item = items.find(i => itemId === i.id) as Item
         const matches_name = props.name === item.group
-        const employee = props.employees.find( (employee: Employee) => {
+        const employee = props.employees.find((employee: Employee) => {
             const name = employee.LastName + ', ' + employee.FirstName
             return item.group.includes(name)
         })
@@ -208,18 +214,21 @@ export const PTimeline = (props: Props) => {
             setOpen(true)
             console.log('itemId', itemId, 'item', item, evt, time)
             setSelectedItem(item)
-            props.setEntryState( (entryState: EntryState) => {
-               return( {
+
+            const st = item.start_actual_time ? item.start_actual_time : item.start_time
+            const et = item.end_actual_time ? item.end_actual_time : item.end_time
+            props.setEntryState((entryState: EntryState) => {
+                return ({
                     ...entryState,
                     name: item.group,
                     alias: employee?.Alias,
-                    employeeId: employee ? employee.EId : undefined, 
+                    employeeId: employee ? employee.EId : undefined,
                     comment: item.comment,
                     location: item.location,
                     department: item.department ? item.department : entryState.department,
                     baseCamp: item.baseCamp ? item.baseCamp : entryState.baseCamp,
-                    startTime: item.start_time.hour(),
-                    endTime: item.end_time.hour(),
+                    startTime: st.hour(),
+                    endTime: et.hour(),
                     dateRange: [item.start_time, item.end_time],
                     entryId: item.entryId
                 })
@@ -273,11 +282,14 @@ export const PTimeline = (props: Props) => {
                     itemHeightRatio={0.85}
                     canMove={false}
                     canResize={false}
+                    minZoom={moment(state.visibleTimeStart, DATE_FORMAT).valueOf()}
+                    maxZoom={moment(state.visibleTimeEnd, DATE_FORMAT).valueOf()}
                     visibleTimeStart={moment(state.visibleTimeStart, DATE_FORMAT).valueOf()}
                     visibleTimeEnd={moment(state.visibleTimeEnd, DATE_FORMAT).valueOf()}
                     itemRenderer={itemRenderer}
                     onTimeChange={handleTimeChange}
                     onItemSelect={onItemClick}
+                    buffer={1}
                     onItemClick={onItemClick}
                 >
                     <TimelineHeaders className="sticky">
@@ -290,7 +302,16 @@ export const PTimeline = (props: Props) => {
                         <DateHeader labelFormat={label_format} />
                     </TimelineHeaders>
                     <TimelineMarkers>
-                        <CustomMarker date={HIdate} />
+                        <CustomMarker date={HIdate}>
+                            {({ styles, date }) => {
+                                const customStyles = {
+                                    ...styles,
+                                    backgroundColor: 'deeppink',
+                                    width: '12px'
+                                }
+                                return <div style={customStyles} />
+                            }}
+                        </CustomMarker>
                     </TimelineMarkers>
                 </Timeline>
             )}
@@ -304,6 +325,7 @@ export const PTimeline = (props: Props) => {
                 </Button>
                 <AddEditEntryDialog
                     employees={props.employees}
+                    entryState={props.entryState}
                     setEntryState={props.setEntryState}
                     edit={true}
                     handleEntrySubmit={props.handleEntrySubmit}

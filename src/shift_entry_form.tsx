@@ -3,18 +3,17 @@ import moment from "moment";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import DropDown from './drop_down';
-import { Autocomplete, AutocompleteChangeDetails, AutocompleteChangeReason, Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel, InputLabel, ListItemText, MenuItem, OutlinedInput, Radio, RadioGroup, Select, SelectChangeEvent, Typography } from "@mui/material";
+import { Autocomplete, AutocompleteChangeDetails, AutocompleteChangeReason, Checkbox, FormControlLabel, FormLabel, Typography } from "@mui/material";
 import {
     Employee,
     ALTERNATE_PICKUP,
     SUMMIT_LEAD,
     SUPPORT_LEAD,
-    CREW_LEAD,
     SEATS
 } from './control';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
-import Chip from '@mui/material/Chip';
-import { HOURS } from "./entry_form";
+import { HOURS, SHIFTS } from "./entry_form";
+import { LargeTooltip } from "./App";
 
 const formControlStyle = {
     minWidth: 120,
@@ -28,7 +27,8 @@ const formControlStyle = {
 }
 
 interface Props {
-    employees: Employee[]
+    employees: Employee[],
+
     roles: string[]
 }
 
@@ -47,7 +47,7 @@ export interface DaysOfWeek {
 
 export interface ShiftState {
     comment: string,
-    selectedRoleEmployees: Employee[],
+    selectedEmployees: Employee[],
     seats: string,
     crewLead: string,
     supportLead: string,
@@ -63,16 +63,16 @@ export interface ShiftState {
 export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
 
     const [comment, setComment] = useState("")
-    const [selectedRoleEmployees, setSelectedRoleEmpoyees] = useState([] as Employee[])
+    const [selectedEmployees, setSelectedEmployees] = useState([] as Employee[])
     const [seats, setSeats] = useState("")
     const [crewLead, setCrewLead] = useState("")
+    const [role, setRole] = useState("")
     const [supportLead, setSupportLead] = useState("")
     const [summitLead, setSummitLead] = useState("")
     const [alternatePickup, setAlternativePickup] = useState("")
     const [location, setLocation] = useState("")
     const [startTime, setStartTime] = useState("")
     const [endTime, setEndTime] = useState("")
-    const [shift, setShift] = useState("")
     const [dateRange, setDateRange] = useState([moment(), moment()])
     const [selectedDaysOfWeek, setSelectedDaysOfWeek] = useState({
         monday: true,
@@ -91,13 +91,13 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
             return (
                 {
                     comment,
-                    selectedRoleEmployees,
+                    selectedEmployees,
                     seats,
                     crewLead,
                     supportLead,
                     summitLead,
                     alternatePickup,
-                    location: 'SU',
+                    location: location,
                     startTime,
                     endTime,
                     dateRange,
@@ -112,12 +112,25 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
 
     }, [])
 
-    const handleSelectedEmployeesChange = (event: SyntheticEvent<Element, Event>, 
-        newEmps: Employee[], 
+    const handleSelectedEmployeesChange = (event: SyntheticEvent<Element, Event>,
+        newEmps: Employee[],
         reason: AutocompleteChangeReason,
         details?: AutocompleteChangeDetails<Employee> | undefined) => {
-        setSelectedRoleEmpoyees(newEmps)
 
+        setSelectedEmployees(newEmps)
+
+    }
+
+    const onRoleChange = (value: string) => {
+        const employeeList: Employee[] = []
+        props.employees.forEach((employee: Employee) => {
+            if (employee.Role.toUpperCase().includes(value.toUpperCase())) {
+                employeeList.push(employee)
+            }
+        })
+        console.log('employeeList', employeeList)
+        setRole(value)
+        setSelectedEmployees(employeeList)
     }
 
     const onDateRangeChange = (value: Date | string) => {
@@ -140,17 +153,23 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
     const handlePickupChange = (value: string) => {
         setAlternativePickup(value)
     }
+
     const handleSummitLeadChange = (value: string) => {
         setSummitLead(value)
     }
+
     const handleSupportLeadChange = (value: string) => {
         setSupportLead(value)
     }
-    const handleCrewLeadChange = (value: string) => {
-        setCrewLead(value)
-    }
+
     const handleSeatChange = (value: string) => {
         setSeats(value)
+    }
+
+    const onShiftChange = (value: string) => {
+        const [startTime, endTime] = value.split('-')
+        setStartTime(startTime)
+        setEndTime(endTime)
     }
 
     const onStartTimeChange = (value: string) => {
@@ -159,6 +178,10 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
 
     const onEndTimeChange = (value: string) => {
         setEndTime(value)
+    }
+
+    const onLocationChange = (value: string) => {
+        setLocation(value)
     }
 
     return (
@@ -172,6 +195,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
             <Autocomplete
                 multiple
                 id="tags-standard"
+                value={selectedEmployees}
                 options={props.employees}
                 getOptionLabel={(emp: Employee) => emp.Alias}
                 onChange={handleSelectedEmployeesChange}
@@ -184,23 +208,53 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                     />
                 )}
             />
+            <DropDown arr={props.roles}
+                value={role}
+                handleChange={onRoleChange}
+                label={'Role'}
+                placeholder={""}
+            />
+            <DropDown arr={["HQ", "SU", "WFH"]}
+                value={location}
+                handleChange={onLocationChange}
+                label={'Location'}
+                placeholder={""}
+            />
             <div style={{ 'zIndex': 999, "marginLeft": "6px", "width": "100%" }}>
                 <FormLabel component="legend">Date Range</FormLabel>
                 <DateRangePicker onChange={onDateRangeChange} value={[dateRange[0].toDate(), dateRange[1].toDate()]} />
             </div>
+            <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
+                <div>
+                    <DropDown
+                        arr={SHIFTS}
+                        value={JSON.stringify(startTime) + '-' + JSON.stringify(endTime)}
+                        handleChange={onShiftChange}
+                        label={'Shift Hours'}
+                        placeholder={""}
+                    />
+                </div>
+            </LargeTooltip>
             <div style={{ "display": "flex", "marginTop": "12px", "width": "100%" }}>
-                <DropDown arr={HOURS}
-                    value={startTime}
-                    handleChange={onStartTimeChange}
-                    label={'Start Hour'}
-                    placeholder={""}
-                />
-                <DropDown arr={HOURS}
-                    value={endTime}
-                    handleChange={onEndTimeChange}
-                    label={'End Hour'}
-                    placeholder={""}
-                />
+
+                <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
+                    <div>
+                        <DropDown arr={HOURS}
+                            value={startTime}
+                            handleChange={onStartTimeChange}
+                            label={'Start Hour'}
+                            placeholder={""}
+                        />
+                    </div>
+                </LargeTooltip>
+                <div>
+                    <DropDown arr={HOURS}
+                        value={endTime}
+                        handleChange={onEndTimeChange}
+                        label={'End Hour'}
+                        placeholder={""}
+                    />
+                </div>
             </div >
             <div>
                 <FormLabel component="legend">Shift Days of Week</FormLabel>
@@ -216,6 +270,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
             </div>
             <React.Fragment>
                 <Typography>Ride Board Form</Typography>
+
                 <DropDown
                     arr={ALTERNATE_PICKUP}
                     value={alternatePickup}
@@ -223,13 +278,17 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                     label={'Alternate Pickup'}
                     placeholder={""}
                 />
-                <DropDown
-                    arr={SUMMIT_LEAD}
-                    value={summitLead}
-                    handleChange={handleSummitLeadChange}
-                    label={'Summit Lead'}
-                    placeholder={""}
-                />
+                <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
+                    <div>
+                        <DropDown
+                            arr={SUMMIT_LEAD}
+                            value={summitLead}
+                            handleChange={handleSummitLeadChange}
+                            label={'Summit Lead'}
+                            placeholder={""}
+                        />
+                    </div>
+                </LargeTooltip>
                 <DropDown
                     arr={SUPPORT_LEAD}
                     value={supportLead}
@@ -237,30 +296,17 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                     label={'Support Lead'}
                     placeholder={""}
                 />
-
-                <Typography>Crew Lead</Typography>
-                <FormControl>
-                    <RadioGroup
-                        row
-                        value={crewLead}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                            handleCrewLeadChange(event.target.value)
-                        }}
-                    >
-                        {
-                            CREW_LEAD.map((cl: string) => {
-                                return <FormControlLabel value={cl} control={<Radio />} label={cl} />
-                            })
-                        }
-                    </RadioGroup>
-                </FormControl>
-                <DropDown
-                    arr={SEATS}
-                    value={seats}
-                    handleChange={handleSeatChange}
-                    label={'SEATS'}
-                    placeholder={""}
-                />
+                <LargeTooltip placement="left" title={"Enter additional seats needed"}>
+                    <div>
+                        <DropDown
+                            arr={SEATS}
+                            value={seats}
+                            handleChange={handleSeatChange}
+                            label={'EXTRA SEATS'}
+                            placeholder={""}
+                        />
+                    </div>
+                </LargeTooltip>
             </React.Fragment>
             <TextField
                 focused

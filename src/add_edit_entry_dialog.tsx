@@ -7,7 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { EntryForm } from './entry_form'
-import { EntryState, Employee, useEntryStateContext, DATE_FORMAT, DATETIME_FORMAT } from './control';
+import { EntryState, Employee, DATE_FORMAT, DATETIME_FORMAT } from './control';
 import { add_entry, delete_entry_by_id } from './api';
 import moment from 'moment';
 import { EntryData } from './p_timeline_utils';
@@ -17,6 +17,7 @@ import Typography from '@mui/material/Typography';
 interface Props {
   employees: Employee[]
   handleEntrySubmit: () => Promise<void>
+  entryState: EntryState
   setEntryState: Function
   edit: boolean
   handleCloseDialog?: Function
@@ -175,6 +176,13 @@ const check_for_errors = (entryState: EntryState, setErrMsg: Function) => {
       return true
     }
 
+    //hours are zero
+    const shiftLength = entryState.endTime - entryState.startTime
+    if (shiftLength === 0) {
+      setErrMsg('Shift cannot be zero. Adjust times')
+      return true
+    }
+
     //overlap with second location
     const overlap = check_if_overlap(entryState)
     if (overlap) {
@@ -209,7 +217,6 @@ export const AddEditEntryDialog = (props: Props) => {
   const [errMsg, setErrMsg] = React.useState<string | undefined>(undefined);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-  const entryState = useEntryStateContext()
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -232,13 +239,13 @@ export const AddEditEntryDialog = (props: Props) => {
 
   const handleSubmit = async () => {
     //check if there are too many entries
-    const errors = check_for_errors(entryState, setErrMsg)
+    const errors = check_for_errors(props.entryState, setErrMsg)
     if (errors) return
-    const entries = state_to_entries(entryState)
+    const entries = state_to_entries(props.entryState)
     for (let idx = 0; idx < entries.length; idx++) {
       const entry = entries[idx]
       if (props.edit) {
-        const deleteResponse: any = await delete_entry_by_id(entryState.entryId as number)
+        const deleteResponse: any = await delete_entry_by_id(props.entryState.entryId as number)
         console.log('deleteResponse', deleteResponse)
         const addResponse: any = await add_entry(entry)
         console.log('addResponse', addResponse)
@@ -279,7 +286,7 @@ export const AddEditEntryDialog = (props: Props) => {
           <EntryForm
             edit={props.edit}
             employees={props.employees}
-            entryState={entryState}
+            entryState={props.entryState}
             setEntryState={props.setEntryState}
           />
         </DialogContent>

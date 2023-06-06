@@ -4,11 +4,10 @@ import { EntryData } from './p_timeline_utils'
 import { Employee } from './control'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
-const TEL_API_URL = "/api/telSchedule?cmd=getEmployee"
+const TEL_API_URL = "/api/pp/getEmployees"
 
 const IS_PRODUCTION: boolean = process.env.REACT_APP_ENVIRONMENT === 'production'
-const IS_TEST: boolean = process.env.REACT_APP_TEST === 'test'
-const API_URL = IS_TEST? "/api_test/pp/" : "/api/pp/"
+const API_URL = "/api/pp/"
 console.log('API_URL set to ', API_URL)
 console.log('IS_PRODUCTION set to ', IS_PRODUCTION)
 

@@ -52,6 +52,9 @@ const get_location_color = (location: string) => {
         case "other":
             color = colorMapping['orange']
             break;
+        case "Flex":
+            color = colorMapping['darkBlue']
+            break;
         default:
             color = colorMapping['darkBlue']
     }
@@ -108,8 +111,8 @@ export interface Item {
     color?: string,
     start_time: moment.Moment,
     end_time: moment.Moment
-    start_display_time?: moment.Moment,
-    end_display_time?: moment.Moment
+    start_actual_time?: moment.Moment,
+    end_actual_time?: moment.Moment
 }
 
 
@@ -121,7 +124,7 @@ export interface Entry {
 export interface Group {
     id: string,
     title: string
-    primaryShift: [number, number],
+    primaryShift: [string, string],
     primaryLocation: string,
     alias: string
 }
@@ -204,7 +207,13 @@ export const filter_groups_by_location = (groups: Group[], items: Item[]) => {
 export const make_employee_groups = (employees: Employee[], department: string, role: string) => {
     const groups: Group[] = []
     employees.forEach((emp: Employee, idx: number) => {
-        const primaryShift = emp.PrimaryShift && emp.PrimaryShift !== "None" ? JSON.parse(emp.PrimaryShift) : [8, 17]
+        var primaryShift: [string, string]
+        if (emp.PrimaryShift && emp.PrimaryShift !== "None") {
+            primaryShift = JSON.parse(emp.PrimaryShift) as [string, string]
+        }
+        else {
+            primaryShift = ["8:00", "17:00"]
+        }
         const primaryLocation = emp.PrimaryLocation ? emp.PrimaryLocation : 'HQ'
         const matchesDept = department === "" || emp.Department === department
         const matchesRole = role === "" || emp.Role.includes(role)
@@ -213,7 +222,7 @@ export const make_employee_groups = (employees: Employee[], department: string, 
             const group = {
                 id: emp.label as string,
                 title: emp.label as string,
-                primaryShift: primaryShift as [number, number],
+                primaryShift: primaryShift,
                 primaryLocation: primaryLocation,
                 alias: emp.Alias,
                 deptartment: emp.Department,
@@ -279,8 +288,8 @@ export const entries_to_items = (entries: EntryData[]) => {
 }
 
 const tooltip_creator = (item: Item) => {
-    const st = item.start_display_time ? item.start_display_time : item.start_time
-    const et = item.end_display_time ? item.end_display_time : item.end_time
+    const st = item.start_actual_time ? item.start_actual_time : item.start_time
+    const et = item.end_actual_time ? item.end_actual_time : item.end_time
     return (
         <React.Fragment>
             {item.group && (<p>{item.group}</p>)}
@@ -297,6 +306,11 @@ export const itemRenderer =
         const backgroundColor = itemContext.selected ? (itemContext.dragging ? "red" : item.selectedBgColor) : item.bgColor;
         const borderColor = itemContext.resizing ? "red" : item.color;
         const tooltipPopup = tooltip_creator(item)
+
+        const st = item.start_actual_time ? item.start_actual_time : item.start_time
+        const et = item.end_actual_time ? item.end_actual_time : item.end_time
+
+        const text = itemContext.title + " " + st.format('h') + "-" + et.format('h')
         return (
             <Tooltip placement="top" title={tooltipPopup}>
                 <div>
@@ -325,10 +339,11 @@ export const itemRenderer =
                                 overflow: "hidden",
                                 paddingLeft: 3,
                                 textOverflow: "ellipsis",
-                                whiteSpace: "nowrap"
+                                whiteSpace: "nowrap",
+                                textAlign: "center"
                             }}
                         >
-                            {itemContext.title}
+                            {text}
                         </div>
                         {itemContext.useResizeHandle ? <div {...rightResizeProps} /> : null}
                     </div>
@@ -345,37 +360,48 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
     dates.forEach((date: moment.Moment) => {
 
         const isWeekday = date.isoWeekday() < 6 //saturday=6 sunday=7
-        const isSummit = group.primaryLocation === 'SU'
         let realItem = groupItems.find((item: Item) => { // find first item that falls on date.
             return item.start_time.isSame(date, 'day')
         })
         if (location.includes('Holiday')) realItem = undefined
         newIdx += 1
 
-        if (!realItem && isWeekday && !isSummit) {
-            const [locationColor, fontColor] = get_location_color(location)
-            const synthItem: Item = {
-                id: newIdx,
-                group: group.id,
-                alias: group.alias,
-                entryId: newIdx,
-                location: location,
-                comment: comment,
-                title: location,
-                start_time: date.clone().set({
-                    hour: group.primaryShift[0],
-                    minute: 0,
-                    second: 0
-                }),
-                end_time: date.clone().set({
-                    hour: group.primaryShift[1],
-                    minute: 0,
-                    second: 0
-                }),
-                bgColor: locationColor,
-                color: fontColor,
+        const startArray = group.primaryShift[0].split(':')
+        const endArray = group.primaryShift[1].split(':')
+        try {
+            const sHour: number = Number(startArray[0])
+            const sMinute: number = startArray.length > 1 ? Number(startArray[1]) : 0
+            const eHour: number = Number(endArray[0])
+            const eMinute: number = endArray.length > 1 ? Number(endArray[1]) : 0
+
+            if ((!realItem && isWeekday) || location==='Holiday') { //holidays have double entries
+                const [locationColor, fontColor] = get_location_color(location)
+                const synthItem: Item = {
+                    id: newIdx,
+                    group: group.id,
+                    alias: group.alias,
+                    entryId: newIdx,
+                    location: location,
+                    comment: comment,
+                    title: location,
+                    start_time: date.clone().set({
+                        hour: sHour,
+                        minute: sMinute,
+                        second: 0
+                    }),
+                    end_time: date.clone().set({
+                        hour: eHour,
+                        minute: eMinute,
+                        second: 0
+                    }),
+                    bgColor: locationColor,
+                    color: fontColor,
+                }
+                synthItems.push(synthItem)
             }
-            synthItems.push(synthItem)
+        }
+        catch {
+            console.error('failed to create item. primary shift', group.primaryShift)
         }
 
     })
@@ -408,12 +434,12 @@ export const generate_holiday_items = (
             }
         })
 
-        //add to pool of synthetic entries
-        if (group.primaryLocation !== "None") {
-            //generate_entries 
-            const { synthItems, newIdx } = generate_items(group, 'Holiday', groupItems, dates, idx, 'Holiday')
-            idx = newIdx
-            entries = [...entries, ...synthItems]
+        //add holidays to pool of entries 
+        if (group.primaryLocation !== "None") { 
+        //generate_entries 
+        const { synthItems, newIdx } = generate_items(group, 'Holiday', groupItems, dates, idx, 'Holiday')
+        idx = newIdx
+        entries = [...entries, ...synthItems]
         }
     })
 

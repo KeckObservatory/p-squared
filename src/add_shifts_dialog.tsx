@@ -18,10 +18,10 @@ interface Props {
   staff: string
   employees: Employee[]
   roles: string[]
-  handleEntrySubmit: () => Promise<void> 
+  handleEntrySubmit: () => Promise<void>
 }
 
-const DAYS_OF_WEEK = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday' ]
+const DAYS_OF_WEEK = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 const PRIMARY_LOCATION = ['SU']
 
 interface ChildRefObject {
@@ -41,6 +41,14 @@ const check_for_errors = (shiftState: ShiftState, setErrMsg: Function) => {
   //location not specified
   if (!shiftState.location) {
     setErrMsg('Locations cannot be blank')
+    return true
+  }
+
+
+  //hours are zero
+  const shiftLength = Number(shiftState.endTime) - Number(shiftState.startTime)
+  if (shiftLength === 0) {
+    setErrMsg('Shift cannot be zero. Adjust times')
     return true
   }
 
@@ -80,7 +88,7 @@ const shift_state_to_entries = (shiftState: ShiftState, staff: string) => {
   })
   console.log('shift dates', dates)
   // for user in users
-  shiftState.selectedRoleEmployees.forEach((employee: Employee) => {
+  shiftState.selectedEmployees.forEach((employee: Employee) => {
     const name = employee.LastName + ', ' + employee.FirstName
 
     let base_entry: Partial<EntryData> = {
@@ -129,10 +137,6 @@ export const AddShiftsDialog = (props: Props) => {
   const childStateRef = React.useRef<ChildRefObject>(null);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-  // allow only summit employees to have shifts
-  const summitEmployees = props.employees.filter( (employee: Employee) => {
-    return employee.PrimaryLocation ? PRIMARY_LOCATION.includes(employee.PrimaryLocation): false
-  })
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -151,8 +155,8 @@ export const AddShiftsDialog = (props: Props) => {
 
     const entries = shift_state_to_entries(shiftState, props.staff)
     console.log('shift entries are: ', entries)
-    entries.forEach( (entry: EntryData) => {
-        add_entry(entry)
+    entries.forEach((entry: EntryData) => {
+      add_entry(entry)
     })
     props.handleEntrySubmit()
     setOpen(false);
@@ -161,7 +165,7 @@ export const AddShiftsDialog = (props: Props) => {
   return (
     <React.Fragment>
       <Button style={{ margin: '12px' }} variant="contained" onClick={handleClickOpen}>
-        Create Summit Shifts
+        Create Shifts
       </Button>
       <Dialog
         sx={{ paddingTop: '3px' }}
@@ -170,7 +174,7 @@ export const AddShiftsDialog = (props: Props) => {
         onClose={handleClose}
       >
         <DialogTitle>
-          Create Summit Shifts
+          Create Shifts
         </DialogTitle>
         <DialogContent>
           {errMsg && (
@@ -178,7 +182,7 @@ export const AddShiftsDialog = (props: Props) => {
           )}
           <ShiftEntryForm
             ref={childStateRef}
-            employees={summitEmployees}
+            employees={props.employees}
             roles={props.roles}
           />
         </DialogContent>
