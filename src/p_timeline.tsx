@@ -282,9 +282,9 @@ export const PTimeline = (props: Props) => {
                     canMove={false}
                     canResize={false}
                     minZoom={moment(state.visibleTimeStart, DATE_FORMAT).valueOf()}
-                    maxZoom={moment(state.visibleTimeEnd, DATE_FORMAT).add(1, 'day').valueOf()}
+                    maxZoom={moment(state.visibleTimeEnd, DATE_FORMAT).add(1, 'day').valueOf()} //visually need to be +1 day ahead 
                     visibleTimeStart={moment(state.visibleTimeStart, DATE_FORMAT).valueOf()}
-                    visibleTimeEnd={moment(state.visibleTimeEnd, DATE_FORMAT).add(1, 'day').valueOf()}
+                    visibleTimeEnd={moment(state.visibleTimeEnd, DATE_FORMAT).add(1, 'day').valueOf()} //visually need to be +1 day ahead
                     itemRenderer={itemRenderer}
                     onTimeChange={handleTimeChange}
                     onItemSelect={onItemClick}
