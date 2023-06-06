@@ -118,99 +118,99 @@ export const state_to_entries = (entryState: EntryState) => {
 
 const check_if_overlap = (entryState: EntryState) => {
 
-    const secondLocation = entryState.startHour2
-      && entryState.endHour2
-      && entryState.location2
-    if (secondLocation) {
-      const sd = moment(entryState.dateRange[0])
-        .set('hour', entryState.startHour)
-        .set('minute', 0).set('second', entryState.startMinutes).set('millisecond', 0)
-      let ed = moment(entryState.dateRange[0])
-        .set('hour', entryState.endHour)
-        .set('minute', 0).set('second', entryState.endMinutes).set('millisecond', 0)
-      if (entryState.startHour > entryState.endHour) {
-        console.log('adding day to endDate')
-        ed = ed.add(1, 'days') // add 24 hours so that startDate <= endDate
-      }
-
-      const sd2 = moment(entryState.dateRange[0])
-        .set('hour', entryState.startHour2 as number)
-        .set('minute', 0).set('second', entryState.startMinutes2 ?? 0)
-      let ed2 = moment(entryState.dateRange[0])
-        .set('hour', entryState.endHour2 as number)
-        .set('minute', 0).set('second', entryState.endMinutes2 ?? 0)
-      const wrapAround = (entryState.startHour2 as number) > (entryState.endHour2 as number)
-      if (wrapAround) {
-        console.log('adding day to endDate')
-        ed2 = ed2.add(1, 'days') // add 24 hours so that startDate <= endDate
-      }
-
-
-      const firstEventFirst = ((sd < sd2) && (ed <= sd2) && (ed < ed2))
-      const firstEventSecond = ((sd > sd2) && (ed2 <= sd) && (ed2 < ed))
-      console.log('firstEventFirst', firstEventFirst, sd.format(DATETIME_FORMAT), 
-      sd2.format(DATETIME_FORMAT), 
-      ed.format(DATETIME_FORMAT), 
-      ed2.format(DATETIME_FORMAT))
-      console.log('entry state:', entryState)
-      console.log('secondEventFirst', firstEventSecond)
-      const overlap = !firstEventFirst && !firstEventSecond
-      return overlap
+  const secondLocation = entryState.startHour2
+    && entryState.endHour2
+    && entryState.location2
+  if (secondLocation) {
+    const sd = moment(entryState.dateRange[0])
+      .set('hour', entryState.startHour)
+      .set('minute', 0).set('second', entryState.startMinutes).set('millisecond', 0)
+    let ed = moment(entryState.dateRange[0])
+      .set('hour', entryState.endHour)
+      .set('minute', 0).set('second', entryState.endMinutes).set('millisecond', 0)
+    if (entryState.startHour > entryState.endHour) {
+      console.log('adding day to endDate')
+      ed = ed.add(1, 'days') // add 24 hours so that startDate <= endDate
     }
-    return false
+
+    const sd2 = moment(entryState.dateRange[0])
+      .set('hour', entryState.startHour2 as number)
+      .set('minute', 0).set('second', entryState.startMinutes2 ?? 0)
+    let ed2 = moment(entryState.dateRange[0])
+      .set('hour', entryState.endHour2 as number)
+      .set('minute', 0).set('second', entryState.endMinutes2 ?? 0)
+    const wrapAround = (entryState.startHour2 as number) > (entryState.endHour2 as number)
+    if (wrapAround) {
+      console.log('adding day to endDate')
+      ed2 = ed2.add(1, 'days') // add 24 hours so that startDate <= endDate
+    }
+
+
+    const firstEventFirst = ((sd < sd2) && (ed <= sd2) && (ed < ed2))
+    const firstEventSecond = ((sd > sd2) && (ed2 <= sd) && (ed2 < ed))
+    console.log('firstEventFirst', firstEventFirst, sd.format(DATETIME_FORMAT),
+      sd2.format(DATETIME_FORMAT),
+      ed.format(DATETIME_FORMAT),
+      ed2.format(DATETIME_FORMAT))
+    console.log('entry state:', entryState)
+    console.log('secondEventFirst', firstEventSecond)
+    const overlap = !firstEventFirst && !firstEventSecond
+    return overlap
   }
+  return false
+}
 
 const check_for_errors = (entryState: EntryState, setErrMsg: Function) => {
 
-    //date range
-    const maxDayRange = 30 
-    const leaveDayRange = 30 
-    const isVacation = entryState.location.includes('Vacation')
-    const dt = moment(entryState.dateRange[1]).diff(moment(entryState.dateRange[0]), 'days')
-    if (isVacation && dt >= leaveDayRange) {
-      setErrMsg(`date range cannot be longer than ${leaveDayRange}`)
-      return true
-    }
-    else if (!isVacation && dt >= maxDayRange) {
-      setErrMsg(`date range cannot be longer than ${maxDayRange}`)
-      return true
-    }
-
-    //hours are zero
-    const shiftLength = entryState.endHour - entryState.startHour
-    if (shiftLength === 0) {
-      setErrMsg('Shift cannot be zero. Adjust times')
-      return true
-    }
-
-    //overlap with second location
-    const overlap = check_if_overlap(entryState)
-    if (overlap) {
-      setErrMsg('Locations cannot overlap. Adjust times')
-      return true
-    }
-
-    //location not specified
-    const missing2ndLoc = entryState.location2 === undefined &&
-      (entryState.startHour2 !== undefined && entryState.endHour2 !== undefined)
-    if (!entryState.location || missing2ndLoc) {
-      setErrMsg('Locations cannot be blank')
-      return true
-    }
-
-    //if WFH notes are needed
-    const missingWFHComment = !entryState.comment && entryState.location.includes('WFH')
-
-    console.log('is comment and WFH?', !entryState.comment, entryState.location, missingWFHComment)
-    if(missingWFHComment) {
-      setErrMsg('Please add cell phone and contact information to Note entry')
-      return true
-    }
-
-    //if rideboard needs to select crew lead and seats
-    setErrMsg(undefined)
-    return false
+  //date range
+  const maxDayRange = 30
+  const leaveDayRange = 30
+  const isVacation = entryState.location.includes('Vacation')
+  const dt = moment(entryState.dateRange[1]).diff(moment(entryState.dateRange[0]), 'days')
+  if (isVacation && dt >= leaveDayRange) {
+    setErrMsg(`date range cannot be longer than ${leaveDayRange}`)
+    return true
   }
+  else if (!isVacation && dt >= maxDayRange) {
+    setErrMsg(`date range cannot be longer than ${maxDayRange}`)
+    return true
+  }
+
+  //hours are zero
+  const shiftLength = entryState.endHour - entryState.startHour
+  if (shiftLength === 0) {
+    setErrMsg('Shift cannot be zero. Adjust times')
+    return true
+  }
+
+  //overlap with second location
+  const overlap = check_if_overlap(entryState)
+  if (overlap) {
+    setErrMsg('Locations cannot overlap. Adjust times')
+    return true
+  }
+
+  //location not specified
+  const missing2ndLoc = entryState.location2 === undefined &&
+    (entryState.startHour2 !== undefined && entryState.endHour2 !== undefined)
+  if (!entryState.location || missing2ndLoc) {
+    setErrMsg('Locations cannot be blank')
+    return true
+  }
+
+  //if WFH notes are needed
+  const missingWFHComment = !entryState.comment && entryState.location.includes('WFH')
+
+  console.log('is comment and WFH?', !entryState.comment, entryState.location, missingWFHComment)
+  if (missingWFHComment) {
+    setErrMsg('Please add cell phone and contact information to Note entry')
+    return true
+  }
+
+  //if rideboard needs to select crew lead and seats
+  setErrMsg(undefined)
+  return false
+}
 
 export const AddEditEntryDialog = (props: Props) => {
   const [open, setOpen] = React.useState(false);
@@ -220,22 +220,25 @@ export const AddEditEntryDialog = (props: Props) => {
 
   const handleClickOpen = () => {
     setOpen(true);
+
     props.setEntryState((currentState: EntryState) => {
+      const newEntryState = {
+        ...currentState,
+        location: props.edit ? currentState.location : undefined,
+        startHour: props.edit ? currentState.startHour : undefined,
+        startMinutes: props.edit ? currentState.startMinutes : undefined,
+        endHour: props.edit ? currentState.endHour : undefined,
+        endMinutes: props.edit ? currentState.endMinutes : undefined,
+        location2: props.edit ? currentState.location2 : undefined,
+        startHour2: props.edit ? currentState.startHour2 : undefined,
+        startMinutes2: props.edit ? currentState.startMinutes2 : undefined,
+        endHour2: props.edit ? currentState.endHour2 : undefined,
+        endMinutes2: props.edit ? currentState.endMinutes2 : undefined,
+        comment: props.edit ? currentState.comment : undefined
+      }
+      console.log('newEntryState', newEntryState)
       return (
-        {
-          ...currentState,
-          location: props.edit ? currentState.location : undefined,
-          startHour: props.edit ? currentState.startHour : undefined,
-          startMinutes: props.edit ? currentState.startMinutes : undefined,
-          endHour: props.edit ? currentState.endHour : undefined,
-          endMinutes: props.edit ? currentState.endMinutes : undefined,
-          location2: props.edit ? currentState.location2 : undefined,
-          startHour2: props.edit ? currentState.startHour2 : undefined,
-          startMinutes2: props.edit ? currentState.startMinutes2 : undefined,
-          endHour2: props.edit ? currentState.endHour2 : undefined,
-          endMinutes2: props.edit ? currentState.endMinutes2 : undefined,
-          comment: props.edit ? currentState.comment : undefined
-        }
+        newEntryState
       )
     })
   };
@@ -270,11 +273,11 @@ export const AddEditEntryDialog = (props: Props) => {
 
   }
 
-  const title = props.edit? "Edit entry" : "Create new entry"
+  const title = props.edit ? "Edit entry" : "Create new entry"
 
   return (
     <React.Fragment>
-      <Button style={{ margin: '12px'  }} variant="contained" onClick={handleClickOpen}>
+      <Button style={{ margin: '12px' }} variant="contained" onClick={handleClickOpen}>
         {props.edit ? 'Edit entry' : 'Create New Entry'}
       </Button>
       <Dialog
