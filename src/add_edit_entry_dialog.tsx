@@ -124,10 +124,10 @@ const check_if_overlap = (entryState: EntryState) => {
     if (secondLocation) {
       const sd = moment(entryState.dateRange[0])
         .set('hour', entryState.startTime)
-        .set('minute', 0).set('second', 0).set('millisecond', 0)
+        .set('minute', 0).set('second', entryState.startMinutes).set('millisecond', 0)
       let ed = moment(entryState.dateRange[0])
         .set('hour', entryState.endTime)
-        .set('minute', 0).set('second', 0).set('millisecond', 0)
+        .set('minute', 0).set('second', entryState.endMinutes).set('millisecond', 0)
       if (entryState.startTime > entryState.endTime) {
         console.log('adding day to endDate')
         ed = ed.add(1, 'days') // add 24 hours so that startDate <= endDate
@@ -135,10 +135,10 @@ const check_if_overlap = (entryState: EntryState) => {
 
       const sd2 = moment(entryState.dateRange[0])
         .set('hour', entryState.startTime2 as number)
-        .set('minute', 0).set('second', 0)
+        .set('minute', 0).set('second', entryState.startMinutes2 ?? 0)
       let ed2 = moment(entryState.dateRange[0])
         .set('hour', entryState.endTime2 as number)
-        .set('minute', 0).set('second', 0)
+        .set('minute', 0).set('second', entryState.endMinutes2 ?? 0)
       const wrapAround = (entryState.startTime2 as number) > (entryState.endTime2 as number)
       if (wrapAround) {
         console.log('adding day to endDate')

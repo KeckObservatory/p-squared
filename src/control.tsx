@@ -123,9 +123,13 @@ export interface EntryState {
     supportLead?: string,
     summitLead?: string,
     startTime: number,
+    startMinutes: number,
     endTime: number,
+    endMinutes: number,
     startTime2?: number,
+    startMinutes2?: number,
     endTime2?: number,
+    endMinutes2?: number,
     location2?: string,
     staff: string, //always the user
     alias: string, //can be another user. 
@@ -181,7 +185,9 @@ export const Control = (props: Props) => {
     const [entryState, setEntryState] = React.useState({
         dateRange: [now.toDate(), now.toDate()],
         startTime: 8,
-        endTime: 17
+        startMinutes: 0,
+        endTime: 17,
+        endMinutes: 0
     } as EntryState)
 
     React.useEffect(() => {

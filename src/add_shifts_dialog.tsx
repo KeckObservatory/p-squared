@@ -111,10 +111,10 @@ const shift_state_to_entries = (shiftState: ShiftState, staff: string) => {
       const dateStr = date.format(DATE_FORMAT)
       const startDatetime = date.clone()
         .set('hour', JSON.parse(shiftState.startTime))
-        .set('minute', 0).set('second', 0)
+        .set('minute', 0).set('second', Number(shiftState.startMinutes))
       let endDatetime = date.clone()
         .set('hour', JSON.parse(shiftState.endTime))
-        .set('minute', 0).set('second', 0)
+        .set('minute', 0).set('second', Number(shiftState.endMinutes))
       const shift = JSON.stringify([startDatetime.format(DATETIME_FORMAT), endDatetime.format(DATETIME_FORMAT)])
       const entry = {
         ...base_entry,

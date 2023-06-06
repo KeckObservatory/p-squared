@@ -35,6 +35,8 @@ export const HOURS = [
     "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"
 ]
 
+export const MINUTES = ["0", "30"]
+
 export const SHIFTS = [
     "5-15",
     "7-15",
@@ -150,6 +152,20 @@ export const EntryForm = (props: Props) => {
         )
     }
 
+
+    const onStartMinutes2Change = (value: string) => {
+        props.setEntryState(
+            { ...props.entryState, startMinutes2: Number(value) }
+        )
+    }
+
+    const onEndMinutes2Change = (value: string) => {
+        props.setEntryState(
+            { ...props.entryState, endMinutes2: Number(value) }
+        )
+    }
+
+
     const addContactNumberIfWFH = (state: EntryState, value: string) => {
         if (value.includes('WFH')) {
             //get employee contact number
@@ -183,13 +199,25 @@ export const EntryForm = (props: Props) => {
 
     const onStartTimeChange = (value: string) => {
         props.setEntryState(
-            { ...props.entryState, startTime: JSON.parse(value) }
+            { ...props.entryState, startTime: Number(value) }
         )
     }
 
     const onEndTimeChange = (value: string) => {
         props.setEntryState(
-            { ...props.entryState, endTime: JSON.parse(value) }
+            { ...props.entryState, endTime: Number(value) }
+        )
+    }
+
+    const onStartMinutesChange = (value: string) => {
+        props.setEntryState(
+            { ...props.entryState, startMinutes: Number(value) }
+        )
+    }
+
+    const onEndMinutesChange = (value: string) => {
+        props.setEntryState(
+            { ...props.entryState, endMinutes: Number(value) }
         )
     }
 
@@ -329,6 +357,25 @@ export const EntryForm = (props: Props) => {
                     />
                 </div>
             </div >
+            <div style={{ "display": "flex", "marginTop": "16px", "width": "100%" }}>
+                <div>
+                    <DropDown
+                        arr={MINUTES}
+                        value={JSON.stringify(props.entryState.startMinutes)}
+                        handleChange={onStartMinutesChange}
+                        label={'Start Min'}
+                        placeholder={""}
+                    />
+                </div>
+                <div>
+                    <DropDown arr={MINUTES}
+                        value={JSON.stringify(props.entryState.endMinutes)}
+                        handleChange={onEndMinutesChange}
+                        label={'End Min'}
+                        placeholder={""}
+                    />
+                </div>
+            </div >
             <DropDown
                 arr={locations}
                 value={props.entryState.location}
@@ -400,6 +447,21 @@ export const EntryForm = (props: Props) => {
                             value={JSON.stringify(props.entryState.endTime2)}
                             handleChange={onEndTime2Change}
                             label={'End Hour'}
+                            placeholder={""}
+                        />
+                    </div >
+                    <div style={{ "display": "flex", "marginTop": "16px", "width": "100%" }}>
+                        <DropDown
+                            arr={MINUTES}
+                            value={JSON.stringify(props.entryState.startMinutes2)}
+                            handleChange={onStartMinutes2Change}
+                            label={'Start Min'}
+                            placeholder={""}
+                        />
+                        <DropDown arr={MINUTES}
+                            value={JSON.stringify(props.entryState.endMinutes2)}
+                            handleChange={onEndMinutes2Change}
+                            label={'End Min'}
                             placeholder={""}
                         />
                     </div >

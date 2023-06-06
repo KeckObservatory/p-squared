@@ -12,7 +12,7 @@ import {
     SEATS
 } from './control';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
-import { HOURS, SHIFTS } from "./entry_form";
+import { HOURS, SHIFTS, MINUTES } from "./entry_form";
 import { LargeTooltip } from "./App";
 
 const formControlStyle = {
@@ -28,12 +28,8 @@ const formControlStyle = {
 
 interface Props {
     employees: Employee[],
-
     roles: string[]
 }
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
 
 export interface DaysOfWeek {
     monday: boolean,
@@ -56,6 +52,8 @@ export interface ShiftState {
     location: string,
     startTime: string,
     endTime: string,
+    startMinutes: string,
+    endMinutes: string
     dateRange: [moment.Moment, moment.Moment],
     selectedDaysOfWeek: DaysOfWeek,
 }
@@ -73,6 +71,8 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
     const [location, setLocation] = useState("")
     const [startTime, setStartTime] = useState("")
     const [endTime, setEndTime] = useState("")
+    const [startMinutes, setStartMinutes] = useState("0")
+    const [endMinutes, setEndMinutes] = useState("0")
     const [dateRange, setDateRange] = useState([moment(), moment()])
     const [selectedDaysOfWeek, setSelectedDaysOfWeek] = useState({
         monday: true,
@@ -100,6 +100,8 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                     location: location,
                     startTime,
                     endTime,
+                    startMinutes,
+                    endMinutes,
                     dateRange,
                     selectedDaysOfWeek,
                 } as ShiftState
@@ -180,6 +182,15 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
         setEndTime(value)
     }
 
+
+    const onStartMinutesChange = (value: string) => {
+        setStartMinutes(value)
+    }
+
+    const onEndMinutesChange = (value: string) => {
+        setEndMinutes(value)
+    }
+
     const onLocationChange = (value: string) => {
         setLocation(value)
     }
@@ -252,6 +263,25 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                         value={endTime}
                         handleChange={onEndTimeChange}
                         label={'End Hour'}
+                        placeholder={""}
+                    />
+                </div>
+            </div >
+            <div style={{ "display": "flex", "marginTop": "16px", "width": "100%" }}>
+                <div>
+                    <DropDown
+                        arr={MINUTES}
+                        value={startMinutes}
+                        handleChange={onStartMinutesChange}
+                        label={'Start Min'}
+                        placeholder={""}
+                    />
+                </div>
+                <div>
+                    <DropDown arr={MINUTES}
+                        value={endMinutes}
+                        handleChange={onEndMinutesChange}
+                        label={'End Min'}
                         placeholder={""}
                     />
                 </div>
