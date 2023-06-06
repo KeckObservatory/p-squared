@@ -224,11 +224,6 @@ export const AddEditEntryDialog = (props: Props) => {
     props.setEntryState((currentState: EntryState) => {
       const newEntryState = {
         ...currentState,
-        location: props.edit ? currentState.location : undefined,
-        startHour: props.edit ? currentState.startHour : undefined,
-        startMinutes: props.edit ? currentState.startMinutes : undefined,
-        endHour: props.edit ? currentState.endHour : undefined,
-        endMinutes: props.edit ? currentState.endMinutes : undefined,
         location2: props.edit ? currentState.location2 : undefined,
         startHour2: props.edit ? currentState.startHour2 : undefined,
         startMinutes2: props.edit ? currentState.startMinutes2 : undefined,
@@ -236,7 +231,6 @@ export const AddEditEntryDialog = (props: Props) => {
         endMinutes2: props.edit ? currentState.endMinutes2 : undefined,
         comment: props.edit ? currentState.comment : undefined
       }
-      console.log('newEntryState', newEntryState)
       return (
         newEntryState
       )

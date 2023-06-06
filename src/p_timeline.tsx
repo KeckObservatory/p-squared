@@ -228,6 +228,8 @@ export const PTimeline = (props: Props) => {
                     baseCamp: item.baseCamp ? item.baseCamp : entryState.baseCamp,
                     startHour: st.hour(),
                     endHour: et.hour(),
+                    startMinutes: st.minute(),
+                    endMinutes: et.minute(),
                     dateRange: [item.start_time, item.end_time],
                     entryId: item.entryId
                 })
