@@ -36,10 +36,10 @@ const get_days_between_dates = (startDate: moment.Moment, endDate: moment.Moment
 const add_first_location = (entryState: EntryState, dte: moment.Moment, entry: any) => {
   const startDate = dte.clone()
     .set('hour', entryState.startHour)
-    .set('minute', 0).set('second', 0)
+    .set('minute', entryState.startMinutes).set('second', 0)
   let endDate = dte.clone()
     .set('hour', entryState.endHour)
-    .set('minute', 0).set('second', 0)
+    .set('minute', entryState.endMinutes).set('second', 0)
   if (startDate.isAfter(endDate)) {
     console.log('adding day to endDate')
     endDate = endDate.add(1, 'days') // add 24 hours so that startDate <= endDate
@@ -57,10 +57,10 @@ const add_second_location = (entryState: EntryState, dte: moment.Moment, entry: 
   if (secondLocation) {
     const startDate2 = dte.clone()
       .set('hour', entryState.startHour2 as number)
-      .set('minute', 0).set('second', 0)
+      .set('minute', entryState.startMinutes2 ?? 0).set('second', 0)
     let endDate2 = dte.clone()
       .set('hour', entryState.endHour2 as number)
-      .set('minute', 0).set('second', 0)
+      .set('minute', entryState.endMinutes2 ?? 0).set('second', 0)
     if (startDate2.isAfter(endDate2)) {
       console.log('adding day to endDate')
       endDate2 = endDate2.add(1, 'days') // add 24 hours so that startDate <= endDate
