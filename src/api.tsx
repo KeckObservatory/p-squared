@@ -108,7 +108,7 @@ const mock_get_entries_by_date_range_promise = (
 
 const mock_get_employees_promise = (): Promise<Employee[]> => {
     const mockPromise = new Promise<Employee[]>((resolve) => {
-        resolve(mock_employees)
+        resolve(mock_employees as never as Employee[])
     })
     return mockPromise
 }

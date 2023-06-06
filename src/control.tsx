@@ -142,7 +142,7 @@ export interface Employee {
     Alias: string,
     FirstName: string,
     LastName: string,
-    EId: string,
+    EId: number,
     Department: string,
     Role: string,
     BaseCamp: string,
@@ -209,7 +209,7 @@ export const Control = (props: Props) => {
                     ...entryState,
                     name: userName,
                     staff: user.Alias,
-                    employeeId: employee ? employee.EId : undefined,
+                    employeeId: employee ? String(employee.EId).padStart(4, '0') : undefined,
                     department: user.Department,
                     baseCamp: user.BaseCamp,
                     canEdit: canEdit

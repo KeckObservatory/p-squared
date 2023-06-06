@@ -226,7 +226,9 @@ export const AddEditEntryDialog = (props: Props) => {
           ...currentState,
           location2: props.edit ? currentState.location2 : undefined,
           startHour2: props.edit ? currentState.startHour2 : undefined,
+          startMinutes2: props.edit ? currentState.startMinutes2 : undefined,
           endHour2: props.edit ? currentState.endHour2 : undefined,
+          endMinutes2: props.edit ? currentState.endMinutes2 : undefined,
           comment: props.edit ? currentState.comment : undefined
         }
       )
