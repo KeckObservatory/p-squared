@@ -83,8 +83,7 @@ export const PTimeline = (props: Props) => {
             const visibleTimeStart = date.clone()
                 .startOf(state.unit)
             const visibleTimeEnd = date.clone()
-                .startOf(state.unit as any)
-                .add(1, state.unit as any)
+                .endOf(state.unit as any)
 
             if (state.unit === 'week') {
                 visibleTimeStart.add(1, "day")
@@ -283,9 +282,9 @@ export const PTimeline = (props: Props) => {
                     canMove={false}
                     canResize={false}
                     minZoom={moment(state.visibleTimeStart, DATE_FORMAT).valueOf()}
-                    maxZoom={moment(state.visibleTimeEnd, DATE_FORMAT).valueOf()}
+                    maxZoom={moment(state.visibleTimeEnd, DATE_FORMAT).add(1, 'day').valueOf()}
                     visibleTimeStart={moment(state.visibleTimeStart, DATE_FORMAT).valueOf()}
-                    visibleTimeEnd={moment(state.visibleTimeEnd, DATE_FORMAT).valueOf()}
+                    visibleTimeEnd={moment(state.visibleTimeEnd, DATE_FORMAT).add(1, 'day').valueOf()}
                     itemRenderer={itemRenderer}
                     onTimeChange={handleTimeChange}
                     onItemSelect={onItemClick}

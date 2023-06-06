@@ -79,6 +79,23 @@ const mock_get_entries_by_date_range_promise = (
     endDate: string,
     department?: string,
     location?: string): Promise<EntryData[]> => {
+
+    let url = API_URL + "entryByDateRange?"
+        + "startdate=" + startDate
+        + "&enddate=" + endDate
+    if (department) {
+        url += '&Department=' + encodeURIComponent(department)
+    }
+    if (location === 'Leave') {
+        url += '&leave=1'  //needs to be lowercase
+    }
+    else if (location) {
+        url += '&' + location + '=1'
+    }
+    else {
+
+    }
+    console.log('mock url', url)
     const mockPromise = new Promise<EntryData[]>((resolve) => {
         const entryData: EntryData[] = []
         mock_entries.forEach((entry: any) => {
