@@ -79,10 +79,10 @@ export const state_to_entries = (entryState: EntryState) => {
   const creationTime = moment().format(DATETIME_FORMAT)
   const sd = moment(entryState.dateRange[0])
     .set('hour', entryState.startHour)
-    .set('minute', 0).set('second', 0)
+    .set('minute', entryState.startMinutes).set('second', 0)
   let ed = moment(entryState.dateRange[1])
     .set('hour', entryState.endHour)
-    .set('minute', 0).set('second', 0)
+    .set('minute', entryState.endMinutes).set('second', 0)
   if (entryState.startHour > entryState.endHour) {
     console.log('adding day to endDate')
     ed = ed.add(1, 'days') // add 24 hours so that startDate <= endDate
