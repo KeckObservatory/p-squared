@@ -38,14 +38,14 @@ export const HOURS = [
 export const MINUTES = ["0", "30"]
 
 export const SHIFTS = [
-    "5-15",
-    "7-15",
-    "7-17",
-    "8-17",
-    "8-12",
-    "9-18",
-    "12-16",
-    "13-17",
+    "5:00-15:00",
+    "7:00-15:00",
+    "7:00-17:00",
+    "8:00-17:00",
+    "8:00-12:00",
+    "9:00-18:00",
+    "12:00-16:00",
+    "13:00-17:00",
 ]
 
 interface Props {
@@ -191,9 +191,16 @@ export const EntryForm = (props: Props) => {
     }
 
     const onShiftChange = (value: string) => {
-        const [startHour, endHour] = value.split('-')
+        const [startTime, endTime] = value.split('-')
+        const [startHour, startMinutes] = startTime.split(':')
+        const [endHour, endMinutes] = endTime.split(':')
         props.setEntryState(
-            { ...props.entryState, startHour: JSON.parse(startHour), endHour: JSON.parse(endHour) }
+            { ...props.entryState, 
+                startHour: Number(startHour), 
+                startMinutes: Number(startMinutes),
+                endHour: Number(endHour),
+                endMinutes: Number(endMinutes)
+             }
         )
     }
 
@@ -278,6 +285,9 @@ export const EntryForm = (props: Props) => {
 
 
     const supportLeadValue = props.entryState.supportLead ? SUPPORT_LEAD[JSON.parse(props.entryState.supportLead)] : props.entryState.supportLead
+    const strStartMin = JSON.stringify(props.entryState.startMinutes).padStart(2, '0')
+    const strEndMin = JSON.stringify(props.entryState.endMinutes).padStart(2, '0')
+    const strShift = `${props.entryState.startHour}:${strStartMin}-${props.entryState.endHour}:${strEndMin}`
 
     return (
         <Box
@@ -329,7 +339,7 @@ export const EntryForm = (props: Props) => {
                 <div>
                     <DropDown
                         arr={SHIFTS}
-                        value={JSON.stringify(props.entryState.startHour) + '-' + JSON.stringify(props.entryState.endHour)}
+                        value={strShift}
                         handleChange={onShiftChange}
                         label={'Shift Hours'}
                         placeholder={""}

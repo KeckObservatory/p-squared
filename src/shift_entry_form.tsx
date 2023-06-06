@@ -169,9 +169,14 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
     }
 
     const onShiftChange = (value: string) => {
-        const [startHour, endHour] = value.split('-')
+        const [startTime, endTime] = value.split('-')
+        const [startHour, startMinutes] = startTime.split(':')
+        const [endHour, endMinutes] = endTime.split(':')
+        
         setStartHour(startHour)
         setEndHour(endHour)
+        setStartMinutes(startMinutes.includes('00') ? '0' : '00')
+        setEndMinutes(endMinutes.includes('00') ? '0' : '00')
     }
 
     const onStartHourChange = (value: string) => {
@@ -194,6 +199,11 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
     const onLocationChange = (value: string) => {
         setLocation(value)
     }
+
+
+    const strStartMin = startMinutes.padStart(2, '0')
+    const strEndMin = endMinutes.padStart(2, '0')
+    const strShift = `${startHour}:${strStartMin}-${endHour}:${strEndMin}`
 
     return (
         <Box
@@ -239,7 +249,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                 <div>
                     <DropDown
                         arr={SHIFTS}
-                        value={JSON.stringify(startHour) + '-' + JSON.stringify(endHour)}
+                        value={strShift}
                         handleChange={onShiftChange}
                         label={'Shift Hours'}
                         placeholder={""}
