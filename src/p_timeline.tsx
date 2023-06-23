@@ -79,19 +79,25 @@ export const PTimeline = (props: Props) => {
     const [groups, setGroups] = React.useState([...init_groups])
     const [items, setItems] = React.useState(init_items)
 
+    const get_visible_dates = () => {
+
+        const date = moment(props.controlState.date, DATE_FORMAT)
+        const visibleTimeStart = date.clone()
+            .startOf(state.unit)
+        const visibleTimeEnd = date.clone()
+            .endOf(state.unit as any)
+
+        if (state.unit === 'week') {
+            visibleTimeStart.add(1, "day")
+            visibleTimeEnd.add(1, "day")
+        }
+        return [visibleTimeStart, visibleTimeEnd]
+    }
+
     useEffect(() => {
 
         const control_state_change_handler = async () => {
-            const date = moment(props.controlState.date, DATE_FORMAT)
-            const visibleTimeStart = date.clone()
-                .startOf(state.unit)
-            const visibleTimeEnd = date.clone()
-                .endOf(state.unit as any)
-
-            if (state.unit === 'week') {
-                visibleTimeStart.add(1, "day")
-                visibleTimeEnd.add(1, "day")
-            }
+            const [visibleTimeStart, visibleTimeEnd] = get_visible_dates()
             setState({
                 ...state,
                 visibleTimeStart: visibleTimeStart.format(DATE_FORMAT),
@@ -126,16 +132,8 @@ export const PTimeline = (props: Props) => {
         state.unit,
     ])
 
-    useEffect(() => {
-        const date = moment(props.controlState.date, DATE_FORMAT)
-        const visibleTimeStart = date.clone()
-            .startOf(state.unit)
-        const visibleTimeEnd = date.clone()
-            .endOf(state.unit as any)
-        if (state.unit === 'week') {
-            visibleTimeStart.add(1, "day")
-            visibleTimeEnd.add(1, "day")
-        }
+    useEffect(() => { //rerender but don't requery entries
+        const [visibleTimeStart, visibleTimeEnd] = get_visible_dates()
         make_groups_and_items(entries,
             visibleTimeStart, visibleTimeEnd, holidays)
     }, [props.controlState.nameFilter])
