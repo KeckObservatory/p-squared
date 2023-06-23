@@ -11,7 +11,7 @@ import { get_can_edit, get_employees, get_staffinfo, User } from './api'
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Skeleton from '@mui/material/Skeleton';
-import { ObjectParam, useQueryParam, withDefault } from 'use-query-params';
+import { ObjectParam, StringParam, useQueryParam, withDefault } from 'use-query-params';
 import { AddShiftsDialog } from './add_shifts_dialog';
 
 
@@ -172,6 +172,7 @@ export const Control = (props: Props) => {
     const [departments, setDepartments] = React.useState([] as string[])
     const [roles, setRoles] = React.useState([] as string[])
     const [state, setState] = useQueryParam('controlState', withDefault(ObjectParam, initState as any))
+    const [userName, setUserName] = useQueryParam('userName', withDefault(StringParam, ''))
 
     if (!state.date) {
         setState(
@@ -198,10 +199,11 @@ export const Control = (props: Props) => {
                     return { ...emp, label: label }
                 })
 
-                const userName = user.LastName + ', ' + user.FirstName
+                const newUserName = user.LastName + ', ' + user.FirstName
+                setUserName(newUserName)
                 const employee = labelEmps.find((employee: Employee) => {
                     const name = employee.LastName + ', ' + employee.FirstName
-                    return userName.includes(name)
+                    return newUserName.includes(name)
                 })
                 setEmployees(labelEmps)
                 setFiltEmployees(labelEmps)

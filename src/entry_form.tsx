@@ -43,6 +43,7 @@ export const SHIFTS = [
     "7:00-17:00",
     "8:00-17:00",
     "8:00-12:00",
+    "9:00-17:00",
     "9:00-18:00",
     "12:00-16:00",
     "13:00-17:00",
@@ -134,9 +135,16 @@ export const EntryForm = (props: Props) => {
     }
 
     const onShift2Change = (value: string) => {
-        const [startHour, endHour] = value.split('-')
+        const [startTime, endTime] = value.split('-')
+        const [startHour, startMinutes] = startTime.split(':')
+        const [endHour, endMinutes] = endTime.split(':')
         props.setEntryState(
-            { ...props.entryState, startHour2: JSON.parse(startHour), endHour2: JSON.parse(endHour) }
+            { ...props.entryState, 
+                startHour2: Number(startHour), 
+                startMinutes2: Number(startMinutes),
+                endHour2: Number(endHour),
+                endMinutes2: Number(endMinutes)
+             }
         )
     }
 
