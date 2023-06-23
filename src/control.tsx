@@ -209,7 +209,7 @@ export const Control = (props: Props) => {
                 setFiltEmployees(labelEmps)
                 const newState = {
                     ...entryState,
-                    name: userName,
+                    name: newUserName,
                     staff: user.Alias,
                     employeeId: employee ? String(employee.EId).padStart(4, '0') : undefined,
                     department: user.Department,
@@ -303,9 +303,6 @@ export const Control = (props: Props) => {
             nameFilter: value
         })
     }
-    const name = entryState.name
-
-
     return (
             <Paper sx={{ margin: '4px', paddingTop: '2px' }} elevation={3}>
                 <Box sx={{ marginTop: '16px' }}
@@ -371,7 +368,7 @@ export const Control = (props: Props) => {
                 </Box>
                 {filtEmployees.length > 0 ? (
                     < PTimeline
-                        name={name}
+                        name={entryState.name}
                         canEdit={entryState.canEdit}
                         entryState={entryState}
                         setEntryState={setEntryState}
