@@ -53,6 +53,9 @@ export const PTimeline = (props: Props) => {
     const [selectedItem, setSelectedItem] = React.useState(undefined as unknown as Item);
 
     const [open, setOpen] = React.useState(false)
+    const [entries, setEntries] = React.useState([] as EntryData[])
+    const [holidays, setHolidays] = React.useState([] as string[])
+
     const init_groups = make_employee_groups(props.employees,
         props.controlState.department,
         props.controlState.role) as TimelineGroupBase[]
@@ -96,18 +99,21 @@ export const PTimeline = (props: Props) => {
             })
             console.log('control state changed. dates', visibleTimeStart.format(DATE_FORMAT),
                 visibleTimeEnd.format(DATE_FORMAT))
-            const entries = await get_entries_by_date_range(
+            const newEntries = await get_entries_by_date_range(
                 visibleTimeStart.format(DATE_FORMAT),
                 visibleTimeEnd.format(DATE_FORMAT),
                 props.controlState.department,
                 props.controlState.location)
 
-            const holidays = await get_holidays(
+            const newHolidays = await get_holidays(
                 visibleTimeStart.format(DATE_FORMAT),
                 visibleTimeEnd.format(DATE_FORMAT),
             )
-            make_groups_and_items(entries,
-                visibleTimeStart, visibleTimeEnd, holidays)
+
+            setHolidays(newHolidays)
+            setEntries(newEntries)
+            make_groups_and_items(newEntries,
+                visibleTimeStart, visibleTimeEnd, newHolidays)
         }
 
         control_state_change_handler()
@@ -119,6 +125,20 @@ export const PTimeline = (props: Props) => {
         props.controlState.idx,
         state.unit,
     ])
+
+    useEffect(() => {
+        const date = moment(props.controlState.date, DATE_FORMAT)
+        const visibleTimeStart = date.clone()
+            .startOf(state.unit)
+        const visibleTimeEnd = date.clone()
+            .endOf(state.unit as any)
+        if (state.unit === 'week') {
+            visibleTimeStart.add(1, "day")
+            visibleTimeEnd.add(1, "day")
+        }
+        make_groups_and_items(entries,
+            visibleTimeStart, visibleTimeEnd, holidays)
+    }, [props.controlState.nameFilter])
 
     const handleTimeHeaderChange = async (unit: Unit) => {
         console.log('handleTimeHeaderChange selected', unit)
