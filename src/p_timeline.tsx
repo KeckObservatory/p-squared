@@ -228,7 +228,7 @@ export const PTimeline = (props: Props) => {
             const name = employee.LastName + ', ' + employee.FirstName
             return item.group.includes(name)
         })
-        console.log('matches_name', matches_name, 'canEdit', props.canEdit)
+        console.log('matches_name', matches_name, 'name', props.name, 'group', item.group, 'canEdit', props.canEdit)
         if (matches_name || props.canEdit) {
             setOpen(true)
             console.log('itemId', itemId, 'item', item, evt, time)
