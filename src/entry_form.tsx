@@ -38,11 +38,12 @@ export const HOURS = [
 export const MINUTES = ["0", "30"]
 
 export const SHIFTS = [
-    "5:00-15:30",
-    "7:00-15:30",
-    "7:00-17:30",
-    "8:00-17:00",
+    "5:00-15:00",
+    "5:00-17:00",
+    "7:00-15:00",
+    "7:00-17:00",
     "8:00-12:00",
+    "8:00-17:00",
     "9:00-17:00",
     "9:00-18:00",
     "12:00-16:00",
@@ -139,12 +140,13 @@ export const EntryForm = (props: Props) => {
         const [startHour, startMinutes] = startTime.split(':')
         const [endHour, endMinutes] = endTime.split(':')
         props.setEntryState(
-            { ...props.entryState, 
-                startHour2: Number(startHour), 
+            {
+                ...props.entryState,
+                startHour2: Number(startHour),
                 startMinutes2: Number(startMinutes),
                 endHour2: Number(endHour),
                 endMinutes2: Number(endMinutes)
-             }
+            }
         )
     }
 
@@ -203,12 +205,13 @@ export const EntryForm = (props: Props) => {
         const [startHour, startMinutes] = startTime.split(':')
         const [endHour, endMinutes] = endTime.split(':')
         props.setEntryState(
-            { ...props.entryState, 
-                startHour: Number(startHour), 
+            {
+                ...props.entryState,
+                startHour: Number(startHour),
                 startMinutes: Number(startMinutes),
                 endHour: Number(endHour),
                 endMinutes: Number(endMinutes)
-             }
+            }
         )
     }
 
@@ -343,7 +346,7 @@ export const EntryForm = (props: Props) => {
             <div style={{ 'zIndex': 999, "margin": "6px", "marginRight": "0px", "width": "100%" }}>
                 <DateRangePicker onChange={onDateRangeChange} value={props.entryState.dateRange} />
             </div>
-            <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
+            <LargeTooltip placement="left" title={"Start time is when you leave the base camp"}>
                 <div>
                     <DropDown
                         arr={SHIFTS}
@@ -355,7 +358,7 @@ export const EntryForm = (props: Props) => {
                 </div>
             </LargeTooltip>
             <div style={{ "display": "flex", "marginTop": "16px", "width": "100%" }}>
-                <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
+                <LargeTooltip placement="left" title={"Start time is when you leave the base camp"}>
                     <div>
                         <DropDown
                             arr={HOURS}
@@ -401,7 +404,6 @@ export const EntryForm = (props: Props) => {
                 label={'Location'}
                 placeholder={""}
             />
-
             {isRideBoard &&
                 <React.Fragment>
                     <Typography>Ride Board Form</Typography>
@@ -412,17 +414,13 @@ export const EntryForm = (props: Props) => {
                         label={'Alternate Pickup Location'}
                         placeholder={""}
                     />
-                    <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
-                        <div>
-                            <DropDown
-                                arr={SUMMIT_LEAD}
-                                value={props.entryState.summitLead}
-                                handleChange={handleSummitLeadChange}
-                                label={'Summit Lead'}
-                                placeholder={""}
-                            />
-                        </div>
-                    </LargeTooltip>
+                    <DropDown
+                        arr={SUMMIT_LEAD}
+                        value={props.entryState.summitLead}
+                        handleChange={handleSummitLeadChange}
+                        label={'Summit Lead'}
+                        placeholder={""}
+                    />
                     <DropDown
                         arr={SUPPORT_LEAD}
                         value={supportLeadValue}
