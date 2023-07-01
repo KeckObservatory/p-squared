@@ -172,7 +172,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
         const [startTime, endTime] = value.split('-')
         const [startHour, startMinutes] = startTime.split(':')
         const [endHour, endMinutes] = endTime.split(':')
-        
+
         setStartHour(startHour)
         setEndHour(endHour)
         setStartMinutes(startMinutes.includes('00') ? '0' : '00')
@@ -245,7 +245,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                 <FormLabel component="legend">Date Range</FormLabel>
                 <DateRangePicker onChange={onDateRangeChange} value={[dateRange[0].toDate(), dateRange[1].toDate()]} />
             </div>
-            <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
+            <LargeTooltip placement="left" title={"Start time is when you leave basecamp"}>
                 <div>
                     <DropDown
                         arr={SHIFTS}
@@ -258,7 +258,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
             </LargeTooltip>
             <div style={{ "display": "flex", "marginTop": "12px", "width": "100%" }}>
 
-                <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
+                <LargeTooltip placement="left" title={"Start time is when you leave basecamp"}>
                     <div>
                         <DropDown arr={HOURS}
                             value={startHour}
@@ -318,17 +318,13 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                     label={'Alternate Pickup'}
                     placeholder={""}
                 />
-                <LargeTooltip placement="left" title={"Ride leaves 2 hours before shift start"}>
-                    <div>
-                        <DropDown
-                            arr={SUMMIT_LEAD}
-                            value={summitLead}
-                            handleChange={handleSummitLeadChange}
-                            label={'Summit Lead'}
-                            placeholder={""}
-                        />
-                    </div>
-                </LargeTooltip>
+                <DropDown
+                    arr={SUMMIT_LEAD}
+                    value={summitLead}
+                    handleChange={handleSummitLeadChange}
+                    label={'Summit Lead'}
+                    placeholder={""}
+                />
                 <DropDown
                     arr={SUPPORT_LEAD}
                     value={supportLead}
