@@ -98,6 +98,7 @@ export const state_to_entries = (entryState: EntryState) => {
     Staff: entryState.staff ?? undefined,
     AlternatePickup: entryState.alternatePickup ?? undefined,
     SummitLead: entryState.summitLead ?? undefined,
+    SupportLead: entryState.supportLead ?? undefined,
     CrewLead: entryState.crewLead ?? undefined,
     Seats: entryState.seats ?? undefined,
     CreationTime: creationTime,
