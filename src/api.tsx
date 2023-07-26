@@ -199,7 +199,14 @@ export const edit_entry_by_id = (id: number, entry: EntryData) => {
     })
         .then(handleResponse)
         .catch(handleError)
+}
 
+export const get_entry_by_id = (id: number) => {
+    let url = API_URL + "entryById?"
+        + "id=" + JSON.stringify(id)
+    return axiosInstance.get(url)
+        .then(handleResponse)
+        .catch(handleError)
 }
 
 export const get_entries_by_date_range_promise = (

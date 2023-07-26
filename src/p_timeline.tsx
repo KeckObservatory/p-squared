@@ -29,6 +29,7 @@ import { AddEditEntryDialog } from './add_edit_entry_dialog'
 import { ObjectParam, useQueryParam, withDefault } from "use-query-params"
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
+import { ReadEntryDialog } from './read_entry_dialog'
 
 interface Props {
     controlState: ControlState,
@@ -337,7 +338,7 @@ export const PTimeline = (props: Props) => {
                 </Timeline>
             )}
             <Dialog onClose={handleCloseDialog} open={open}>
-                <DialogTitle>Edit/Delete Entry</DialogTitle>
+                <DialogTitle>Read/Edit/Delete Entry</DialogTitle>
                 <Button style={{ margin: '12px' }}
                     variant="contained"
                     onClick={deleteSelected}
@@ -350,6 +351,10 @@ export const PTimeline = (props: Props) => {
                     setEntryState={props.setEntryState}
                     edit={true}
                     handleEntrySubmit={props.handleEntrySubmit}
+                    handleCloseDialog={handleCloseDialog}
+                />
+                <ReadEntryDialog
+                    entryId={props.entryState.entryId}
                     handleCloseDialog={handleCloseDialog}
                 />
             </Dialog>
