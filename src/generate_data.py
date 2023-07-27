@@ -200,7 +200,7 @@ def make_schedule_entry(idx):
     key = randLoca()
     dateSlot = random.choice([null, randDateRange()])
     if dateSlot:
-        date = null, dateSlot[0].split(' ')[0]
+        date = dateSlot[0].split(' ')[0]
     else:
         date = randDate()
     data = {"id": idx,

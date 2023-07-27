@@ -98,7 +98,7 @@ export const ReadEntryDialog = (props: Props) => {
                         />
                         <TextField
                             label="Date"
-                            defaultValue={props.entry.Date}
+                            defaultValue={JSON.stringify(props.entry.Date).replace(',', '')}
                             InputProps={{
                                 readOnly: true,
                             }}
