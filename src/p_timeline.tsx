@@ -51,7 +51,7 @@ interface State {
 
 export const PTimeline = (props: Props) => {
 
-    const [selectedItem, setSelectedItem] = React.useState(undefined as unknown as Item);
+    const [selectedItem, setSelectedItem] = React.useState({} as unknown as Item);
 
     const [open, setOpen] = React.useState(false)
     const [entries, setEntries] = React.useState([] as EntryData[])
@@ -353,10 +353,11 @@ export const PTimeline = (props: Props) => {
                     handleEntrySubmit={props.handleEntrySubmit}
                     handleCloseDialog={handleCloseDialog}
                 />
-                <ReadEntryDialog
-                    entryId={props.entryState.entryId}
-                    handleCloseDialog={handleCloseDialog}
-                />
+                {selectedItem.entry && (
+                    <ReadEntryDialog
+                        entry={selectedItem.entry}
+                    />
+                )}
             </Dialog>
         </Paper>
     )

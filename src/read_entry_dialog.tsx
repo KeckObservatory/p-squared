@@ -5,12 +5,14 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { get_entry_by_id } from './api'
 import Button from "@mui/material/Button";
+import { Entry, EntryData, Item } from "./p_timeline_utils";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import { ALL_LOCATIONS } from "./control";
 
 interface Props {
-    entryId?: number,
-    handleCloseDialog: Function
+    entry: EntryData
 }
 
 export const ReadEntryDialog = (props: Props) => {
@@ -20,15 +22,24 @@ export const ReadEntryDialog = (props: Props) => {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
+    const locations: Partial<EntryData> = {}
+
+    console.log('selected Entry', props.entry)
+    ALL_LOCATIONS.map((loc: string) => {
+        const value = props.entry[loc as keyof EntryData]
+        if (value) {
+            locations[loc as keyof EntryData] = value as any
+        }
+    })
+
     React.useEffect(() => {
+
 
     }, [])
 
 
     const handleClickOpen = async () => {
-
-        const entry = props.entryId ? await get_entry_by_id(props.entryId) : {}
-        console.log('entry to be readonly', entry)
+        console.log('entry to be readonly', props.entry)
         setOpen(true);
     }
 
@@ -51,6 +62,114 @@ export const ReadEntryDialog = (props: Props) => {
                     {'Read Entry'}
                 </DialogTitle>
                 <DialogContent>
+                    <Box
+                        component="form"
+                        sx={{
+                            '& .MuiTextField-root': { m: 1, width: '25ch' },
+                        }}
+                    >
+                        <TextField
+                            label="Name"
+                            defaultValue={props.entry.Name}
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                        />
+                        <TextField
+                            label="Department"
+                            defaultValue={props.entry.Department}
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                        />
+                        <TextField
+                            label="Basecamp"
+                            defaultValue={props.entry.BaseCamp}
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                        />
+                        <TextField
+                            label="Staff"
+                            defaultValue={props.entry.Staff}
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                        />
+                        <TextField
+                            label="Date"
+                            defaultValue={props.entry.Date}
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                        />
+                        <TextField
+                            label="Last Modification Date"
+                            defaultValue={props.entry.LastModification}
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                        />
+                        {
+                            Object.entries(locations).map(([key, val]: [string, any]) => {
+                                const dateRange = JSON.parse(val)
+
+                                return (
+                                    <React.Fragment>
+                                        <TextField
+                                            label={`${key} Start Time`}
+                                            defaultValue={dateRange[0]}
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
+                                        />
+                                        <TextField
+                                            label={`${key} End Time`}
+                                            defaultValue={dateRange[1]}
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
+                                        />
+                                    </React.Fragment>
+                                )
+                            })
+                        }
+                        <TextField
+                            label="Alternate Pickup Location"
+                            defaultValue={props.entry.AlternatePickup}
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                        />
+                        <TextField
+                            label="Summit Lead"
+                            defaultValue={props.entry.SummitLead}
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                        />
+                        <TextField
+                            label="Support Lead"
+                            defaultValue={props.entry.SupportLead}
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                        />
+                        <TextField
+                            label="Additional Seats"
+                            defaultValue={props.entry.Seats}
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                        />
+                        <TextField
+                            label="Last Modification Date"
+                            defaultValue={props.entry.LastModification}
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                        />
+                    </Box>
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus onClick={handleClose}>

@@ -110,7 +110,8 @@ export interface Item {
     selectedBgColor?: string,
     color?: string,
     start_time: moment.Moment,
-    end_time: moment.Moment
+    end_time: moment.Moment,
+    entry?: EntryData,
     start_actual_time?: moment.Moment,
     end_actual_time?: moment.Moment
 }
@@ -246,6 +247,7 @@ const create_item = (title: string, location: string, dateRange: DateRange, entr
         baseCamp: entry.BaseCamp,
         comment: entry.Comment,
         entryId: entry.id,
+        entry: entry,
         color: fontColor,
         bgColor: locationColor,
         location: location,
