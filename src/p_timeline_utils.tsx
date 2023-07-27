@@ -298,6 +298,7 @@ const tooltip_creator = (item: Item) => {
             {item.comment && (<p>{item.comment}</p>)}
             {item.start_time && (<p>Start time: {st?.format('ddd HH:mm')}</p>)}
             {item.end_time && (<p>End time: {et?.format('ddd HH:mm')}</p>)}
+            {item.entry?.AlternatePickup && (<p>Alt pickup: {item.entry?.AlternatePickup}</p>)}
         </React.Fragment>
     )
 }
