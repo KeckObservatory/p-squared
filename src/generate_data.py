@@ -68,6 +68,29 @@ basecamp = [
     "HQ", "Summit" 
 ]
 
+pickupLocation = [
+    'HPP',
+    'HQ',
+    'Hilo',
+    'SJP',
+    'WJP'
+]
+
+summitLead = [
+    '7-3',
+    '7-9',
+    '9-5',
+    '3-5'
+]
+
+supportLead = [
+    'K1',
+    'K2',
+    'K1 & K2'
+]
+
+additionalSeats = [ str(x) for x in range(1,7) ]
+
 departments = [
     "Administration", "AO/Optics", "Development Program Support", "Directorate Office",
     "Engineering", "Finance", "Observing Support", "Operations and Infrastructure",
@@ -126,6 +149,18 @@ def randShift(): return random.choice(range(4, 9))
 
 def randComment(): return random.choice(comments)
 def randOptComment(): return random.choice([None, randComment()])
+
+def randPickupLocation(): return random.choice(pickupLocation)
+def randOptPickupLocation(): return random.choice([None, randPickupLocation()])
+
+def randSummitLead(): return random.choice(summitLead)
+def randOptSummitLead(): return random.choice([None, randSummitLead()])
+
+def randSupportLead(): return random.choice(supportLead)
+def randOptSupportLead(): return random.choice([None, randSupportLead()])
+
+def randAdditionalSeats(): return random.choice(additionalSeats)
+def randOptAdditionalSeats(): return random.choice([None, randAdditionalSeats()])
 
 
 def randDateRange():
@@ -188,11 +223,11 @@ def make_schedule_entry(idx):
             "Comment": randOptComment(),
             "Staff": "test",
             "DelFlag": 0,
-            "AlternatePickup": null,
-            "SummitLead": null,
-            "SupportLead": null,
+            "AlternatePickup": randOptPickupLocation(),
+            "SummitLead": randOptSummitLead(),
+            "SupportLead": randOptSupportLead(),
             "CrewLead": null,
-            "Seats": null,
+            "Seats": randOptAdditionalSeats(),
             "CreationTime": "2022-05-11 12:31:52",
             "LastModification": "2022-05-10 13:43:37",
             "Staff": "ttucker"
