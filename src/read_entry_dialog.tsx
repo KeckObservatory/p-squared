@@ -27,8 +27,10 @@ export const ReadEntryDialog = (props: Props) => {
     console.log('selected Entry', props.entry)
     ALL_LOCATIONS.map((loc: string) => {
         const value = props.entry[loc as keyof EntryData]
-        if (value) {
-            locations[loc as keyof EntryData] = value as any
+        if (typeof (value) === 'string') {
+            if (!value.includes('[]')) {
+                locations[loc as keyof EntryData] = value as any
+            }
         }
     })
 
@@ -98,7 +100,7 @@ export const ReadEntryDialog = (props: Props) => {
                         />
                         <TextField
                             label="Date"
-                            defaultValue={JSON.stringify(props.entry.Date).replace(',', '')}
+                            defaultValue={props.entry.Date}
                             InputProps={{
                                 readOnly: true,
                             }}

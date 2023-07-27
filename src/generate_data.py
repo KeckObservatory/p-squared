@@ -199,6 +199,7 @@ def make_schedule_entry(idx):
     # "HQ": "[\"2022-05-01 08:00:00\", \"2022-05-01 17:00:00\"]",
     key = randLoca()
     dateSlot = random.choice([null, randDateRange()])
+    emptyVal = "[]"
     if dateSlot:
         date = dateSlot[0].split(' ')[0]
     else:
@@ -208,18 +209,18 @@ def make_schedule_entry(idx):
             "Name": randName(),
             "Department": randDept(),
             "BaseCamp": randBase(),
-            "HQ": null,
-            "SU": null,
-            "HP": null,
-            "Hilo": null,
-            "Kona": null,
-            "WFH": null,
-            "Vacation": null,
-            "Sick": null,
-            "FamilySick": null,
-            "JuryDuty": null,
-            "Travel": null,
-            "Other": null,
+            "HQ": emptyVal,
+            "SU": emptyVal,
+            "HP": emptyVal,
+            "Hilo": emptyVal,
+            "Kona": emptyVal,
+            "WFH": emptyVal,
+            "Vacation": emptyVal,
+            "Sick": emptyVal,
+            "FamilySick": emptyVal,
+            "JuryDuty": emptyVal,
+            "Travel": emptyVal,
+            "Other": emptyVal,
             "Comment": randOptComment(),
             "Staff": "test",
             "DelFlag": 0,
