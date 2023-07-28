@@ -105,13 +105,6 @@ export const ReadEntryDialog = (props: Props) => {
                                 readOnly: true,
                             }}
                         />
-                        <TextField
-                            label="Last Modification Date"
-                            defaultValue={props.entry.LastModification}
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                        />
                         {
                             Object.entries(locations).map(([key, val]: [string, any]) => {
                                 const dateRange = JSON.parse(val)
