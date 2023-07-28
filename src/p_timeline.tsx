@@ -255,6 +255,7 @@ export const PTimeline = (props: Props) => {
                     entryId: item.entryId,
                     alternatePickup: item.entry? item.entry.AlternatePickup : undefined,
                     summitLead: item.entry? item.entry.SummitLead : undefined,
+                    supportLead: item.entry? item.entry.SupportLead : undefined,
                     crewLead: item.entry? item.entry.CrewLead : undefined,
                     seats: item.entry? item.entry.Seats : undefined,
                 })
