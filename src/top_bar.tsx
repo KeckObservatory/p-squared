@@ -10,9 +10,11 @@ const TopBar = (props: Props) => {
     const [userName, setUserName] = useQueryParam('userName')
 
     const handleLogout = async () => {
-        const resp = await staff_logout()
-        console.log(resp)
-        window.location.reload();
+        staff_logout().then((resp: any) => {
+            console.log(resp)
+        }).finally(() => {
+            window.location.reload();
+        })
     }
     return (
         <AppBar position='relative'>
