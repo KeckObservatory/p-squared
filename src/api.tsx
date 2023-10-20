@@ -53,6 +53,13 @@ const get_staffinfo_promise = (): Promise<User> => {
         .then(handleError) as Promise<User>
 }
 
+export const staff_logout = (): Promise<string> => {
+    const url = '/staffLogout'
+    return axiosInstance.get(url)
+        .then(handleResponse)
+        .then(handleError) as Promise<string>
+}
+
 const mock_get_staffinfo_promise = (): Promise<User> => {
     const mockPromise = new Promise<User>((resolve) => {
         resolve({
