@@ -253,11 +253,11 @@ export const PTimeline = (props: Props) => {
                     endMinutes: et.minute(),
                     dateRange: [item.start_time, item.end_time],
                     entryId: item.entryId,
-                    alternatePickup: item.entry? item.entry.AlternatePickup : undefined,
-                    summitLead: item.entry? item.entry.SummitLead : undefined,
-                    supportLead: item.entry? item.entry.SupportLead : undefined,
-                    crewLead: item.entry? item.entry.CrewLead : undefined,
-                    seats: item.entry? item.entry.Seats : undefined,
+                    alternatePickup: item.entry ? item.entry.AlternatePickup : undefined,
+                    summitLead: item.entry ? item.entry.SummitLead : undefined,
+                    supportLead: item.entry ? item.entry.SupportLead : undefined,
+                    crewLead: item.entry ? item.entry.CrewLead : undefined,
+                    seats: item.entry ? item.entry.Seats : undefined,
                 })
             }
             )
@@ -288,6 +288,16 @@ export const PTimeline = (props: Props) => {
         setOpen(false)
     };
 
+    const groupRenderer = (groupObject: any) => {
+        const group = groupObject.group
+        const hiloEmployee = group.baseCamp === 'Hilo'
+        return (
+            hiloEmployee ?
+                (<b style={{ padding: '0px', margin: '0px' }}>{group.title}</b>) :
+                (<p style={{ padding: '0px', margin: '0px' }}>{group.title}</p>)
+        )
+    }
+
     return (
         <Paper sx={{ marginTop: '12px', margin: '4px' }} elevation={3}>
             <Button onClick={() => onScrollClick(-1)}>{"< Prev"}</Button>
@@ -304,6 +314,7 @@ export const PTimeline = (props: Props) => {
             {groups.length >= 0 && (
                 <Timeline
                     groups={groups}
+                    groupRenderer={groupRenderer}
                     items={items as any[]}
                     stackItems
                     itemHeightRatio={0.85}

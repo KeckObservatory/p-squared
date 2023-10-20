@@ -223,6 +223,7 @@ export const make_employee_groups = (employees: Employee[], department: string, 
             const group = {
                 id: emp.label as string,
                 title: emp.label as string,
+                baseCamp: emp.BaseCamp,
                 primaryShift: primaryShift,
                 primaryLocation: primaryLocation,
                 alias: emp.Alias,
