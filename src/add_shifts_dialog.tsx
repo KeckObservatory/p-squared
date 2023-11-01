@@ -101,6 +101,7 @@ const shift_state_to_entries = (shiftState: ShiftState, staff: string) => {
       Staff: staff,
       AlternatePickup: shiftState.alternatePickup ?? undefined,
       SummitLead: shiftState.summitLead ?? undefined,
+      SupportLead: shiftState.supportLead ?? undefined,
       CrewLead: shiftState.crewLead ?? undefined,
       Seats: shiftState.seats ?? undefined,
       CreationTime: creationTime,
