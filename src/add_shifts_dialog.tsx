@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import { Employee, DATE_FORMAT } from './control';
+import { Employee, DATE_FORMAT, SUPPORT_LEAD } from './control';
 import { add_entry } from './api';
 import moment from 'moment';
 import { EntryData } from './p_timeline_utils';
@@ -86,6 +86,9 @@ const shift_state_to_entries = (shiftState: ShiftState, staff: string) => {
     console.log(date.format(), 'dow', dow, 'day', day, 'dowChecked', dowChecked)
     return dowChecked
   })
+
+  const supportLead = shiftState.supportLead ?? ""
+  let supportLeadIdx = SUPPORT_LEAD.findIndex((el) => el === supportLead)
   console.log('shift dates', dates)
   // for user in users
   shiftState.selectedEmployees.forEach((employee: Employee) => {
@@ -101,7 +104,7 @@ const shift_state_to_entries = (shiftState: ShiftState, staff: string) => {
       Staff: staff,
       AlternatePickup: shiftState.alternatePickup ?? undefined,
       SummitLead: shiftState.summitLead ?? undefined,
-      SupportLead: shiftState.supportLead ?? undefined,
+      SupportLead: supportLeadIdx,
       CrewLead: shiftState.crewLead ?? undefined,
       Seats: shiftState.seats ?? undefined,
       CreationTime: creationTime,

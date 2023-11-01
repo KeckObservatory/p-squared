@@ -7,7 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { EntryForm } from './entry_form'
-import { EntryState, Employee, DATE_FORMAT, DATETIME_FORMAT } from './control';
+import { EntryState, Employee, DATE_FORMAT, DATETIME_FORMAT, SUPPORT_LEAD } from './control';
 import { add_entry, delete_entry_by_id } from './api';
 import moment from 'moment';
 import { EntryData } from './p_timeline_utils';
@@ -88,6 +88,9 @@ export const state_to_entries = (entryState: EntryState) => {
     ed = ed.add(1, 'days') // add 24 hours so that startDate <= endDate
   }
 
+  const supportLead = entryState.supportLead ?? ""
+  let supportLeadIdx = SUPPORT_LEAD.findIndex((el) => el === supportLead)
+
   let base_entry: Partial<EntryData> = {
     Name: entryState.name,
     Date: date,
@@ -98,7 +101,7 @@ export const state_to_entries = (entryState: EntryState) => {
     Staff: entryState.staff ?? undefined,
     AlternatePickup: entryState.alternatePickup ?? undefined,
     SummitLead: entryState.summitLead ?? undefined,
-    SupportLead: entryState.supportLead ?? undefined,
+    SupportLead: supportLeadIdx,
     CrewLead: entryState.crewLead ?? undefined,
     Seats: entryState.seats ?? undefined,
     CreationTime: creationTime,
