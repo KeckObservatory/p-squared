@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 import { Entry, EntryData, Item } from "./p_timeline_utils";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import { ALL_LOCATIONS } from "./control";
+import { ALL_LOCATIONS, SUPPORT_LEAD } from "./control";
 
 interface Props {
     entry: EntryData
@@ -21,6 +21,10 @@ export const ReadEntryDialog = (props: Props) => {
 
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+    const supportLeadValue = props.entry.SupportLead ? 
+                             SUPPORT_LEAD[Number(props.entry.SupportLead)] 
+                             : props.entry.SupportLead
 
     const locations: Partial<EntryData> = {}
 
@@ -145,7 +149,7 @@ export const ReadEntryDialog = (props: Props) => {
                         />
                         <TextField
                             label="Support Lead"
-                            defaultValue={props.entry.SupportLead}
+                            defaultValue={supportLeadValue}
                             InputProps={{
                                 readOnly: true,
                             }}
