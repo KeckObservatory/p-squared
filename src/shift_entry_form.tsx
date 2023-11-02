@@ -46,7 +46,7 @@ export interface ShiftState {
     selectedEmployees: Employee[],
     seats: string,
     crewLead: string,
-    supportLead: string,
+    supportLead: number,
     summitLead: string,
     alternatePickup: string,
     location: string,
@@ -65,7 +65,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
     const [seats, setSeats] = useState("")
     const [crewLead, setCrewLead] = useState("")
     const [role, setRole] = useState("")
-    const [supportLead, setSupportLead] = useState("")
+    const [supportLead, setSupportLead] = useState(0)
     const [summitLead, setSummitLead] = useState("")
     const [alternatePickup, setAlternativePickup] = useState("")
     const [location, setLocation] = useState("")
@@ -161,7 +161,8 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
     }
 
     const handleSupportLeadChange = (value: string) => {
-        setSupportLead(value)
+        const idx = SUPPORT_LEAD.findIndex((el) => el === value)
+        setSupportLead(idx)
     }
 
     const handleSeatChange = (value: string) => {
@@ -205,6 +206,9 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
     const strEndMin = endMinutes.padStart(2, '0')
     const strShift = `${startHour}:${strStartMin}-${endHour}:${strEndMin}`
 
+    const supportLeadString = supportLead ? 
+                             SUPPORT_LEAD[supportLead] 
+                             : "" 
     return (
         <Box
             sx={{
@@ -327,7 +331,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                 />
                 <DropDown
                     arr={SUPPORT_LEAD}
-                    value={supportLead}
+                    value={supportLeadString}
                     handleChange={handleSupportLeadChange}
                     label={'Support Lead'}
                     placeholder={""}

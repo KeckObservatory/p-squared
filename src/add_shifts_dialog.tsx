@@ -87,9 +87,7 @@ const shift_state_to_entries = (shiftState: ShiftState, staff: string) => {
     return dowChecked
   })
 
-  const supportLead = shiftState.supportLead ?? ""
-  let supportLeadIdx = SUPPORT_LEAD.findIndex((el) => el === supportLead)
-  console.log('supportLead', supportLead, 'supportLeadIdx', supportLeadIdx, 'taken from ', SUPPORT_LEAD)
+  const supportLead = shiftState.supportLead ?? 0 
 
   console.log('shift dates', dates)
   // for user in users
@@ -106,7 +104,7 @@ const shift_state_to_entries = (shiftState: ShiftState, staff: string) => {
       Staff: staff,
       AlternatePickup: shiftState.alternatePickup ?? undefined,
       SummitLead: shiftState.summitLead ?? undefined,
-      SupportLead: supportLeadIdx,
+      SupportLead: String(supportLead),
       CrewLead: shiftState.crewLead ?? undefined,
       Seats: shiftState.seats ?? undefined,
       CreationTime: creationTime,

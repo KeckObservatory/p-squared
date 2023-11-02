@@ -88,9 +88,7 @@ export const state_to_entries = (entryState: EntryState) => {
     ed = ed.add(1, 'days') // add 24 hours so that startDate <= endDate
   }
 
-  const supportLead = entryState.supportLead ?? ""
-  let supportLeadIdx = SUPPORT_LEAD.findIndex((el) => el === supportLead)
-  console.log('supportLead', supportLead, 'supportLeadIdx', supportLeadIdx, 'taken from ', SUPPORT_LEAD)
+  const supportLead = entryState.supportLead ?? 0 
 
   let base_entry: Partial<EntryData> = {
     Name: entryState.name,
@@ -102,7 +100,7 @@ export const state_to_entries = (entryState: EntryState) => {
     Staff: entryState.staff ?? undefined,
     AlternatePickup: entryState.alternatePickup ?? undefined,
     SummitLead: entryState.summitLead ?? undefined,
-    SupportLead: supportLeadIdx,
+    SupportLead: String(supportLead),
     CrewLead: entryState.crewLead ?? undefined,
     Seats: entryState.seats ?? undefined,
     CreationTime: creationTime,

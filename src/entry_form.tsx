@@ -264,8 +264,9 @@ export const EntryForm = (props: Props) => {
         )
     }
     const handleSupportLeadChange = (value: string) => {
+        const idx = SUPPORT_LEAD.findIndex((el) => el === value)
         props.setEntryState(
-            { ...props.entryState, supportLead: value}
+            { ...props.entryState, supportLead: idx }
         )
     }
 
@@ -294,9 +295,9 @@ export const EntryForm = (props: Props) => {
     }
 
 
-    const supportLeadValue = props.entryState.supportLead ? 
-                             SUPPORT_LEAD[Number(props.entryState.supportLead)] 
-                             : props.entryState.supportLead
+    const supportLeadString = props.entryState.supportLead ? 
+                             SUPPORT_LEAD[props.entryState.supportLead] 
+                             : "" 
     const strStartMin = JSON.stringify(props.entryState.startMinutes).padStart(2, '0')
     const strEndMin = JSON.stringify(props.entryState.endMinutes).padStart(2, '0')
     const strShift = `${props.entryState.startHour}:${strStartMin}-${props.entryState.endHour}:${strEndMin}`
@@ -424,7 +425,7 @@ export const EntryForm = (props: Props) => {
                     />
                     <DropDown
                         arr={SUPPORT_LEAD}
-                        value={supportLeadValue}
+                        value={supportLeadString}
                         handleChange={handleSupportLeadChange}
                         label={'Support Lead'}
                         placeholder={""}

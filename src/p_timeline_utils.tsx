@@ -89,7 +89,7 @@ export interface EntryData {
     "DelFlag": number,
     "AlternatePickup": string,
     "SummitLead": string,
-    "SupportLead": number,
+    "SupportLead": string,
     "CrewLead": string,
     "Seats": string,
     "CreationTime": string,

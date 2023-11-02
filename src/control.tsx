@@ -120,7 +120,7 @@ export interface EntryState {
     alternatePickup?: string,
     dateRange: [string | Date, string | Date],
     crewLead?: string,
-    supportLead?: string,
+    supportLead?: number,
     summitLead?: string,
     startHour: number,
     startMinutes: number,
