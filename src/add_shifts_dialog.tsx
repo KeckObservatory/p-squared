@@ -89,6 +89,8 @@ const shift_state_to_entries = (shiftState: ShiftState, staff: string) => {
 
   const supportLead = shiftState.supportLead ?? ""
   let supportLeadIdx = SUPPORT_LEAD.findIndex((el) => el === supportLead)
+  console.log('supportLead', supportLead, 'supportLeadIdx', supportLeadIdx, 'taken from ', SUPPORT_LEAD)
+
   console.log('shift dates', dates)
   // for user in users
   shiftState.selectedEmployees.forEach((employee: Employee) => {

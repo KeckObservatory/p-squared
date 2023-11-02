@@ -90,6 +90,7 @@ export const state_to_entries = (entryState: EntryState) => {
 
   const supportLead = entryState.supportLead ?? ""
   let supportLeadIdx = SUPPORT_LEAD.findIndex((el) => el === supportLead)
+  console.log('supportLead', supportLead, 'supportLeadIdx', supportLeadIdx, 'taken from ', SUPPORT_LEAD)
 
   let base_entry: Partial<EntryData> = {
     Name: entryState.name,
