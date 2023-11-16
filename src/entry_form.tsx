@@ -265,7 +265,6 @@ export const EntryForm = (props: Props) => {
     }
     const handleSupportLeadChange = (value: string) => {
         const idx = SUPPORT_LEAD.findIndex((el) => el === value)
-        console.log('handleSupportLeadChange value:', value, 'idx:', idx)
         props.setEntryState(
             { ...props.entryState, supportLead: idx }
         )
