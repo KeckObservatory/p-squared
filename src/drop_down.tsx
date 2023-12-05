@@ -1,6 +1,7 @@
 import { FormControl } from '@mui/material'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
+import Tooltip from '@mui/material/Tooltip'
 import InputLabel from '@mui/material/InputLabel'
 
 export const formControlStyle = {
@@ -14,6 +15,7 @@ export const formControlStyle = {
 
 interface MenuProps {
     arr: string[] | undefined
+    tooltipObj?: { [key: string]: string }
     disabledArr?: boolean[]
     handleChange: Function
     value?: string | null
@@ -22,14 +24,19 @@ interface MenuProps {
     highlightOnEmpty?: boolean
 }
 
-const MakeMenuItem = (value: string, key: number, disabled = false) => {
+const MakeMenuItem = (value: string, key: number, disabled = false, tooltip = "") => {
     return <MenuItem
         dense={true}
         disabled={disabled}
         value={value}
         key={key}
     >
-        {value}
+        <Tooltip
+            title={tooltip}
+            placement={"left-start"}
+        >
+            <span>{value}</span>
+        </Tooltip>
     </MenuItem>
 }
 
@@ -37,9 +44,11 @@ const DropDown = (props: MenuProps): JSX.Element => {
     const value = props.value
     const errorOnEmpty = value === "" && props.highlightOnEmpty === true
 
-    const menuItems = props.arr?.map((x, idx) => {
+    const menuItems = props.arr?.map((val, idx) => {
         const disabled = props.disabledArr ? props.disabledArr[idx] : false
-        return MakeMenuItem(x, idx, disabled)
+        const tooltip = props.tooltipObj && (props.tooltipObj[val] ?? "")
+        console.log("tooltip", tooltip)
+        return MakeMenuItem(val, idx, disabled, tooltip)
     })
 
     const SelectInput = (
@@ -55,7 +64,6 @@ const DropDown = (props: MenuProps): JSX.Element => {
             {menuItems}
         </Select>
     )
-
     if (errorOnEmpty) {
         return (
             <FormControl error sx={formControlStyle} >

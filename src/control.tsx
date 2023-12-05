@@ -41,7 +41,8 @@ export const ABV_LOCATIONS = [
     "Leave",
     "Flex",
     "Travel",
-    "NgtSup"
+    "NgtSup",
+    "OffSite"
 ]
 
 export const ALL_LOCATIONS = [
@@ -59,8 +60,28 @@ export const ALL_LOCATIONS = [
     "FamilySick",
     "Flex",
     "Travel",
-    "NgtSup"
+    "NgtSup",
+    "OffSite"
 ]
+
+export const LOCATION_TOOLTIP: { [key: string]: string} = {
+    "": "",
+    "HQ": "Waimea Headquarters",
+    "SU": "Summit",
+    "HP": "Hale Pohaku",
+    "Hilo": "Hilo Office",
+    "Kona": "Kona Office",
+    "WFH": "Work From Home",
+    "Remote": "For Remote employees only",
+    "Sick": "Sick Leave",
+    "Vacation": "Vacation Leave",
+    "JuryDuty": "Jury Duty",
+    "FamilySick": "Family Sick Leave",
+    "Flex": "Flex Time",
+    "Travel": "On Travel",
+    "NgtSup": "Night Support",
+    "OffSite": "Off Site",
+}
 
 export const REDUCED_LOCATIONS = [
     "",
@@ -72,7 +93,8 @@ export const REDUCED_LOCATIONS = [
     "WFH",
     "Flex",
     "Travel",
-    "NgtSup"
+    "NgtSup",
+    "OffSite"
 ]
 
 export const DEPARTMENTS = [

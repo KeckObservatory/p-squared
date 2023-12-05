@@ -13,7 +13,8 @@ import {
     SUMMIT_LEAD,
     SUPPORT_LEAD,
     CREW_LEAD,
-    SEATS
+    SEATS,
+    LOCATION_TOOLTIP
 } from './control';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { get_staffinfo, User } from './api';
@@ -401,6 +402,7 @@ export const EntryForm = (props: Props) => {
             </div >
             <DropDown
                 arr={locations}
+                tooltipObj={LOCATION_TOOLTIP}
                 value={props.entryState.location}
                 handleChange={handleLocationChange}
                 label={'Location'}
