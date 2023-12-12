@@ -10,11 +10,12 @@ import {
     ALL_LOCATIONS,
     REDUCED_LOCATIONS,
     ALTERNATE_PICKUP,
+    ALTERNATE_PICKUP_TOOLTIP,
     SUMMIT_LEAD,
     SUPPORT_LEAD,
     CREW_LEAD,
     SEATS,
-    LOCATION_TOOLTIP
+    LOCATION_TOOLTIP,
 } from './control';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { get_staffinfo, User } from './api';
@@ -413,6 +414,7 @@ export const EntryForm = (props: Props) => {
                     <Typography>Ride Board Form</Typography>
                     <DropDown
                         arr={ALTERNATE_PICKUP}
+                        tooltipObj={ALTERNATE_PICKUP_TOOLTIP}
                         value={props.entryState.alternatePickup}
                         handleChange={handlePickupChange}
                         label={'Alternate Pickup Location'}

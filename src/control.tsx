@@ -109,6 +109,15 @@ export const DEPARTMENTS = [
 export const ALTERNATE_PICKUP = ['', 'HPP', 'HQ', 'Hilo', 'SJP', 'WJP'
 ]
 
+export const ALTERNATE_PICKUP_TOOLTIP : { [key: string]: string} = {
+    "":"",
+    "HPP":"Hale Pohaku",
+    "HQ":"Waimea Headquarters",
+    "Hilo":"Hilo",
+    "SJP":"Saddle Road Junction",
+    "WJP":"Waikoloa Junction",
+}
+
 export const SUMMIT_LEAD = [ '', '7-3', '7-9', '9-5', '3-5'
 ]
 

@@ -7,6 +7,7 @@ import { Autocomplete, AutocompleteChangeDetails, AutocompleteChangeReason, Chec
 import {
     Employee,
     ALTERNATE_PICKUP,
+    ALTERNATE_PICKUP_TOOLTIP,
     SUMMIT_LEAD,
     SUPPORT_LEAD,
     SEATS
@@ -317,6 +318,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
 
                 <DropDown
                     arr={ALTERNATE_PICKUP}
+                    tooltipObj={ALTERNATE_PICKUP_TOOLTIP}
                     value={alternatePickup}
                     handleChange={handlePickupChange}
                     label={'Alternate Pickup'}
