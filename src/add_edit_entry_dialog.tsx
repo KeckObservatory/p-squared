@@ -256,16 +256,16 @@ export const AddEditEntryDialog = (props: Props) => {
         console.log('deleteResponse', deleteResponse)
         const addResponse: any = await add_entry(entry)
         console.log('addResponse', addResponse)
-        setOpen(false)
         props.handleCloseDialog && props.handleCloseDialog()
-        props.handleEntrySubmit()
       }
       else {
         const addResponse: any = await add_entry(entry)
         console.log('addResponse', addResponse)
-        setOpen(false)
-        props.handleEntrySubmit()
       }
+    }
+    if (entries.length > 0) {
+      setOpen(false)
+      props.handleEntrySubmit()
     }
 
   }
