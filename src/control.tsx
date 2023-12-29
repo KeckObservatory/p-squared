@@ -60,21 +60,22 @@ export const ALL_LOCATIONS = [
     "OffSite"
 ]
 
-export const LOCATION_TOOLTIP: { [key: string]: string} = {
+export const LOCATION_TOOLTIP: { [key: string]: string } = {
     "": "",
-    "HQ": "Waimea Headquarters",
-    "SU": "Summit",
-    "HP": "Hale Pohaku",
-    "WFH": "Work From Home",
-    "Remote": "For Remote employees only",
+    "HQ": "Working at Headquarters",
+    "SU": "Working at Summit",
+    "HP": "Working at Hale Pohaku, not going to the Summit",
+    "WFH": "Working From Home",
+    "Remote": "Work at a non-home location approved by HR and your supervisor",
     "Sick": "Sick Leave",
     "Vacation": "Vacation Leave",
     "JuryDuty": "Jury Duty",
     "FamilySick": "Family Sick Leave",
-    "Flex": "Flex Time",
-    "Travel": "On Travel",
+    "Beraeved": "Bereavement Leave",
+    "Flex": "Time off in exchange for working non-regular hours approved by supervisor",
+    "Travel": "Approved business travel dates as listed on a TA form",
     "NgtSup": "Night Support",
-    "OffSite": "Off Site",
+    "OffSite": "Working at a non-Keck location, include details in notes",
 }
 
 export const REDUCED_LOCATIONS = [
@@ -84,8 +85,6 @@ export const REDUCED_LOCATIONS = [
     "HP",
     "WFH",
     "Flex",
-    "Travel",
-    "NgtSup",
     "OffSite"
 ]
 
