@@ -254,7 +254,7 @@ export const Control = (props: Props) => {
             }
             const canEdit = Boolean(await get_can_edit(user.Alias))
             let emps = await get_employees()
-            if (emps.length === 0) {
+            if (emps.length === 0 || emps === undefined) {
                 throw new Error('No employees found')
             }
             let empDeps = emps.map((emp: Employee) => { return emp.Department })
