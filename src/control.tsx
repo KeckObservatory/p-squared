@@ -247,7 +247,16 @@ export const Control = (props: Props) => {
 
         const init_employees = async () => {
             console.log('init employees')
+            const user = await get_staffinfo()
+            //@ts-ignore
+            if ((user).status === 'ERROR' || user.Alias === undefined) {
+                window.location.reload();
+            }
+            const canEdit = Boolean(await get_can_edit(user.Alias))
             let emps = await get_employees()
+            if (emps.length === 0) {
+                throw new Error('No employees found')
+            }
             let empDeps = emps.map((emp: Employee) => { return emp.Department })
             let roleArr = emps.map((emp: Employee) => { return emp.Role.split(',') })
             let roles: string[] = []
@@ -260,12 +269,6 @@ export const Control = (props: Props) => {
             let dpnts = Array.from(new Set(empDeps))
             dpnts = ["", ...dpnts.sort()]
             setDepartments(dpnts)
-            const user = await get_staffinfo()
-            //@ts-ignore
-            if ((user).status === 'ERROR' || user.Alias === undefined) {
-                window.location.reload();
-            }
-            const canEdit = Boolean(await get_can_edit(user.Alias))
             console.log('canEdit', canEdit)
             set_emp_and_user(emps, user, canEdit)
         }
