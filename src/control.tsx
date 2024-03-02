@@ -261,6 +261,10 @@ export const Control = (props: Props) => {
             dpnts = ["", ...dpnts.sort()]
             setDepartments(dpnts)
             const user = await get_staffinfo()
+            //@ts-ignore
+            if ((user).status === 'ERROR' || user.Alias === undefined) {
+                window.location.reload();
+            }
             const canEdit = Boolean(await get_can_edit(user.Alias))
             console.log('canEdit', canEdit)
             set_emp_and_user(emps, user, canEdit)
