@@ -54,6 +54,7 @@ export const ALL_LOCATIONS = [
     "Vacation",
     "JuryDuty",
     "FamilySick",
+    "Bereaved",
     "Flex",
     "Travel",
     "NgtSup",
