@@ -71,7 +71,7 @@ export const LOCATION_TOOLTIP: { [key: string]: string } = {
     "Vacation": "Vacation Leave",
     "JuryDuty": "Jury Duty",
     "FamilySick": "Family Sick Leave",
-    "Beraeved": "Bereavement Leave",
+    "Bereaved": "Bereavement Leave",
     "Flex": "Time off in exchange for working non-regular hours approved by supervisor",
     "Travel": "Approved business travel dates as listed on a TA form",
     "NgtSup": "Night Support",
