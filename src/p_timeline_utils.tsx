@@ -41,6 +41,7 @@ const get_location_color = (location: string) => {
         case "Sick":
         case "FamilySick":
         case "Sick":
+        case "Bereavement":
         case "JuryDuty":
         case "Holiday":
             color = colorMapping['green']
@@ -277,7 +278,7 @@ export const entries_to_items = (entries: EntryData[]) => {
             const notEmpty = dr !== null && dr !== "null" && dr !== "[]" && dr !== undefined
             if (notEmpty) {
                 dateRange = JSON.parse(dr) as DateRange
-                const leave = ["Vacation", "Sick", "FamilySick", "JuryDuty"].includes(loc)
+                const leave = ["Vacation", "Sick", "FamilySick", "JuryDuty", "Bereavement"].includes(loc)
                 title = loc
                 if (leave) title = 'Leave'
 
