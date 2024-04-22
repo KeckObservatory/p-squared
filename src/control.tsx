@@ -89,23 +89,6 @@ export const REDUCED_LOCATIONS = [
     "OffSite"
 ]
 
-export const DEPARTMENTS = [
-    '',
-    'Administration',
-    'AO/Optics',
-    'Development Program Support',
-    'Directorate Office',
-    'Engineering',
-    'Finance',
-    'Observing Support',
-    'Operations & Infrastructure',
-    'Scientific Software',
-    'Software',
-    'Systems Administration',
-    'Council',
-    'Guest'
-];
-
 export const ALTERNATE_PICKUP = ['', 'HPP', 'HQ', 'Hilo', 'SJP', 'WJP'
 ]
 
