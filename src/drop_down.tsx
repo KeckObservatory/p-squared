@@ -7,7 +7,7 @@ import InputLabel from '@mui/material/InputLabel'
 export const formControlStyle = {
     minWidth: 120,
     width: '100%',
-    margin: '6px',
+    margin: '0px',
     display: 'flex',
     flexWrap: 'wrap',
 }

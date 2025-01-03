@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import DropDown from './drop_down';
-import { Autocomplete, AutocompleteRenderInputParams, Typography } from "@mui/material";
+import { Autocomplete, AutocompleteRenderInputParams, Stack, Typography } from "@mui/material";
 import {
     Employee,
     EntryState,
@@ -13,13 +12,13 @@ import {
     ALTERNATE_PICKUP_TOOLTIP,
     SUMMIT_LEAD,
     SUPPORT_LEAD,
-    CREW_LEAD,
     SEATS,
     LOCATION_TOOLTIP,
 } from './control';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { get_staffinfo, User } from './api';
 import { LargeTooltip } from "./App";
+import { setMaxListeners } from "process";
 
 const formControlStyle = {
     minWidth: 120,
@@ -297,110 +296,106 @@ export const EntryForm = (props: Props) => {
     }
 
 
-    const supportLeadString = props.entryState.supportLead ? 
-                             SUPPORT_LEAD[props.entryState.supportLead] 
-                             : "" 
-    const strStartMin = JSON.stringify(props.entryState.startMinutes).padStart(2, '0')
-    const strEndMin = JSON.stringify(props.entryState.endMinutes).padStart(2, '0')
-    const strShift = `${props.entryState.startHour}:${strStartMin}-${props.entryState.endHour}:${strEndMin}`
+    const supportLeadString = props.entryState.supportLead ?
+        SUPPORT_LEAD[props.entryState.supportLead]
+        : ""
+
+    const format_shift = (sh?: number, sm?: number, eh?: number, em?: number) => {
+        if (sh === undefined || sm === undefined || eh === undefined || em === undefined) {
+            return ''
+        }
+        const strStartMin = JSON.stringify(sm).padStart(2, '0')
+        const strEndMin = JSON.stringify(em).padStart(2, '0')
+        return `${sh}:${strStartMin}-${eh}:${strEndMin}`
+    }
+
+    const shiftStr = format_shift(props.entryState.startHour, props.entryState.startMinutes, props.entryState.endHour, props.entryState.endMinutes)
+    const secondShiftStr = format_shift(props.entryState.startHour2, props.entryState.startMinutes2, props.entryState.endHour2, props.entryState.endMinutes2)
+
+
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                '& .MuiTextField-root': {},
-            }}
-        >
-            <Autocomplete
-                sx={{ ...formControlStyle, marginTop: '12px' }}
-                disablePortal
-                value={autoValue}
-                id="employee-box"
-                options={props.employees}
-                getOptionLabel={(option) => option.label as string}
-                renderInput={(params) => <TextField
-                    {...params}
+        <Stack sx={{ marginTop: '8px', overflow: 'hidden' }} width="100%" direction="column" spacing={2}>
+            <Stack sx={{ marginTop: '8px' }} width="100%" direction="row" justifyContent='space-between' spacing={2}>
+                <Autocomplete
+                    sx={{ ...formControlStyle, marginTop: '0px' }}
+                    disablePortal
+                    value={autoValue}
+                    id="employee-box"
+                    options={props.employees}
+                    getOptionLabel={(option) => option.label as string}
+                    renderInput={(params) => <TextField
+                        {...params}
+                        InputLabelProps={{ shrink: true }}
+                        label="Name"
+                        disabled={props.edit}
+                    />}
+                    onChange={handleNameChange}
+                />
+                <TextField
+                    sx={formControlStyle}
                     InputLabelProps={{ shrink: true }}
-                    label="Name"
-                    disabled={props.edit}
-                />}
-                onChange={handleNameChange}
-            />
-            <TextField
-                sx={formControlStyle}
-                InputLabelProps={{ shrink: true }}
-                label={'Department'}
-                value={props.entryState.department}
-                disabled id="department" />
-            <TextField
-                sx={formControlStyle}
-                InputLabelProps={{ shrink: true }}
-                label={'Base Camp'}
-                value={props.entryState.baseCamp}
-                disabled id="base-camp" />
-            <TextField
-                sx={formControlStyle}
-                InputLabelProps={{ shrink: true }}
-                disabled
-                label={'Staff'}
-                id="staff"
-                value={props.entryState.staff}
-            />
-            <div style={{ 'zIndex': 999, "margin": "6px", "marginRight": "0px", "width": "100%" }}>
-                <DateRangePicker onChange={onDateRangeChange} value={props.entryState.dateRange} />
-            </div>
-            <LargeTooltip placement="left" title={"Start time is when you leave the base camp"}>
-                <div>
-                    <DropDown
-                        arr={SHIFTS}
-                        value={strShift}
-                        handleChange={onShiftChange}
-                        label={'Shift Hours'}
-                        placeholder={""}
-                    />
+                    label={'Department'}
+                    value={props.entryState.department}
+                    disabled id="department" />
+                <TextField
+                    sx={formControlStyle}
+                    InputLabelProps={{ shrink: true }}
+                    label={'Base Camp'}
+                    value={props.entryState.baseCamp}
+                    disabled id="base-camp" />
+                <TextField
+                    sx={formControlStyle}
+                    InputLabelProps={{ shrink: true }}
+                    disabled
+                    label={'Staff'}
+                    id="staff"
+                    value={props.entryState.staff}
+                />
+            </Stack>
+            <Stack sx={{ marginTop: '8px' }} width="100%" direction="row" justifyContent='center' spacing={2}>
+                <div style={{ 'zIndex': 999, "margin": "6px", "marginRight": "0px" }}>
+                    <DateRangePicker onChange={onDateRangeChange} value={props.entryState.dateRange} />
                 </div>
-            </LargeTooltip>
-            <div style={{ "display": "flex", "marginTop": "16px", "width": "100%" }}>
+            </Stack>
+            <Stack sx={{ marginTop: '12px', marginBottom: '12px' }} width="100%" direction="row" justifyContent='space-between' spacing={2}>
                 <LargeTooltip placement="left" title={"Start time is when you leave the base camp"}>
-                    <div>
+                    <div style={{ "minWidth": "130px", "marginTop": "0px", "marginRight": "12px"}}>
                         <DropDown
-                            arr={HOURS}
-                            value={JSON.stringify(props.entryState.startHour)}
-                            handleChange={onStartHourChange}
-                            label={'Start Hour'}
+                            arr={SHIFTS}
+                            value={shiftStr}
+                            handleChange={onShiftChange}
+                            label={'Shift Hours'}
                             placeholder={""}
                         />
                     </div>
                 </LargeTooltip>
-                <div>
-                    <DropDown arr={HOURS}
-                        value={JSON.stringify(props.entryState.endHour)}
-                        handleChange={onEndHourChange}
-                        label={'End Hour'}
-                        placeholder={""}
-                    />
-                </div>
-            </div >
-            <div style={{ "display": "flex", "marginTop": "16px", "width": "100%" }}>
-                <div>
-                    <DropDown
-                        arr={MINUTES}
-                        value={JSON.stringify(props.entryState.startMinutes)}
-                        handleChange={onStartMinutesChange}
-                        label={'Start Min'}
-                        placeholder={""}
-                    />
-                </div>
-                <div>
-                    <DropDown arr={MINUTES}
-                        value={JSON.stringify(props.entryState.endMinutes)}
-                        handleChange={onEndMinutesChange}
-                        label={'End Min'}
-                        placeholder={""}
-                    />
-                </div>
-            </div >
+                <DropDown arr={HOURS}
+                    value={JSON.stringify(props.entryState.startHour)}
+                    handleChange={onStartHourChange}
+                    label={'Start Hour'}
+                    placeholder={""}
+                />
+                <DropDown arr={HOURS}
+                    value={JSON.stringify(props.entryState.endHour)}
+                    handleChange={onEndHourChange}
+                    label={'End Hour'}
+                    placeholder={""}
+                />
+                <DropDown
+                    arr={MINUTES}
+                    value={JSON.stringify(props.entryState.startMinutes)}
+                    handleChange={onStartMinutesChange}
+                    label={'Start Min'}
+                    placeholder={""}
+                />
+                <DropDown arr={MINUTES}
+                    value={JSON.stringify(props.entryState.endMinutes)}
+                    handleChange={onEndMinutesChange}
+                    label={'End Min'}
+                    placeholder={""}
+                />
+            </Stack>
             <DropDown
                 arr={locations}
                 tooltipObj={LOCATION_TOOLTIP}
@@ -410,32 +405,33 @@ export const EntryForm = (props: Props) => {
                 placeholder={""}
             />
             {isRideBoard &&
-                <React.Fragment>
-                    <Typography>Ride Board Form</Typography>
-                    <DropDown
-                        arr={ALTERNATE_PICKUP}
-                        tooltipObj={ALTERNATE_PICKUP_TOOLTIP}
-                        value={props.entryState.alternatePickup}
-                        handleChange={handlePickupChange}
-                        label={'Alternate Pickup Location'}
-                        placeholder={""}
-                    />
-                    <DropDown
-                        arr={SUMMIT_LEAD}
-                        value={props.entryState.summitLead}
-                        handleChange={handleSummitLeadChange}
-                        label={'Summit Lead'}
-                        placeholder={""}
-                    />
-                    <DropDown
-                        arr={SUPPORT_LEAD}
-                        value={supportLeadString}
-                        handleChange={handleSupportLeadChange}
-                        label={'Support Lead'}
-                        placeholder={""}
-                    />
-                    <LargeTooltip placement="left" title={"Enter additional seats needed"}>
-                        <div>
+                <Stack sx={{ marginTop: '8px' }} width="100%" direction="column" justifyContent='space-between' spacing={2}>
+                    <Typography align={'center'}>Ride Board Form</Typography>
+                    {/* <Stack sx={{ marginTop: '8px', marginBottom: '8px' }} width="100%" direction="row" justifyContent='center' spacing={2}> */}
+                    <Stack width="100%" direction="row" justifyContent='space-between' spacing={2}>
+                        <DropDown
+                            arr={ALTERNATE_PICKUP}
+                            tooltipObj={ALTERNATE_PICKUP_TOOLTIP}
+                            value={props.entryState.alternatePickup}
+                            handleChange={handlePickupChange}
+                            label={'Alternate Pickup Location'}
+                            placeholder={""}
+                        />
+                        <DropDown
+                            arr={SUMMIT_LEAD}
+                            value={props.entryState.summitLead}
+                            handleChange={handleSummitLeadChange}
+                            label={'Summit Lead'}
+                            placeholder={""}
+                        />
+                        <DropDown
+                            arr={SUPPORT_LEAD}
+                            value={supportLeadString}
+                            handleChange={handleSupportLeadChange}
+                            label={'Support Lead'}
+                            placeholder={""}
+                        />
+                        <LargeTooltip placement="left" title={"Enter additional seats needed"}>
                             <DropDown
                                 arr={SEATS}
                                 value={props.entryState.seats}
@@ -443,22 +439,27 @@ export const EntryForm = (props: Props) => {
                                 label={'Additional Seats'}
                                 placeholder={""}
                             />
-                        </div>
-                    </LargeTooltip>
-                </React.Fragment>
+                        </LargeTooltip>
+                    </Stack>
+                </Stack>
             }
-            <Button onClick={handle2ndLocationSelect}>Add 2nd location</Button>
+            <Button sx={{ "justifyContent": 'center' }} onClick={handle2ndLocationSelect}>Add 2nd location</Button>
             {
                 show2ndLocation &&
                 <React.Fragment>
-                    <DropDown
-                        arr={SHIFTS}
-                        value={JSON.stringify(props.entryState.startHour2) + '-' + JSON.stringify(props.entryState.endHour2)}
-                        handleChange={onShift2Change}
-                        label={'Shift Hours'}
-                        placeholder={""}
-                    />
-                    <div style={{ "display": "flex", "marginTop": "12px", "width": "100%" }}>
+                    <Stack sx={{ marginTop: '8px', marginBottom: '8px' }} width="100%" direction="row" justifyContent='space-between' spacing={2}>
+                        <LargeTooltip placement="left" title={"Start time is when you leave the base camp"}>
+                            <div style={{ "minWidth": "130px", "marginRight": "12px", "marginBottom": "0px" }}>
+                                <DropDown
+                                    arr={SHIFTS}
+                                    value={secondShiftStr}
+                                    // value={JSON.stringify(props.entryState.startHour2) + '-' + JSON.stringify(props.entryState.endHour2)}
+                                    handleChange={onShift2Change}
+                                    label={'Shift Hours'}
+                                    placeholder={""}
+                                />
+                            </div>
+                        </LargeTooltip>
                         <DropDown arr={HOURS}
                             value={JSON.stringify(props.entryState.startHour2)}
                             handleChange={onStartHour2Change}
@@ -471,8 +472,6 @@ export const EntryForm = (props: Props) => {
                             label={'End Hour'}
                             placeholder={""}
                         />
-                    </div >
-                    <div style={{ "display": "flex", "marginTop": "16px", "width": "100%" }}>
                         <DropDown
                             arr={MINUTES}
                             value={JSON.stringify(props.entryState.startMinutes2)}
@@ -486,7 +485,7 @@ export const EntryForm = (props: Props) => {
                             label={'End Min'}
                             placeholder={""}
                         />
-                    </div >
+                    </Stack>
                     <DropDown arr={locations}
                         value={props.entryState.location2}
                         handleChange={handleLocation2Change}
@@ -497,11 +496,11 @@ export const EntryForm = (props: Props) => {
             }
             <TextField
                 focused
-                sx={formControlStyle}
+                sx={{ ...formControlStyle }}
                 label={'Note'}
                 id="note"
                 onChange={handleCommentChange}
                 value={props.entryState.comment} />
-        </Box >
+        </Stack >
     );
 }

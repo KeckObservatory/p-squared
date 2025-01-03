@@ -173,6 +173,7 @@ export const AddShiftsDialog = (props: Props) => {
       </Button>
       <Dialog
         sx={{ paddingTop: '3px' }}
+        maxWidth='lg'
         fullScreen={fullScreen}
         open={open}
         onClose={handleClose}

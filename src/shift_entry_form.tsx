@@ -3,7 +3,7 @@ import moment from "moment";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import DropDown from './drop_down';
-import { Autocomplete, AutocompleteChangeDetails, AutocompleteChangeReason, Checkbox, FormControlLabel, FormLabel, Typography } from "@mui/material";
+import { Autocomplete, AutocompleteChangeDetails, AutocompleteChangeReason, Checkbox, FormControlLabel, FormLabel, Stack, Typography } from "@mui/material";
 import {
     Employee,
     ALTERNATE_PICKUP,
@@ -207,17 +207,11 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
     const strEndMin = endMinutes.padStart(2, '0')
     const strShift = `${startHour}:${strStartMin}-${endHour}:${strEndMin}`
 
-    const supportLeadString = supportLead ? 
-                             SUPPORT_LEAD[supportLead] 
-                             : "" 
+    const supportLeadString = supportLead ?
+        SUPPORT_LEAD[supportLead]
+        : ""
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                '& .MuiTextField-root': {},
-            }}
-        >
+        <Stack sx={{ marginTop: '8px', overflow: 'hidden' }} width="100%" direction="column" spacing={2}>
             <Autocomplete
                 multiple
                 id="tags-standard"
@@ -234,35 +228,36 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                     />
                 )}
             />
-            <DropDown arr={props.roles}
-                value={role}
-                handleChange={onRoleChange}
-                label={'Role'}
-                placeholder={""}
-            />
-            <DropDown arr={["HQ", "SU", "WFH"]}
-                value={location}
-                handleChange={onLocationChange}
-                label={'Location'}
-                placeholder={""}
-            />
+            <Stack sx={{ marginTop: '8px', overflow: 'hidden' }} width="100%" direction="row" spacing={2}>
+                <DropDown arr={props.roles}
+                    value={role}
+                    handleChange={onRoleChange}
+                    label={'Role'}
+                    placeholder={""}
+                />
+                <DropDown arr={["HQ", "SU", "WFH"]}
+                    value={location}
+                    handleChange={onLocationChange}
+                    label={'Location'}
+                    placeholder={""}
+                />
+            </Stack>
             <div style={{ 'zIndex': 999, "marginLeft": "6px", "width": "100%" }}>
                 <FormLabel component="legend">Date Range</FormLabel>
                 <DateRangePicker onChange={onDateRangeChange} value={[dateRange[0].toDate(), dateRange[1].toDate()]} />
             </div>
-            <LargeTooltip placement="left" title={"Start time is when you leave basecamp"}>
-                <div>
-                    <DropDown
-                        arr={SHIFTS}
-                        value={strShift}
-                        handleChange={onShiftChange}
-                        label={'Shift Hours'}
-                        placeholder={""}
-                    />
-                </div>
-            </LargeTooltip>
-            <div style={{ "display": "flex", "marginTop": "12px", "width": "100%" }}>
-
+            <Stack sx={{ marginTop: '12px', marginBottom: '12px' }} width="100%" direction="row" justifyContent='space-between' spacing={2}>
+                <LargeTooltip placement="left" title={"Start time is when you leave basecamp"}>
+                    <div style={{ "minWidth": "130px", "marginTop": "0px", "marginRight": "12px" }}>
+                        <DropDown
+                            arr={SHIFTS}
+                            value={strShift}
+                            handleChange={onShiftChange}
+                            label={'Shift Hours'}
+                            placeholder={""}
+                        />
+                    </div>
+                </LargeTooltip>
                 <LargeTooltip placement="left" title={"Start time is when you leave basecamp"}>
                     <div>
                         <DropDown arr={HOURS}
@@ -273,34 +268,26 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                         />
                     </div>
                 </LargeTooltip>
-                <div>
-                    <DropDown arr={HOURS}
-                        value={endHour}
-                        handleChange={onEndHourChange}
-                        label={'End Hour'}
-                        placeholder={""}
-                    />
-                </div>
-            </div >
-            <div style={{ "display": "flex", "marginTop": "16px", "width": "100%" }}>
-                <div>
-                    <DropDown
-                        arr={MINUTES}
-                        value={startMinutes}
-                        handleChange={onStartMinutesChange}
-                        label={'Start Min'}
-                        placeholder={""}
-                    />
-                </div>
-                <div>
-                    <DropDown arr={MINUTES}
-                        value={endMinutes}
-                        handleChange={onEndMinutesChange}
-                        label={'End Min'}
-                        placeholder={""}
-                    />
-                </div>
-            </div >
+                <DropDown arr={HOURS}
+                    value={endHour}
+                    handleChange={onEndHourChange}
+                    label={'End Hour'}
+                    placeholder={""}
+                />
+                <DropDown
+                    arr={MINUTES}
+                    value={startMinutes}
+                    handleChange={onStartMinutesChange}
+                    label={'Start Min'}
+                    placeholder={""}
+                />
+                <DropDown arr={MINUTES}
+                    value={endMinutes}
+                    handleChange={onEndMinutesChange}
+                    label={'End Min'}
+                    placeholder={""}
+                />
+            </Stack>
             <div>
                 <FormLabel component="legend">Shift Days of Week</FormLabel>
                 {daysOfWeek.map((dow: string) => {
@@ -313,9 +300,8 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                     />)
                 })}
             </div>
-            <React.Fragment>
-                <Typography>Ride Board Form</Typography>
-
+            <Typography>Ride Board Form</Typography>
+            <Stack sx={{ marginTop: '12px', marginBottom: '12px' }} width="100%" direction="row" justifyContent='space-between' spacing={2}>
                 <DropDown
                     arr={ALTERNATE_PICKUP}
                     tooltipObj={ALTERNATE_PICKUP_TOOLTIP}
@@ -349,7 +335,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                         />
                     </div>
                 </LargeTooltip>
-            </React.Fragment>
+            </Stack>
             <TextField
                 focused
                 sx={formControlStyle}
@@ -357,6 +343,6 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                 id="note"
                 onChange={handleCommentChange}
                 value={comment} />
-        </Box >
+        </Stack >
     );
 }))

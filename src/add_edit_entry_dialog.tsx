@@ -280,10 +280,11 @@ export const AddEditEntryDialog = (props: Props) => {
       <Dialog
         sx={{ paddingTop: '3px' }}
         fullScreen={fullScreen}
+        maxWidth='lg'
         open={open}
         onClose={handleClose}
       >
-        <DialogTitle>
+        <DialogTitle align={'center'} sx={{ paddingBottom: '8px' }}>
           {title}
         </DialogTitle>
         <DialogContent>
