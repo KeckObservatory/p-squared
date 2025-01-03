@@ -289,7 +289,7 @@ export const AddEditEntryDialog = (props: Props) => {
         </DialogTitle>
         <DialogContent>
           {errMsg && (
-            <Typography sx={{ color: 'red' }} variant="h3">{errMsg}</Typography>
+            <Typography sx={{ color: 'red' }} variant="h5">{errMsg}</Typography>
           )}
           <EntryForm
             edit={props.edit}
