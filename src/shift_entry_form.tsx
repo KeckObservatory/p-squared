@@ -211,7 +211,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
         SUPPORT_LEAD[supportLead]
         : ""
     return (
-        <Stack sx={{ marginTop: '8px', overflow: 'hidden' }} width="100%" direction="column" spacing={2}>
+        <Stack sx={{ marginTop: '8px', overflowX: 'hidden' }} width="100%" direction="column" spacing={2}>
             <Autocomplete
                 multiple
                 id="tags-standard"

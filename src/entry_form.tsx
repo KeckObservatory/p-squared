@@ -315,7 +315,7 @@ export const EntryForm = (props: Props) => {
 
 
     return (
-        <Stack sx={{ marginTop: '8px', overflow: 'hidden' }} width="100%" direction="column" spacing={2}>
+        <Stack sx={{ marginTop: '8px', overflowX: 'hidden' }} width="100%" direction="column" spacing={2}>
             <Stack sx={{ marginTop: '8px' }} width="100%" direction="row" justifyContent='space-between' spacing={2}>
                 <Autocomplete
                     sx={{ ...formControlStyle, marginTop: '0px' }}
