@@ -168,7 +168,7 @@ const check_for_errors = (entryState: EntryState, setErrMsg: Function) => {
   //date range
   const maxDayRange = 30
   const leaveDayRange = 30
-  const isVacation = entryState.location.includes('Vacation')
+  const isVacation = entryState.location?.includes('Vacation')
   const dt = moment(entryState.dateRange[1]).diff(moment(entryState.dateRange[0]), 'days')
   if (isVacation && dt >= leaveDayRange) {
     setErrMsg(`date range cannot be longer than ${leaveDayRange}`)
@@ -202,7 +202,7 @@ const check_for_errors = (entryState: EntryState, setErrMsg: Function) => {
   }
 
   //if WFH notes are needed
-  const missingWFHComment = !entryState.comment && entryState.location.includes('WFH')
+  const missingWFHComment = !entryState.comment && entryState.location?.includes('WFH')
 
   console.log('is comment and WFH?', !entryState.comment, entryState.location, missingWFHComment)
   if (missingWFHComment) {
