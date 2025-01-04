@@ -44,6 +44,12 @@ const check_for_errors = (shiftState: ShiftState, setErrMsg: Function) => {
     return true
   }
 
+  //no employees selected
+  if (!shiftState.selectedEmployees || shiftState.selectedEmployees.length === 0) {
+    setErrMsg('No employees selected')
+    return true
+  }
+
 
   //hours are zero
   const shiftLength = Number(shiftState.endHour) - Number(shiftState.startHour)
