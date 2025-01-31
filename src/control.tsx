@@ -322,7 +322,7 @@ export const Control = (props: Props) => {
             <Paper sx={{ margin: '4px', paddingTop: '2px' }} elevation={3}>
                 <Box sx={{ marginTop: '16px' }}
                 >
-                    <FormControl sx={{ width: 150, margin: '6px', marginTop: '12px' }}>
+                    <FormControl sx={{ width: 150, margin: '6px', marginTop: '6px' }}>
                         <YearMonthPicker date={moment(state.date, DATE_FORMAT)} handleDateChange={handleDateChange} />
                     </FormControl>
                     <FormControl aria-label='location' sx={{ width: 100, margin: '6px', marginTop: '6px' }}>
@@ -351,7 +351,7 @@ export const Control = (props: Props) => {
                             label={'Roles'}
                         />
                     </FormControl>
-                    <FormControl sx={{ width: 250, marginLeft: '26px', marginTop: '12px' }}>
+                    <FormControl sx={{ width: 250, marginLeft: '26px', marginTop: '6px' }}>
                         <Autocomplete
                             freeSolo
                             disablePortal
