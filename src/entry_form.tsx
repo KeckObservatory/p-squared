@@ -376,17 +376,17 @@ export const EntryForm = (props: Props) => {
                     label={'Start Hour'}
                     placeholder={""}
                 />
-                <DropDown arr={HOURS}
-                    value={JSON.stringify(props.entryState.endHour)}
-                    handleChange={onEndHourChange}
-                    label={'End Hour'}
-                    placeholder={""}
-                />
                 <DropDown
                     arr={MINUTES}
                     value={JSON.stringify(props.entryState.startMinutes)}
                     handleChange={onStartMinutesChange}
                     label={'Start Min'}
+                    placeholder={""}
+                />
+                <DropDown arr={HOURS}
+                    value={JSON.stringify(props.entryState.endHour)}
+                    handleChange={onEndHourChange}
+                    label={'End Hour'}
                     placeholder={""}
                 />
                 <DropDown arr={MINUTES}

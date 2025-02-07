@@ -281,13 +281,6 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                     label={'End Hour'}
                     placeholder={""}
                 />
-                <DropDown
-                    arr={MINUTES}
-                    value={startMinutes}
-                    handleChange={onStartMinutesChange}
-                    label={'Start Min'}
-                    placeholder={""}
-                />
                 <DropDown arr={MINUTES}
                     value={endMinutes}
                     handleChange={onEndMinutesChange}
