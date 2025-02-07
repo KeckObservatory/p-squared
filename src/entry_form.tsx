@@ -408,13 +408,13 @@ export const EntryForm = (props: Props) => {
                 <Stack sx={{ marginTop: '8px' }} width="100%" direction="column" justifyContent='space-between' spacing={2}>
                     <Typography align={'center'}>Ride Board Form</Typography>
                     {/* <Stack sx={{ marginTop: '8px', marginBottom: '8px' }} width="100%" direction="row" justifyContent='center' spacing={2}> */}
-                    <Stack width="100%" direction="row" justifyContent='space-between' spacing={2}>
+                    <Stack width="100%" direction="row" justifyContent='space-between' spacing={1}>
                         <DropDown
                             arr={ALTERNATE_PICKUP}
                             tooltipObj={ALTERNATE_PICKUP_TOOLTIP}
                             value={props.entryState.alternatePickup}
                             handleChange={handlePickupChange}
-                            label={'Alternate Pickup Location'}
+                            label={'Alternate Pickup'}
                             placeholder={""}
                         />
                         <DropDown
@@ -466,17 +466,17 @@ export const EntryForm = (props: Props) => {
                             label={'Start Hour'}
                             placeholder={""}
                         />
-                        <DropDown arr={HOURS}
-                            value={JSON.stringify(props.entryState.endHour2)}
-                            handleChange={onEndHour2Change}
-                            label={'End Hour'}
-                            placeholder={""}
-                        />
                         <DropDown
                             arr={MINUTES}
                             value={JSON.stringify(props.entryState.startMinutes2)}
                             handleChange={onStartMinutes2Change}
                             label={'Start Min'}
+                            placeholder={""}
+                        />
+                        <DropDown arr={HOURS}
+                            value={JSON.stringify(props.entryState.endHour2)}
+                            handleChange={onEndHour2Change}
+                            label={'End Hour'}
                             placeholder={""}
                         />
                         <DropDown arr={MINUTES}

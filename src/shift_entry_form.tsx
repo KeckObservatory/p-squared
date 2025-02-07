@@ -268,6 +268,13 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                         />
                     </div>
                 </LargeTooltip>
+                <DropDown
+                    arr={MINUTES}
+                    value={startMinutes}
+                    handleChange={onStartMinutesChange}
+                    label={'Start Min'}
+                    placeholder={""}
+                />
                 <DropDown arr={HOURS}
                     value={endHour}
                     handleChange={onEndHourChange}
@@ -325,15 +332,13 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                     placeholder={""}
                 />
                 <LargeTooltip placement="left" title={"Enter additional seats needed"}>
-                    <div>
-                        <DropDown
-                            arr={SEATS}
-                            value={seats}
-                            handleChange={handleSeatChange}
-                            label={'EXTRA SEATS'}
-                            placeholder={""}
-                        />
-                    </div>
+                    <DropDown
+                        arr={SEATS}
+                        value={seats}
+                        handleChange={handleSeatChange}
+                        label={'EXTRA SEATS'}
+                        placeholder={""}
+                    />
                 </LargeTooltip>
             </Stack>
             <TextField
