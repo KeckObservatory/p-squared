@@ -9,7 +9,7 @@ import {
     ALTERNATE_PICKUP,
     ALTERNATE_PICKUP_TOOLTIP,
     SUMMIT_LEAD,
-    SUPPORT_LEAD,
+    SUPPORT_CONTACT,
     SEATS
 } from './control';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
@@ -162,7 +162,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
     }
 
     const handleSupportLeadChange = (value: string) => {
-        const idx = SUPPORT_LEAD.findIndex((el) => el === value)
+        const idx = SUPPORT_CONTACT.findIndex((el) => el === value)
         setSupportLead(idx)
     }
 
@@ -208,7 +208,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
     const strShift = `${startHour}:${strStartMin}-${endHour}:${strEndMin}`
 
     const supportLeadString = supportLead ?
-        SUPPORT_LEAD[supportLead]
+        SUPPORT_CONTACT[supportLead]
         : ""
     return (
         <Stack sx={{ marginTop: '8px', overflowX: 'hidden' }} width="100%" direction="column" spacing={2}>
@@ -318,10 +318,10 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
                     placeholder={""}
                 />
                 <DropDown
-                    arr={SUPPORT_LEAD}
+                    arr={SUPPORT_CONTACT}
                     value={supportLeadString}
                     handleChange={handleSupportLeadChange}
-                    label={'Support Lead'}
+                    label={'Support Contact'}
                     placeholder={""}
                 />
                 <LargeTooltip placement="left" title={"Enter additional seats needed"}>

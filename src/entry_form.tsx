@@ -11,7 +11,7 @@ import {
     ALTERNATE_PICKUP,
     ALTERNATE_PICKUP_TOOLTIP,
     SUMMIT_LEAD,
-    SUPPORT_LEAD,
+    SUPPORT_CONTACT,
     SEATS,
     LOCATION_TOOLTIP,
 } from './control';
@@ -265,7 +265,7 @@ export const EntryForm = (props: Props) => {
         )
     }
     const handleSupportLeadChange = (value: string) => {
-        const idx = SUPPORT_LEAD.findIndex((el) => el === value)
+        const idx = SUPPORT_CONTACT.findIndex((el) => el === value)
         props.setEntryState(
             { ...props.entryState, supportLead: idx }
         )
@@ -297,7 +297,7 @@ export const EntryForm = (props: Props) => {
 
 
     const supportLeadString = props.entryState.supportLead ?
-        SUPPORT_LEAD[props.entryState.supportLead]
+        SUPPORT_CONTACT[props.entryState.supportLead]
         : ""
 
     const format_shift = (sh?: number, sm?: number, eh?: number, em?: number) => {
@@ -425,10 +425,10 @@ export const EntryForm = (props: Props) => {
                             placeholder={""}
                         />
                         <DropDown
-                            arr={SUPPORT_LEAD}
+                            arr={SUPPORT_CONTACT}
                             value={supportLeadString}
                             handleChange={handleSupportLeadChange}
-                            label={'Support Lead'}
+                            label={'Support Contact'}
                             placeholder={""}
                         />
                         <LargeTooltip placement="left" title={"Enter additional seats needed"}>

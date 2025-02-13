@@ -7,7 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { EntryForm } from './entry_form'
-import { EntryState, Employee, DATE_FORMAT, DATETIME_FORMAT, SUPPORT_LEAD } from './control';
+import { EntryState, Employee, DATE_FORMAT, DATETIME_FORMAT, SUPPORT_CONTACT } from './control';
 import { add_entry, delete_entry_by_id } from './api';
 import moment from 'moment';
 import { EntryData } from './p_timeline_utils';
