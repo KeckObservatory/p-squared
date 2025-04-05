@@ -37,7 +37,7 @@ import isoWeek from 'dayjs/plugin/isoWeek'
 dayjs.extend(isoWeek);
 dayjs.extend(utc)
 dayjs.extend(timezone)
-const HAWAII_TIMEZONE= 'US/Honolulu'
+const HAWAII_TIMEZONE= 'Pacific/Honolulu'
  
 
 
