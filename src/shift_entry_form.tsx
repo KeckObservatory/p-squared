@@ -1,5 +1,5 @@
 import React, { useEffect, useState, forwardRef, useImperativeHandle, SyntheticEvent } from "react";
-import moment from "moment";
+import dayjs from "dayjs";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import DropDown from './drop_down';
@@ -55,7 +55,7 @@ export interface ShiftState {
     endHour: string,
     startMinutes: string,
     endMinutes: string
-    dateRange: [moment.Moment, moment.Moment],
+    dateRange: [dayjs.Dayjs, dayjs.Dayjs],
     selectedDaysOfWeek: DaysOfWeek,
 }
 
@@ -74,7 +74,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
     const [endHour, setEndHour] = useState("")
     const [startMinutes, setStartMinutes] = useState("0")
     const [endMinutes, setEndMinutes] = useState("0")
-    const [dateRange, setDateRange] = useState([moment(), moment()])
+    const [dateRange, setDateRange] = useState([dayjs(), dayjs()])
     const [selectedDaysOfWeek, setSelectedDaysOfWeek] = useState({
         monday: true,
         tuesday: true,
@@ -139,7 +139,7 @@ export const ShiftEntryForm = React.memo(forwardRef((props: Props, _ref) => {
     const onDateRangeChange = (value: Date | string) => {
         console.log('dateRange value: ', value) //actually an array
         //@ts-ignore
-        setDateRange([moment(value[0]), moment(value[1])])
+        setDateRange([dayjs(value[0]), dayjs(value[1])])
     }
 
     const handleDOWChange = (event: React.ChangeEvent<HTMLInputElement>) => {

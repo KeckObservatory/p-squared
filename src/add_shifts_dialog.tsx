@@ -8,7 +8,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { Employee, DATE_FORMAT, SUPPORT_CONTACT } from './control';
 import { add_entry } from './api';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { EntryData } from './p_timeline_utils';
 import Typography from '@mui/material/Typography';
 import { DaysOfWeek, ShiftEntryForm, ShiftState } from './shift_entry_form';
@@ -32,7 +32,7 @@ const check_for_errors = (shiftState: ShiftState, setErrMsg: Function) => {
 
   //date range
   const maxDayRange = 30
-  const dt = moment(shiftState.dateRange[1]).diff(moment(shiftState.dateRange[0]), 'days')
+  const dt = dayjs(shiftState.dateRange[1]).diff(dayjs(shiftState.dateRange[0]), 'days')
   if (dt >= maxDayRange) {
     setErrMsg(`date range cannot be longer than ${maxDayRange}`)
     return true
@@ -68,7 +68,7 @@ const check_for_errors = (shiftState: ShiftState, setErrMsg: Function) => {
   return false
 }
 
-const enumerate_days_between_dates = (startDate: moment.Moment, endDate: moment.Moment) => {
+const enumerate_days_between_dates = (startDate: dayjs.Dayjs, endDate: dayjs.Dayjs) => {
   let currDate = startDate.startOf('day');
 
   let dates = [currDate.clone()];
@@ -82,10 +82,10 @@ const enumerate_days_between_dates = (startDate: moment.Moment, endDate: moment.
 const shift_state_to_entries = (shiftState: ShiftState, staff: string) => {
 
   let entries: EntryData[] = []
-  const creationTime = moment().format(DATETIME_FORMAT)
+  const creationTime = dayjs().format(DATETIME_FORMAT)
 
   let dates = enumerate_days_between_dates(shiftState.dateRange[0], shiftState.dateRange[1])
-  dates = dates.filter((date: moment.Moment) => {
+  dates = dates.filter((date) => {
     const dow = date.day()
     const day = DAYS_OF_WEEK[dow] as keyof DaysOfWeek
     const dowChecked = shiftState.selectedDaysOfWeek[day]
@@ -117,7 +117,7 @@ const shift_state_to_entries = (shiftState: ShiftState, staff: string) => {
       LastModification: creationTime,
     }
 
-    dates.forEach((date: moment.Moment) => {
+    dates.forEach((date: dayjs.Dayjs) => {
       const dateStr = date.format(DATE_FORMAT)
       const startDatetime = date.clone()
         .set('hour', Number(shiftState.startHour))

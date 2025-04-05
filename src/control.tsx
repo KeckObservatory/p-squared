@@ -1,7 +1,7 @@
 import FormControl from '@mui/material/FormControl';
 import React from 'react'
 import DropDown from './drop_down'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { YearMonthPicker } from './year_month_picker'
 import Box from '@mui/material/Box'
 import { AddEditEntryDialog } from './add_edit_entry_dialog'
@@ -164,7 +164,7 @@ export interface Employee {
 }
 
 export const Control = (props: Props) => {
-    const now = moment()
+    const now = dayjs()
     const initState: ControlState = {
         date: now.format(DATE_FORMAT),
         location: '',
@@ -264,7 +264,7 @@ export const Control = (props: Props) => {
     }, [])
 
     const handleDateChange = (date: Date | null, keyboardInputValue?: string | undefined): void => {
-        const d = moment(date)
+        const d = dayjs(date)
         console.log(d, date)
         setState({
             ...state,
@@ -323,7 +323,7 @@ export const Control = (props: Props) => {
                 <Box sx={{ marginTop: '16px' }}
                 >
                     <FormControl sx={{ width: 150, margin: '6px', marginTop: '6px' }}>
-                        <YearMonthPicker date={moment(state.date, DATE_FORMAT)} handleDateChange={handleDateChange} />
+                        <YearMonthPicker date={dayjs(state.date, DATE_FORMAT)} handleDateChange={handleDateChange} />
                     </FormControl>
                     <FormControl aria-label='location' sx={{ width: 100, margin: '6px', marginTop: '6px' }}>
                         <DropDown

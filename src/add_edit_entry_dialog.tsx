@@ -9,10 +9,12 @@ import { useTheme } from '@mui/material/styles';
 import { EntryForm } from './entry_form'
 import { EntryState, Employee, DATE_FORMAT, DATETIME_FORMAT, SUPPORT_CONTACT } from './control';
 import { add_entry, delete_entry_by_id } from './api';
-import moment from 'moment';
+import dayjs from 'dayjs';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { EntryData } from './p_timeline_utils';
 import Typography from '@mui/material/Typography';
 
+dayjs.extend(isSameOrBefore);
 
 interface Props {
   employees: Employee[]
@@ -23,7 +25,7 @@ interface Props {
   handleCloseDialog?: Function
 }
 
-const get_days_between_dates = (startDate: moment.Moment, endDate: moment.Moment) => {
+const get_days_between_dates = (startDate: dayjs.Dayjs, endDate: dayjs.Dayjs) => {
   const now = startDate.clone()
   const dates = [];
   while (now.isSameOrBefore(endDate)) {
@@ -33,7 +35,7 @@ const get_days_between_dates = (startDate: moment.Moment, endDate: moment.Moment
   return dates;
 };
 
-const add_first_location = (entryState: EntryState, dte: moment.Moment, entry: any) => {
+const add_first_location = (entryState: EntryState, dte: dayjs.Dayjs, entry: any) => {
   const startDate = dte.clone()
     .set('hour', entryState.startHour)
     .set('minute', entryState.startMinutes).set('second', 0)
@@ -52,7 +54,7 @@ const add_first_location = (entryState: EntryState, dte: moment.Moment, entry: a
   return entry
 }
 
-const add_second_location = (entryState: EntryState, dte: moment.Moment, entry: any) => {
+const add_second_location = (entryState: EntryState, dte: dayjs.Dayjs, entry: any) => {
   const secondLocation = entryState.startHour2 && entryState.endHour2 && entryState.location2
   if (secondLocation) {
     const startDate2 = dte.clone()
@@ -75,12 +77,12 @@ const add_second_location = (entryState: EntryState, dte: moment.Moment, entry: 
 }
 
 export const state_to_entries = (entryState: EntryState) => {
-  const date = moment(entryState.dateRange[0]).format(DATE_FORMAT)
-  const creationTime = moment().format(DATETIME_FORMAT)
-  const sd = moment(entryState.dateRange[0])
+  const date = dayjs(entryState.dateRange[0]).format(DATE_FORMAT)
+  const creationTime = dayjs().format(DATETIME_FORMAT)
+  const sd = dayjs(entryState.dateRange[0])
     .set('hour', entryState.startHour)
     .set('minute', entryState.startMinutes).set('second', 0)
-  let ed = moment(entryState.dateRange[1])
+  let ed = dayjs(entryState.dateRange[1])
     .set('hour', entryState.endHour)
     .set('minute', entryState.endMinutes).set('second', 0)
   if (entryState.startHour > entryState.endHour) {
@@ -110,7 +112,7 @@ export const state_to_entries = (entryState: EntryState) => {
   const dates = get_days_between_dates(sd, ed)
 
   let entries: any[] = []
-  dates.map((dte: moment.Moment) => {
+  dates.map((dte: dayjs.Dayjs) => {
     let entry = { ...base_entry }
     entry = add_first_location(entryState, dte, entry)
     entry = add_second_location(entryState, dte, entry)
@@ -125,10 +127,10 @@ const check_if_overlap = (entryState: EntryState) => {
     && entryState.endHour2
     && entryState.location2
   if (secondLocation) {
-    const sd = moment(entryState.dateRange[0])
+    const sd = dayjs(entryState.dateRange[0])
       .set('hour', entryState.startHour)
       .set('minute', 0).set('second', entryState.startMinutes).set('millisecond', 0)
-    let ed = moment(entryState.dateRange[0])
+    let ed = dayjs(entryState.dateRange[0])
       .set('hour', entryState.endHour)
       .set('minute', 0).set('second', entryState.endMinutes).set('millisecond', 0)
     if (entryState.startHour > entryState.endHour) {
@@ -136,10 +138,10 @@ const check_if_overlap = (entryState: EntryState) => {
       ed = ed.add(1, 'days') // add 24 hours so that startDate <= endDate
     }
 
-    const sd2 = moment(entryState.dateRange[0])
+    const sd2 = dayjs(entryState.dateRange[0])
       .set('hour', entryState.startHour2 as number)
       .set('minute', 0).set('second', entryState.startMinutes2 ?? 0)
-    let ed2 = moment(entryState.dateRange[0])
+    let ed2 = dayjs(entryState.dateRange[0])
       .set('hour', entryState.endHour2 as number)
       .set('minute', 0).set('second', entryState.endMinutes2 ?? 0)
     const wrapAround = (entryState.startHour2 as number) > (entryState.endHour2 as number)
@@ -169,7 +171,7 @@ const check_for_errors = (entryState: EntryState, setErrMsg: Function) => {
   const maxDayRange = 30
   const leaveDayRange = 30
   const isVacation = entryState.location?.includes('Vacation')
-  const dt = moment(entryState.dateRange[1]).diff(moment(entryState.dateRange[0]), 'days')
+  const dt = dayjs(entryState.dateRange[1]).diff(dayjs(entryState.dateRange[0]), 'days')
   if (isVacation && dt >= leaveDayRange) {
     setErrMsg(`date range cannot be longer than ${leaveDayRange}`)
     return true

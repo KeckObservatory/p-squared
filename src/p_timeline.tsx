@@ -9,7 +9,7 @@ import Timeline, {
     TimelineItemBase,
 } from 'react-calendar-timeline'
 import './p_timeline.css'
-import moment from 'moment'
+
 import React, { useEffect } from 'react'
 import Button from '@mui/material/Button'
 import { delete_entry_by_id, get_entries_by_date_range, get_holidays } from './api'
@@ -30,6 +30,16 @@ import { ObjectParam, useQueryParam, withDefault } from "use-query-params"
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import { ReadEntryDialog } from './read_entry_dialog'
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+import isoWeek from 'dayjs/plugin/isoWeek'
+dayjs.extend(isoWeek);
+dayjs.extend(utc)
+dayjs.extend(timezone)
+const HAWAII_TIMEZONE= 'US/Honolulu'
+ 
+
 
 interface Props {
     controlState: ControlState,
@@ -48,6 +58,9 @@ interface State {
     unit: Unit
 }
 
+export const hidate = (date: Date, timezone=HAWAII_TIMEZONE) => {
+    return dayjs(date).tz(timezone)
+}
 
 export const PTimeline = (props: Props) => {
 
@@ -63,9 +76,9 @@ export const PTimeline = (props: Props) => {
     const init_items = [] as TimelineItemBase<any>[]
 
     const initUnit = "week"
-    const initVisibleTimeStart = moment(props.controlState.date, DATE_FORMAT)
+    const initVisibleTimeStart = dayjs(props.controlState.date, DATE_FORMAT)
         .startOf(initUnit)
-    const initVisibleTimeEnd = moment(props.controlState.date, DATE_FORMAT)
+    const initVisibleTimeEnd = dayjs(props.controlState.date, DATE_FORMAT)
         .startOf(initUnit).add(1, initUnit)
 
     const init_state: State = {
@@ -74,15 +87,14 @@ export const PTimeline = (props: Props) => {
         unit: initUnit
     }
 
-    const localDate = new Date()
-    const HIdate = new Date(localDate.toLocaleString('en-US', { timeZone: 'Pacific/Honolulu' }))
+    const HIDate = hidate(new Date(), HAWAII_TIMEZONE) 
     const [state, setState] = useQueryParam('state', withDefault(ObjectParam, init_state as any))
     const [groups, setGroups] = React.useState([...init_groups])
     const [items, setItems] = React.useState(init_items)
 
     const get_visible_dates = () => {
 
-        const date = moment(props.controlState.date, DATE_FORMAT)
+        const date = dayjs(props.controlState.date, DATE_FORMAT)
         const visibleTimeStart = date.clone()
             .startOf(state.unit)
         const visibleTimeEnd = date.clone()
@@ -141,7 +153,7 @@ export const PTimeline = (props: Props) => {
 
     const handleTimeHeaderChange = async (unit: Unit) => {
         console.log('handleTimeHeaderChange selected', unit)
-        const date = moment(props.controlState.date, DATE_FORMAT)
+        const date = dayjs(props.controlState.date, DATE_FORMAT)
         const visibleTimeStart = date.clone().startOf(unit)
         const visibleTimeEnd = date.clone().endOf(unit)
 
@@ -167,7 +179,7 @@ export const PTimeline = (props: Props) => {
     };
 
     const onScrollClick = (inc: number) => {
-        let newDate = moment(props.controlState.date, DATE_FORMAT)
+        let newDate = dayjs(props.controlState.date, DATE_FORMAT)
 
         newDate.add(inc, state.unit as any)
             .startOf(state.unit as any)
@@ -182,8 +194,8 @@ export const PTimeline = (props: Props) => {
     };
 
     const make_groups_and_items = (entries: EntryData[],
-        visibleTimeStart: moment.Moment,
-        visibleTimeEnd: moment.Moment,
+        visibleTimeStart: dayjs.Dayjs,
+        visibleTimeEnd: dayjs.Dayjs,
         holidays: string[]
     ) => {
 
@@ -204,7 +216,7 @@ export const PTimeline = (props: Props) => {
 
         console.log('make_groups_and_items dates', visibleTimeStart.format(DATE_FORMAT),
             visibleTimeEnd.format(DATE_FORMAT))
-        const startIdx = moment().valueOf()
+        const startIdx = dayjs().valueOf()
         for (let idx = 0; idx < newItems.length; idx++) { //ensure idx are all unique
             newItems[idx]['id'] = idx + startIdx
 
@@ -281,7 +293,7 @@ export const PTimeline = (props: Props) => {
         visibleTimeEnd: number,
         updateScrollCanvas: (start: number, end: number) => void) => {
         //disable scrolling
-        updateScrollCanvas(moment(state.visibleTimeStart, DATE_FORMAT).valueOf(), moment(state.visibleTimeEnd, DATE_FORMAT).valueOf())
+        updateScrollCanvas(dayjs(state.visibleTimeStart, DATE_FORMAT).valueOf(), dayjs(state.visibleTimeEnd, DATE_FORMAT).valueOf())
     };
 
     const handleCloseDialog = () => {
@@ -320,10 +332,10 @@ export const PTimeline = (props: Props) => {
                     itemHeightRatio={0.85}
                     canMove={false}
                     canResize={false}
-                    minZoom={moment(state.visibleTimeStart, DATE_FORMAT).valueOf()}
-                    maxZoom={moment(state.visibleTimeEnd, DATE_FORMAT).add(1, 'day').valueOf()} //visually need to be +1 day ahead 
-                    visibleTimeStart={moment(state.visibleTimeStart, DATE_FORMAT).valueOf()}
-                    visibleTimeEnd={moment(state.visibleTimeEnd, DATE_FORMAT).add(1, 'day').valueOf()} //visually need to be +1 day ahead
+                    minZoom={dayjs(state.visibleTimeStart, DATE_FORMAT).valueOf()}
+                    maxZoom={dayjs(state.visibleTimeEnd, DATE_FORMAT).add(1, 'day').valueOf()} //visually need to be +1 day ahead 
+                    visibleTimeStart={dayjs(state.visibleTimeStart, DATE_FORMAT).valueOf()}
+                    visibleTimeEnd={dayjs(state.visibleTimeEnd, DATE_FORMAT).add(1, 'day').valueOf()} //visually need to be +1 day ahead
                     itemRenderer={itemRenderer}
                     onTimeChange={handleTimeChange}
                     onItemSelect={onItemClick}
@@ -340,7 +352,7 @@ export const PTimeline = (props: Props) => {
                         <DateHeader labelFormat={label_format} />
                     </TimelineHeaders>
                     <TimelineMarkers>
-                        <CustomMarker date={HIdate}>
+                        <CustomMarker date={HIDate.toDate()}>
                             {({ styles, date }) => {
                                 const customStyles = {
                                     ...styles,

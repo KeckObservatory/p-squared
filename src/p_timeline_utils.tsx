@@ -1,4 +1,4 @@
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { ReactCalendarItemRendererProps, LabelFormat } from 'react-calendar-timeline'
 import { ControlState, Employee } from './control'
 import Tooltip from '@mui/material/Tooltip';
@@ -110,11 +110,11 @@ export interface Item {
     bgColor?: string,
     selectedBgColor?: string,
     color?: string,
-    start_time: moment.Moment,
-    end_time: moment.Moment,
+    start_time: dayjs.Dayjs,
+    end_time: dayjs.Dayjs,
     entry?: EntryData,
-    start_actual_time?: moment.Moment,
-    end_actual_time?: moment.Moment
+    start_actual_time?: dayjs.Dayjs,
+    end_actual_time?: dayjs.Dayjs
 }
 
 
@@ -172,7 +172,7 @@ const FORMAT_LABEL: LabelFormat = {
     }
 }
 
-export const label_format = ([startHour, endHour]: [moment.Moment, moment.Moment],
+export const label_format = ([startHour, endHour]: [dayjs.Dayjs, dayjs.Dayjs],
     unit: Unit,
     labelWidth: number,
     formatOptions: LabelFormat = FORMAT_LABEL): string => {
@@ -253,8 +253,8 @@ const create_item = (title: string, location: string, dateRange: DateRange, entr
         color: fontColor,
         bgColor: locationColor,
         location: location,
-        start_time: moment(dateRange[0]),
-        end_time: moment(dateRange[1]),
+        start_time: dayjs(dateRange[0]),
+        end_time: dayjs(dateRange[1]),
     }
     return item
 }
@@ -269,8 +269,8 @@ export const entries_to_items = (entries: EntryData[]) => {
     let items: Item[] = []
 
     entries.forEach((entry: EntryData, idx) => {
-        let dateRange = [moment(entry.Date + " 8:00:00").toISOString(),
-        moment(entry.Date + " 17:00:00").toISOString()] as DateRange
+        let dateRange = [dayjs(entry.Date + " 8:00:00").toISOString(),
+        dayjs(entry.Date + " 17:00:00").toISOString()] as DateRange
         let title: string = ''
         let locs = ALL_LOCATIONS as Array<keyof EntryData>
         locs.forEach((loc: keyof EntryData, idx: number) => {
@@ -357,12 +357,12 @@ export const itemRenderer =
         );
     };
 
-const generate_items = (group: Group, location: string, groupItems: Item[], dates: moment.Moment[], idx: number, comment = 'Synthetic event') => {
+const generate_items = (group: Group, location: string, groupItems: Item[], dates: dayjs.Dayjs[], idx: number, comment = 'Synthetic event') => {
 
     let synthItems: Item[] = []
     let newIdx = idx
 
-    dates.forEach((date: moment.Moment) => {
+    dates.forEach((date: dayjs.Dayjs) => {
 
         const isWeekday = date.isoWeekday() < 6 //saturday=6 sunday=7
         let realItem = groupItems.find((item: Item) => { // find first item that falls on date.
@@ -379,7 +379,7 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
             const eHour: number = Number(endArray[0])
             const eMinute: number = endArray.length > 1 ? Number(endArray[1]) : 0
 
-            if ((!realItem && isWeekday) || location==='Holiday') { //holidays have double entries
+            if ((!realItem && isWeekday) || location === 'Holiday') { //holidays have double entries
                 const [locationColor, fontColor] = get_location_color(location)
                 const synthItem: Item = {
                     id: newIdx,
@@ -389,16 +389,14 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
                     location: location,
                     comment: comment,
                     title: location,
-                    start_time: date.clone().set({
-                        hour: sHour,
-                        minute: sMinute,
-                        second: 0
-                    }),
-                    end_time: date.clone().set({
-                        hour: eHour,
-                        minute: eMinute,
-                        second: 0
-                    }),
+                    start_time: date.clone()
+                        .set('hour', sHour)
+                        .set('minute', sMinute)
+                        .set('second', 0),
+                    end_time: date.clone()
+                        .set('hour', eHour)
+                        .set('minute', eMinute)
+                        .set('second', 0),
                     bgColor: locationColor,
                     color: fontColor,
                 }
@@ -422,11 +420,11 @@ export const generate_holiday_items = (
     if (!Array.isArray(datesStr)) return [] //ignore if error 
     if (datesStr.length <= 0) return [] //ignore if no holidays
 
-    let idx = moment().valueOf()
+    let idx = dayjs().valueOf()
     let entries: Item[] = []
 
     const dates = datesStr.map((date: string) => {
-        return moment(date)
+        return dayjs(date)
     })
 
     // generate entries for group
@@ -440,11 +438,11 @@ export const generate_holiday_items = (
         })
 
         //add holidays to pool of entries 
-        if (group.primaryLocation !== "None") { 
-        //generate_entries 
-        const { synthItems, newIdx } = generate_items(group, 'Holiday', groupItems, dates, idx, 'Holiday')
-        idx = newIdx
-        entries = [...entries, ...synthItems]
+        if (group.primaryLocation !== "None") {
+            //generate_entries 
+            const { synthItems, newIdx } = generate_items(group, 'Holiday', groupItems, dates, idx, 'Holiday')
+            idx = newIdx
+            entries = [...entries, ...synthItems]
         }
     })
 

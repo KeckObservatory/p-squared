@@ -3,14 +3,14 @@ import TextField, { TextFieldProps } from '@mui/material/TextField';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 const datePickerStyle = {
     margin: '6px',
 }
 
 interface Props {
-    date: moment.Moment
+    date: dayjs.Dayjs
     handleDateChange: (date: Date | null, keyboardInputValue?: string | undefined) => void
 }
 
