@@ -172,7 +172,7 @@ const FORMAT_LABEL: LabelFormat = {
     }
 }
 
-export const label_format = ([startHour, endHour]: [dayjs.Dayjs, dayjs.Dayjs],
+export const label_format = ([startHour, endHour]: [any, any],
     unit: Unit,
     labelWidth: number,
     formatOptions: LabelFormat = FORMAT_LABEL): string => {
