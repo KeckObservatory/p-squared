@@ -269,8 +269,8 @@ export const entries_to_items = (entries: EntryData[]) => {
     let items: Item[] = []
 
     entries.forEach((entry: EntryData, idx) => {
-        let dateRange = [dayjs(entry.Date + " 8:00:00").toISOString(),
-        dayjs(entry.Date + " 17:00:00").toISOString()] as DateRange
+        let dateRange = [entry.Date + "T8:00:00",
+        entry.Date + "T17:00:00"] as DateRange
         let title: string = ''
         let locs = ALL_LOCATIONS as Array<keyof EntryData>
         locs.forEach((loc: keyof EntryData, idx: number) => {
