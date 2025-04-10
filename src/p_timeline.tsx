@@ -59,7 +59,9 @@ const get_now_in_hawaii = (tz?: string) => {
     const hereAndNow = tz ? dayjs().tz(tz).format(DATETIME_FORMAT) : dayjs().format(DATETIME_FORMAT)  
     const HIDate = dayjs().tz(HAWAII_TIMEZONE)
     const diff = HIDate.diff(hereAndNow, 'hour')
-    return dayjs(hereAndNow, DATETIME_FORMAT).add(diff, 'hour')
+    const nowInHawaii = dayjs(hereAndNow, DATETIME_FORMAT).add(diff, 'hour')
+    console.log('diff', diff, 'nowInHawaii', nowInHawaii.valueOf() - HIDate.valueOf())
+    return nowInHawaii
 }
 
 export const PTimeline = (props: Props) => {
