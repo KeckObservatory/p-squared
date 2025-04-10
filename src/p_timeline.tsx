@@ -31,9 +31,11 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import { ReadEntryDialog } from './read_entry_dialog'
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import isoWeek from 'dayjs/plugin/isoWeek'
 dayjs.extend(isoWeek);
+dayjs.extend(utc)
 dayjs.extend(timezone)
 
 interface Props {
