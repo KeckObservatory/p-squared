@@ -17,6 +17,7 @@ import { AddShiftsDialog } from './add_shifts_dialog';
 
 export const DATE_FORMAT = 'YYYY-MM-DD'
 export const DATETIME_FORMAT = 'YYYY-MM-DD HH:mm:ss'
+export const HAWAII_TIMEZONE = 'Pacific/Honolulu'
 
 export interface Props { }
 
