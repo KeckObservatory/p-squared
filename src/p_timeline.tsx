@@ -13,7 +13,7 @@ import './p_timeline.css'
 import React, { useEffect } from 'react'
 import Button from '@mui/material/Button'
 import { delete_entry_by_id, get_entries_by_date_range, get_holidays } from './api'
-import { ControlState, Employee, EntryState, DATE_FORMAT, DATETIME_FORMAT, HAWAII_TIMEZONE } from './control'
+import { ControlState, Employee, EntryState, DATE_FORMAT, HAWAII_TIMEZONE } from './control'
 import Paper from '@mui/material/Paper'
 import {
     make_employee_groups,
@@ -55,14 +55,13 @@ interface State {
     unit: Unit
 }
 
-const get_now_in_hawaii = (tz?: string) => {
-    const hereAndNow = tz ? dayjs().tz(tz).format(DATETIME_FORMAT) : dayjs().format(DATETIME_FORMAT)  
-    const HIDate = dayjs().tz(HAWAII_TIMEZONE)
-    const diff = HIDate.diff(hereAndNow, 'hour')
-    const nowInHawaii = dayjs(hereAndNow, DATETIME_FORMAT).add(diff, 'hour')
-    console.log('diff', diff, 'nowInHawaii', nowInHawaii.valueOf() - HIDate.valueOf())
-    return nowInHawaii
-}
+// const get_now_in_hawaii = (tz?: string) => {
+//     const hereAndNow = tz ? dayjs().tz(tz).format(DATETIME_FORMAT) : dayjs().format(DATETIME_FORMAT)  
+//     const HIDate = dayjs().tz(HAWAII_TIMEZONE)
+//     const diff = HIDate.diff(hereAndNow, 'hour')
+//     const nowInHawaii = dayjs(hereAndNow, DATETIME_FORMAT).add(diff, 'hour')
+//     return nowInHawaii
+// }
 
 export const PTimeline = (props: Props) => {
 
@@ -89,7 +88,8 @@ export const PTimeline = (props: Props) => {
         unit: initUnit
     }
 
-    const nowInHawaii = get_now_in_hawaii() //time of this computer
+    // const nowInHawaii = get_now_in_hawaii() //time of this computer
+    const nowInHawaii = dayjs().tz(HAWAII_TIMEZONE)
     const [state, setState] = useQueryParam('state', withDefault(ObjectParam, init_state as any))
     const [groups, setGroups] = React.useState([...init_groups])
     const [items, setItems] = React.useState(init_items)
