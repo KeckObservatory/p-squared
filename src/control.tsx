@@ -102,7 +102,7 @@ export const ALTERNATE_PICKUP_TOOLTIP : { [key: string]: string} = {
     "WJP":"Waikoloa Junction",
 }
 
-export const SUMMIT_LEAD = [ '', '7-3', '7-9', '9-5', '3-5'
+export const SUMMIT_LEAD = [ '', '7-3', '7-9', '9-5', '3-5', '9-3'
 ]
 
 export const SUPPORT_CONTACT = ['', 'K1', 'K2', 'K1 & K2',
