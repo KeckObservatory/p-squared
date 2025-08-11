@@ -265,7 +265,7 @@ export const PTimeline = (props: Props) => {
                     endHour: et.hour(),
                     startMinutes: st.minute(),
                     endMinutes: et.minute(),
-                    dateRange: [item.start_time, item.end_time],
+                    dateRange: [item.start_time.toDate(), item.end_time.toDate()],
                     entryId: item.entryId,
                     alternatePickup: item.entry ? item.entry.AlternatePickup : undefined,
                     summitLead: item.entry ? item.entry.SummitLead : undefined,
