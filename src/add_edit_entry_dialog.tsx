@@ -26,11 +26,11 @@ interface Props {
 }
 
 const get_days_between_dates = (startDate: dayjs.Dayjs, endDate: dayjs.Dayjs) => {
-  const now = startDate.clone()
+  let now = startDate.clone()
   const dates = [];
   while (now <= endDate) {
     dates.push(now.clone());
-    now.add(1, 'days');
+    now = now.add(1, 'days');
   }
   return dates;
 };
