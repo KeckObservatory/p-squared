@@ -28,7 +28,7 @@ interface Props {
 const get_days_between_dates = (startDate: dayjs.Dayjs, endDate: dayjs.Dayjs) => {
   const now = startDate.clone()
   const dates = [];
-  while (now.isSameOrBefore(endDate)) {
+  while (now <= endDate) {
     dates.push(now.clone());
     now.add(1, 'days');
   }
