@@ -1,7 +1,7 @@
 import FormControl from '@mui/material/FormControl';
 import React from 'react'
 import DropDown from './drop_down'
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import { YearMonthPicker } from './year_month_picker'
 import Box from '@mui/material/Box'
 import { AddEditEntryDialog } from './add_edit_entry_dialog'
@@ -125,7 +125,7 @@ export interface EntryState {
     comment?: string,
     location: string,
     alternatePickup?: string,
-    dateRange: [string | Date, string | Date],
+    dateRange: [string | Dayjs, string | Dayjs],
     crewLead?: string,
     supportLead?: number,
     summitLead?: string,

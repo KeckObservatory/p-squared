@@ -9,7 +9,7 @@ import { useTheme } from '@mui/material/styles';
 import { EntryForm } from './entry_form'
 import { EntryState, Employee, DATE_FORMAT, DATETIME_FORMAT, SUPPORT_CONTACT } from './control';
 import { add_entry, delete_entry_by_id } from './api';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { EntryData } from './p_timeline_utils';
 import Typography from '@mui/material/Typography';
@@ -77,12 +77,12 @@ const add_second_location = (entryState: EntryState, dte: dayjs.Dayjs, entry: an
 }
 
 export const state_to_entries = (entryState: EntryState) => {
-  const date = dayjs(entryState.dateRange[0]).format(DATE_FORMAT)
+  const date = (entryState.dateRange[0] as Dayjs).format(DATE_FORMAT)
   const creationTime = dayjs().format(DATETIME_FORMAT)
-  const sd = dayjs(entryState.dateRange[0])
+  const sd = (entryState.dateRange[0] as Dayjs)
     .set('hour', entryState.startHour)
     .set('minute', entryState.startMinutes).set('second', 0)
-  let ed = dayjs(entryState.dateRange[1])
+  let ed = (entryState.dateRange[1] as Dayjs)
     .set('hour', entryState.endHour)
     .set('minute', entryState.endMinutes).set('second', 0)
   if (entryState.startHour > entryState.endHour) {
