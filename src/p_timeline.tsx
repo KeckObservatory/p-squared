@@ -97,14 +97,14 @@ export const PTimeline = (props: Props) => {
     const get_visible_dates = () => {
 
         const date = dayjs(props.controlState.date, DATE_FORMAT)
-        const visibleTimeStart = date.clone()
+        let visibleTimeStart = date.clone()
             .startOf(state.unit)
-        const visibleTimeEnd = date.clone()
+        let visibleTimeEnd = date.clone()
             .endOf(state.unit as any)
 
         if (state.unit === 'week') {
-            visibleTimeStart.add(1, "day")
-            visibleTimeEnd.add(1, "day")
+            visibleTimeStart = visibleTimeStart.add(1, "day")
+            visibleTimeEnd = visibleTimeEnd.add(1, "day")
         }
         return [visibleTimeStart, visibleTimeEnd]
     }
@@ -183,9 +183,10 @@ export const PTimeline = (props: Props) => {
     const onScrollClick = (inc: number) => {
         let newDate = dayjs(props.controlState.date, DATE_FORMAT)
 
-        newDate.add(inc, state.unit as any)
+        newDate = newDate
+            .add(inc, state.unit as any)
             .startOf(state.unit as any)
-        console.log(newDate)
+        console.log('new date', newDate)
 
         props.setControlState(
             {

@@ -73,7 +73,9 @@ const enumerate_days_between_dates = (startDate: dayjs.Dayjs, endDate: dayjs.Day
 
   let dates = [currDate.clone()];
   const lastDate = endDate.startOf('day');
-  while (currDate.add(1, 'days').diff(lastDate) <= 0) {
+  currDate = currDate.add(1, 'days');
+  while (currDate.diff(lastDate) <= 0) {
+    currDate = currDate.add(1, 'days');
     dates.push(currDate.clone())
   }
   return dates;
