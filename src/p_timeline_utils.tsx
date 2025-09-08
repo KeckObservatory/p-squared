@@ -12,6 +12,7 @@ const colorMapping = {
     pink: '#cc79a7',
     yellow: '#f0e442',
     darkBlue: '#1976d2',
+    maroon: '#800000',
     darkOrange: '#d55e00',
     white: '#FFFFFF',
     black: '#000000',
@@ -239,7 +240,12 @@ export const make_employee_groups = (employees: Employee[], department: string, 
 }
 
 const create_item = (title: string, location: string, dateRange: DateRange, entry: EntryData) => {
-    const [locationColor, fontColor] = get_location_color(title)
+    let [locationColor, fontColor] = get_location_color(title)
+    const start_time = dayjs(dateRange[0])
+    const end_time = dayjs(dateRange[1])
+    if (start_time.hour() == 6 && end_time.hour() === 16) {
+        locationColor = colorMapping['maroon'] //TODO: Remove when PIER REPAIR is over
+    }
     const item: Item = {
         id: entry.id,
         group: entry.Name,
@@ -253,8 +259,8 @@ const create_item = (title: string, location: string, dateRange: DateRange, entr
         color: fontColor,
         bgColor: locationColor,
         location: location,
-        start_time: dayjs(dateRange[0]),
-        end_time: dayjs(dateRange[1]),
+        start_time,
+        end_time,
     }
     return item
 }
