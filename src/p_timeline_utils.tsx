@@ -245,6 +245,7 @@ const create_item = (title: string, location: string, dateRange: DateRange, entr
     const end_time = dayjs(dateRange[1])
     if (start_time.hour() == 6 && end_time.hour() === 16) {
         locationColor = colorMapping['maroon'] //TODO: Remove when PIER REPAIR is over
+        fontColor = colorMapping['white']
     }
     const item: Item = {
         id: entry.id,
