@@ -14,6 +14,7 @@ import {
     SUPPORT_CONTACT,
     SEATS,
     LOCATION_TOOLTIP,
+    BASE_CAMP,
 } from './control';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { get_staffinfo, User } from './api';
@@ -103,6 +104,15 @@ export const EntryForm = (props: Props) => {
 
 
     }, [])
+
+    const handleBaseCampChange = (evt: React.SyntheticEvent, baseCamp: string | null) => {
+        props.setEntryState(
+            {
+                ...props.entryState,
+                baseCamp: baseCamp
+            }
+        )
+    }
 
     const handleNameChange = (evt: React.SyntheticEvent, employee: Employee | null) => {
         console.log(employee)
@@ -339,12 +349,27 @@ export const EntryForm = (props: Props) => {
                     label={'Department'}
                     value={props.entryState.department}
                     disabled id="department" />
-                <TextField
+                <Autocomplete
+                    sx={{ ...formControlStyle, marginTop: '0px' }}
+                    disablePortal
+                    value={props.entryState.baseCamp}
+                    id="base-camp-box"
+                    options={BASE_CAMP}
+                    renderInput={(params) => 
+                    <TextField
+                        {...params}
+                        InputLabelProps={{ shrink: true }}
+                        label="Base Camp"
+                        disabled={props.edit}
+                    />}
+                    onChange={handleBaseCampChange}
+                />
+                {/* <TextField
                     sx={formControlStyle}
                     InputLabelProps={{ shrink: true }}
                     label={'Base Camp'}
                     value={props.entryState.baseCamp}
-                    disabled id="base-camp" />
+                    disabled id="base-camp" /> */}
                 <TextField
                     sx={formControlStyle}
                     InputLabelProps={{ shrink: true }}

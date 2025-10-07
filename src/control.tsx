@@ -90,8 +90,9 @@ export const REDUCED_LOCATIONS = [
     "OffSite"
 ]
 
-export const ALTERNATE_PICKUP = ['', 'HPP', 'HQ', 'Hilo', 'SJP', 'WJP'
-]
+export const ALTERNATE_PICKUP = ['', 'HPP', 'HQ', 'Hilo', 'SJP', 'WJP' ]
+
+export const BASE_CAMP = ['Waimea', 'Hilo']
 
 export const ALTERNATE_PICKUP_TOOLTIP : { [key: string]: string} = {
     "":"",
