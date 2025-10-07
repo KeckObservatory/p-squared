@@ -31,6 +31,8 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import { ReadEntryDialog } from './read_entry_dialog'
 import dayjs from 'dayjs';
+import isoWeek from 'dayjs/plugin/isoWeek'
+dayjs.extend(isoWeek);
 
 interface Props {
     controlState: ControlState,
