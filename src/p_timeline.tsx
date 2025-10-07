@@ -91,6 +91,11 @@ export const PTimeline = (props: Props) => {
     const nowInHawaii = dayjs().tz(HAWAII_TIMEZONE)
     console.log('nowInHawaii', nowInHawaii.format(), nowInHawaii.unix(), 'utc', dayjs.utc().unix(), 'diff', nowInHawaii.unix() - dayjs.utc().unix())
     console.log('get_now_in_hawaii', get_now_in_hawaii().format(), get_now_in_hawaii().unix())
+    const lct = new Date()
+    const tzoffset = lct.getTimezoneOffset() * 60000; //offset in milliseconds
+    const utcunix = lct.getTime() + tzoffset
+    const hitime = utcunix + 10 * 60 * 60 * 1000
+    console.log('local time', dayjs(lct).format(), 'utc', dayjs(utcunix).format(), 'hawaii', dayjs(hitime).format())
     const [state, setState] = useQueryParam('state', withDefault(ObjectParam, init_state as any))
     const [groups, setGroups] = React.useState([...init_groups])
     const [items, setItems] = React.useState(init_items)
@@ -356,7 +361,7 @@ export const PTimeline = (props: Props) => {
                         <DateHeader labelFormat={label_format} />
                     </TimelineHeaders>
                     <TimelineMarkers>
-                        <CustomMarker date={dayjs().utc().unix() + nowInHawaii.utcOffset() * 60 * 1000}>
+                        <CustomMarker date={hitime}>
                             {({ styles }) => {
                                 const customStyles = {
                                     ...styles,
