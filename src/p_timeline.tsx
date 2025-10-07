@@ -354,7 +354,7 @@ export const PTimeline = (props: Props) => {
                         <DateHeader labelFormat={label_format} />
                     </TimelineHeaders>
                     <TimelineMarkers>
-                        <CustomMarker date={dayjs().valueOf() + nowInHawaii.utcOffset() * 60 * 1000}>
+                        <CustomMarker date={dayjs().utc(false).valueOf() + nowInHawaii.utcOffset() * 60 * 1000}>
                             {({ styles }) => {
                                 const customStyles = {
                                     ...styles,
