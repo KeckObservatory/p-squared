@@ -55,14 +55,6 @@ interface State {
     unit: Unit
 }
 
-// const get_now_in_hawaii = (tz?: string) => {
-//     const hereAndNow = tz ? dayjs().tz(tz).format(DATETIME_FORMAT) : dayjs().format(DATETIME_FORMAT)  
-//     const HIDate = dayjs().tz(HAWAII_TIMEZONE)
-//     const diff = HIDate.diff(hereAndNow, 'hour')
-//     const nowInHawaii = dayjs(hereAndNow, DATETIME_FORMAT).add(diff, 'hour')
-//     return nowInHawaii
-// }
-
 export const PTimeline = (props: Props) => {
 
     const [selectedItem, setSelectedItem] = React.useState({} as unknown as Item);
@@ -88,8 +80,7 @@ export const PTimeline = (props: Props) => {
         unit: initUnit
     }
 
-    // const nowInHawaii = get_now_in_hawaii() //time of this computer
-    const nowInHawaii = dayjs().tz(HAWAII_TIMEZONE)
+    // const nowInHawaii = dayjs().tz(HAWAII_TIMEZONE) // marker now uses local time
     const [state, setState] = useQueryParam('state', withDefault(ObjectParam, init_state as any))
     const [groups, setGroups] = React.useState([...init_groups])
     const [items, setItems] = React.useState(init_items)
@@ -355,8 +346,8 @@ export const PTimeline = (props: Props) => {
                         <DateHeader labelFormat={label_format} />
                     </TimelineHeaders>
                     <TimelineMarkers>
-                        <CustomMarker date={nowInHawaii.valueOf()}>
-                            {({ styles, date }) => {
+                        <CustomMarker date={new Date().getTime()}>
+                            {({ styles }) => {
                                 const customStyles = {
                                     ...styles,
                                     backgroundColor: 'deeppink',
