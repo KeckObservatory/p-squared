@@ -15,6 +15,7 @@ import {
     SEATS,
     LOCATION_TOOLTIP,
     BASE_CAMP,
+    BaseCamp,
 } from './control';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { get_staffinfo, User } from './api';
@@ -105,7 +106,12 @@ export const EntryForm = (props: Props) => {
 
     }, [])
 
-    const handleBaseCampChange = (evt: React.SyntheticEvent, baseCamp: string | null) => {
+    const handleBaseCampChange = (baseCamp: BaseCamp | null) => {
+        console.log('base camp selected', baseCamp)
+        if (!baseCamp) {
+            return
+        }
+
         props.setEntryState(
             {
                 ...props.entryState,

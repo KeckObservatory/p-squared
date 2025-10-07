@@ -117,8 +117,10 @@ export const SEATS = [
     '0', '1', '2', '3', '4', '5', '6'
 ]
 
+export type BaseCamp = "Waimea" | "Hilo"
+
 export interface EntryState {
-    baseCamp?: string,
+    baseCamp?: BaseCamp,
     seats?: string,
     name?: string,
     employeeId?: string,
@@ -221,7 +223,7 @@ export const Control = (props: Props) => {
                     staff: user.Alias,
                     employeeId: employee ? String(employee.EId).padStart(4, '0') : undefined,
                     department: user.Department,
-                    baseCamp: user.BaseCamp,
+                    baseCamp: user.BaseCamp as BaseCamp,
                     canEdit: canEdit
                 }
                 console.log('state init to...', newState)
