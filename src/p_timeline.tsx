@@ -354,7 +354,7 @@ export const PTimeline = (props: Props) => {
                         <DateHeader labelFormat={label_format} />
                     </TimelineHeaders>
                     <TimelineMarkers>
-                        <CustomMarker date={nowInHawaii.valueOf()}>
+                        <CustomMarker date={nowInHawaii.toDate()}>
                             {({ styles }) => {
                                 const customStyles = {
                                     ...styles,
