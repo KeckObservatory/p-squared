@@ -92,8 +92,8 @@ export const PTimeline = (props: Props) => {
     console.log('nowInHawaii', nowInHawaii.format(), nowInHawaii.unix(), 'utc', dayjs.utc().unix(), 'diff', nowInHawaii.unix() - dayjs.utc().unix())
     console.log('get_now_in_hawaii', get_now_in_hawaii().format(), get_now_in_hawaii().unix())
     const lct = new Date()
-    const tzoffset = lct.getTimezoneOffset() * 60000; //offset in milliseconds
-    const utcunix = lct.getTime() + tzoffset
+    const tzoffset = lct.getTimezoneOffset() * 60 * 1000; //offset in milliseconds
+    const utcunix = lct.getTime() - tzoffset
     const hitime = utcunix + 10 * 60 * 60 * 1000
     console.log('local time', dayjs(lct).format(), 'utc', dayjs(utcunix).format(), 'hawaii', dayjs(hitime).format())
     const [state, setState] = useQueryParam('state', withDefault(ObjectParam, init_state as any))
