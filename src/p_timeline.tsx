@@ -361,7 +361,7 @@ export const PTimeline = (props: Props) => {
                         <DateHeader labelFormat={label_format} />
                     </TimelineHeaders>
                     <TimelineMarkers>
-                        <CustomMarker date={hitime}>
+                        <CustomMarker date={new Date(hitime)}>
                             {({ styles }) => {
                                 const customStyles = {
                                     ...styles,
