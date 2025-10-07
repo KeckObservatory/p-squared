@@ -93,8 +93,8 @@ export const PTimeline = (props: Props) => {
     console.log('get_now_in_hawaii', get_now_in_hawaii().format(), get_now_in_hawaii().unix())
     const lct = new Date()
     const tzoffset = lct.getTimezoneOffset() * 10 * 60 * 1000; //offset in milliseconds
-    const utcunix = lct.getTime() - tzoffset
-    const hitime = utcunix + 10 * 60 * 60 * 1000
+    const utcunix = lct.getTime() + tzoffset
+    const hitime = utcunix - 10 * 60 * 60 * 1000
     console.log('local time', lct, 'utc', utcunix, 'hawaii', new Date(hitime))
     const [state, setState] = useQueryParam('state', withDefault(ObjectParam, init_state as any))
     const [groups, setGroups] = React.useState([...init_groups])
