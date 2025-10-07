@@ -93,7 +93,7 @@ export const PTimeline = (props: Props) => {
     console.log('get_now_in_hawaii', get_now_in_hawaii().format(), get_now_in_hawaii().unix())
     const lct = new Date()
     const tzoffset = lct.getTimezoneOffset() * 60 * 1000; //offset in milliseconds
-    const utcunix = lct.getTime() - tzoffset
+    const utcunix = lct.getTime() + tzoffset
     const hitime = utcunix - 10 * 60 * 60 * 1000
     console.log('lct offset', lct.getTimezoneOffset(), 'hours')
     console.log('local time', lct, 'offset', tzoffset, 'utc', new Date(utcunix), 'hawaii', new Date(hitime))
