@@ -55,12 +55,14 @@ interface State {
     unit: Unit
 }
 
-const get_now_in_hawaii = (tz?: string) => {
-    const hereAndNow = tz ? dayjs().tz(tz).format(DATETIME_FORMAT) : dayjs().format(DATETIME_FORMAT)  
-    const HIDate = dayjs().tz(HAWAII_TIMEZONE)
-    const diff = HIDate.diff(hereAndNow, 'hour')
-    const nowInHawaii = dayjs(hereAndNow, DATETIME_FORMAT).add(diff, 'hour')
-    return nowInHawaii
+const get_now_in_hawaii = () => {
+    const lct = new Date()
+    const tzoffset = lct.getTimezoneOffset() * 60 * 1000; //offset in milliseconds
+    const utcunix = lct.getTime() + tzoffset
+    const hitime = utcunix - 10 * 60 * 60 * 1000
+    console.log('lct offset', lct.getTimezoneOffset(), 'hours')
+    console.log('local time', lct, 'offset', tzoffset, 'utc', new Date(utcunix), 'hawaii', new Date(hitime))
+    return hitime 
 }
 
 export const PTimeline = (props: Props) => {
@@ -88,15 +90,7 @@ export const PTimeline = (props: Props) => {
         unit: initUnit
     }
 
-    const nowInHawaii = dayjs().tz(HAWAII_TIMEZONE)
-    console.log('nowInHawaii', nowInHawaii.format(), nowInHawaii.unix(), 'utc', dayjs.utc().unix(), 'diff', nowInHawaii.unix() - dayjs.utc().unix())
-    console.log('get_now_in_hawaii', get_now_in_hawaii().format(), get_now_in_hawaii().unix())
-    const lct = new Date()
-    const tzoffset = lct.getTimezoneOffset() * 60 * 1000; //offset in milliseconds
-    const utcunix = lct.getTime() + tzoffset
-    const hitime = utcunix - 10 * 60 * 60 * 1000
-    console.log('lct offset', lct.getTimezoneOffset(), 'hours')
-    console.log('local time', lct, 'offset', tzoffset, 'utc', new Date(utcunix), 'hawaii', new Date(hitime))
+    const nowInHawaii = get_now_in_hawaii()
     const [state, setState] = useQueryParam('state', withDefault(ObjectParam, init_state as any))
     const [groups, setGroups] = React.useState([...init_groups])
     const [items, setItems] = React.useState(init_items)
@@ -362,7 +356,7 @@ export const PTimeline = (props: Props) => {
                         <DateHeader labelFormat={label_format} />
                     </TimelineHeaders>
                     <TimelineMarkers>
-                        <CustomMarker date={hitime}>
+                        <CustomMarker date={nowInHawaii}>
                             {({ styles }) => {
                                 const customStyles = {
                                     ...styles,
