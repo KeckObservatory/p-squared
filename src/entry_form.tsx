@@ -349,7 +349,7 @@ export const EntryForm = (props: Props) => {
                     label={'Department'}
                     value={props.entryState.department}
                     disabled id="department" />
-                <Autocomplete
+                {/* <Autocomplete
                     sx={{ ...formControlStyle, marginTop: '0px' }}
                     disablePortal
                     value={props.entryState.baseCamp}
@@ -363,6 +363,13 @@ export const EntryForm = (props: Props) => {
                         disabled={props.edit}
                     />}
                     onChange={handleBaseCampChange}
+                /> */}
+                <DropDown
+                    arr={BASE_CAMP}
+                    value={props.entryState.baseCamp}
+                    handleChange={handleBaseCampChange}
+                    label={'Base Camp'}
+                    placeholder={""}
                 />
                 {/* <TextField
                     sx={formControlStyle}
