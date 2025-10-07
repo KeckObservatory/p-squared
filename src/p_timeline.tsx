@@ -31,8 +31,12 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import { ReadEntryDialog } from './read_entry_dialog'
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
 import isoWeek from 'dayjs/plugin/isoWeek'
 dayjs.extend(isoWeek);
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 interface Props {
     controlState: ControlState,
@@ -50,6 +54,14 @@ interface State {
     visibleTimeEnd: string
     unit: Unit
 }
+
+// const get_now_in_hawaii = (tz?: string) => {
+//     const hereAndNow = tz ? dayjs().tz(tz).format(DATETIME_FORMAT) : dayjs().format(DATETIME_FORMAT)  
+//     const HIDate = dayjs().tz(HAWAII_TIMEZONE)
+//     const diff = HIDate.diff(hereAndNow, 'hour')
+//     const nowInHawaii = dayjs(hereAndNow, DATETIME_FORMAT).add(diff, 'hour')
+//     return nowInHawaii
+// }
 
 export const PTimeline = (props: Props) => {
 
@@ -76,7 +88,7 @@ export const PTimeline = (props: Props) => {
         unit: initUnit
     }
 
-    // const nowInHawaii = dayjs().tz(HAWAII_TIMEZONE) // marker now uses local time
+    const nowInHawaii = dayjs().tz(HAWAII_TIMEZONE)
     const [state, setState] = useQueryParam('state', withDefault(ObjectParam, init_state as any))
     const [groups, setGroups] = React.useState([...init_groups])
     const [items, setItems] = React.useState(init_items)
@@ -342,7 +354,7 @@ export const PTimeline = (props: Props) => {
                         <DateHeader labelFormat={label_format} />
                     </TimelineHeaders>
                     <TimelineMarkers>
-                        <CustomMarker date={new Date().getTime()}>
+                        <CustomMarker date={nowInHawaii.valueOf()}>
                             {({ styles }) => {
                                 const customStyles = {
                                     ...styles,
