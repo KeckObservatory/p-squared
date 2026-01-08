@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "homepage": "./",
   "private": true,
+  "engines": {
+    "node": ">=17.9.0 <25.2.1"
+  },
   "dependencies": {
     "@devexpress/dx-react-core": "^3.0.2",
     "@devexpress/dx-react-scheduler": "^3.0.2",
