@@ -6,7 +6,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 
 const TEL_API_URL = "/api/pp/getEmployees"
 
-const IS_PRODUCTION: boolean = process.env.REACT_APP_ENVIRONMENT === 'production'
+const IS_PRODUCTION: boolean = import.meta.env.VITE_REACT_APP_ENVIRONMENT === 'production'
 const API_URL = "/api/pp/"
 console.log('API_URL set to ', API_URL)
 console.log('IS_PRODUCTION set to ', IS_PRODUCTION)

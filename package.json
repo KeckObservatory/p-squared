@@ -27,8 +27,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "vite",
-    "build": "vite build",
+    "start": "VITE_REACT_APP_ENVIRONMENT=demobuild vite",
+    "build": "VITE_REACT_APP_ENVIRONMENT=production vite build",
     "serve": "vite preview"
   },
   "eslintConfig": {
