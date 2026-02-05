@@ -1,4 +1,4 @@
-SYSNAM   = DataDashboard
+SYSNAM   = p-squared
 
 # Is this an official or sandbox build?
 ifeq ($(findstring sandbox, $(CURDIR)),sandbox)
