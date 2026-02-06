@@ -41,7 +41,6 @@ const get_location_color = (location: string) => {
         case "Leave":
         case "Sick":
         case "FamilySick":
-        case "Sick":
         case "Bereavement":
         case "JuryDuty":
         case "Holiday":
