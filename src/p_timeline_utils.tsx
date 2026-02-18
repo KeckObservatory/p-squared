@@ -265,7 +265,7 @@ const create_item = (title: string, location: string, dateRange: DateRange, entr
     return item
 }
 
-export const entries_to_items = (entries: EntryData[]) => {
+export const entries_to_items = (entries: EntryData[], employees: Employee[]) => {
 
     // return empty array if entries is an error message
     if (Object.keys(entries).includes('name')) {
@@ -287,6 +287,12 @@ export const entries_to_items = (entries: EntryData[]) => {
                 const leave = ["Vacation", "Sick", "FamilySick", "JuryDuty", "Bereavement"].includes(loc)
                 title = loc
                 if (leave) title = 'Leave'
+                if (loc === 'Remote') { //for remote work, append cell phone number if it exists to comment
+                    const emp = employees.find((emp: Employee) => emp.label === entry.Name)
+                    if (emp && emp.CellPhone) {  
+                        entry.Comment = entry.Comment ? entry.Comment + `${emp.CellPhone}` : `${emp.CellPhone}`
+                    }
+                }
 
                 const item = create_item(title, loc, dateRange, entry)
                 items.push(item)
