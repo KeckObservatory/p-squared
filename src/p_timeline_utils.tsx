@@ -239,13 +239,10 @@ export const make_employee_groups = (employees: Employee[], department: string, 
 }
 
 const create_item = (title: string, location: string, dateRange: DateRange, entry: EntryData) => {
-    let [locationColor, fontColor] = get_location_color(title)
+    const [locationColor, fontColor] = get_location_color(title)
     const start_time = dayjs(dateRange[0])
     const end_time = dayjs(dateRange[1])
-    if (title === 'SU' && start_time.hour() == 6 && end_time.hour() === 16) {
-        locationColor = colorMapping['maroon'] //TODO: Remove when PIER REPAIR is over
-        fontColor = colorMapping['white']
-    }
+
     const item: Item = {
         id: entry.id,
         group: entry.Name,
