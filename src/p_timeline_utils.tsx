@@ -330,9 +330,6 @@ export const itemRenderer =
         const borderColor = itemContext.resizing ? "red" : item.color;
         const tooltipPopup = tooltip_creator(item)
 
-        React.useEffect(() => {
-            console.log('item context changed', itemContext)
-        }, [itemContext])
         const st = item.start_actual_time ? item.start_actual_time : item.start_time
         const et = item.end_actual_time ? item.end_actual_time : item.end_time
         //NOTE: itemContext.title is stale and does not always match item.title.
