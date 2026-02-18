@@ -239,13 +239,10 @@ export const make_employee_groups = (employees: Employee[], department: string, 
 }
 
 const create_item = (title: string, location: string, dateRange: DateRange, entry: EntryData) => {
-    let [locationColor, fontColor] = get_location_color(title)
+    const [locationColor, fontColor] = get_location_color(title)
     const start_time = dayjs(dateRange[0])
     const end_time = dayjs(dateRange[1])
-    if (title === 'SU' && start_time.hour() == 6 && end_time.hour() === 16) {
-        locationColor = colorMapping['maroon'] //TODO: Remove when PIER REPAIR is over
-        fontColor = colorMapping['white']
-    }
+
     const item: Item = {
         id: entry.id,
         group: entry.Name,
@@ -290,8 +287,13 @@ export const entries_to_items = (entries: EntryData[], employees?: Employee[]) =
                 if (loc.includes('Remote') && employees) { //for remote work, append cell phone number if it exists to comment
                     const emp = employees.find((emp: Employee) => emp.LastName + ', ' + emp.FirstName === entry.Name)
                     console.log('employee for remote entry', emp, employees, entry)
-                    if (emp && emp.CellPhone) {  
-                        entry.Comment = entry.Comment ? entry.Comment + `${emp.CellPhone}` : `${emp.CellPhone}`
+                    if (emp && emp.CellPhone ) {  
+                        if (entry.Comment && !entry.Comment.includes(emp.CellPhone)) {
+                            entry.Comment = `${emp.CellPhone}` + entry.Comment
+                        }
+                        else if (!entry.Comment) {
+                            entry.Comment = `${emp.CellPhone}`
+                        }
                         console.log('updated entry comment with cell phone', entry.Comment)
                     }
                 }
@@ -322,8 +324,10 @@ const tooltip_creator = (item: Item) => {
 export const itemRenderer =
     ({ item, itemContext, getItemProps, getResizeProps }: ReactCalendarItemRendererProps<Item>) => {
         const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
-        const backgroundColor = itemContext.selected ? (itemContext.dragging ? "red" : item.selectedBgColor) : item.bgColor;
-        const borderColor = itemContext.resizing ? "red" : item.color;
+        //NOTE: itemContext can be stale sometimes!
+        const backgroundColor = itemContext.selected ? 'white' : item.bgColor;
+        const fontColor = itemContext.selected ? 'black' : item.color;
+        const borderColor = itemContext.selected ? "red" : item.color;
         const tooltipPopup = tooltip_creator(item)
 
         const st = item.start_actual_time ? item.start_actual_time : item.start_time
@@ -336,8 +340,8 @@ export const itemRenderer =
                     <div
                         {...getItemProps({
                             style: {
-                                backgroundColor,
-                                color: item.color,
+                                background: backgroundColor,
+                                color: fontColor,
                                 borderColor,
                                 borderStyle: "solid",
                                 borderWidth: 1,
@@ -345,8 +349,8 @@ export const itemRenderer =
                                 borderLeftWidth: itemContext.selected ? 3 : 1,
                                 borderRightWidth: itemContext.selected ? 3 : 1
                             },
-                            onMouseDown: () => {
-                                console.log("on item click", item);
+                            onMouseUp: () => {
+                                console.log("on item click", item, itemContext);
                             }
                         })}
                     >
