@@ -350,7 +350,7 @@ export const itemRenderer =
                                 borderRightWidth: itemContext.selected ? 3 : 1
                             },
                             onMouseDown: () => {
-                                console.log("on item click", item);
+                                console.log("on item click", item, itemContext);
                             }
                         })}
                     >
