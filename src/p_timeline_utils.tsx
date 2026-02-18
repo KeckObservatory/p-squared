@@ -343,7 +343,7 @@ export const itemRenderer =
                         {...getItemProps({
                             style: {
                                 backgroundColor,
-                                color: item.color,
+                                color: itemContext.selected ? item.color + 'BF' : item.color,
                                 borderColor,
                                 borderStyle: "solid",
                                 borderWidth: 1,
