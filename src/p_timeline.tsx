@@ -206,7 +206,7 @@ export const PTimeline = (props: Props) => {
         let newGroups = make_employee_groups(props.employees,
             props.controlState.department,
             props.controlState.role)
-        let newItems = entries_to_items(entries)
+        let newItems = entries_to_items(entries, props.employees)
         const locationFiltering = props.controlState.location !== ""
         newGroups = locationFiltering ? filter_groups_by_location(newGroups, newItems) : newGroups
 

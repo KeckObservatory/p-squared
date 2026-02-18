@@ -265,7 +265,7 @@ const create_item = (title: string, location: string, dateRange: DateRange, entr
     return item
 }
 
-export const entries_to_items = (entries: EntryData[]) => {
+export const entries_to_items = (entries: EntryData[], employees?: Employee[]) => {
 
     // return empty array if entries is an error message
     if (Object.keys(entries).includes('name')) {
@@ -287,6 +287,14 @@ export const entries_to_items = (entries: EntryData[]) => {
                 const leave = ["Vacation", "Sick", "FamilySick", "JuryDuty", "Bereavement"].includes(loc)
                 title = loc
                 if (leave) title = 'Leave'
+                if (loc.includes('Remote') && employees) { //for remote work, append cell phone number if it exists to comment
+                    const emp = employees.find((emp: Employee) => emp.LastName + ', ' + emp.FirstName === entry.Name)
+                    console.log('employee for remote entry', emp, employees, entry)
+                    if (emp && emp.CellPhone) {  
+                        entry.Comment = entry.Comment ? entry.Comment + `${emp.CellPhone}` : `${emp.CellPhone}`
+                        console.log('updated entry comment with cell phone', entry.Comment)
+                    }
+                }
 
                 const item = create_item(title, loc, dateRange, entry)
                 items.push(item)
@@ -320,10 +328,10 @@ export const itemRenderer =
 
         const st = item.start_actual_time ? item.start_actual_time : item.start_time
         const et = item.end_actual_time ? item.end_actual_time : item.end_time
-
-        const text = itemContext.title + " " + st.format('h') + "-" + et.format('h')
+        //NOTE: itemContext.title is stale and does not always match item.title.
+        const text = item.title + " " + st.format('h') + "-" + et.format('h')  
         return (
-            <Tooltip placement="top" title={tooltipPopup}>
+            <Tooltip className="item-tooltip" title={tooltipPopup} followCursor>
                 <div>
                     <div
                         {...getItemProps({
