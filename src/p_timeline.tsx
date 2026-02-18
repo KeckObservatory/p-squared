@@ -331,7 +331,10 @@ export const PTimeline = (props: Props) => {
                 <Timeline
                     groups={groups}
                     groupRenderer={groupRenderer}
-                    items={items as any[]}
+                    items={items.filter(item => {
+                        const groupAlias = groups.map(group => group.id)
+                        return groupAlias.includes(item.group)
+                    }) as any[]}
                     stackItems
                     itemHeightRatio={0.85}
                     canMove={false}
