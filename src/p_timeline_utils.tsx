@@ -324,8 +324,8 @@ const tooltip_creator = (item: Item) => {
 export const itemRenderer =
     ({ item, itemContext, getItemProps, getResizeProps }: ReactCalendarItemRendererProps<Item>) => {
         const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
-        const backgroundColor = itemContext.selected ? item.bgColor : item.bgColor;
-        const fontColor = itemContext.selected ? item.color: item.color;
+        const backgroundColor = !itemContext.selected ? 'FFFFFF': item.bgColor;
+        const fontColor = !itemContext.selected ? '000000': item.color;
         const borderColor = itemContext.resizing ? "red" : item.color;
         const tooltipPopup = tooltip_creator(item)
 
@@ -345,8 +345,8 @@ export const itemRenderer =
                                 borderStyle: "solid",
                                 borderWidth: 1,
                                 borderRadius: 4,
-                                borderLeftWidth: !itemContext.selected ? 3 : 1,
-                                borderRightWidth: !itemContext.selected ? 3 : 1
+                                borderLeftWidth: itemContext.selected ? 3 : 1,
+                                borderRightWidth: itemContext.selected ? 3 : 1
                             },
                             onMouseUp: () => {
                                 console.log("on item click", item, itemContext);
