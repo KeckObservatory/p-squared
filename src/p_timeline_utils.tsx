@@ -290,7 +290,13 @@ export const entries_to_items = (entries: EntryData[], employees?: Employee[]) =
                 if (loc.includes('Remote') && employees) { //for remote work, append cell phone number if it exists to comment
                     const emp = employees.find((emp: Employee) => emp.LastName + ', ' + emp.FirstName === entry.Name)
                     console.log('employee for remote entry', emp, employees, entry)
-                    if (emp && emp.CellPhone) {  
+                    if (emp && emp.CellPhone ) {  
+                        if (entry.Comment && !entry.Comment.includes(emp.CellPhone)) {
+                            entry.Comment = `${emp.CellPhone}` + entry.Comment
+                        }
+                        else if (!entry.Comment) {
+                            entry.Comment = `${emp.CellPhone}`
+                        }
                         entry.Comment = entry.Comment ? entry.Comment + `${emp.CellPhone}` : `${emp.CellPhone}`
                         console.log('updated entry comment with cell phone', entry.Comment)
                     }
