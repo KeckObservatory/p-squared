@@ -297,7 +297,6 @@ export const entries_to_items = (entries: EntryData[], employees?: Employee[]) =
                         else if (!entry.Comment) {
                             entry.Comment = `${emp.CellPhone}`
                         }
-                        entry.Comment = entry.Comment ? entry.Comment + `${emp.CellPhone}` : `${emp.CellPhone}`
                         console.log('updated entry comment with cell phone', entry.Comment)
                     }
                 }
