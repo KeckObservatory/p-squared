@@ -288,7 +288,7 @@ export const entries_to_items = (entries: EntryData[], employees?: Employee[]) =
                 title = loc
                 if (leave) title = 'Leave'
                 if (loc.includes('Remote') && employees) { //for remote work, append cell phone number if it exists to comment
-                    const emp = employees.find((emp: Employee) => emp.Alias === entry.Alias)
+                    const emp = employees.find((emp: Employee) => emp.LastName + ', ' + emp.FirstName === entry.Name)
                     console.log('employee for remote entry', emp, employees, entry)
                     if (emp && emp.CellPhone) {  
                         entry.Comment = entry.Comment ? entry.Comment + `${emp.CellPhone}` : `${emp.CellPhone}`
