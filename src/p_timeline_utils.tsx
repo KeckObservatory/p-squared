@@ -287,8 +287,8 @@ export const entries_to_items = (entries: EntryData[], employees?: Employee[]) =
                 const leave = ["Vacation", "Sick", "FamilySick", "JuryDuty", "Bereavement"].includes(loc)
                 title = loc
                 if (leave) title = 'Leave'
-                if (loc === 'Remote' && employees) { //for remote work, append cell phone number if it exists to comment
-                    const emp = employees.find((emp: Employee) => emp.label === entry.Name)
+                if (loc.includes('Remote') && employees) { //for remote work, append cell phone number if it exists to comment
+                    const emp = employees.find((emp: Employee) => emp.Alias === entry.Alias)
                     if (emp && emp.CellPhone) {  
                         entry.Comment = entry.Comment ? entry.Comment + `${emp.CellPhone}` : `${emp.CellPhone}`
                     }
