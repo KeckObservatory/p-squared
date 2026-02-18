@@ -339,7 +339,7 @@ export const itemRenderer =
                     <div
                         {...getItemProps({
                             style: {
-                                backgroundColor,
+                                background: backgroundColor,
                                 color: item.color,
                                 borderColor,
                                 borderStyle: "solid",
