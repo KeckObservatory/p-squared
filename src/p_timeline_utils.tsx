@@ -320,8 +320,8 @@ export const itemRenderer =
 
         const st = item.start_actual_time ? item.start_actual_time : item.start_time
         const et = item.end_actual_time ? item.end_actual_time : item.end_time
-
-        const text = item.title + " " + st.format('h') + "-" + et.format('h')
+        //NOTE: itemContext.title is stale and does not always match item.title.
+        const text = item.title + " " + st.format('h') + "-" + et.format('h')  
         return (
             <Tooltip placement="top" title={tooltipPopup}>
                 <div>
