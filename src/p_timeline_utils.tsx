@@ -324,10 +324,10 @@ const tooltip_creator = (item: Item) => {
 export const itemRenderer =
     ({ item, itemContext, getItemProps, getResizeProps }: ReactCalendarItemRendererProps<Item>) => {
         const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
-        //NOTE: itemContext is stale...for now, selected and unselected colors are the same.
+        //NOTE: itemContext can be stale sometimes!
         const backgroundColor = itemContext.selected ? 'white' : item.bgColor;
         const fontColor = itemContext.selected ? 'black' : item.color;
-        const borderColor = item.color;
+        const borderColor = itemContext.selected ? "red" : item.color;
         const tooltipPopup = tooltip_creator(item)
 
         const st = item.start_actual_time ? item.start_actual_time : item.start_time
