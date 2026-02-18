@@ -327,7 +327,7 @@ export const itemRenderer =
         //NOTE: itemContext is stale...for now, selected and unselected colors are the same.
         const backgroundColor = itemContext.selected ? 'white' : item.bgColor;
         const fontColor = itemContext.selected ? 'black' : item.color;
-        const borderColor = itemContext.selected ? "red" : item.color;
+        const borderColor = itemContext.selected ? "black" : item.color;
         const tooltipPopup = tooltip_creator(item)
 
         const st = item.start_actual_time ? item.start_actual_time : item.start_time
