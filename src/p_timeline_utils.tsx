@@ -331,7 +331,7 @@ export const itemRenderer =
         //NOTE: itemContext.title is stale and does not always match item.title.
         const text = item.title + " " + st.format('h') + "-" + et.format('h')  
         return (
-            <Tooltip placement="top" title={tooltipPopup}>
+            <Tooltip className="item-tooltip" title={tooltipPopup} followCursor>
                 <div>
                     <div
                         {...getItemProps({
