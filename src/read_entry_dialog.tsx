@@ -168,6 +168,13 @@ export const ReadEntryDialog = (props: Props) => {
                                 readOnly: true,
                             }}
                         />
+                        <TextField
+                            label="Comment"
+                            defaultValue={props.entry.Comment}
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                        />
                     </Box>
                 </DialogContent>
                 <DialogActions>
