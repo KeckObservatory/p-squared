@@ -437,21 +437,23 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
 export const generate_holiday_items = (
     groups: Group[],
     items: Item[],
-    datesStr: {date: string, name: string}[]) => {
+    holidays: {date: string, name: string}[]) => {
 
-    if (!Array.isArray(datesStr)) return [] //ignore if error 
-    if (datesStr.length <= 0) return [] //ignore if no holidays
+    if (!Array.isArray(holidays)) return [] //ignore if error 
+    if (holidays.length <= 0) return [] //ignore if no holidays
 
     let idx = dayjs().valueOf()
     let entries: Item[] = []
 
-    const dates = datesStr.map((dateObj: {date: string, name: string}) => {
-        return dayjs(dateObj.date)
+    const dates = holidays.map((holiday: {date: string, name: string}) => {
+        return dayjs(holiday.date)
     })
 
-    const holidayNames = datesStr.map((dateObj: {date: string, name: string}) => {
-        return dateObj.name
+    const holidayNames = holidays.map((holiday: {date: string, name: string}) => {
+        return holiday.name
     })
+
+    console.log('generating holiday items for dates', dates, 'holiday names', holidayNames)
 
     // generate entries for group
     groups.forEach((group: Group) => {

@@ -132,7 +132,7 @@ const axiosInstance = axios.create({
     }
 })
 
-const get_holidays_promise = (startDate: string, endDate: string): Promise<string[]> => {
+const get_holidays_promise = (startDate: string, endDate: string): Promise<{date: string, name: string}[]> => {
     let url = API_URL + "holidays?"
         + "startdate=" + startDate
         + "&enddate=" + endDate
