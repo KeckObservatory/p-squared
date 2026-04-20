@@ -804,10 +804,7 @@ def get_admin():
     resp = {'apiCode': 'ALIAS_UNDEFINED', 'alias':alias, 'isAdmin':0}
     if alias:
         try:
-            admin_list = config.get('DEFAULT', 'ADMIN', fallback='[]')
-            # Parse the ADMIN string if it's in list format
-            if isinstance(admin_list, str):
-                admin_list = ast.literal_eval(admin_list)
+            admin_list = config.get('DEFAULT', 'ADMIN', fallback='').split(',')
             if alias in admin_list:
                 resp['isAdmin'] = 1
             resp['apiCode'] = 'SUCCESS'
