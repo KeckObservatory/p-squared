@@ -166,7 +166,7 @@ class PpApi:
         Create the database connection
         """
 
-        dbList = ["mysqlserver", "mysql2", "mysql4"]
+        dbList = config['db']['hosts'].split(',')
 
         dbuser = config['db']['user']
         dbpwd = config['db']['password']
@@ -194,9 +194,9 @@ class PpApi:
             self.output["apiCode"] = "DATABASE_ERROR"
             return
 
-        self.conn = pymysql.connect(dbhost, dbuser, dbpwd, db, cursorclass=pymysql.cursors.DictCursor)
+        self.conn = pymysql.connect(host=dbhost, user=dbuser, password=dbpwd, database=db, cursorclass=pymysql.cursors.DictCursor)
         self.cursor = self.conn.cursor()
-        self.metricsConn = pymysql.connect(dbhost, metricsdbuser, metricsdbpwd, metricsdb, cursorclass=pymysql.cursors.DictCursor)
+        self.metricsConn = pymysql.connect(host=dbhost, user=metricsdbuser, password=metricsdbpwd, database=metricsdb, cursorclass=pymysql.cursors.DictCursor)
         self.metricsCursor = self.metricsConn.cursor()
 
     def close_db(self):
@@ -426,7 +426,9 @@ class PpApi:
                             shiftDays = emp['PrimaryDays']
                     except:
                         shiftDays = ['1','2','3','4','5']
-                    if str(dow) in shiftDays and today not in holidays:
+
+                    holidayDates = [h['date'] for h in holidays]
+                    if str(dow) in shiftDays and today not in holidayDates:
                         # Skip if not in location search
                         if len(dArgs) > 0 and emp['PrimaryLocation'] not in dArgs.keys():
                             continue
@@ -768,12 +770,12 @@ def get_holidays():
     startdate = args.get('startdate')
     enddate = args.get('enddate')
 
-    dbhost = "mysqlserver"
+    dbhost = config['db']['hosts'].split(',')[0]
     dbuser = config['common']['user']
     dbpwd = config['common']['password']
     db = config['common']['name']
     
-    hConn = pymysql.connect(dbhost, dbuser, dbpwd, db, cursorclass=pymysql.cursors.DictCursor)
+    hConn = pymysql.connect(host=dbhost, user=dbuser, password=dbpwd, database=db, cursorclass=pymysql.cursors.DictCursor)
     hCursor = hConn.cursor()
 
     query = 'SELECT * FROM holidays WHERE date>=%s and date<=%s'
@@ -786,7 +788,8 @@ def get_holidays():
 
     holidays = []
     for entry in entries:
-        holidays.append(entry['date'].strftime('%Y-%m-%d'))
+        holiday = {'date': entry['date'].strftime('%Y-%m-%d'), 'name': entry['holiday']}
+        holidays.append(holiday)
 
     return json.dumps(holidays)
 
@@ -801,7 +804,7 @@ def get_admin():
     resp = {'apiCode': 'ALIAS_UNDEFINED', 'alias':alias, 'isAdmin':0}
     if alias:
         try:
-            admin_list = config.get('ADMIN', '[]')
+            admin_list = config.get('DEFAULT', 'ADMIN', fallback='[]')
             # Parse the ADMIN string if it's in list format
             if isinstance(admin_list, str):
                 admin_list = ast.literal_eval(admin_list)
