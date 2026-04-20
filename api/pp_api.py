@@ -411,7 +411,7 @@ class PpApi:
             entries = self.cursor.fetchall()
             start = DT.datetime.strptime(startdate, '%Y-%m-%d')
             end   = DT.datetime.strptime(enddate,   '%Y-%m-%d')
-            holidays = get_holidays()
+            holidays = ast.literal_eval(get_holidays())
             # Loop through date range and add HQ employees
             while start <= end:
                 today = start.strftime('%Y-%m-%d')
