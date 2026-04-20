@@ -121,7 +121,7 @@ const mock_get_employees_promise = (): Promise<Employee[]> => {
 }
 
 const mock_get_holidays = (startDate: string, endDate: string) => {
-    return ["2022-12-26"]
+    return [{"date": "2022-12-26", "name": "Christmas"}]
 }
 
 const axiosInstance = axios.create({

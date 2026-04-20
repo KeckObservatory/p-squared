@@ -200,7 +200,7 @@ export const PTimeline = (props: Props) => {
     const make_groups_and_items = (entries: EntryData[],
         visibleTimeStart: dayjs.Dayjs,
         visibleTimeEnd: dayjs.Dayjs,
-        holidays: string[]
+        holidays: {date: string, name: string}[]
     ) => {
 
         let newGroups = make_employee_groups(props.employees,
