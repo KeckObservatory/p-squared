@@ -1,0 +1,38 @@
+CREATE TABLE IF NOT EXISTS peoplePortal (
+id integer auto_increment primary key,
+Date date comment 'HST date of entry',
+Alias varchar(30) comment 'Email alias associated with Name',
+Name varchar(100) comment 'Name of employee',
+Department varchar(100) comment 'Department of employee',
+BaseCamp varchar(25) comment 'Base camp of employee',
+HQ json comment 'Start and stop datetime for HQ shift',
+SU json comment 'Start and stop datetime for SU shift',
+NgtSup json comment 'Start and stop datetime for night support (SA) shift',
+HP json comment 'Start and stop datetime for HP shift',
+Hilo json comment 'Start and stop datetime for Hilo shift',
+Kona json comment 'Start and stop datetime for Kona shift',
+WFH json comment 'Start and stop datetime for WFH shift',
+Remote json comment 'Start and stop datetime for Remote shift',
+Vacation json comment 'Start and stop datetime for Vacation shift',
+Sick json comment 'Start and stop datetime for Sick shift',
+FamilySick json comment 'Start and stop datetime for FamilySick shift',
+Bereavement json comment 'Start and stop datetime for Bereavement shift',
+JuryDuty json comment 'Start and stop datetime for JuryDuty shift',
+Travel json comment 'Start and stop datetime for Travel shift',
+Flex json comment 'Start and stop datetime for flex shift',
+OffSite json comment 'Start and stop datetime for off-site work',
+Other json comment 'Start and stop datetime for Other shift',
+Comment varchar(100) comment 'General comment for entry',
+Staff varchar(25) comment 'Staff adding/updating the entry',
+DelFlag integer default 0 comment '0 active, 1 deleted',
+AlternatePickup enum ('','HPP','HQ','Hilo','SJP','WJP') comment 'Alternate pickup for SU travel',
+SummitLead enum ('','7-3','7-9','9-5','3-5') comment 'Shift for the summit lead',
+SupportLead enum('','1','2','3') comment 'Summit support lead for K1, K2, or both (3)',
+CrewLead enum('0','1') comment 'Summit crew lead 0=false, 1=true',
+Seats enum('0','1','2','3','4','5','6') comment 'Additional seats needed for summit travel',
+CreationTime timestamp default current_timestamp comment 'Datetime of entry creation',
+LastModification timestamp default current_timestamp on update current_timestamp comment 'Datetime of last modification of entry'
+);
+
+CREATE TABLE peoplePortalHistory like peoplePortal;
+ALTER TABLE peoplePortalHistory drop PRIMARY KEY, CHANGE id id integer;

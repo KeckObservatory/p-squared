@@ -379,12 +379,12 @@ export const itemRenderer =
         );
     };
 
-const generate_items = (group: Group, location: string, groupItems: Item[], dates: dayjs.Dayjs[], idx: number, comment = 'Synthetic event') => {
+const generate_items = (group: Group, location: string, groupItems: Item[], dates: dayjs.Dayjs[], idx: number, comment: string | string[] = 'Synthetic event') => {
 
     let synthItems: Item[] = []
     let newIdx = idx
 
-    dates.forEach((date: dayjs.Dayjs) => {
+    dates.forEach((date: dayjs.Dayjs, i: number) => {
 
         const isWeekday = date.isoWeekday() < 6 //saturday=6 sunday=7
         let realItem = groupItems.find((item: Item) => { // find first item that falls on date.
@@ -409,7 +409,7 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
                     alias: group.alias,
                     entryId: newIdx,
                     location: location,
-                    comment: comment,
+                    comment: Array.isArray(comment) ? comment[i % comment.length] : comment,
                     title: location,
                     start_time: date.clone()
                         .set('hour', sHour)
@@ -437,17 +437,23 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
 export const generate_holiday_items = (
     groups: Group[],
     items: Item[],
-    datesStr: string[]) => {
+    holidays: {date: string, name: string}[]) => {
 
-    if (!Array.isArray(datesStr)) return [] //ignore if error 
-    if (datesStr.length <= 0) return [] //ignore if no holidays
+    if (!Array.isArray(holidays)) return [] //ignore if error 
+    if (holidays.length <= 0) return [] //ignore if no holidays
 
     let idx = dayjs().valueOf()
     let entries: Item[] = []
 
-    const dates = datesStr.map((date: string) => {
-        return dayjs(date)
+    const dates = holidays.map((holiday: {date: string, name: string}) => {
+        return dayjs(holiday.date)
     })
+
+    const holidayNames = holidays.map((holiday: {date: string, name: string}) => {
+        return holiday.name
+    })
+
+    console.log('generating holiday items for dates', dates, 'holiday names', holidayNames)
 
     // generate entries for group
     groups.forEach((group: Group) => {
@@ -462,7 +468,7 @@ export const generate_holiday_items = (
         //add holidays to pool of entries 
         if (group.primaryLocation !== "None") {
             //generate_entries 
-            const { synthItems, newIdx } = generate_items(group, 'Holiday', groupItems, dates, idx, 'Holiday')
+            const { synthItems, newIdx } = generate_items(group, 'Holiday', groupItems, dates, idx, holidayNames)
             idx = newIdx
             entries = [...entries, ...synthItems]
         }
