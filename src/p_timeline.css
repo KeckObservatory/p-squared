@@ -82,15 +82,18 @@
   -moz-user-select: -moz-none;
   -ms-user-select: none;
   user-select: none; }
-  .react-calendar-timeline .rct-horizontal-lines .rct-hl-even,
-  .react-calendar-timeline .rct-horizontal-lines .rct-hl-odd {
-    border-bottom: 1px solid #bbb;
+  /* Targeted without the .rct-horizontal-lines ancestor: some installed versions of
+     react-calendar-timeline don't nest .rct-hl-even/.rct-hl-odd rows under that wrapper,
+     which otherwise silently drops these rules and lets the library's inline row style win. */
+  .react-calendar-timeline .rct-hl-even,
+  .react-calendar-timeline .rct-hl-odd {
+    border-bottom: 1px solid #bbb !important;
     box-sizing: border-box;
     z-index: 40; }
-  .react-calendar-timeline .rct-horizontal-lines .rct-hl-odd {
-    background: rgba(0, 0, 0, 0.15); }
-  .react-calendar-timeline .rct-horizontal-lines .rct-hl-even {
-    background: transparent; }
+  .react-calendar-timeline .rct-hl-odd {
+    background: rgba(0, 0, 0, 0.15) !important; }
+  .react-calendar-timeline .rct-hl-even {
+    background: transparent !important; }
 
 .react-calendar-timeline .rct-cursor-line {
   position: absolute;
