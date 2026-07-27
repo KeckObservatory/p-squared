@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
-import { ReactCalendarItemRendererProps, LabelFormat } from 'react-calendar-timeline'
+//@ts-ignore
+import { ReactCalendarItemRendererProps, TimelineItemBase, LabelFormat } from 'react-calendar-timeline'
 import { ControlState, Employee } from './control'
 import Tooltip from '@mui/material/Tooltip';
 import { ALL_LOCATIONS } from './control';
@@ -131,8 +132,6 @@ export interface Group {
     alias: string
 }
 
-type Unit = `second` | `minute` | `hour` | `day` | `week` | `isoWeek` | `month` | `year`
-
 const FORMAT_LABEL: LabelFormat = {
     year: {
         long: 'YYYY',
@@ -173,22 +172,24 @@ const FORMAT_LABEL: LabelFormat = {
 }
 
 export const label_format = ([startHour, endHour]: [any, any],
-    unit: Unit,
-    labelWidth: number,
+    unit: string,
+    labelWidth: number | undefined,
     formatOptions: LabelFormat = FORMAT_LABEL): string => {
     let format
-    if (labelWidth >= 150) {
-        //@ts-ignore
-        format = formatOptions[unit]['long']
-    } else if (labelWidth >= 100) {
-        //@ts-ignore
-        format = formatOptions[unit]['mediumLong']
-    } else if (labelWidth >= 50) {
-        //@ts-ignore
-        format = formatOptions[unit]['medium']
-    } else {
-        //@ts-ignore
-        format = formatOptions[unit]['short']
+    if (labelWidth) {
+        if (labelWidth >= 150) {
+            //@ts-ignore
+            format = formatOptions[unit]['long']
+        } else if (labelWidth >= 100) {
+            //@ts-ignore
+            format = formatOptions[unit]['mediumLong']
+        } else if (labelWidth >= 50) {
+            //@ts-ignore
+            format = formatOptions[unit]['medium']
+        } else {
+            //@ts-ignore
+            format = formatOptions[unit]['short']
+        }
     }
     return startHour.format(format)
 }
@@ -291,7 +292,7 @@ export const entries_to_items = (entries: EntryData[], employees?: Employee[]) =
                 if (loc.includes('Remote') && employees) { //for remote work, append cell phone number if it exists to comment
                     const emp = employees.find((emp: Employee) => emp.LastName + ', ' + emp.FirstName === entry.Name)
                     console.log('employee for remote entry', emp, employees, entry)
-                    if (emp && emp.CellPhone ) {  
+                    if (emp && emp.CellPhone) {
                         if (entry.Comment && !entry.Comment.includes(emp.CellPhone)) {
                             entry.Comment = `${emp.CellPhone}` + entry.Comment
                         }
@@ -326,7 +327,10 @@ const tooltip_creator = (item: Item) => {
 }
 
 export const itemRenderer =
-    ({ item, itemContext, getItemProps, getResizeProps }: ReactCalendarItemRendererProps<Item>) => {
+    ({ item: rawItem, itemContext, getItemProps, getResizeProps }: ReactCalendarItemRendererProps<TimelineItemBase<number>>) => {
+        // Timeline's items prop is typed as TimelineItemBase<number> generically, but the
+        // items we hand it are always our own Item shape (see p_timeline.tsx).
+        const item = rawItem as unknown as Item
         const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
         //NOTE: itemContext can be stale sometimes!
         const backgroundColor = itemContext.selected ? 'white' : item.bgColor;
@@ -337,7 +341,7 @@ export const itemRenderer =
         const st = item.start_actual_time ? item.start_actual_time : item.start_time
         const et = item.end_actual_time ? item.end_actual_time : item.end_time
         //NOTE: itemContext.title is stale and does not always match item.title.
-        const text = item.title + " " + st.format('h') + "-" + et.format('h')  
+        const text = item.title + " " + st.format('h') + "-" + et.format('h')
         return (
             <Tooltip className="item-tooltip" title={tooltipPopup} followCursor>
                 <div>
@@ -379,12 +383,12 @@ export const itemRenderer =
         );
     };
 
-const generate_items = (group: Group, location: string, groupItems: Item[], dates: dayjs.Dayjs[], idx: number, comment = 'Synthetic event') => {
+const generate_items = (group: Group, location: string, groupItems: Item[], dates: dayjs.Dayjs[], idx: number, comment: string | string[] = 'Synthetic event') => {
 
     let synthItems: Item[] = []
     let newIdx = idx
 
-    dates.forEach((date: dayjs.Dayjs) => {
+    dates.forEach((date: dayjs.Dayjs, i: number) => {
 
         const isWeekday = date.isoWeekday() < 6 //saturday=6 sunday=7
         let realItem = groupItems.find((item: Item) => { // find first item that falls on date.
@@ -409,7 +413,7 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
                     alias: group.alias,
                     entryId: newIdx,
                     location: location,
-                    comment: comment,
+                    comment: Array.isArray(comment) ? comment[i % comment.length] : comment,
                     title: location,
                     start_time: date.clone()
                         .set('hour', sHour)
@@ -437,17 +441,23 @@ const generate_items = (group: Group, location: string, groupItems: Item[], date
 export const generate_holiday_items = (
     groups: Group[],
     items: Item[],
-    datesStr: string[]) => {
+    holidays: { date: string, name: string }[]) => {
 
-    if (!Array.isArray(datesStr)) return [] //ignore if error 
-    if (datesStr.length <= 0) return [] //ignore if no holidays
+    if (!Array.isArray(holidays)) return [] //ignore if error 
+    if (holidays.length <= 0) return [] //ignore if no holidays
 
     let idx = dayjs().valueOf()
     let entries: Item[] = []
 
-    const dates = datesStr.map((date: string) => {
-        return dayjs(date)
+    const dates = holidays.map((holiday: { date: string, name: string }) => {
+        return dayjs(holiday.date)
     })
+
+    const holidayNames = holidays.map((holiday: { date: string, name: string }) => {
+        return holiday.name
+    })
+
+    console.log('generating holiday items for dates', dates, 'holiday names', holidayNames)
 
     // generate entries for group
     groups.forEach((group: Group) => {
@@ -462,7 +472,7 @@ export const generate_holiday_items = (
         //add holidays to pool of entries 
         if (group.primaryLocation !== "None") {
             //generate_entries 
-            const { synthItems, newIdx } = generate_items(group, 'Holiday', groupItems, dates, idx, 'Holiday')
+            const { synthItems, newIdx } = generate_items(group, 'Holiday', groupItems, dates, idx, holidayNames)
             idx = newIdx
             entries = [...entries, ...synthItems]
         }

@@ -8,6 +8,7 @@ import Timeline, {
     TimelineGroupBase,
     TimelineItemBase,
 } from 'react-calendar-timeline'
+// @ts-ignore: CSS import declaration handled by build tooling
 import './p_timeline.css'
 
 import React, { useEffect } from 'react'
@@ -65,13 +66,18 @@ const get_now_in_hawaii = () => {
     return hitime 
 }
 
+interface Holiday {
+    name: string
+    date: string
+}
+
 export const PTimeline = (props: Props) => {
 
     const [selectedItem, setSelectedItem] = React.useState({} as unknown as Item);
 
     const [open, setOpen] = React.useState(false)
     const [entries, setEntries] = React.useState([] as EntryData[])
-    const [holidays, setHolidays] = React.useState([] as string[])
+    const [holidays, setHolidays] = React.useState([] as Holiday[])
 
     const init_groups = make_employee_groups(props.employees,
         props.controlState.department,
@@ -94,6 +100,13 @@ export const PTimeline = (props: Props) => {
     const [state, setState] = useQueryParam('state', withDefault(ObjectParam, init_state as any))
     const [groups, setGroups] = React.useState([...init_groups])
     const [items, setItems] = React.useState(init_items)
+
+    // Always-current refs so late-resolving async effects (see control_state_change_handler)
+    // don't overwrite a newer filter with data captured from a stale closure.
+    const employeesRef = React.useRef(props.employees)
+    employeesRef.current = props.employees
+    const controlStateRef = React.useRef(props.controlState)
+    controlStateRef.current = props.controlState
 
     const get_visible_dates = () => {
 
@@ -200,14 +213,14 @@ export const PTimeline = (props: Props) => {
     const make_groups_and_items = (entries: EntryData[],
         visibleTimeStart: dayjs.Dayjs,
         visibleTimeEnd: dayjs.Dayjs,
-        holidays: string[]
+        holidays: {date: string, name: string}[]
     ) => {
 
-        let newGroups = make_employee_groups(props.employees,
-            props.controlState.department,
-            props.controlState.role)
-        let newItems = entries_to_items(entries, props.employees)
-        const locationFiltering = props.controlState.location !== ""
+        let newGroups = make_employee_groups(employeesRef.current,
+            controlStateRef.current.department,
+            controlStateRef.current.role)
+        let newItems = entries_to_items(entries, employeesRef.current)
+        const locationFiltering = controlStateRef.current.location !== ""
         newGroups = locationFiltering ? filter_groups_by_location(newGroups, newItems) : newGroups
 
         let holidayItems = generate_holiday_items(
