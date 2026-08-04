@@ -47,7 +47,6 @@ const DropDown = (props: MenuProps): JSX.Element => {
     const menuItems = props.arr?.map((val, idx) => {
         const disabled = props.disabledArr ? props.disabledArr[idx] : false
         const tooltip = props.tooltipObj && (props.tooltipObj[val] ?? "")
-        console.log("tooltip", tooltip)
         return MakeMenuItem(val, idx, disabled, tooltip)
     })
 
