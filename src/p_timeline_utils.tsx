@@ -481,3 +481,19 @@ export const generate_holiday_items = (
     return entries
 
 }
+// Tracks an element's rendered height (e.g. a sticky bar whose contents may wrap),
+// so elements stuck beneath it can be offset by the right amount.
+export const useElementHeight = <T extends HTMLElement>() => {
+    const ref = React.useRef<T>(null)
+    const [height, setHeight] = React.useState(0)
+    React.useLayoutEffect(() => {
+        const el = ref.current
+        if (!el) return
+        const update = () => setHeight(el.offsetHeight)
+        update()
+        const observer = new ResizeObserver(update)
+        observer.observe(el)
+        return () => observer.disconnect()
+    }, [])
+    return [ref, height] as const
+}
