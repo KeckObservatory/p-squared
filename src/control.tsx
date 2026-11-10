@@ -7,6 +7,7 @@ import Box from '@mui/material/Box'
 import { AddEditEntryDialog } from './add_edit_entry_dialog'
 import Paper from '@mui/material/Paper'
 import { PTimeline } from './p_timeline'
+import { useElementHeight } from './p_timeline_utils'
 import { get_can_edit, get_employees, get_staffinfo, User } from './api'
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -322,9 +323,15 @@ export const Control = (props: Props) => {
             nameFilter: value
         })
     }
+    const [controlBarRef, controlBarHeight] = useElementHeight<HTMLDivElement>()
+
     return (
-            <Paper sx={{ margin: '4px', paddingTop: '2px' }} elevation={3}>
-                <Box sx={{ marginTop: '16px' }}
+            <Paper
+                sx={{ margin: '4px', paddingTop: '2px' }}
+                elevation={3}
+                style={{ '--control-bar-height': `${controlBarHeight}px` } as React.CSSProperties}
+            >
+                <Box sx={{ marginTop: '16px' }} className="sticky-controls" ref={controlBarRef}
                 >
                     <FormControl sx={{ width: 150, margin: '6px', marginTop: '6px' }}>
                         <YearMonthPicker date={dayjs(state.date, DATE_FORMAT)} handleDateChange={handleDateChange} />
