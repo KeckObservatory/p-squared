@@ -24,7 +24,8 @@ import {
     Item,
     filter_groups_by_location,
     label_format,
-    generate_holiday_items
+    generate_holiday_items,
+    useElementHeight
 } from './p_timeline_utils'
 import { AddEditEntryDialog } from './add_edit_entry_dialog'
 import { ObjectParam, useQueryParam, withDefault } from "use-query-params"
@@ -317,6 +318,9 @@ export const PTimeline = (props: Props) => {
         setOpen(false)
     };
 
+    // Measure the sticky toolbar so the sticky date header can sit directly beneath it.
+    const [toolbarRef, toolbarHeight] = useElementHeight<HTMLDivElement>()
+
     const groupRenderer = (groupObject: any) => {
         const group = groupObject.group
         const hiloEmployee = group.baseCamp === 'Hilo'
@@ -328,18 +332,24 @@ export const PTimeline = (props: Props) => {
     }
 
     return (
-        <Paper sx={{ marginTop: '12px', margin: '4px' }} elevation={3}>
-            <Button onClick={() => onScrollClick(-1)}>{"< Prev"}</Button>
-            <Button onClick={() => onScrollClick(1)}>{"Next >"}</Button>
-            <Button onClick={() => handleTimeHeaderChange("day")}>
-                {"Daily"}
-            </Button>
-            <Button onClick={() => handleTimeHeaderChange("week")}>
-                {"Weekly"}
-            </Button>
-            <Button onClick={() => handleTimeHeaderChange("month")}>
-                {"Monthly"}
-            </Button>
+        <Paper
+            sx={{ marginTop: '12px', margin: '4px' }}
+            elevation={3}
+            style={{ '--timeline-toolbar-height': `${toolbarHeight}px` } as React.CSSProperties}
+        >
+            <div className="sticky-toolbar" ref={toolbarRef}>
+                <Button onClick={() => onScrollClick(-1)}>{"< Prev"}</Button>
+                <Button onClick={() => onScrollClick(1)}>{"Next >"}</Button>
+                <Button onClick={() => handleTimeHeaderChange("day")}>
+                    {"Daily"}
+                </Button>
+                <Button onClick={() => handleTimeHeaderChange("week")}>
+                    {"Weekly"}
+                </Button>
+                <Button onClick={() => handleTimeHeaderChange("month")}>
+                    {"Monthly"}
+                </Button>
+            </div>
             {groups.length >= 0 && (
                 <Timeline
                     groups={groups}

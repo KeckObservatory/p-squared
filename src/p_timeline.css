@@ -1,7 +1,25 @@
 
-.sticky {
+/* Stacked sticky bars, top to bottom:
+   1. .sticky-controls  - filter bar in control.tsx (height -> --control-bar-height)
+   2. .sticky-toolbar   - timeline buttons in p_timeline.tsx (height -> --timeline-toolbar-height)
+   3. .sticky           - timeline date header */
+.sticky-controls {
   position: sticky;
   top: 0;
+  z-index: 502;
+  background-color: inherit;
+}
+
+.sticky-toolbar {
+  position: sticky;
+  top: var(--control-bar-height, 0px);
+  z-index: 501;
+  background-color: inherit;
+}
+
+.sticky {
+  position: sticky;
+  top: calc(var(--control-bar-height, 0px) + var(--timeline-toolbar-height, 0px));
   z-index: 500;
 }
 
